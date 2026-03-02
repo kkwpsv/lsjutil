@@ -795,6 +795,39 @@ namespace Lsj.Util.Tests.Win32
             "SfmDxReportPendingBindingsToDwm",                  // undocument
             "SfmDxSetSwapChainBindingStatus",                   // undocument
             "SfmDxSetSwapChainStats",                           // undocument
+
+            // 8
+            "CheckDBCSEnabledExt",                              // undocument
+            "CheckProcessForClipboardAccess",                   // undocument
+            "CheckProcessSession",                              // undocument
+            "CreateDCompositionHwndTarget",                     // undocument
+            "CreateWindowInBand",                               // undocument
+            "CreateWindowIndirect",                             // undocument
+            "DeferWindowPosAndBand",                            // undocument
+            "DestroyDCompositionHwndTarget",                    // undocument
+            "DwmGetRemoteSessionOcclusionEvent",                // undocument
+            "DwmGetRemoteSessionOcclusionState",                // undocument
+            "DwmLockScreenUpdates",                             // undocument
+            "DwmValidateWindow",                                // undocument
+            "EnableSessionForMMCSS",                            // undocument
+            "EndDeferWindowPosEx",                              // undocument
+            "GetClipboardAccessToken",                          // undocument
+            "GetDesktopID",                                     // undocument
+            "GetProcessUIContextInformation",                   // undocument
+            "GetWindowBand",                                    // undocument
+            "IsInDesktopWindowBand",                            // undocument
+            "IsQueueAttached",                                  // undocument
+            "IsThreadMessageQueueAttached",                     // undocument
+            "MBToWCSExt",                                       // undocument
+            "QueryBSDRWindow",                                  // undocument
+            "RegisterBSDRWindow",                               // undocument
+            "SetImmersiveBackgroundWindow",                     // undocument
+            "SetThreadInputBlocked",                            // undocument
+            "SetWindowBand",                                    // undocument
+            "SetWindowCompositionTransition",                   // undocument
+            "SignalRedirectionStartComplete",                   // undocument
+            "UpdateDefaultDesktopThumbnail",                    // undocument
+            "WaitForRedirectionStartComplete",                  // undocument
         };
 
     }

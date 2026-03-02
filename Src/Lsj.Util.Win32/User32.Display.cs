@@ -1166,7 +1166,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DisplayConfigSetDeviceInfo", ExactSpelling = true)]
-        public static extern SystemErrorCodes DisplayConfigSetDeviceInfo([In] in  DISPLAYCONFIG_DEVICE_INFO_HEADER setPacket);
+        public static extern SystemErrorCodes DisplayConfigSetDeviceInfo([In] in DISPLAYCONFIG_DEVICE_INFO_HEADER setPacket);
 
         /// <summary>
         /// <para>
@@ -1727,6 +1727,24 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the screen auto-rotation preferences for the current process.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getdisplayautorotationpreferences"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pOrientation">
+        /// Pointer to a location in memory that will receive the current orientation preference setting for the calling process.
+        /// </param>
+        /// <returns>
+        /// <see cref="TRUE"/> if the method succeeds, otherwise <see cref="FALSE"/>.
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDisplayAutoRotationPreferences", ExactSpelling = true)]
+        public static extern BOOL GetDisplayAutoRotationPreferences([Out] out ORIENTATION_PREFERENCE pOrientation);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetDisplayConfigBufferSizes"/> function retrieves the size of the buffers
         /// that are required to call the <see cref="QueryDisplayConfig"/> function.
         /// </para>
@@ -2202,6 +2220,29 @@ namespace Lsj.Util.Win32
         public static extern SystemErrorCodes QueryDisplayConfig([In] QueryDisplayConfigFlags flags, [In][Out] ref UINT32 numPathArrayElements,
             [Out] DISPLAYCONFIG_PATH_INFO[] pathArray, [In][Out] ref UINT32 numModeInfoArrayElements, [Out] DISPLAYCONFIG_MODE_INFO[] modeInfoArray,
             [Out] out DISPLAYCONFIG_TOPOLOGY_ID currentTopologyId);
+
+        /// <summary>
+        /// <para>
+        /// Sets the screen auto-rotation preferences for the current process.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setdisplayautorotationpreferences"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pOrientation">
+        /// Pointer to a location in memory with the screen orientation preferences to set for the calling process.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// <see cref="TRUE"/> if the method succeeds, otherwise <see cref="FALSE"/>.
+        /// </para>
+        /// <para>
+        /// See <see cref="GetDisplayAutoRotationPreferences"/> for an example of using this function.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDisplayAutoRotationPreferences", ExactSpelling = true)]
+        public static extern BOOL SetDisplayAutoRotationPreferences([In] ORIENTATION_PREFERENCE pOrientation);
 
         /// <summary>
         /// <para>

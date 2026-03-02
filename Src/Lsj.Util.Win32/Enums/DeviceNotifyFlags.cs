@@ -1,11 +1,9 @@
-﻿using static Lsj.Util.Win32.User32;
-
-namespace Lsj.Util.Win32.Enums
+﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <see cref="RegisterPowerSettingNotification"/> flags
+    /// Device notify flags
     /// </summary>
-    public enum RegisterPowerSettingNotificationFlags
+    public enum DeviceNotifyFlags
     {
         /// <summary>
         /// DEVICE_NOTIFY_WINDOW_HANDLE

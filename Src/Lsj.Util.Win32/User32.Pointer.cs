@@ -8,6 +8,7 @@ using static Lsj.Util.Win32.Enums.POINTER_FLAGS;
 using static Lsj.Util.Win32.Enums.POINTER_INPUT_TYPE;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.WindowMessages;
+using static Lsj.Util.Win32.Enums.ExtendedWindowStyles;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32
@@ -1721,6 +1722,77 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Allows the caller to register a target window to which all pointer input of the specified type is redirected.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-registerpointerinputtarget"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// <para>
+        /// The window to register as a global redirection target.
+        /// </para>
+        /// <para>
+        /// Redirection can cause the foreground window to lose activation (focus).
+        /// To avoid this, ensure the window is a message-only window or has the <see cref="WS_EX_NOACTIVATE"/> style set.
+        /// </para>
+        /// </param>
+        /// <param name="pointerType">
+        /// Type of pointer input to be redirected to the specified window.
+        /// This is any valid and supported value from the <see cref="POINTER_INPUT_TYPE"/> enumeration.
+        /// Note that the generic <see cref="PT_POINTER"/> type and the <see cref="PT_MOUSE"/> type are not valid in this parameter.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is non-zero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// An application with the UI Access privilege can use this function
+        /// to register its own window to receive all input of the specified pointer input type.
+        /// Each desktop allows only one such global redirection target window for each pointer input type at any given time.
+        /// The first window to successfully register remains in effect until the window is unregistered or destroyed,
+        /// at which point the role is available to the next qualified caller.
+        /// </para>
+        /// <para>
+        /// While the registration is in effect, all input of the specified pointer type,
+        /// whether from an input device or injected by an application, is redirected to the registered window.
+        /// However, when the process that owns the registered window injects input of the specified pointer type,
+        /// such injected is not redirected but is instead processed normally.
+        /// </para>
+        /// <para>
+        /// An application that wishes to register the same window as a global redirection target
+        /// for multiple pointer input types must call the <see cref="RegisterPointerInputTarget"/> function multiple times,
+        /// once for each pointer input type of interest.
+        /// </para>
+        /// <para>
+        /// If the calling thread does not have the UI Access privilege,
+        /// this function fails with the last error set to <see cref="ERROR_ACCESS_DENIED"/>.
+        /// </para>
+        /// <para>
+        /// If the specified pointer input type is not valid,
+        /// this function fails with the last error set to <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// </para>
+        /// <para>
+        /// If the calling thread does not own the specified window,
+        /// this function fails with the last error set to <see cref="ERROR_ACCESS_DENIED"/>.
+        /// </para>
+        /// <para>
+        /// If the specified window’s desktop already has a registered global redirection target for the specified pointer input type,
+        /// this function fails with the last error set to <see cref="ERROR_ACCESS_DENIED"/>.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterPointerInputTarget", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL RegisterPointerInputTarget([In] HWND hwnd, [In] POINTER_INPUT_TYPE pointerType);
+
+        /// <summary>
+        /// <para>
         /// Determines which pointer input frame generated the most recently retrieved message for the specified pointer
         /// and discards any queued (unretrieved) pointer input messages generated from the same pointer input frame.
         /// If an application has retrieved information for an entire frame using the <see cref="GetPointerFrameInfo"/> function,
@@ -1790,5 +1862,61 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SkipPointerFrameMessages", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SkipPointerFrameMessages([In] UINT32 pointerId);
+
+        /// <summary>
+        /// <para>
+        /// Allows the caller to unregister a target window to which all pointer input of the specified type is redirected.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-unregisterpointerinputtarget"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// Window to be un-registered as a global redirection target on its desktop.
+        /// </param>
+        /// <param name="pointerType">
+        /// Type of pointer input to no longer be redirected to the specified window.
+        /// This is any valid and supported value from the enumeration.
+        /// Note that the generic <see cref="PT_POINTER"/> type and the <see cref="PT_MOUSE"/> type are not valid in this parameter.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is non-zero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// An application that has successfully called the <see cref="RegisterPointerInputTarget"/> function
+        /// can call this function to un-register the window from the role of global redirected target for the specified pointer type.
+        /// </para>
+        /// <para>
+        /// An application that has registered the same window as a global redirection target
+        /// for multiple pointer input types can call the <see cref="UnregisterPointerInputTarget"/>
+        /// to un-register the window for one of those types while leaving the window registered for the remaining types.
+        /// </para>
+        /// <para>
+        /// If the calling thread does not have the UI Access privilege,
+        /// this function fails with the last error set to <see cref="ERROR_ACCESS_DENIED"/>.
+        /// </para>
+        /// <para>
+        /// If the specified pointer input type is not valid,
+        /// this function fails with the last error set to <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// </para>
+        /// <para>
+        /// If the calling thread does not own the specified window,
+        /// this function fails with the last error set to <see cref="ERROR_ACCESS_DENIED"/>.
+        /// </para>
+        /// <para>
+        /// If the specified window is not the registered global redirection target for the specified pointer input type on its desktop,
+        /// this function takes no action and returns success.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnregisterPointerInputTarget", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL UnregisterPointerInputTarget([In] HWND hwnd, [In] POINTER_INPUT_TYPE pointerType);
     }
 }

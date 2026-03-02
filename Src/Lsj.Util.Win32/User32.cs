@@ -27,7 +27,7 @@ using static Lsj.Util.Win32.Enums.NTSTATUS;
 using static Lsj.Util.Win32.Enums.PowerManagementEvents;
 using static Lsj.Util.Win32.Enums.PrivilegeConstants;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
-using static Lsj.Util.Win32.Enums.RegisterPowerSettingNotificationFlags;
+using static Lsj.Util.Win32.Enums.DeviceNotifyFlags;
 using static Lsj.Util.Win32.Enums.SECURITY_INFORMATION;
 using static Lsj.Util.Win32.Enums.SetWinEventHookFlags;
 using static Lsj.Util.Win32.Enums.ShowWindowCommands;
@@ -3463,6 +3463,30 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Determines whether the process belongs to a Windows Store app.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-isimmersiveprocess"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// Target process handle.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsImmersiveProcess", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL IsImmersiveProcess([In] HANDLE hProcess);
+
+        /// <summary>
+        /// <para>
         /// Determines whether there is an installed WinEvent hook that might be notified of a specified event.
         /// </para>
         /// <para>
@@ -4138,10 +4162,10 @@ namespace Lsj.Util.Win32
         /// <param name="hRecipient">
         /// Handle indicating where the power setting notifications are to be sent.
         /// For interactive applications, the <paramref name="Flags"/> parameter should be
-        /// <see cref="RegisterPowerSettingNotificationFlags.DEVICE_NOTIFY_WINDOW_HANDLE"/>,
+        /// <see cref="DeviceNotifyFlags.DEVICE_NOTIFY_WINDOW_HANDLE"/>,
         /// and the <paramref name="hRecipient"/> parameter should be a window handle. 
         /// For services, the <paramref name="Flags"/> parameter should be
-        /// <see cref="RegisterPowerSettingNotificationFlags.DEVICE_NOTIFY_SERVICE_HANDLE"/>,
+        /// <see cref="DeviceNotifyFlags.DEVICE_NOTIFY_SERVICE_HANDLE"/>,
         /// and the <paramref name="hRecipient"/> parameter should be a <see cref="SERVICE_STATUS_HANDLE"/> as returned
         /// from <see cref="RegisterServiceCtrlHandlerEx"/>.
         /// </param>
@@ -4196,7 +4220,52 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterPowerSettingNotification", ExactSpelling = true, SetLastError = true)]
         public static extern HPOWERNOTIFY RegisterPowerSettingNotification([In] HANDLE hRecipient, [In] in GUID PowerSettingGuid,
-            [In] RegisterPowerSettingNotificationFlags Flags);
+            [In] DeviceNotifyFlags Flags);
+
+        /// <summary>
+        /// <para>
+        /// Registers to receive notification when the system is suspended or resumed.
+        /// Similar to <see cref="PowerRegisterSuspendResumeNotification"/>, but operates in user mode and can take a window handle.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-registersuspendresumenotification"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hRecipient">
+        /// <para>
+        /// This parameter contains parameters for subscribing to a power notification or a window handle representing the subscribing process.
+        /// </para>
+        /// <para>
+        /// If <paramref name="Flags"/> is <see cref="DEVICE_NOTIFY_CALLBACK"/>,
+        /// <paramref name="hRecipient"/> is interpreted as a pointer to a <see cref="DEVICE_NOTIFY_SUBSCRIBE_PARAMETERS"/> structure.
+        /// In this case, the callback function is <see cref="DeviceNotifyCallbackRoutine"/>.
+        /// When the <see cref="DeviceNotifyCallbackRoutine.Callback"/> function executes,
+        /// the <c>Type</c> parameter is set indicating the type of event that occurred.
+        /// Possible values include <see cref="PBT_APMSUSPEND"/>, <see cref="PBT_APMRESUMESUSPEND"/>,
+        /// and <see cref="PBT_APMRESUMEAUTOMATIC"/> - see Power Management Events for more info.
+        /// The <c>Setting</c> parameter is not used with suspend/resume notifications.
+        /// </para>
+        /// <para>
+        /// If <paramref name="Flags"/> is <see cref="DEVICE_NOTIFY_WINDOW_HANDLE"/>,
+        /// <paramref name="hRecipient"/> is a handle to the window to deliver events to.
+        /// </para>
+        /// </param>
+        /// <param name="Flags">
+        /// This parameter can be <see cref="DEVICE_NOTIFY_WINDOW_HANDLE"/> or <see cref="DEVICE_NOTIFY_CALLBACK"/>.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// A handle to the registration.
+        /// Use this handle to unregister for notifications.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterSuspendResumeNotification", ExactSpelling = true, SetLastError = true)]
+        public static extern HPOWERNOTIFY RegisterSuspendResumeNotification([In] HANDLE hRecipient, [In] DeviceNotifyFlags Flags);
 
         /// <summary>
         /// <para>
@@ -4425,6 +4494,58 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetLastErrorEx", ExactSpelling = true)]
         public static extern void SetLastErrorEx([In] DWORD dwErrCode, [In] DWORD dwType);
+
+        /// <summary>
+        /// <para>
+        /// Exempts the calling process from restrictions preventing desktop processes from interacting with the Windows Store app environment.
+        /// This function is used by development and debugging tools.
+        /// </para>
+        /// <para>
+        /// This function only succeeds if a developer license is present on the system.
+        /// Once successful the calling process will be able to perform the following actions,
+        /// subject to User Interface Privilege Isolation (UIPI) restrictions:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// Attach global hooks (and event hooks) to Windows Store app processes.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Attach input queues between Windows Store app processes, Windows Store app browsers, system processes, and desktop application processes.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Change foreground arbitrarily between the Windows Store app and desktop environments.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setprocessrestrictionexemption"/>
+        /// </para>
+        /// </summary>
+        /// <param name="fEnableExemption">
+        /// When set to <see cref="TRUE"/>, indicates a request to disable exemption for the calling process.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// Any process can call this function, including desktop and Windows Store app processes and processes that use IL code.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessRestrictionExemption", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetProcessRestrictionExemption([In] BOOL fEnableExemption);
 
         /// <summary>
         /// <para>
@@ -9706,6 +9827,31 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnregisterPowerSettingNotification", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL UnregisterPowerSettingNotification([In] HPOWERNOTIFY Handle);
+
+        /// <summary>
+        /// <para>
+        /// Cancels a registration to receive notification when the system is suspended or resumed.
+        /// Similar to <see cref="PowerUnregisterSuspendResumeNotification"/> but operates in user mode.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-unregistersuspendresumenotification"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Handle">
+        /// A handle to a registration obtained by calling the <see cref="RegisterSuspendResumeNotification"/> function.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnregisterSuspendResumeNotification", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL UnregisterSuspendResumeNotification([In] HPOWERNOTIFY Handle);
 
         /// <summary>
         /// <para>

@@ -17,7 +17,6 @@ using static Lsj.Util.Win32.Enums.VirtualKeyCodes;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Kernel32;
 
-
 namespace Lsj.Util.Win32
 {
     public static partial class User32
@@ -578,6 +577,80 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCapture", ExactSpelling = true)]
         public static extern HWND GetCapture();
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the source of the input message (GetCurrentInputMessageSourceInSendMessage).
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getcimssm"/>
+        /// </para>
+        /// </summary>
+        /// <param name="inputMessageSource">
+        /// The <see cref="INPUT_MESSAGE_SOURCE"/> structure that holds the device type and the ID of the input message source.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If this function succeeds, it returns <see cref="TRUE"/>.
+        /// Otherwise, it returns <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// </para>
+        /// <para>
+        /// This function fails when:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// The input parameter is invalid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="GetCurrentInputMessageSource"/> returns a value other than <see cref="IMDT_UNAVAILABLE"/> for the device type.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <see cref="GetCIMSSM"/> should be used
+        /// only when <see cref="GetCurrentInputMessageSource"/> returns a device type of <see cref="IMDT_UNAVAILABLE"/>.
+        /// </remarks>
+        [Obsolete("GetCIMSSM may be altered or unavailable in the future. Instead, use GetCurrentInputMessageSource.")]
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCIMSSM", ExactSpelling = true, SetLastError = true)]
+        public static extern HWND GetCIMSSM([Out] out INPUT_MESSAGE_SOURCE inputMessageSource);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the source of the input message.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getcurrentinputmessagesource"/>
+        /// </para>
+        /// </summary>
+        /// <param name="inputMessageSource">
+        /// <para>
+        /// The <see cref="INPUT_MESSAGE_SOURCE"/> structure that holds the device type and the ID of the input message source.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// <see cref="INPUT_MESSAGE_SOURCE.deviceType"/> in <see cref="INPUT_MESSAGE_SOURCE"/> is set to <see cref="IMDT_UNAVAILABLE"/>
+        /// when <see cref="SendMessage"/> is used to inject input
+        /// (system generated or through messages such as <see cref="WM_PAINT"/>).
+        /// This remains true until <see cref="SendMessage"/> returns.
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// If this function succeeds, it returns <see cref="TRUE"/>.
+        /// Otherwise, it returns <see cref="FALSE"/>.
+        /// To retrieve extended error information, call the <see cref="GetLastError"/> function.
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentInputMessageSource", ExactSpelling = true, SetLastError = true)]
+        public static extern HWND GetCurrentInputMessageSource([Out] out INPUT_MESSAGE_SOURCE inputMessageSource);
 
         /// <summary>
         /// <para>
