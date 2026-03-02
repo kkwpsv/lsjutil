@@ -828,6 +828,12 @@ namespace Lsj.Util.Tests.Win32
             "SignalRedirectionStartComplete",                   // undocument
             "UpdateDefaultDesktopThumbnail",                    // undocument
             "WaitForRedirectionStartComplete",                  // undocument
+
+            // 8.1
+            "GetDpiForMonitorInternal",                         // undocument
+            "GetProcessDpiAwarenessInternal",                   // undocument
+            "SetProcessDpiAwarenessInternal",                   // undocument
+            "UpdateWindowInputSinkHints",                       // undocument
         };
 
     }

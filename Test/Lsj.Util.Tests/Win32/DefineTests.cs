@@ -96,7 +96,7 @@ namespace Lsj.Util.Tests.Win32
         {
             var apis = ReadFromFiles();
             var toCheckApis = apis.Where(x =>
-                (x.Value.DllName == "user32" && x.Value.Version <= WindowsVersion.Windows8) ||
+                (x.Value.DllName == "user32" && x.Value.Version <= WindowsVersion.Windows8_1) ||
                 (x.Value.DllName == "kernel32" && x.Value.Version <= WindowsVersion.WindowsXP) ||
                 (x.Value.DllName == "advapi32" && x.Value.Version <= WindowsVersion.Windows2000) ||
                 (x.Value.DllName == "gdi32" && x.Value.Version <= WindowsVersion.Windows7))
