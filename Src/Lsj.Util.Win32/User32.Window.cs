@@ -6052,6 +6052,41 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Important
+        /// </para>
+        /// <para>
+        /// Some information relates to a prerelease product which may be substantially modified before it's commercially released.
+        /// Microsoft makes no warranties, express or implied, with respect to the information provided here.
+        /// </para>
+        /// <para>
+        /// Determines whether a window is arranged.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-iswindowarranged"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window to be tested.
+        /// </param>
+        /// <returns>
+        /// A nonzero value if the window is arranged; otherwise, zero.
+        /// </returns>
+        /// <remarks>
+        /// A snapped window (see Snap your windows) is considered to be <c>arranged</c>.
+        /// You should treat <c>arranged</c> as a window state similar to <c>maximized</c>.
+        /// Arranged, maximized, and minimized are mutually exclusive states.
+        /// An arranged window can be restored to its original size and position.
+        /// Restoring a window from minimized can make a window arranged if the window was arranged before it was minimized.
+        /// When calling <see cref="GetWindowPlacement"/>,
+        /// keep in mind that the <see cref="WINDOWPLACEMENT.showCmd"/> member on the returned <see cref="WINDOWPLACEMENT"/>
+        /// can have a value of <see cref="SW_SHOWNORMAL"/> even if the window is arranged.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows10)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsWindowArranged", ExactSpelling = true)]
+        public static extern BOOL IsWindowArranged([In] HWND hWnd);
+
+        /// <summary>
+        /// <para>
         /// Determines whether the specified window is enabled for mouse and keyboard input.
         /// </para>
         /// <para>

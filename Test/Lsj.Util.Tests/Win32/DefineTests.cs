@@ -44,16 +44,8 @@ namespace Lsj.Util.Tests.Win32
 
         private static readonly List<string> _genericTypeParameterWhiteList = new List<string>
         {
-            "D3D11CreateDevice",
-            "D3D11CreateDeviceAndSwapChain",
-            "D3D12CreateDevice",
-            "D3DCompile",
-            "GetNumberOfPhysicalMonitorsFromIDirect3DDevice9",
-            "GetPhysicalMonitorsFromIDirect3DDevice9",
-            "CopyFileEx",
-            "CopyFileTransacted",
-            "MFGetService",
-            "MFCreateSourceReaderFromURL",
+            "BackupRead",
+            "BackupWrite",
             "BindMoniker",
             "CoCopyProxy",
             "CoCreateInstance",
@@ -64,11 +56,27 @@ namespace Lsj.Util.Tests.Win32
             "CoGetMarshalSizeMax",
             "CoGetStandardMarshal",
             "CoMarshalInterface",
+            "CopyFileEx",
+            "CopyFileTransacted",
             "CoQueryProxyBlanket",
             "CoRegisterClassObject",
             "CoReleaseMarshalData",
             "CoSetProxyBlanket",
             "CreateGenericComposite",
+            "CreateStdDispatch",
+            "CreateURLMoniker",
+            "CreateURLMonikerEx",
+            "D3D11CreateDevice",
+            "D3D11CreateDeviceAndSwapChain",
+            "D3D12CreateDevice",
+            "D3DCompile",
+            "GetNumberOfPhysicalMonitorsFromIDirect3DDevice9",
+            "GetPhysicalMonitorsFromIDirect3DDevice9",
+            "GetRawInputBuffer",
+            "InitializeSid",
+            "MFGetService",
+            "MFCreateSourceReaderFromURL",
+            "MFEnumDeviceSources",
             "MkParseDisplayName",
             "OleCreate",
             "OleCreateDefaultHandler",
@@ -77,17 +85,10 @@ namespace Lsj.Util.Tests.Win32
             "OleCreateLink",
             "OleLoad",
             "OleSave",
-            "StgOpenStorage",
-            "WriteClassStg",
-            "CreateStdDispatch",
-            "CreateURLMoniker",
-            "CreateURLMonikerEx",
-            "BackupRead",
-            "BackupWrite",
-            "InitializeSid",
             "SetNamedSecurityInfo",
             "SetSecurityInfo",
-            "GetRawInputBuffer",
+            "StgOpenStorage",
+            "WriteClassStg",
         };
 
  
@@ -96,7 +97,7 @@ namespace Lsj.Util.Tests.Win32
         {
             var apis = ReadFromFiles();
             var toCheckApis = apis.Where(x =>
-                (x.Value.DllName == "user32" && x.Value.Version <= WindowsVersion.Windows8_1) ||
+                (x.Value.DllName == "user32" && x.Value.Version <= WindowsVersion.Windows10 && x.Value.BuildNumber <= BuildNumbers.Windows10_22H2) ||
                 (x.Value.DllName == "kernel32" && x.Value.Version <= WindowsVersion.WindowsXP) ||
                 (x.Value.DllName == "advapi32" && x.Value.Version <= WindowsVersion.Windows2000) ||
                 (x.Value.DllName == "gdi32" && x.Value.Version <= WindowsVersion.Windows7))
@@ -582,6 +583,42 @@ namespace Lsj.Util.Tests.Win32
                     if (!result.ContainsKey(line))
                     {
                         result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1903, null, Path.GetFileNameWithoutExtension(file.Name));
+                    }
+                }
+            }
+
+            foreach (var file in new DirectoryInfo(Path.Combine(apiDir, "10_1909")).EnumerateFiles())
+            {
+                var lines = File.ReadAllLines(file.FullName);
+                foreach (var line in lines)
+                {
+                    if (!result.ContainsKey(line))
+                    {
+                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1909, null, Path.GetFileNameWithoutExtension(file.Name));
+                    }
+                }
+            }
+
+            foreach (var file in new DirectoryInfo(Path.Combine(apiDir, "10_2004")).EnumerateFiles())
+            {
+                var lines = File.ReadAllLines(file.FullName);
+                foreach (var line in lines)
+                {
+                    if (!result.ContainsKey(line))
+                    {
+                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_2004, null, Path.GetFileNameWithoutExtension(file.Name));
+                    }
+                }
+            }
+
+            foreach (var file in new DirectoryInfo(Path.Combine(apiDir, "10_20H2")).EnumerateFiles())
+            {
+                var lines = File.ReadAllLines(file.FullName);
+                foreach (var line in lines)
+                {
+                    if (!result.ContainsKey(line))
+                    {
+                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_2004, null, Path.GetFileNameWithoutExtension(file.Name));
                     }
                 }
             }

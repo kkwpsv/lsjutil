@@ -10,11 +10,65 @@ using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Enums.ExtendedWindowStyles;
 using static Lsj.Util.Win32.Kernel32;
+using System;
 
 namespace Lsj.Util.Win32
 {
     public static partial class User32
     {
+        /// <summary>
+        /// <para>
+        /// Configures the pointer injection device for the calling application,
+        /// and initializes the maximum number of simultaneous pointers that the app can inject.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-createsyntheticpointerdevice"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pointerType">
+        /// The pointer injection device type.
+        /// Must be either <see cref="PT_TOUCH"/> or <see cref="PT_PEN"/>.
+        /// </param>
+        /// <param name="maxCount">
+        /// <para>
+        /// The maximum number of contacts.
+        /// </para>
+        /// <para>
+        /// For <see cref="PT_TOUCH"/> this value must be greater than 0
+        /// and less than or equal to <see cref="MAX_TOUCH_COUNT"/>.
+        /// </para>
+        /// <para>
+        /// For <see cref="PT_PEN"/> this value must be 1.
+        /// </para>
+        /// </param>
+        /// <param name="mode">
+        /// The contact visualization mode.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the pointer injection device.
+        /// Otherwise, it returns <see cref="NULL"/>.
+        /// To retrieve extended error information, call the <see cref="GetLastError"/> function.
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1809)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateSyntheticPointerDevice", ExactSpelling = true, SetLastError = true)]
+        public static extern HSYNTHETICPOINTERDEVICE CreateSyntheticPointerDevice([In] POINTER_INPUT_TYPE pointerType,
+            [In] ULONG maxCount, [In] POINTER_FEEDBACK_MODE mode);
+
+        /// <summary>
+        /// <para>
+        /// Destroys the specified pointer injection device.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-destroysyntheticpointerdevice"/>
+        /// </para>
+        /// </summary>
+        /// <param name="device">
+        /// A handle to the pointer injection device.
+        /// </param>
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1809)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroySyntheticPointerDevice", ExactSpelling = true, SetLastError = true)]
+        public static extern void DestroySyntheticPointerDevice([In] HSYNTHETICPOINTERDEVICE device);
+
         /// <summary>
         /// <para>
         /// Enables the mouse to act as a pointer input device and send <c>WM_POINTER</c> messages.
@@ -1652,6 +1706,56 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Simulates pointer input (pen or touch).
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-injectsyntheticpointerinput"/>
+        /// </para>
+        /// </summary>
+        /// <param name="device">
+        /// A handle to the pointer injection device created by <see cref="CreateSyntheticPointerDevice"/>.
+        /// </param>
+        /// <param name="pointerInfo">
+        /// <para>
+        /// An array of <see cref="POINTER_TYPE_INFO"/> structures represneting the injected pointers.
+        /// </para>
+        /// <para>
+        /// The type must match the <c>pointerType</c> parameter of the <see cref="CreateSyntheticPointerDevice"/> call
+        /// that created the injection device.
+        /// </para>
+        /// <para>
+        /// The <see cref="POINTER_TYPE_INFO.ptPixelLocation"/> for each <see cref="POINTER_TYPE_INFO"/>
+        /// is specified relative to top left of the virtual screen:
+        /// </para>
+        /// </param>
+        /// <param name="count">
+        /// <para>
+        /// The number of contacts.
+        /// </para>
+        /// <para>
+        /// For <see cref="PT_TOUCH"/> this value must be greater than 0
+        /// and less than or equal to <see cref="MAX_TOUCH_COUNT"/>.
+        /// </para>
+        /// <para>
+        /// For <see cref="PT_PEN"/> this value must be 1.
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If this function succeeds, it returns <see cref="TRUE"/>.
+        /// </para>
+        /// <para>
+        /// Otherwise, it returns <see cref="FALSE"/>.
+        /// To retrieve extended error information, call the <see cref="GetLastError"/> function.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1809)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InjectSyntheticPointerInput", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL InjectSyntheticPointerInput([In] HSYNTHETICPOINTERDEVICE device,
+            [In] POINTER_TYPE_INFO[] pointerInfo, [In] UINT32 count);
+
+        /// <summary>
+        /// <para>
         /// Indicates whether <see cref="EnableMouseInPointer"/> is set for the mouse to act as a pointer input device
         /// and send <c>WM_POINTER</c> messages.
         /// </para>
@@ -1793,6 +1897,33 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// <see cref="RegisterPointerInputTargetEx"/> may be altered or unavailable.
+        /// Instead, use <see cref="RegisterPointerInputTarget"/>.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-registerpointerinputtargetex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// Not supported.
+        /// </param>
+        /// <param name="pointerType">
+        /// Not supported.
+        /// </param>
+        /// <param name="fObserve">
+        /// Not supported.
+        /// </param>
+        /// <returns>
+        /// Not supported.
+        /// </returns>
+        [Obsolete("RegisterPointerInputTargetEx is not supported and may be altered or unavailable in the future. " +
+            "Instead, use RegisterPointerInputTarget.")]
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1511)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterPointerInputTargetEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL RegisterPointerInputTargetEx([In] HWND hwnd, [In] POINTER_INPUT_TYPE pointerType, [In] BOOL fObserve);
+
+        /// <summary>
+        /// <para>
         /// Determines which pointer input frame generated the most recently retrieved message for the specified pointer
         /// and discards any queued (unretrieved) pointer input messages generated from the same pointer input frame.
         /// If an application has retrieved information for an entire frame using the <see cref="GetPointerFrameInfo"/> function,
@@ -1918,5 +2049,29 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnregisterPointerInputTarget", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL UnregisterPointerInputTarget([In] HWND hwnd, [In] POINTER_INPUT_TYPE pointerType);
+
+        /// <summary>
+        /// <para>
+        /// <see cref="UnregisterPointerInputTargetEx"/> may be altered or unavailable.
+        /// Instead, use <see cref="UnregisterPointerInputTarget"/>.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-unregisterpointerinputtargetex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// Not supported.
+        /// </param>
+        /// <param name="pointerType">
+        /// Not supported.
+        /// </param>
+        /// <returns>
+        /// Not supported.
+        /// </returns>
+        [Obsolete("UnregisterPointerInputTargetEx is not supported and may be altered or unavailable in the future. " +
+            "Instead, use UnregisterPointerInputTarget.")]
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1511)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnregisterPointerInputTargetEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL UnregisterPointerInputTargetEx([In] HWND hwnd, [In] POINTER_INPUT_TYPE pointerType);
     }
 }
