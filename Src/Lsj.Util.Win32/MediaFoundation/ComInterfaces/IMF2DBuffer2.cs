@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
 {
     [WindowsVersionRequirement(WindowsVersion.Windows8)]
     [ComInterface(IID = "33ae5ea6-4316-436f-8ddd-d73d22f829ec", BeginVTableSlotIndex = 10, EndVTableSlotIndex = 11,
-        InheritedFromTypes = [typeof(IUnknown), typeof(IMF2DBuffer2)])]
+        InheritedFromTypes = [typeof(IUnknown), typeof(IMF2DBuffer)])]
     public unsafe struct IMF2DBuffer2
     {
         IntPtr* _vTable;
