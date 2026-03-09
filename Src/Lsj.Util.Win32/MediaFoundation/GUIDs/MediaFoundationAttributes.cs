@@ -17,6 +17,159 @@ namespace Lsj.Util.Win32.MediaFoundation.GUIDs
     {
         /// <summary>
         /// <para>
+        /// Specifies whether the capture engine captures video but not audio.
+        /// </para>
+        /// <para>
+        /// Data type
+        /// </para>
+        /// <para>
+        /// <see cref="UINT32"/>
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/medfound/mf-capture-engine-use-video-device-only"/>
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// If this attribute is <see cref="TRUE"/>, the capture engine does not select or use an audio capture device.
+        /// Set this attribute to <see cref="TRUE"/> if you want to capture video without audio.
+        /// The default value is <see cref="FALSE"/>.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
+        public static readonly GUID MF_CAPTURE_ENGINE_USE_VIDEO_DEVICE_ONLY = (GUID)"7e025171-cf32-4f2e-8f19-410577b73a66";
+
+        /// <summary>
+        /// <para>
+        /// Specifies a device's type, such as audio capture or video capture.
+        /// </para>
+        /// <para>
+        /// Data type
+        /// </para>
+        /// <para>
+        /// <see cref="GUID"/>
+        /// </para>
+        /// <para>
+        /// The following values are defined for this attribute:
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="MF_DEVSOURCE_ATTRIBUTE_SOURCE_TYPE_AUDCAP_GUID"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Audio capture device.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="MF_DEVSOURCE_ATTRIBUTE_SOURCE_TYPE_VIDCAP_GUID"/>
+        /// </term>
+        /// <term>
+        /// Video capture device.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/medfound/mf-devsource-attribute-source-type"/>
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// Use this attribute as input to the following functions:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="MFCreateDeviceSource"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="MFCreateDeviceSourceActivate"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="MFEnumDeviceSources"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// In addition, this attribute is set on the activation objects
+        /// returned by the <see cref="MFEnumDeviceSources"/> function.
+        /// </para>
+        /// <para>
+        /// The GUID constant for this attribute is exported from mfuuid.lib.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        public static readonly GUID MF_DEVSOURCE_ATTRIBUTE_SOURCE_TYPE = (GUID)"c60ac5fe-252a-478f-a0ef-bc8fa5f7cad3";
+
+        /// <summary>
+        /// <para>
+        /// Contains the symbolic link for a video capture driver.
+        /// </para>
+        /// <para>
+        /// Data type
+        /// </para>
+        /// <para>
+        /// WCHAR*
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/medfound/mf-devsource-attribute-source-type-vidcap-symbolic-link"/>
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// Use this attribute as input to the <see cref="MFCreateDeviceSourceActivate"/> function.
+        /// </para>
+        /// <para>
+        /// In addition, this attribute is set on the activation objects returned by the following functions:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="MFCreateDeviceSourceActivate"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="MFEnumDeviceSources"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// The symbolic link should be considered an opaque string.
+        /// The human-readable display name for a device is contained in the <see cref="MF_DEVSOURCE_ATTRIBUTE_FRIENDLY_NAME"/> attribute.
+        /// </para>
+        /// <para>
+        /// The <see cref="MF_DEVSOURCE_ATTRIBUTE_SOURCE_TYPE_VIDCAP_SYMBOLIC_LINK"/> attribute can be passed in
+        /// as the value of the <c>DevicePath</c> argument of the <see cref="SetupDiOpenDeviceInterface"/> function.
+        /// </para>
+        /// <para>
+        /// The GUID constant for this attribute is exported from mfuuid.lib.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        public static readonly GUID MF_DEVSOURCE_ATTRIBUTE_SOURCE_TYPE_VIDCAP_SYMBOLIC_LINK = (GUID)"58f0aad8-22bf-4f8a-bb3d-d2c4978c6e2f";
+
+        /// <summary>
+        /// <para>
         /// Contains a pointer to the callback interface for the Media Engine.
         /// </para>
         /// <para>

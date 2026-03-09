@@ -32,5 +32,18 @@ namespace Lsj.Util.Win32.BaseTypes
 
         /// <inheritdoc/>
         public override string ToString() => _value.ToString();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static bool operator ==(GUID left, GUID right) => left._value == right._value;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static bool operator !=(GUID left, GUID right) => !(left == right);
+
+        /// <inheritdoc/>
+        public override int GetHashCode() => _value.GetHashCode();
     }
 }

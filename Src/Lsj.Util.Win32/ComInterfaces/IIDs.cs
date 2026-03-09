@@ -588,9 +588,59 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly IID IID_IMarshal = "00000003-0000-0000-C000-000000000046";
 
         /// <summary>
+        /// IID_IMF2DBuffer
+        /// </summary>
+        public static readonly IID IID_IMF2DBuffer = "7DC9D5F9-9ED9-44ec-9BBF-0600BB589FBB";
+
+        /// <summary>
+        /// IID_IMF2DBuffer2
+        /// </summary>
+        public static readonly IID IID_IMF2DBuffer2 = "33ae5ea6-4316-436f-8ddd-d73d22f829ec";
+
+        /// <summary>
+        /// IID_IMFActivate
+        /// </summary>
+        public static readonly IID IID_IMFActivate = "7FEE9E9A-4A89-47a6-899C-B6A53A70FB67";
+
+        /// <summary>
         /// IID_IMFAttributes
         /// </summary>
         public static readonly IID IID_IMFAttributes = "2cd2d921-c447-44a7-a13c-4adabfc247e3";
+
+        /// <summary>
+        /// IID_IMFCaptureEngine
+        /// </summary>
+        public static readonly IID IID_IMFCaptureEngine = "a6bba433-176b-48b2-b375-53aa03473207";
+
+        /// <summary>
+        /// IID_IMFCaptureEngineClassFactory
+        /// </summary>
+        public static readonly IID IID_IMFCaptureEngineClassFactory = "8f02d140-56fc-4302-a705-3a97c78be779";
+
+        /// <summary>
+        /// IID_IMFCaptureEngineOnEventCallback
+        /// </summary>
+        public static readonly IID IID_IMFCaptureEngineOnEventCallback = "aeda51c0-9025-4983-9012-de597b88b089";
+
+        /// <summary>
+        /// IID_IMFCaptureEngineOnSampleCallback
+        /// </summary>
+        public static readonly IID IID_IMFCaptureEngineOnSampleCallback = "52150b82-ab39-4467-980f-e48bf0822ecd";
+
+        /// <summary>
+        /// IID_IMFCapturePreviewSink
+        /// </summary>
+        public static readonly IID IID_IMFCapturePreviewSink = "77346cfd-5b49-4d73-ace0-5b52a859f2e0";
+
+        /// <summary>
+        /// IID_IMFCaptureSink
+        /// </summary>
+        public static readonly IID IID_IMFCaptureSink = "72d6135b-35e9-412c-b926-fd5265f2a885";
+
+        /// <summary>
+        /// IID_IMFCaptureSource
+        /// </summary>
+        public static readonly IID IID_IMFCaptureSource = "439a42a8-0d2c-4505-be83-f79b2a05d5c4";
 
         /// <summary>
         /// IID_IMFDXGIBuffer
@@ -631,6 +681,26 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// IID_IMFMediaError
         /// </summary>
         public static readonly IID IID_IMFMediaError = "fc0e10d2-ab2a-4501-a951-06bb1075184c";
+
+        /// <summary>
+        /// IID_IMFMediaEvent
+        /// </summary>
+        public static readonly IID IID_IMFMediaEvent = "DF598932-F10C-4E39-BBA2-C308F101DAA3";
+
+        /// <summary>
+        /// IID_IMFMediaEventGenerator
+        /// </summary>
+        public static readonly IID IID_IMFMediaEventGenerator = "2CD0BD52-BCD5-4B89-B62C-EADC0C031E7D";
+
+        /// <summary>
+        /// IID_IMFMediaSink
+        /// </summary>
+        public static readonly IID IID_IMFMediaSink = "6ef2a660-47c0-4666-b13d-cbb717f2fa2c";
+
+        /// <summary>
+        /// IID_IMFMediaSource
+        /// </summary>
+        public static readonly IID IID_IMFMediaSource = "279a808d-aec7-40c8-9c6b-a6b492c78a66";
 
         /// <summary>
         /// IID_IMFMediaTimeRange

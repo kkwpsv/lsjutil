@@ -48,6 +48,19 @@ namespace Lsj.Util.Win32.BaseTypes
         /// <returns></returns>
         public static P<T> FromPtr(IntPtr value) => new P<T> { _value = value };
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public unsafe ref T this[int index]
+        {
+            get
+            {
+                return ref UnsafePInvokeExtensions.AsStructRef<T>(_value + index * sizeof(nint));
+            }
+        }
+
         /// <inheritdoc/>
         public override string ToString() => _value.ToString();
 

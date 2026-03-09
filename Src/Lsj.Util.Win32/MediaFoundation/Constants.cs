@@ -1,4 +1,6 @@
-﻿namespace Lsj.Util.Win32.MediaFoundation
+﻿using Lsj.Util.Win32.BaseTypes;
+
+namespace Lsj.Util.Win32.MediaFoundation
 {
     /// <summary>
     /// Constants
@@ -9,6 +11,26 @@
         /// MF_API_VERSION
         /// </summary>
         public const int MF_API_VERSION = 0x0070;
+
+        /// <summary>
+        /// MF_CAPTURE_ENGINE_FIRST_SOURCE_AUDIO_STREAM
+        /// </summary>
+        public const uint MF_CAPTURE_ENGINE_FIRST_SOURCE_AUDIO_STREAM = 0xFFFFFFFD;
+
+        /// <summary>
+        /// MF_CAPTURE_ENGINE_FIRST_SOURCE_PHOTO_STREAM
+        /// </summary>
+        public const uint MF_CAPTURE_ENGINE_FIRST_SOURCE_PHOTO_STREAM = 0xFFFFFFFB;
+
+        /// <summary>
+        /// MF_CAPTURE_ENGINE_FIRST_SOURCE_VIDEO_STREAM
+        /// </summary>
+        public const uint MF_CAPTURE_ENGINE_FIRST_SOURCE_VIDEO_STREAM = 0xFFFFFFFC;
+
+        /// <summary>
+        /// MF_E_NO_MORE_TYPES
+        /// </summary>
+        public static readonly HRESULT MF_E_NO_MORE_TYPES = (uint)0xC00D36B9;
 
         /// <summary>
         /// MF_SDK_VERSION
