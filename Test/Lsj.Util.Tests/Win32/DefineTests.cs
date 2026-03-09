@@ -2,6 +2,8 @@
 using Lsj.Util.Win32;
 using Lsj.Util.Win32.Attributes;
 using Lsj.Util.Win32.ComInterfaces;
+using Lsj.Util.Win32.Marshals;
+using Microsoft.Extensions.Primitives;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -9,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace Lsj.Util.Tests.Win32
 {
@@ -91,7 +94,7 @@ namespace Lsj.Util.Tests.Win32
             "WriteClassStg",
         };
 
- 
+
         [TestMethod]
         public void TestMethods()
         {
@@ -312,9 +315,25 @@ namespace Lsj.Util.Tests.Win32
             fails.AddRange(wrongIIDInterfaces.Select(item => $"{item.Name} has wrong IID"));
             fails.AddRange(wrongBeginVTableSlotIndexInterfaces.Select(item => $"{item.Name} has wrong BeginVTableSlotIndex"));
 
+            var codeStringBuilder = new StringBuilder();
+            foreach (var @interface in missingIIDInterfaces)
+            {
+                var attribute = cache[@interface];
+                if (attribute != null)
+                {
+                    codeStringBuilder.Append(@$"
+        /// <summary>
+        /// IID_{@interface.Name}
+        /// </summary>
+        public static readonly IID IID_{@interface.Name} = ""{attribute.IID}"";
+");
+                }
+            }
+
             if (fails.Any())
             {
-                Assert.Fail(Environment.NewLine + string.Join(Environment.NewLine, fails));
+                Assert.Fail(Environment.NewLine + string.Join(Environment.NewLine, fails) +
+                    Environment.NewLine + "Fixes:" + Environment.NewLine + codeStringBuilder.ToString());
             }
         }
 
