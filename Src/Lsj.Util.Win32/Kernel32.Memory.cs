@@ -3637,6 +3637,7 @@ namespace Lsj.Util.Win32
         /// <para>
         /// Decrements the lock count associated with a memory object that was allocated with <see cref="LMEM_MOVEABLE"/>.
         /// This function has no effect on memory objects allocated with <see cref="LMEM_FIXED"/>.
+        /// </para>
         /// <para>
         /// Note
         /// </para>

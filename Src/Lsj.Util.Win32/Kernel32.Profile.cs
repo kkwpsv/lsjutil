@@ -195,7 +195,7 @@ namespace Lsj.Util.Win32
         /// followed by a final null character. Each string has the following format:
         /// </para>
         /// <para>
-        /// <c.key=string
+        /// <c>key=string</c>
         /// </para>
         /// <para>
         /// The <see cref="GetPrivateProfileSection"/> function is not case-sensitive;

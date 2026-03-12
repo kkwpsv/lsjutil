@@ -2539,7 +2539,6 @@ namespace Lsj.Util.Win32
         /// If <paramref name="nTabPositions"/> is 1, the tab stops are separated by the distance
         /// specified by the first value in the array to which <paramref name="lpnTabStopPositions"/> points.
         /// </para>
-
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTabbedTextExtentW", ExactSpelling = true)]
