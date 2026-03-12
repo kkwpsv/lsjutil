@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Win32.Attributes;
 using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
+using Lsj.Util.Win32.DirectX.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
 using Lsj.Util.Win32.MediaFoundation.ComInterfaces;
 using Lsj.Util.Win32.Structs;
@@ -15,6 +16,28 @@ namespace Lsj.Util.Win32.MediaFoundation.GUIDs
     /// </summary>
     public static class MediaFoundationAttributes
     {
+        /// <summary>
+        /// <para>
+        /// Sets a pointer to the DXGI Device Manager on the capture engine.
+        /// </para>
+        /// <para>
+        /// Data type
+        /// </para>
+        /// <para>
+        /// IUnknown*
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/medfound/mf-capture-engine-d3d-manager"/>
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// The value of this attribute is a pointer to the <see cref="IMFDXGIDeviceManager"/> interface.
+        /// This attribute enables the capture engine to allocate video frames using DXGI surfaces,
+        /// and to use hardware acceleration for decoding and video processing.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows8)]
+        public static readonly GUID MF_CAPTURE_ENGINE_D3D_MANAGER = (GUID)"76e25e7b-d595-4283-962c-c594afd78ddf";
+
         /// <summary>
         /// <para>
         /// Specifies whether the capture engine captures video but not audio.
