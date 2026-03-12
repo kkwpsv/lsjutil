@@ -683,7 +683,8 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </term>
         /// <term>
-        /// The <paramref name="lpJobObjectInfo"/> parameter is a pointer to a <see cref="JOBOBJECT_ASSOCIATE_COMPLETION_PORT"/> structure.
+        /// The <paramref name="lpJobObjectInformation"/> parameter is a pointer
+        /// to a <see cref="JOBOBJECT_ASSOCIATE_COMPLETION_PORT"/> structure.
         /// </term>
         /// </item>
         /// <item>
@@ -696,7 +697,8 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </term>
         /// <term>
-        /// The <paramref name="lpJobObjectInfo"/> parameter is a pointer to a <see cref="JOBOBJECT_BASIC_LIMIT_INFORMATION"/> structure.
+        /// The <paramref name="lpJobObjectInformation"/> parameter is a pointer
+        /// to a <see cref="JOBOBJECT_BASIC_LIMIT_INFORMATION"/> structure.
         /// </term>
         /// </item>
         /// <item>
@@ -709,7 +711,8 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </term>
         /// <term>
-        /// The <paramref name="lpJobObjectInfo"/> parameter is a pointer to a <see cref="JOBOBJECT_BASIC_UI_RESTRICTIONS"/> structure.
+        /// The <paramref name="lpJobObjectInformation"/> parameter is a pointer
+        /// to a <see cref="JOBOBJECT_BASIC_UI_RESTRICTIONS"/> structure.
         /// </term>
         /// </item>
         /// <item>
@@ -723,13 +726,17 @@ namespace Lsj.Util.Win32
         /// </term>
         /// <term>
         /// <para>
-        /// The <paramref name="lpJobObjectInfo"/> parameter is a pointer to a <see cref="JOBOBJECT_CPU_RATE_CONTROL_INFORMATION"/> structure.
+        /// The <paramref name="lpJobObjectInformation"/> parameter is a pointer
+        /// to a <see cref="JOBOBJECT_CPU_RATE_CONTROL_INFORMATION"/> structure.
         /// </para>
         /// <para>
-        /// Windows 7, Windows Server 2008 R2, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:  This flag is not supported.
+        /// Windows 7, Windows Server 2008 R2, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This flag is not supported.
         /// </para>
         /// <para>
-        /// If Dynamic Fair Share Scheduling (DFSS) is enabled, the CPU rate cannot be set and SetInformationJobObject will fail with error code 50 ("The request is not supported").
+        /// If Dynamic Fair Share Scheduling (DFSS) is enabled,
+        /// the CPU rate cannot be set and <see cref="SetInformationJobObject"/> will fail
+        /// with error code 50 ("The request is not supported").
         /// </para>
         /// </term>
         /// </item>
@@ -743,7 +750,8 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </term>
         /// <term>
-        /// The <paramref name="lpJobObjectInfo"/> parameter is a pointer to a <see cref="JOBOBJECT_END_OF_JOB_TIME_INFORMATION"/> structure.
+        /// The <paramref name="lpJobObjectInformation"/> parameter is a pointer
+        /// to a <see cref="JOBOBJECT_END_OF_JOB_TIME_INFORMATION"/> structure.
         /// </term>
         /// </item>
         /// <item>
@@ -756,7 +764,8 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </term>
         /// <term>
-        /// The <paramref name="lpJobObjectInfo"/> parameter is a pointer to a <see cref="JOBOBJECT_EXTENDED_LIMIT_INFORMATION"/> structure.
+        /// The <paramref name="lpJobObjectInformation"/> parameter is a pointer
+        /// to a <see cref="JOBOBJECT_EXTENDED_LIMIT_INFORMATION"/> structure.
         /// </term>
         /// </item>
         /// <item>
@@ -770,10 +779,14 @@ namespace Lsj.Util.Win32
         /// </term>
         /// <term>
         /// <para>
-        /// The <paramref name="lpJobObjectInfo"/> parameter is a pointer to a <see cref="USHORT"/> value that specifies the list of processor groups to assign the job to. The <paramref name="cbJobObjectInfoLength"/> parameter is set to the size of the group data. Divide this value by <c>sizeof(USHORT)</c> to determine the number of groups.
+        /// The <paramref name="lpJobObjectInformation"/> parameter is a pointer
+        /// to a <see cref="USHORT"/> value that specifies the list of processor groups to assign the job to.
+        /// The <paramref name="cbJobObjectInformationLength"/> parameter is set to the size of the group data.
+        /// Divide this value by <c>sizeof(USHORT)</c> to determine the number of groups.
         /// </para>
         /// <para>
-        /// Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:  This flag is not supported.
+        /// Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This flag is not supported.
         /// </para>
         /// </term>
         /// </item>
@@ -788,10 +801,15 @@ namespace Lsj.Util.Win32
         /// </term>
         /// <term>
         /// <para>
-        /// The <paramref name="lpJobObjectInfo"/> parameter is a pointer to a buffer that contains an array of <see cref="GROUP_AFFINITY"/> structures that specify the affinity of the job for the processor groups to which the job is currently assigned. The <paramref name="cbJobObjectInfoLength"/> parameter is set to the size of the group affinity data. Divide this value by <c>sizeof(GROUP_AFFINITY)</c> to determine the number of groups.
+        /// The <paramref name="lpJobObjectInformation"/> parameter is a pointer
+        /// to a buffer that contains an array of <see cref="GROUP_AFFINITY"/> structures
+        /// that specify the affinity of the job for the processor groups to which the job is currently assigned.
+        /// The <paramref name="cbJobObjectInformationLength"/> parameter is set to the size of the group affinity data.
+        /// Divide this value by <c>sizeof(GROUP_AFFINITY)</c> to determine the number of groups.
         /// </para>
         /// <para>
-        /// Windows 7, Windows Server 2008 R2, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:  This flag is not supported.
+        /// Windows 7, Windows Server 2008 R2, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This flag is not supported.
         /// </para>
         /// </term>
         /// </item>
@@ -806,10 +824,13 @@ namespace Lsj.Util.Win32
         /// </term>
         /// <term>
         /// <para>
-        /// The <paramref name="lpJobObjectInfo"/> parameter is a pointer to a <see cref="JOBOBJECT_LIMIT_VIOLATION_INFORMATION_2"/> structure.
+        /// The <paramref name="lpJobObjectInformation"/> parameter is a pointer 
+        /// to a <see cref="JOBOBJECT_LIMIT_VIOLATION_INFORMATION_2"/> structure.
         /// </para>
         /// <para>
-        /// Windows 8.1, Windows Server 2012 R2, Windows 8, Windows Server 2012, Windows 7, Windows Server 2008 R2, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:  This flag is not supported.
+        /// Windows 8.1, Windows Server 2012 R2, Windows 8, Windows Server 2012, Windows 7,
+        /// Windows Server 2008 R2, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This flag is not supported.
         /// </para>
         /// </term>
         /// </item>
@@ -824,10 +845,13 @@ namespace Lsj.Util.Win32
         /// </term>
         /// <term>
         /// <para>
-        /// The <paramref name="lpJobObjectInfo"/> parameter is a pointer to a <see cref="JOBOBJECT_NET_RATE_CONTROL_INFORMATION"/> structure.
+        /// The <paramref name="lpJobObjectInformation"/> parameter is a pointer
+        /// to a <see cref="JOBOBJECT_NET_RATE_CONTROL_INFORMATION"/> structure.
         /// </para>
         /// <para>
-        /// Windows 8.1, Windows Server 2012 R2, Windows 8, Windows Server 2012, Windows 7, Windows Server 2008 R2, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:  This flag is not supported.
+        /// Windows 8.1, Windows Server 2012 R2, Windows 8, Windows Server 2012, Windows 7,
+        /// Windows Server 2008 R2, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This flag is not supported.
         /// </para>
         /// </term>
         /// </item>
@@ -842,10 +866,12 @@ namespace Lsj.Util.Win32
         /// </term>
         /// <term>
         /// <para>
-        /// The <paramref name="lpJobObjectInfo"/> parameter is a pointer to a <see cref="JOBOBJECT_NOTIFICATION_LIMIT_INFORMATION"/> structure.
+        /// The <paramref name="lpJobObjectInformation"/> parameter is a pointer
+        /// to a <see cref="JOBOBJECT_NOTIFICATION_LIMIT_INFORMATION"/> structure.
         /// </para>
         /// <para>
-        /// Windows 7, Windows Server 2008 R2, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:  This flag is not supported.
+        /// Windows 7, Windows Server 2008 R2, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This flag is not supported.
         /// </para>
         /// </term>
         /// </item>
@@ -860,10 +886,13 @@ namespace Lsj.Util.Win32
         /// </term>
         /// <term>
         /// <para>
-        /// The <paramref name="lpJobObjectInfo"/> parameter is a pointer to a <see cref="JOBOBJECT_NOTIFICATION_LIMIT_INFORMATION_2"/> structure.
+        /// The <paramref name="lpJobObjectInformation"/> parameter is a pointer
+        /// to a <see cref="JOBOBJECT_NOTIFICATION_LIMIT_INFORMATION_2"/> structure.
         /// </para>
         /// <para>
-        /// Windows 8.1, Windows Server 2012 R2, Windows 8, Windows Server 2012, Windows 7, Windows Server 2008 R2, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:  This flag is not supported.
+        /// Windows 8.1, Windows Server 2012 R2, Windows 8, Windows Server 2012, Windows 7,
+        /// Windows Server 2008 R2, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// This flag is not supported.
         /// </para>
         /// </term>
         /// </item>
@@ -878,10 +907,14 @@ namespace Lsj.Util.Win32
         /// </term>
         /// <term>
         /// <para>
-        /// This flag is not supported. Applications must set security limitations individually for each process.
+        /// This flag is not supported.
+        /// Applications must set security limitations individually for each process.
         /// </para>
         /// <para>
-        /// Windows Server 2003 and Windows XP:  The <paramref name="lpJobObjectInfo"/> parameter is a pointer to a <see cref="JOBOBJECT_SECURITY_LIMIT_INFORMATION"/> structure. The <paramref name="hJob"/> handle must have the <see cref="JOB_OBJECT_SET_SECURITY_ATTRIBUTES"/> access right associated with it.
+        /// Windows Server 2003 and Windows XP:
+        /// The <paramref name="lpJobObjectInformation"/> parameter is a pointer
+        /// to a <see cref="JOBOBJECT_SECURITY_LIMIT_INFORMATION"/> structure.
+        /// The <paramref name="hJob"/> handle must have the <see cref="JOB_OBJECT_SET_SECURITY_ATTRIBUTES"/> access right associated with it.
         /// </para>
         /// </term>
         /// </item>

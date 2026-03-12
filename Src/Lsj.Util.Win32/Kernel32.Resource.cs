@@ -156,7 +156,7 @@ namespace Lsj.Util.Win32
         /// An application-defined callback function used with the <see cref="EnumResourceTypes"/> and <see cref="EnumResourceTypesEx"/> functions.
         /// It receives resource types.
         /// The <see cref="ENUMRESTYPEPROC"/> type defines a pointer to this callback function.
-        /// <paramref name="EnumResTypeProc"/> is a placeholder for the application-defined function name.
+        /// <c>EnumResTypeProc</c> is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
         /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nc-libloaderapi-enumrestypeprocw"/>

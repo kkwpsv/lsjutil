@@ -1871,7 +1871,6 @@ namespace Lsj.Util.Win32
         /// <para>
         /// The system maps most .ini file references to the registry, using the mapping defined under the following registry key:
         /// </para>
-        /// <para>
         /// <c>
         /// HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\IniFileMapping
         /// </c>

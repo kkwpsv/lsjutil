@@ -3425,6 +3425,7 @@ namespace Lsj.Util.Win32
         /// If this parameter is set to 0, the system uses the default double-click time of 500 milliseconds.
         /// If this parameter value is greater than 5000 milliseconds, the system sets the value to 5000 milliseconds.
         /// </param>
+        /// <returns>
         /// <para>
         /// If the function succeeds, the return value is nonzero.
         /// </para>

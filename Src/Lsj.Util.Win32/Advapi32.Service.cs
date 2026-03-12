@@ -5274,7 +5274,7 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </param>
         /// <param name="bSetBitsOn">
-        /// If this value is <see cref="TRUE"/>, the bits in <paramref name="dwServiceBit"/> are to be set.
+        /// If this value is <see cref="TRUE"/>, the bits in <paramref name="dwServiceBits"/> are to be set.
         /// If this value is <see cref="FALSE"/>, the bits are to be cleared.
         /// </param>
         /// <param name="bUpdateImmediately">

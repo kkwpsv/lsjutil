@@ -1705,7 +1705,10 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="uHilite">
         /// <para>
-        /// Controls the interpretation of the <paramref name="uItemHilite"/> parameter and indicates whether the menu item is highlighted. This parameter must be a combination of either <see cref="MF_BYCOMMAND"/> or <see cref="MF_BYPOSITION"/> and <see cref="MF_HILITE"/> or <see cref="MF_UNHILITE"/>.
+        /// Controls the interpretation of the <paramref name="uIDHiliteItem"/> parameter
+        /// and indicates whether the menu item is highlighted.
+        /// This parameter must be a combination of either <see cref="MF_BYCOMMAND"/> or <see cref="MF_BYPOSITION"/>
+        /// and <see cref="MF_HILITE"/> or <see cref="MF_UNHILITE"/>.
         /// </para>
         /// <para>
         /// <list type="table">

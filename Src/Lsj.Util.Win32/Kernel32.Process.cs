@@ -1571,8 +1571,14 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="hProcess">
+        /// A handle to the process.
+        /// This handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <param name="MitigationPolicy">
         /// <para>
-        /// The mitigation policy to retrieve. This parameter can be one of the following values.
+        /// The mitigation policy to retrieve.
+        /// This parameter can be one of the following values.
         /// </para>
         /// <para>
         /// <list type="table">

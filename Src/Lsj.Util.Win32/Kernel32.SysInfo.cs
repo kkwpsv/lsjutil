@@ -224,7 +224,7 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </param>
         /// <param name="BufferSize">
-        /// The size of the <paramref name="pFirmwareTableBuffer"/> buffer, in bytes.
+        /// The size of the <paramref name="pFirmwareTableEnumBuffer"/> buffer, in bytes.
         /// </param>
         /// <returns>
         /// <para>
@@ -5792,11 +5792,11 @@ namespace Lsj.Util.Win32
         /// </summary>
         /// <param name="ConditionMask">
         /// <para>
-        /// A value to be passed as the <paramref name="dwlConditionMask"/> parameter of the <see cref="VerifyVersionInfo"/> function.
+        /// A value to be passed as the <c>dwlConditionMask</c> parameter of the <see cref="VerifyVersionInfo"/> function.
         /// The function stores the comparison information in the bits of this variable.
         /// </para>
         /// <para>
-        /// Before the first call to <see cref="VerSetCondition"/>, initialize this variable to zero.
+        /// Before the first call to <see cref="VerSetConditionMask"/>, initialize this variable to zero.
         /// For subsequent calls, pass in the variable used in the previous call.
         /// </para>
         /// </param>

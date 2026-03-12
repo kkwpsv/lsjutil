@@ -226,7 +226,7 @@ namespace Lsj.Util.Win32
         /// </item>
         /// </list>
         /// </para>
-        /// </remarks
+        /// </remarks>
         public delegate BOOL Propenumprocex([In] HWND unnamedParam1, [In] LPWSTR unnamedParam2, [In] HANDLE unnamedParam3, [In] ULONG_PTR unnamedParam4);
 
         /// <summary>
@@ -4457,7 +4457,7 @@ namespace Lsj.Util.Win32
         /// <para>
         /// For more information, see Using Layered Windows.
         /// </para>
-        /// </remarks
+        /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLayeredWindowAttributes", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetLayeredWindowAttributes([In] HWND hwnd, [Out] out COLORREF pcrKey, [Out] out BYTE pbAlpha,

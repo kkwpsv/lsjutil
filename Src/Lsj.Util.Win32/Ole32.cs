@@ -548,7 +548,8 @@ namespace Lsj.Util.Win32
         /// A value from the <see cref="CLSCTX"/> enumeration.
         /// </param>
         /// <param name="pServerInfo">
-        /// Information about the computer on which to instantiate the object. See <see cref=""/>.
+        /// Information about the computer on which to instantiate the object.
+        /// See <see cref="COSERVERINFO"/>.
         /// This parameter can be <see cref="NullRef{COSERVERINFO}"/>, in which case the object is instantiated on the local computer 
         /// or at the computer specified in the registry under the class's RemoteServerName value,
         /// according to the interpretation of the <paramref name="dwClsCtx"/> parameter.
