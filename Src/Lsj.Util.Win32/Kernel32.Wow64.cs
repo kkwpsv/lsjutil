@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Win32.Attributes;
 using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Marshals;
+using Lsj.Util.Win32.Structs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Advapi32;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
@@ -401,6 +402,59 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the context of the specified WOW64 thread.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wow64apiset/nf-wow64apiset-wow64getthreadcontext"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hThread">
+        /// A handle to the thread whose context is to be retrieved.
+        /// The handle must have <see cref="THREAD_GET_CONTEXT"/> access to the thread.
+        /// For more information, see Thread Security and Access Rights.
+        /// </param>
+        /// <param name="lpContext">
+        /// A <see cref="WOW64_CONTEXT"/> structure.
+        /// The caller must initialize the <see cref="WOW64_CONTEXT.ContextFlags"/> member of this structure.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// This function is used to retrieve the thread context of the specified thread.
+        /// The function retrieves a selective context based on the value
+        /// of the <see cref="WOW64_CONTEXT.ContextFlags"/> member of the context structure.
+        /// The thread identified by the <paramref name="hThread"/> parameter is typically being debugged,
+        /// but the function can also operate when the thread is not being debugged.
+        /// </para>
+        /// <para>
+        /// You cannot get a valid context for a running thread.
+        /// Use the <see cref="Wow64SuspendThread"/> function to suspend the thread before calling <see cref="Wow64GetThreadContext"/>.
+        /// </para>
+        /// <para>
+        /// If you call <see cref="Wow64GetThreadContext"/> for the current thread, the function returns successfully;
+        /// however, the context returned is not valid.
+        /// </para>
+        /// <para>
+        /// This function is intended for 64-bit applications.
+        /// It is not supported on 32-bit Windows; such calls fail and set the last error code to <see cref="ERROR_INVALID_FUNCTION"/>.
+        /// A 32-bit application can call this function on a WOW64 thread;
+        /// the result is the same as calling the <see cref="GetThreadContext"/> function function.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Wow64GetThreadContext", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL Wow64GetThreadContext([In] HANDLE hThread, [In][Out] ref WOW64_CONTEXT lpContext);
+
+        /// <summary>
+        /// <para>
         /// Restores file system redirection for the calling thread.
         /// </para>
         /// <para>
@@ -501,6 +555,52 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Wow64RevertWow64FsRedirection", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Wow64RevertWow64FsRedirection([In] PVOID OlValue);
+
+        /// <summary>
+        /// <para>
+        /// Sets the context of the specified WOW64 thread.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/wow64apiset/nf-wow64apiset-wow64setthreadcontext"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hThread">
+        /// A handle to the thread whose context is to be set.
+        /// </param>
+        /// <param name="lpContext">
+        /// A <see cref="WOW64_CONTEXT"/> structure.
+        /// The caller must initialize the <see cref="ContextFlags"/> member of this structure.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// This function allows the selective context to be set based on the value
+        /// of the <see cref="WOW64_CONTEXT.ContextFlags"/> member of the context structure.
+        /// The thread handle identified by the <paramref name="hThread"/> parameter is typically being debugged,
+        /// but the function can also operate even when it is not being debugged.
+        /// </para>
+        /// <para>
+        /// This function is intended for 64-bit applications.
+        /// It is not supported on 32-bit Windows; such calls fail and set the last error code to <see cref="ERROR_INVALID_FUNCTION"/>.
+        /// A 32-bit application can call this function on a WOW64 thread;
+        /// the result is the same as calling the <see cref="SetThreadContext"/> function.
+        /// </para>
+        /// <para>
+        /// Do not try to set the context for a running thread; the results are unpredictable.
+        /// Use the <see cref="Wow64SuspendThread"/> function to suspend the thread before calling <see cref="Wow64SetThreadContext"/>.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Wow64SetThreadContext", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL Wow64SetThreadContext([In] HANDLE hThread, [In] in WOW64_CONTEXT lpContext);
 
         /// <summary>
         /// <para>

@@ -571,7 +571,7 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </param>
         /// <param name="lpValue">
-        /// For details, see the lpValue parameter of <see cref="GetCurrencyFormatEx"/>.
+        /// For details, see the <c>lpValue</c> parameter of <see cref="GetCurrencyFormatEx"/>.
         /// </param>
         /// <param name="lpFormat">
         /// Pointer to a <see cref="CURRENCYFMT"/> structure that contains currency formatting information.
@@ -636,6 +636,157 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrencyFormatW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetCurrencyFormat([In] LCID Locale, [In] DWORD dwFlags, [In] LPCWSTR lpValue,
+            [In] in CURRENCYFMT lpFormat, [In] LPWSTR lpCurrencyStr, [In] int cchCurrency);
+
+        /// <summary>
+        /// <para>
+        /// Formats a number string as a currency string for a locale specified by name.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// The application should call this function in preference to <see cref="GetCurrencyFormat"/>
+        /// if designed to run only on Windows Vista and later.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// This function can format data that changes between releases, for example, due to a custom locale.
+        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getcurrencyformatw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpLocaleName">
+        /// <para>
+        /// <para>
+        /// Pointer to a locale name or one of the following predefined values.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_INVARIANT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_SYSTEM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_USER_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </para>
+        /// </param>
+        /// <param name="dwFlags">
+        /// <para>
+        /// Flags controlling currency format.
+        /// The application must set this parameter to 0 if <paramref name="lpFormat"/> is not set to <see cref="NullRef{CURRENCYFMT}"/>.
+        /// In this case, the function formats the string using user overrides to the default currency format for the locale.
+        /// If <paramref name="lpFormat"/> is set to <see cref="NullRef{CURRENCYFMT}"/>,
+        /// the application can specify <see cref="LOCALE_NOUSEROVERRIDE"/> to format the string
+        /// using the system default currency format for the specified locale.
+        /// </para>
+        /// <para>
+        /// Caution
+        /// </para>
+        /// <para>
+        /// Use of <see cref="LOCALE_NOUSEROVERRIDE"/> is strongly discouraged as it disables user preferences.
+        /// </para>
+        /// </param>
+        /// <param name="lpValue">
+        /// <para>
+        /// Pointer to a null-terminated string containing the number string to format.
+        /// This string can contain only the following characters.
+        /// All other characters are invalid.
+        /// The function returns an error if the string deviates from these rules.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// Characters "0" through "9"
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// One decimal point (dot) if the number is a floating-point value
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// A minus sign in the first character position if the number is a negative value
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="lpFormat">
+        /// Pointer to a <see cref="CURRENCYFMT"/> structure that contains currency formatting information.
+        /// All members of the structure must contain appropriate values.
+        /// The application can set this parameter to <see cref="NULL"/> if function is to use the currency format of the specified locale.
+        /// If this parameter is not set to <see cref="NULL"/>,
+        /// the function uses the specified locale only for formatting information not specified in the <see cref="CURRENCYFMT"/> structure,
+        /// for example, the string value for the negative sign used by the locale.
+        /// </param>
+        /// <param name="lpCurrencyStr">
+        /// Pointer to a buffer in which this function retrieves the formatted currency string.
+        /// </param>
+        /// <param name="cchCurrency">
+        /// Size, in characters, of the <paramref name="lpCurrencyStr"/> buffer.
+        /// The application sets this parameter to 0 if the function is to return the size of the buffer required to hold the formatted currency string.
+        /// In this case, the <paramref name="lpCurrencyStr"/> parameter is not used.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// Returns the number of characters retrieved in the buffer indicated by <paramref name="lpCurrencyStr"/> if successful.
+        /// If the <paramref name="cchCurrency"/> parameter is set to 0,
+        /// the function returns the size of the buffer required to hold the formatted currency string, including a terminating null character.
+        /// </para>
+        /// <para>
+        /// The function returns 0 if it does not succeed.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_FLAGS"/>.
+        /// The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// Beginning in Windows 8:
+        /// If your app passes language tags to this function from the <c>Windows.Globalization</c> namespace,
+        /// it must first convert the tags by calling <see cref="ResolveLocaleName"/>.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrencyFormatEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetCurrencyFormatEx([In] LPCWSTR lpLocaleName, [In] DWORD dwFlags, [In] LPCWSTR lpValue,
             [In] in CURRENCYFMT lpFormat, [In] LPWSTR lpCurrencyStr, [In] int cchCurrency);
 
         /// <summary>
@@ -1095,6 +1246,459 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Formats a duration of time as a time string for a locale specified by identifier.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// For interoperability reasons, the application should
+        /// prefer the <see cref="GetDurationFormatEx"/> function to <see cref="GetDurationFormat"/>
+        /// because Microsoft is migrating toward the use of locale names instead of locale identifiers for new locales.
+        /// Any application that runs only on Windows Vista and later should use <see cref="GetDurationFormatEx"/>.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getdurationformat"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Locale">
+        /// <para>
+        /// Locale identifier that specifies the locale for which this function formats the duration.
+        /// You can use the <see cref="MAKELCID"/> macro to create a locale identifier or use one of the following predefined values.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_INVARIANT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_SYSTEM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_USER_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Windows Vista and later: The following custom locale identifiers are also supported.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="dwFlags">
+        /// <para>
+        /// Flags specifying function options.
+        /// If <paramref name="lpFormat"/> is not set to <see cref="NULL"/>, this parameter must be set to 0.
+        /// If <paramref name="lpFormat"/> is set to <see cref="NULL"/>,
+        /// your application can specify <see cref="LOCALE_NOUSEROVERRIDE"/> to format the string
+        /// using the system default duration format for the specified locale.
+        /// </para>
+        /// <para>
+        /// Caution
+        /// </para>
+        /// <para>
+        /// Use of <see cref="LOCALE_NOUSEROVERRIDE"/> is strongly discouraged as it disables user preferences.
+        /// </para>
+        /// </param>
+        /// <param name="lpDuration">
+        /// Pointer to a <see cref="SYSTEMTIME"/> structure that contains the time duration information to format.
+        /// If this pointer is <see cref="NULL"/>, the function ignores this parameter and uses <paramref name="ullDuration"/>.
+        /// </param>
+        /// <param name="ullDuration">
+        /// 64-bit unsigned integer that represents the number of 100-nanosecond intervals in the duration.
+        /// If both <paramref name="lpDuration"/> and <paramref name="ullDuration"/> are present, <paramref name="lpDuration"/> takes precedence.
+        /// If <paramref name="lpDuration"/> is set to <see cref="NULL"/> and <paramref name="ullDuration"/> is set to 0, the duration is zero.
+        /// </param>
+        /// <param name="lpFormat">
+        /// Pointer to the format string.
+        /// For details, see the <paramref name="lpFormat"/> parameter of <see cref="GetDurationFormatEx"/>.
+        /// </param>
+        /// <param name="lpDurationStr">
+        /// <para>
+        /// Pointer to the buffer in which the function retrieves the duration string.
+        /// </para>
+        /// <para>
+        /// Alternatively, this parameter can contain <see cref="NULL"/> if <paramref name="cchDuration"/> is set to 0.
+        /// In this case, the function returns the required size for the duration string buffer.
+        /// </para>
+        /// </param>
+        /// <param name="cchDuration">
+        /// <para>
+        /// Size, in characters, of the buffer indicated by <paramref name="lpDurationStr"/>.
+        /// </para>
+        /// <para>
+        /// Alternatively, the application can set this parameter to 0.
+        /// In this case, the function retrieves <see cref="NULL"/> in <paramref name="lpDurationStr"/>
+        /// and returns the required size for the duration string buffer.
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// Returns the number of characters retrieved in the buffer indicated by <paramref name="lpDurationStr"/> if successful.
+        /// If <paramref name="lpDurationStr"/> is set to <see cref="NULL"/> and <paramref name="cchDuration"/> is set to 0,
+        /// the function returns the required size for the duration string buffer, including the null terminating character.
+        /// For example, if 10 characters are written to the buffer,
+        /// the function returns 11 to include the terminating null character.
+        /// </para>
+        /// <para>
+        /// The function returns 0 if it does not succeed.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// See Remarks for <see cref="GetDurationFormatEx"/>.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDurationFormat", ExactSpelling = true, SetLastError = true)]
+        public static extern int GetDurationFormat([In] LCID Locale, [In] DWORD dwFlags, [In] in SYSTEMTIME lpDuration,
+            [In] ULONGLONG ullDuration, [In] LPCWSTR lpFormat, [In] LPWSTR lpDurationStr, [In] int cchDuration);
+
+        /// <summary>
+        /// <para>
+        /// Formats a duration of time as a time string for a locale specified by name.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// The application should call this function in preference to <see cref="GetDurationFormat"/>
+        /// if designed to run only on Windows Vista and later.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// This function can format data that changes between releases, for example, due to a custom locale.
+        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getdurationformatex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpLocaleName">
+        /// <para>
+        /// Pointer to a locale name, or one of the following predefined values.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_INVARIANT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_SYSTEM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_USER_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="dwFlags">
+        /// <para>
+        /// Flags specifying function options.
+        /// If <paramref name="lpFormat"/> is not set to <see cref="NULL"/>, this parameter must be set to 0.
+        /// If <paramref name="lpFormat"/> is set to <see cref="NULL"/>,
+        /// your application can specify <see cref="LOCALE_NOUSEROVERRIDE"/> to format the string
+        /// using the system default duration format for the specified locale.
+        /// </para>
+        /// <para>
+        /// Caution
+        /// </para>
+        /// <para>
+        /// Use of <see cref="LOCALE_NOUSEROVERRIDE"/> is strongly discouraged as it disables user preferences.
+        /// </para>
+        /// </param>
+        /// <param name="lpDuration">
+        /// Pointer to a <see cref="SYSTEMTIME"/> structure that contains the time duration information to format.
+        /// If this pointer is <see cref="NULL"/>, the function ignores this parameter and uses <paramref name="ullDuration"/>.
+        /// </param>
+        /// <param name="ullDuration">
+        /// 64-bit unsigned integer that represents the number of 100-nanosecond intervals in the duration.
+        /// If both <paramref name="lpDuration"/> and <paramref name="ullDuration"/> are set,
+        /// the <paramref name="lpDuration"/> parameter takes precedence.
+        /// If <paramref name="lpDuration"/> is set to <see cref="NULL"/> and <paramref name="ullDuration"/> is set to 0, the duration is 0.
+        /// </param>
+        /// <param name="lpFormat">
+        /// <para>
+        /// Pointer to the format string with characters as shown below.
+        /// The application can set this parameter to <see cref="NULL"/>
+        /// if the function is to format the string according to the duration format for the specified locale.
+        /// If <paramref name="lpFormat"/> is not set to <see cref="NULL"/>,
+        /// the function uses the locale only for information not specified in the format picture string.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <c>d</c>
+        /// </term>
+        /// <term>
+        /// days
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <c>h</c> or <c>H</c>
+        /// </term>
+        /// <term>
+        /// hours
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <c>hh</c> or <c>HH</c>
+        /// </term>
+        /// <term>
+        /// hours; if less than ten, prepend a leading zero
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <c>m</c>
+        /// </term>
+        /// <term>
+        /// minutes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <c>mm</c>
+        /// </term>
+        /// <term>
+        /// minutes; if less than ten, prepend a leading zero
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <c>s</c>
+        /// </term>
+        /// <term>
+        /// seconds
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <c>ss</c>
+        /// </term>
+        /// <term>
+        /// seconds; if less than ten, prepend a leading zero
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <c>f</c>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// fractions of a second
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// The character "f" can occur up to nine consecutive times (fffffffff),
+        /// although support for frequency timers is limited to 100 nanoseconds.
+        /// Thus, if nine characters are present, the last two digits are always 0.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="lpDurationStr">
+        /// <para>
+        /// Pointer to the buffer in which the function retrieves the duration string.
+        /// </para>
+        /// <para>
+        /// Alternatively, this parameter can contain <see cref="NULL"/> if <paramref name="cchDuration"/> is set to 0.
+        /// In this case, the function returns the required size for the duration string buffer.
+        /// </para>
+        /// </param>
+        /// <param name="cchDuration">
+        /// <para>
+        /// Size, in characters, of the buffer indicated by <paramref name="lpDurationStr"/>.
+        /// </para>
+        /// <para>
+        /// Alternatively, the application can set this parameter to 0.
+        /// In this case, the function retrieves <see cref="NULL"/> in <paramref name="lpDurationStr"/>
+        /// and returns the required size for the duration string buffer.
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// Returns the number of characters retrieved in the buffer indicated by <paramref name="lpDurationStr"/> if successful.
+        /// If <paramref name="lpDurationStr"/> is set to <see cref="NULL"/> and <paramref name="cchDuration"/> is set to 0,
+        /// the function returns the required size for the duration string buffer, including the null terminating character.
+        /// For example, if 10 characters are written to the buffer,
+        /// the function returns 11 to include the terminating null character.
+        /// </para>
+        /// <para>
+        /// The function returns 0 if it does not succeed.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// This function can be used with multimedia applications that display file time
+        /// and sporting event applications that display finish times.
+        /// </para>
+        /// <para>
+        /// The function ignores the first three members of the <see cref="SYSTEMTIME"/> structure:
+        /// <see cref="SYSTEMTIME.wYear"/>, <see cref="SYSTEMTIME.wMonth"/>, and <see cref="SYSTEMTIME.wDayOfWeek"/>.
+        /// </para>
+        /// <para>
+        /// This function can retrieve data from custom locales.
+        /// Data is not guaranteed to be the same from computer to computer or between runs of an application.
+        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// </para>
+        /// <para>
+        /// The following are characteristics of duration format strings:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <para>
+        /// Formatting characters are lowercase.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// An exception is made for (H) to be consistent with <see cref="GetTimeFormatEx"/>. 
+        /// </para>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Two-digit format strings for hours, minutes, and seconds prepend a leading zero if the value is less than 10.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The first output field is not subject to any bounds testing
+        /// (hours&lt;24, minutes&lt;60, seconds&lt;60, milliseconds&lt;1000).
+        /// Days are not subject to bounds testing.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The function assumes that all format strings are in decreasing field size,
+        /// for example, hours, minutes, seconds, milliseconds.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The first field to be displayed is normalized, as defined by the format string.
+        /// For example, if the application specifies 310 seconds and the format string is m:ss, the output is 5:10.
+        /// However, if the format string specifies minutes and seconds but the application specifies hours,
+        /// the minutes field is adjusted accordingly.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If fractions are not the first field,
+        /// the number of "f" characters in the format string indicates the number of decimals to show (limit of 9).
+        /// If fractions are the first field,
+        /// the number of "f" characters indicates the number of significant digits below one second.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Round-off occurs by truncation, not by the rule of five rounds up and four rounds down.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Single quotes are used to escape characters.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Beginning in Windows 8:
+        /// If your app passes language tags to this function from the <c>Windows.Globalization</c> namespace,
+        /// it must first convert the tags by calling <see cref="ResolveLocaleName"/>.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDurationFormatEx", ExactSpelling = true, SetLastError = true)]
+        public static extern int GetDurationFormatEx([In] LPCWSTR lpLocaleName, [In] DWORD dwFlags, [In] in SYSTEMTIME lpDuration,
+            [In] ULONGLONG ullDuration, [In] LPCWSTR lpFormat, [In] LPWSTR lpDurationStr, [In] int cchDuration);
+
+        /// <summary>
+        /// <para>
         /// Formats a number string as a number string customized for a locale specified by identifier.
         /// </para>
         /// <para>
@@ -1260,6 +1864,159 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNumberFormatW", ExactSpelling = true, SetLastError = true)]
         public static extern int GetNumberFormat([In] LCID Locale, [In] DWORD dwFlags, [In] LPCWSTR lpValue,
+            [In] in NUMBERFMT lpFormat, [In] LPWSTR lpNumberStr, [In] int cchNumber);
+
+        /// <summary>
+        /// <para>
+        /// Formats a number string as a number string customized for a locale specified by name.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// The application should call this function in preference to <see cref="GetNumberFormat"/>
+        /// if designed to run only on Windows Vista and later.
+        /// </para>
+        /// <para>
+        ///  Note  This function can format data that changes between releases, for example, due to a custom locale.
+        ///  If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getnumberformatex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpLocaleName">
+        /// <para>
+        /// Pointer to a locale name, or one of the following predefined values.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_INVARIANT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_SYSTEM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_USER_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="dwFlags">
+        /// <para>
+        /// Flags controlling the operation of the function.
+        /// The application must set this parameter to 0 if <paramref name="lpFormat"/> is not set to <see cref="NullRef{NUMBERFMT}"/>.
+        /// In this case, the function formats the string using user overrides to the default number format for the locale.
+        /// If <paramref name="lpFormat"/> is set to <see cref="NullRef{NUMBERFMT}"/>,
+        /// the application can specify <see cref="LOCALE_NOUSEROVERRIDE"/>
+        /// to format the string using the system default number format for the specified locale.
+        /// </para>
+        /// <para>
+        /// Caution
+        /// </para>
+        /// <para>
+        /// Use of <see cref="LOCALE_NOUSEROVERRIDE"/> is strongly discouraged as it disables user preferences.
+        /// </para>
+        /// </param>
+        /// <param name="lpValue">
+        /// <para>
+        /// Pointer to a null-terminated string containing the number string to format.
+        /// This string can only contain the following characters. All other characters are invalid.
+        /// The function returns an error if the string indicated by <paramref name="lpValue"/> deviates from these rules.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// Characters "0" through "9".
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// One decimal point (dot) if the number is a floating-point value.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// A minus sign in the first character position if the number is a negative value.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="lpFormat">
+        /// Pointer to a <see cref="NUMBERFMT"/> structure that contains number formatting information,
+        /// with all members set to appropriate values.
+        /// If the application does not set this parameter to <see cref="NullRef{NUMBERFMT}"/>,
+        /// the function uses the locale formatting information.
+        /// </param>
+        /// <param name="lpNumberStr">
+        /// Pointer to a buffer in which this function retrieves the formatted number string.
+        /// Alternatively, this parameter contains <see cref="NULL"/> if <paramref name="cchNumber"/> is set to 0.
+        /// In this case, the function returns the required size for the number string buffer.
+        /// </param>
+        /// <param name="cchNumber">
+        /// Size, in <c>TCHAR</c> values, for the number string buffer indicated by <paramref name="lpNumberStr"/>.
+        /// Alternatively, the application can set this parameter to 0.
+        /// In this case, the function returns the required size for the number string buffer,
+        /// and does not use the <paramref name="lpNumberStr"/> parameter.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// Returns the number of <c>TCHAR</c> values retrieved in the buffer indicated by <paramref name="lpNumberStr"/> if successful.
+        /// If the <paramref name="cchNumber"/> parameter is set to 0,
+        /// the function returns the number of characters required to hold the formatted number string,
+        /// including a terminating null character.
+        /// </para>
+        /// <para>
+        /// The function returns 0 if it does not succeed.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_FLAGS"/>.
+        /// The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_OUTOFMEMORY"/>.
+        /// Not enough storage was available to complete this operation.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// Beginning in Windows 8:
+        /// If your app passes language tags to this function from the <c>Windows.Globalization</c> namespace,
+        /// it must first convert the tags by calling <see cref="ResolveLocaleName"/>.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNumberFormatEx", ExactSpelling = true, SetLastError = true)]
+        public static extern int GetNumberFormatEx([In] LPCWSTR lpLocaleName, [In] DWORD dwFlags, [In] LPCWSTR lpValue,
             [In] in NUMBERFMT lpFormat, [In] LPWSTR lpNumberStr, [In] int cchNumber);
 
         /// <summary>

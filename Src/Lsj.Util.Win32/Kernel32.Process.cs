@@ -2179,7 +2179,116 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessWorkingSetSize", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD GetProcessWorkingSetSize([In] HANDLE hProcess, [Out] out SIZE_T lpMinimumWorkingSetSize, [Out] out SIZE_T lpMaximumWorkingSetSize);
+        public static extern BOOL GetProcessWorkingSetSize([In] HANDLE hProcess, [Out] out SIZE_T lpMinimumWorkingSetSize, [Out] out SIZE_T lpMaximumWorkingSetSize);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the minimum and maximum working set sizes of the specified process.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-getprocessworkingsetsizeex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// <para>
+        /// A handle to the process whose working set sizes will be obtained.
+        /// The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> or <see cref="PROCESS_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </para>
+        /// <para>
+        /// Windows Server 2003:  The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> access right.
+        /// </para>
+        /// </param>
+        /// <param name="lpMinimumWorkingSetSize">
+        /// A pointer to a variable that receives the minimum working set size of the specified process, in bytes.
+        /// The virtual memory manager attempts to keep at least this much memory resident in the process whenever the process is active.
+        /// </param>
+        /// <param name="lpMaximumWorkingSetSize">
+        /// A pointer to a variable that receives the maximum working set size of the specified process, in bytes.
+        /// The virtual memory manager attempts to keep no more than this much memory resident in the process
+        /// whenever the process is active when memory is in short supply.
+        /// </param>
+        /// <param name="Flags">
+        /// <para>
+        /// The flags that control the enforcement of the minimum and maximum working set sizes.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="QUOTA_LIMITS_HARDWS_MIN_DISABLE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000002
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The working set may fall below the minimum working set limit if memory demands are high.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="QUOTA_LIMITS_HARDWS_MIN_ENABLE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The working set will not fall below the minimum working set limit.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="QUOTA_LIMITS_HARDWS_MAX_DISABLE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000008
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The working set may exceed the maximum working set limit if there is abundant memory.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="QUOTA_LIMITS_HARDWS_MAX_ENABLE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000004
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The working set will not exceed the maximum working set limit.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// None
+        /// </returns>
+        /// <remarks>
+        /// The "working set" of a process is the set of memory pages currently visible to the process in physical RAM memory.
+        /// These pages are resident and available for an application to use without triggering a page fault.
+        /// The minimum and maximum working set sizes affect the virtual memory paging behavior of a process.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessWorkingSetSizeEx", ExactSpelling = true)]
+        public static extern BOOL GetProcessWorkingSetSizeEx([In] HANDLE hProcess, [Out] out SIZE_T lpMinimumWorkingSetSize,
+            [Out] out SIZE_T lpMaximumWorkingSetSize, [Out] out DWORD Flags);
 
         /// <summary>
         /// <para>
@@ -3991,6 +4100,213 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessWorkingSetSize", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetProcessWorkingSetSize([In] HANDLE hProcess, [In] SIZE_T dwMinimumWorkingSetSize, [In] SIZE_T dwMaximumWorkingSetSize);
+
+        /// <summary>
+        /// <para>
+        /// Sets the minimum and maximum working set sizes for the specified process.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-setprocessworkingsetsizeex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// <para>
+        /// A handle to the process whose working set sizes is to be set.
+        /// </para>
+        /// <para>
+        /// The handle must have <see cref="PROCESS_SET_QUOTA"/> access rights.
+        /// For more information, see Process Security and Access Rights.
+        /// </para>
+        /// </param>
+        /// <param name="dwMinimumWorkingSetSize">
+        /// <para>
+        /// The minimum working set size for the process, in bytes.
+        /// The virtual memory manager attempts to keep at least this much memory resident in the process whenever the process is active.
+        /// </para>
+        /// <para>
+        /// This parameter must be greater than zero but less than or equal to the maximum working set size.
+        /// The default size is 50 pages (for example, this is 204,800 bytes on systems with a 4K page size).
+        /// If the value is greater than zero but less than 20 pages, the minimum value is set to 20 pages.
+        /// </para>
+        /// <para>
+        /// If both <paramref name="dwMinimumWorkingSetSize"/> and <paramref name="dwMaximumWorkingSetSize"/> have the value <c>(SIZE_T)–1</c>,
+        /// the function removes as many pages as possible from the working set of the specified process.
+        /// </para>
+        /// </param>
+        /// <param name="dwMaximumWorkingSetSize">
+        /// <para>
+        /// The maximum working set size for the process, in bytes.
+        /// The virtual memory manager attempts to keep no more than this much memory resident in the process
+        /// whenever the process is active and available memory is low.
+        /// </para>
+        /// <para>
+        /// This parameter must be greater than or equal to 13 pages (for example, 53,248 on systems with a 4K page size),
+        /// and less than the system-wide maximum (number of available pages minus 512 pages).
+        /// The default size is 345 pages (for example, this is 1,413,120 bytes on systems with a 4K page size).
+        /// </para>
+        /// <para>
+        /// If both <paramref name="dwMinimumWorkingSetSize"/> and <paramref name="dwMaximumWorkingSetSize"/> have the value <c>(SIZE_T)–1</c>,
+        /// the function removes as many pages as possible from the working set of the specified process.
+        /// For details, see Remarks.
+        /// </para>
+        /// </param>
+        /// <param name="Flags">
+        /// <para>
+        /// The flags that control the enforcement of the minimum and maximum working set sizes.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="QUOTA_LIMITS_HARDWS_MIN_DISABLE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000002
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The working set may fall below the minimum working set limit if memory demands are high.
+        /// </para>
+        /// <para>
+        /// This flag cannot be used with <see cref="QUOTA_LIMITS_HARDWS_MIN_ENABLE"/>.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="QUOTA_LIMITS_HARDWS_MIN_ENABLE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The working set will not fall below the minimum working set limit.
+        /// </para>
+        /// <para>
+        /// This flag cannot be used with <see cref="QUOTA_LIMITS_HARDWS_MIN_DISABLE"/>.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="QUOTA_LIMITS_HARDWS_MAX_DISABLE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000008
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The working set may exceed the maximum working set limit if there is abundant memory.
+        /// </para>
+        /// <para>
+        /// This flag cannot be used with <see cref="QUOTA_LIMITS_HARDWS_MAX_ENABLE"/>.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="QUOTA_LIMITS_HARDWS_MAX_ENABLE"/>
+        /// </para>
+        /// <para>
+        /// 0x00000004
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The working set will not exceed the maximum working set limit.
+        /// </para>
+        /// <para>
+        /// This flag cannot be used with <see cref="QUOTA_LIMITS_HARDWS_MAX_DISABLE"/>.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function is succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The working set of a process is the set of memory pages
+        /// in the virtual address space of the process that are currently resident in physical memory.
+        /// These pages are available for an application to use without triggering a page fault.
+        /// For more information about page faults, see Working Set.
+        /// The minimum and maximum working set sizes affect the virtual memory paging behavior of a process.
+        /// </para>
+        /// <para>
+        /// The working set of the specified process can be emptied by specifying the value <c>(SIZE_T)–1</c>
+        /// for both the minimum and maximum working set sizes.
+        /// This removes as many pages as possible from the working set.
+        /// The <see cref="EmptyWorkingSet"/> function can also be used for this purpose.
+        /// </para>
+        /// <para>
+        /// If the values of either <paramref name="dwMinimumWorkingSetSize"/> or <paramref name="dwMaximumWorkingSetSize"/>
+        /// are greater than the process' current working set sizes,
+        /// the specified process must have the <see cref="SE_INC_WORKING_SET_NAME"/> privilege.
+        /// All users generally have this privilege.
+        /// For more information about security privileges, see Privileges.
+        /// </para>
+        /// <para>
+        /// Windows Server 2003:  The specified process must have the <see cref="SE_INC_BASE_PRIORITY_NAME"/> privilege.
+        /// Users in the Administrators and Power Users groups generally have this privilege.
+        /// </para>
+        /// <para>
+        /// The operating system allocates working set sizes on a first-come, first-served basis.
+        /// For example, if an application successfully sets 40 megabytes as its minimum working set size on a 64-megabyte system,
+        /// and a second application requests a 40-megabyte working set size, the operating system denies the second application's request.
+        /// </para>
+        /// <para>
+        /// By default, using the <see cref="SetProcessWorkingSetSize"/> function
+        /// to set an application's minimum and maximum working set sizes does not guarantee that the requested memory will be reserved,
+        /// or that it will remain resident at all times.
+        /// When an application is idle, or a low-memory situation causes a demand for memory,
+        /// the operating system can reduce the application's working set below its minimum working set limit.
+        /// If memory is abundant, the system might allow an application to exceed its maximum working set limit.
+        /// The <see cref="QUOTA_LIMITS_HARDWS_MIN_ENABLE"/> and <see cref="QUOTA_LIMITS_HARDWS_MAX_ENABLE"/> flags
+        /// enable you to ensure that limits are enforced.
+        /// </para>
+        /// <para>
+        /// When you increase the working set size of an application, you are taking away physical memory from the rest of the system.
+        /// This can degrade the performance of other applications and the system as a whole.
+        /// It can also lead to failures of operations that require physical memory to be present
+        /// (for example, creating processes, threads, and kernel pool).
+        /// Thus, you must use the <see cref="SetProcessWorkingSetSize"/> function carefully.
+        /// You must always consider the performance of the whole system when you are designing an application.
+        /// </para>
+        /// <para>
+        /// An application can use the <see cref="VirtualLock"/> function to lock ranges of the application's virtual address space in memory;
+        /// however, that can potentially degrade the performance of the system.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessWorkingSetSizeEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetProcessWorkingSetSizeEx([In] HANDLE hProcess, [In] SIZE_T dwMinimumWorkingSetSize,
+            [In] SIZE_T dwMaximumWorkingSetSize, [In] DWORD Flags);
 
         /// <summary>
         /// <para>

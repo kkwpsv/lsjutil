@@ -903,6 +903,72 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the client process identifier for the specified named pipe.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getnamedpipeclientprocessid"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Pipe">
+        /// A handle to an instance of a named pipe.
+        /// This handle must be created by the <see cref="CreateNamedPipe"/> function.
+        /// </param>
+        /// <param name="ClientProcessId">
+        /// The process identifier.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call the <see cref="GetLastError"/> function.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// Windows 10, version 1709:
+        /// Pipes are only supported within an app-container; ie, from one UWP process to another UWP process that's part of the same app.
+        /// Also, named pipes must use the syntax <c>\\.\pipe\LOCAL\</c> for the pipe name.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNamedPipeClientProcessId", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetNamedPipeClientProcessId([In] HANDLE Pipe, [Out] ULONG ClientProcessId);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the client session identifier for the specified named pipe.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getnamedpipeclientsessionid"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Pipe">
+        /// A handle to an instance of a named pipe.
+        /// This handle must be created by the <see cref="CreateNamedPipe"/> function.
+        /// </param>
+        /// <param name="ClientSessionId">
+        /// The session identifier.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call the <see cref="GetLastError"/> function.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// Windows 10, version 1709:
+        /// Pipes are only supported within an app-container; ie, from one UWP process to another UWP process that's part of the same app.
+        /// Also, named pipes must use the syntax <c>\\.\pipe\LOCAL\</c> for the pipe name.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNamedPipeClientSessionId", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetNamedPipeClientSessionId([In] HANDLE Pipe, [Out] ULONG ClientSessionId);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the client computer name for the specified named pipe.
         /// </para>
         /// <para>
@@ -1188,6 +1254,72 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNamedPipeInfo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetNamedPipeInfo([In] HANDLE hNamedPipe, [Out] DWORD lpFlags, [Out] DWORD lpOutBufferSize,
             [Out] DWORD lpInBufferSize, [Out] DWORD lpMaxInstances);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the server process identifier for the specified named pipe.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getnamedpipeserverprocessid"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Pipe">
+        /// A handle to an instance of a named pipe.
+        /// This handle must be created by the <see cref="CreateNamedPipe"/> function.
+        /// </param>
+        /// <param name="ServerProcessId">
+        /// The process identifier.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call the <see cref="GetLastError"/> function.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// Windows 10, version 1709:
+        /// Pipes are only supported within an app-container; ie, from one UWP process to another UWP process that's part of the same app.
+        /// Also, named pipes must use the syntax <c>\\.\pipe\LOCAL\</c> for the pipe name.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNamedPipeServerProcessId", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetNamedPipeServerProcessId([In] HANDLE Pipe, [Out] ULONG ServerProcessId);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the server session identifier for the specified named pipe.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getnamedpipeserversessionid"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Pipe">
+        /// A handle to an instance of a named pipe.
+        /// This handle must be created by the <see cref="CreateNamedPipe"/> function.
+        /// </param>
+        /// <param name="ServerSessionId">
+        /// The session identifier.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call the <see cref="GetLastError"/> function.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// Windows 10, version 1709:
+        /// Pipes are only supported within an app-container; ie, from one UWP process to another UWP process that's part of the same app.
+        /// Also, named pipes must use the syntax <c>\\.\pipe\LOCAL\</c> for the pipe name.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNamedPipeServerSessionId", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetNamedPipeServerSessionId([In] HANDLE Pipe, [Out] ULONG ServerSessionId);
 
         /// <summary>
         /// <para>

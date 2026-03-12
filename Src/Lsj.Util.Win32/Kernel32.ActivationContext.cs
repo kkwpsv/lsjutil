@@ -752,6 +752,61 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="QueryActCtxSettingsW"/> function specifies the activation context,
+        /// and the namespace and name of the attribute that is to be queried.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-queryactctxsettingsw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="dwFlags">
+        /// This value must be 0.
+        /// </param>
+        /// <param name="hActCtx">
+        /// A handle to the activation context that is being queried.
+        /// </param>
+        /// <param name="settingsNameSpace">
+        /// <para>
+        /// A pointer to a string that contains the value <c>"http://schemas.microsoft.com/SMI/2005/WindowsSettings"</c> or <see cref="NULL"/>.
+        /// These values are equivalent.
+        /// </para>
+        /// <para>
+        /// Windows 8 and Windows Server 2012:
+        /// A pointer to a string that contains the value <c>"http://schemas.microsoft.com/SMI/2011/WindowsSettings"</c> is also a valid parameter.
+        /// A <see cref="NULL"/> is still equivalent to the previous value.
+        /// </para>
+        /// </param>
+        /// <param name="settingName">
+        /// The name of the attribute to be queried.
+        /// </param>
+        /// <param name="pvBuffer">
+        /// A pointer to the buffer that receives the query result.
+        /// </param>
+        /// <param name="dwBuffer">
+        /// The size of the buffer in characters that receives the query result.
+        /// </param>
+        /// <param name="pdwWrittenOrRequired">
+        /// A pointer to a value which is the number of characters written to the buffer
+        /// specified by <paramref name="pvBuffer"/> or that is required to hold the query result.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, it returns <see cref="TRUE"/>.
+        /// Otherwise, it returns <see cref="FALSE"/>.
+        /// </para>
+        /// <para>
+        /// This function sets errors that can be retrieved by calling <see cref="GetLastError"/>.
+        /// For an example, see Retrieving the Last-Error Code.
+        /// For a complete list of error codes, see System Error Codes.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryActCtxSettingsW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL QueryActCtxSettingsW([In] DWORD dwFlags, [In] HANDLE hActCtx, [In] LPCWSTR settingsNameSpace,
+            [In] LPCWSTR settingName, [In] LPWSTR pvBuffer, [In] SIZE_T dwBuffer, [Out] out SIZE_T pdwWrittenOrRequired);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="ReleaseActCtx"/> function decrements the reference count of the specified activation context.
         /// </para>
         /// <para>

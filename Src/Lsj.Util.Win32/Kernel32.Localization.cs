@@ -5,6 +5,7 @@ using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
+using System.Data.SqlTypes;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.GEOCLASS;
@@ -625,89 +626,235 @@ namespace Lsj.Util.Win32
         public delegate BOOL UilanguageEnumproc([In] LPWSTR unnamedParam1, [In] LONG_PTR unnamedParam2);
 
 
-       /// <summary>
-       /// <para>
-       /// Converts a default locale value to an actual locale identifier.
-       /// </para>
-       /// <para>
-       /// Note
-       /// </para>
-       /// <para>
-       /// This function is only provided for converting partial locale identifiers.
-       /// Your applications should use locale names instead of identifiers.
-       /// The <see cref="LCIDToLocaleName"/> function can be used to convert a locale identifier to a valid locale name.
-       /// Your application can also use <see cref="GetUserDefaultLocaleName"/> to retrieve the current user locale name;
-       /// <see cref="GetSystemDefaultLocaleName"/> to retrieve the current system locale name;
-       /// and <see cref="GetLocaleInfoEx"/> with <see cref="LOCALE_SNAME"/> to retrieve the locale name for any input locale, including the default constants.
-       /// </para>
-       /// <para>
-       /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-convertdefaultlocale"/>
-       /// </para>
-       /// </summary>
-       /// <param name="Locale">
-       /// <para>
-       /// Default locale identifier value to convert.
-       /// You can use the <see cref="MAKELCID"/> macro to create a locale identifier or use one of the following predefined values.
-       /// </para>
-       /// <para>
-       /// <list type="bullet">
-       /// <item>
-       /// <description>
-       /// <see cref="LOCALE_INVARIANT"/>
-       /// </description>
-       /// </item>
-       /// <item>
-       /// <description>
-       /// <see cref="LOCALE_SYSTEM_DEFAULT"/>
-       /// </description>
-       /// </item>
-       /// <item>
-       /// <description>
-       /// <see cref="LOCALE_USER_DEFAULT"/>
-       /// </description>
-       /// </item>
-       /// </list>
-       /// </para>
-       /// <para>
-       /// Windows Vista and later:
-       /// The following custom locale identifiers are also supported.
-       /// </para>
-       /// <para>
-       /// <list type="bullet">
-       /// <item>
-       /// <description>
-       /// <see cref="LOCALE_CUSTOM_DEFAULT"/>
-       /// </description>
-       /// </item>
-       /// <item>
-       /// <description>
-       /// <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>
-       /// </description>
-       /// </item>
-       /// <item>
-       /// <description>
-       /// <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>
-       /// </description>
-       /// </item>
-       /// </list>
-       /// </para>
-       /// </param>
-       /// <returns>
-       /// <para>
-       /// Returns the appropriate locale identifier if successful.
-       /// </para>
-       /// <para>
-       /// This function returns the value of the <paramref name="Locale"/> parameter if it does not succeed.
-       /// The function fails when the <paramref name="Locale"/> value is not one of the default values listed above.
-       /// </para>
-       /// </returns>
-       /// <remarks>
-       /// A call to <see cref="ConvertDefaultLocale"/> specifying <see cref="LOCALE_SYSTEM_DEFAULT"/>
-       /// is equivalent to a call to <see cref="GetSystemDefaultLCID"/>.
-       /// A call to <see cref="ConvertDefaultLocale"/> specifying <see cref="LOCALE_USER_DEFAULT"/>
-       /// is equivalent to a call to <see cref="GetUserDefaultLCID"/>.
-       /// </remarks>
-       [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        /// <summary>
+        /// <para>
+        /// Adjusts a date by a specified number of years, months, weeks, or days.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/intl/adjustcalendardate"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpCalDateTime">
+        /// Pointer to a <see cref="CALDATETIME"/> structure that contains the date and calendar information to adjust.
+        /// </param>
+        /// <param name="calUnit">
+        /// The <see cref="CALDATETIME_DATEUNIT"/> enumeration value indicating the date unit, for example, DayUnit.
+        /// </param>
+        /// <param name="amount">
+        /// The amount by which to adjust the specified date.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// Returns <see cref="TRUE"/> if successful or <see cref="FALSE"/> otherwise.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_DATE_OUT_OF_RANGE"/>.
+        /// The specified date was out of range.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// This function does not have an associated header file or library file.
+        /// The application can call <see cref="LoadLibrary"/> with the DLL name (Kernel32.dll) to obtain a module handle.
+        /// It can then call <see cref="GetProcAddress"/> with the module handle and the name of this function to get the function address.
+        /// </remarks>
+        [Obsolete]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AdjustCalendarDate", ExactSpelling = true)]
+        public static extern BOOL AdjustCalendarDate([In][Out] ref CALDATETIME lpCalDateTime, [In] CALDATETIME_DATEUNIT calUnit, [In] INT amount);
+
+        /// <summary>
+        /// <para>
+        /// Converts a specified <see cref="CALDATETIME"/> structure to a <see cref="SYSTEMTIME"/> structure.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/intl/convertcaldatetimetosystemtime"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpCalDateTime">
+        /// Pointer to the <see cref="CALDATETIME"/> structure to convert.
+        /// </param>
+        /// <param name="lpSysTime">
+        /// Pointer to the equivalent <see cref="SYSTEMTIME"/> structure.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// Returns <see cref="TRUE"/> if successful or <see cref="FALSE"/> otherwise.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_DATE_OUT_OF_RANGE"/>.
+        /// The specified date was out of range.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// This function does not have an associated header file or library file.
+        /// The application can call <see cref="LoadLibrary"/> with the DLL name (Kernel32.dll) to obtain a module handle.
+        /// It can then call <see cref="GetProcAddress"/> with the module handle and the name of this function to get the function address.
+        /// </remarks>
+        [Obsolete]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ConvertCalDateTimeToSystemTime", ExactSpelling = true)]
+        public static extern BOOL ConvertCalDateTimeToSystemTime([In] in CALDATETIME lpCalDateTime, [Out] out SYSTEMTIME lpSysTime);
+
+        /// <summary>
+        /// <para>
+        /// Converts a specified <see cref="SYSTEMTIME"/> structure to a <see cref="CALDATETIME"/> structure.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/intl/convertsystemtimetocaldatetime"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpSysTime">
+        /// Pointer to the <see cref="SYSTEMTIME"/> structure to convert.
+        /// </param>
+        /// <param name="calId">
+        /// The system calendar identifier to use in the conversion.
+        /// </param>
+        /// <param name="lpCalDateTime">
+        /// Pointer to the equivalent <see cref="CALDATETIME"/> structure.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// Returns <see cref="TRUE"/> if successful or <see cref="FALSE"/> otherwise.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The earliest date supported by this function is January 1, 1601.
+        /// </para>
+        /// <para>
+        /// This function does not have an associated header file or library file.
+        /// The application can call <see cref="LoadLibrary"/> with the DLL name (Kernel32.dll) to obtain a module handle.
+        /// It can then call <see cref="GetProcAddress"/> with the module handle and the name of this function to get the function address.
+        /// </para>
+        /// </remarks>
+        [Obsolete]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ConvertSystemTimeToCalDateTime", ExactSpelling = true)]
+        public static extern BOOL ConvertSystemTimeToCalDateTime([In] in SYSTEMTIME lpSysTime, [In] CALID calId, [Out] out CALDATETIME lpCalDateTime);
+
+        /// <summary>
+        /// <para>
+        /// Converts a default locale value to an actual locale identifier.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// This function is only provided for converting partial locale identifiers.
+        /// Your applications should use locale names instead of identifiers.
+        /// The <see cref="LCIDToLocaleName"/> function can be used to convert a locale identifier to a valid locale name.
+        /// Your application can also use <see cref="GetUserDefaultLocaleName"/> to retrieve the current user locale name;
+        /// <see cref="GetSystemDefaultLocaleName"/> to retrieve the current system locale name;
+        /// and <see cref="GetLocaleInfoEx"/> with <see cref="LOCALE_SNAME"/> to retrieve the locale name for any input locale, including the default constants.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-convertdefaultlocale"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Locale">
+        /// <para>
+        /// Default locale identifier value to convert.
+        /// You can use the <see cref="MAKELCID"/> macro to create a locale identifier or use one of the following predefined values.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_INVARIANT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_SYSTEM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_USER_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Windows Vista and later:
+        /// The following custom locale identifiers are also supported.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// Returns the appropriate locale identifier if successful.
+        /// </para>
+        /// <para>
+        /// This function returns the value of the <paramref name="Locale"/> parameter if it does not succeed.
+        /// The function fails when the <paramref name="Locale"/> value is not one of the default values listed above.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// A call to <see cref="ConvertDefaultLocale"/> specifying <see cref="LOCALE_SYSTEM_DEFAULT"/>
+        /// is equivalent to a call to <see cref="GetSystemDefaultLCID"/>.
+        /// A call to <see cref="ConvertDefaultLocale"/> specifying <see cref="LOCALE_USER_DEFAULT"/>
+        /// is equivalent to a call to <see cref="GetUserDefaultLCID"/>.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ConvertDefaultLocale", ExactSpelling = true)]
         public static extern LCID ConvertDefaultLocale([In] LCID Locale);
 
@@ -3315,6 +3462,201 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves a properly formatted date string for the specified locale using the specified date and calendar.
+        /// The user can specify the short date format, the long date format, the year month format, or a custom format pattern.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// This function can retrieve data that changes between releases, for example, due to a custom locale.
+        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/intl/getcalendardateformatex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpszLocale">
+        /// <para>
+        /// Pointer to a locale name, or one of the following predefined values.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_INVARIANT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_SYSTEM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_USER_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="dwFlags">
+        /// <para>
+        /// Flags specifying date format options.
+        /// If <paramref name="lpFormat"/> is not set to <see cref="NULL"/>, this parameter must be set to 0.
+        /// If <paramref name="lpFormat"/> is set to <see cref="NULL"/>, 
+        /// the application can specify a combination of the following values and <see cref="LOCALE_NOUSEROVERRIDE"/>.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="DATE_SHORTDATE"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Use the short date format. This is the default.
+        /// This value cannot be used with <see cref="DATE_LONGDATE"/> or <see cref="DATE_YEARMONTH"/>.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DATE_LONGDATE"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Use the long date format.
+        /// This value cannot be used with <see cref="DATE_SHORTDATE"/> or <see cref="DATE_YEARMONTH"/>.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DATE_YEARMONTH"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Use the year/month format.
+        /// This value cannot be used with <see cref="DATE_SHORTDATE"/> or <see cref="DATE_LONGDATE"/>.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DATE_LTRREADING"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Add marks for left-to-right reading layout.
+        /// This value cannot be used with <see cref="DATE_YEARMONTH"/>.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="DATE_RTLREADING"/>
+        /// </term>
+        /// <term>
+        /// Add marks for right-to-left reading layout.
+        /// This value cannot be used with <see cref="DATE_LTRREADING"/>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="lpCalDateTime">
+        /// Pointer to a <see cref="CALDATETIME"/> structure that contains the date and calendar information to format.
+        /// </param>
+        /// <param name="lpFormat">
+        /// <para>
+        /// Pointer to a format picture string that is used to form the date string.
+        /// Possible values for the format picture string are defined in Day, Month, Year, and Era Format Pictures.
+        /// </para>
+        /// <para>
+        /// The format picture string must be null-terminated.
+        /// The function uses the locale only for information not specified in the format picture string,
+        /// for example, the day and month names for the locale.
+        /// The application sets this parameter to <see cref="NULL"/>
+        /// if the function is to use the date format of the specified locale.
+        /// </para>
+        /// </param>
+        /// <param name="lpDateStr">
+        /// Pointer to a buffer in which this function receives the formatted date string.
+        /// </param>
+        /// <param name="cchDate">
+        /// Size, in characters, of the <paramref name="lpDateStr"/> buffer.
+        /// Alternatively, the application can set this parameter to 0.
+        /// In this case, the function returns the number of characters required to hold the formatted date string,
+        /// and the <paramref name="lpDateStr"/> parameter is not used.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// Returns the number of characters written to the <paramref name="lpDateStr"/> buffer if successful.
+        /// If the <paramref name="lpDateStr"/> parameter is set to 0,
+        /// the function returns the number of characters required to hold the formatted date string,
+        /// including the terminating null character.
+        /// </para>
+        /// <para>
+        /// This function returns 0 if it does not succeed.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_DATE_OUT_OF_RANGE"/>. 
+        /// The specified date was out of range.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_FLAGS"/>.
+        /// The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The earliest date supported by this function is January 1, 1601.
+        /// </para>
+        /// <para>
+        /// This function does not have an associated header file or library file.
+        /// The application can call <see cref="LoadLibrary"/> with the DLL name (Kernel32.dll) to obtain a module handle.
+        /// It can then call <see cref="GetProcAddress"/> with that module handle and the name of this function to get the function address.
+        /// </para>
+        /// </remarks>
+        [Obsolete]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCalendarDateFormatEx", ExactSpelling = true, SetLastError = true)]
+        public static extern int GetCalendarDateFormatEx([In] LPCWSTR lpszLocale, [In] DWORD dwFlags, [In] in CALDATETIME lpCalDateTime,
+            [In] LPCWSTR lpFormat, [In] LPWSTR lpDateStr, [In] int cchDate);
+
+        /// <summary>
+        /// <para>
         /// Retrieves information about a calendar for a locale specified by identifier.
         /// </para>
         /// <para>
@@ -3606,6 +3948,56 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCalendarInfoEx", ExactSpelling = true, SetLastError = true)]
         public static extern int GetCalendarInfoEx([In] LPCWSTR lpLocaleName, [In] CALID Calendar, [In] LPCWSTR lpReserved, [In] CALTYPE CalType,
             [In] LPWSTR lpCalData, [In] int cchData, [Out] out DWORD lpValue);
+
+        /// <summary>
+        /// <para>
+        /// Gets the supported date range for a specified calendar.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/intl/getcalendarsupporteddaterange"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Calendar">
+        /// Calendar identifier for which to get the supported date range.
+        /// </param>
+        /// <param name="lpCalMinDateTime">
+        /// Pointer to a <see cref="CALDATETIME"/> structure defining the minimum supported date.
+        /// </param>
+        /// <param name="lpCalMaxDateTime">
+        /// Pointer to a <see cref="CALDATETIME"/> structure defining the maximum supported date.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// Returns <see cref="TRUE"/> if successful or <see cref="FALSE"/> otherwise.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The earliest date supported by this function is January 1, 1601.
+        /// </para>
+        /// <para>
+        /// This function does not have an associated header file or library file.
+        /// The application can call <see cref="LoadLibrary"/> with the DLL name (Kernel32.dll) to obtain a module handle.
+        /// It can then call <see cref="GetProcAddress"/> with the module handle and the name of this function to get the function address.
+        /// </para>
+        /// </remarks>
+        [Obsolete]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCalendarSupportedDateRange", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetCalendarSupportedDateRange([In] CALID Calendar, [Out] out CALDATETIME lpCalMinDateTime,
+            [Out] out CALDATETIME lpCalMaxDateTime);
 
         /// <summary>
         /// <para>
@@ -5279,6 +5671,297 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Provides a list of scripts used in the specified Unicode string.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getstringscripts"/>
+        /// </para>
+        /// </summary>
+        /// <param name="dwFlags">
+        /// <para>
+        /// Flags specifying options for script retrieval.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="GSS_ALLOW_INHERITED_COMMON"/>
+        /// </term>
+        /// <term>
+        /// Retrieve "Qaii" (INHERITED) and "Zyyy" (COMMON) script information.
+        /// This flag does not affect the processing of unassigned characters.
+        /// These characters in the input string always cause a "Zzzz" (UNASSIGNED script) to appear in the script string.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// By default, <see cref="GetStringScripts"/> ignores any inherited or common characters
+        /// in the input string indicated by <paramref name="lpString"/>.
+        /// If <see cref="GSS_ALLOW_INHERITED_COMMON"/> is not set, neither "Qaii" nor "Zyyy" appears in the script string,
+        /// even if the input string contains such characters.
+        /// If <see cref="GSS_ALLOW_INHERITED_COMMON"/> is set, and if the input string contains inherited and/or common characters,
+        /// "Qaii" and/or "Zyyy", respectively, appear in the script string.
+        /// See the Remarks section.
+        /// </para>
+        /// </param>
+        /// <param name="lpString">
+        /// Pointer to the Unicode string to analyze.
+        /// </param>
+        /// <param name="cchString">
+        /// Size, in characters, of the Unicode string indicated by <paramref name="lpString"/>.
+        /// The application sets this parameter to -1 if the Unicode string is null-terminated.
+        /// If the application sets this parameter to 0,
+        /// the function retrieves a null Unicode string (L"\0") in <paramref name="lpScripts"/> and returns 1.
+        /// </param>
+        /// <param name="lpScripts">
+        /// <para>
+        /// Pointer to a buffer in which this function retrieves a null-terminated string representing a list of scripts,
+        /// using the 4-character notation used in ISO 15924.
+        /// Each script name consists of four Latin characters, and the names are retrieved in alphabetical order.
+        /// Each name, including the last, is followed by a semicolon.
+        /// </para>
+        /// <para>
+        /// Alternatively, this parameter contains <see cref="NULL"/> if <paramref name="cchScripts"/> is set to 0.
+        /// In this case, the function returns the required size for the script buffer.
+        /// </para>
+        /// </param>
+        /// <param name="cchScripts">
+        /// <para>
+        /// Size, in characters, of the script buffer indicated by <paramref name="lpScripts"/>.
+        /// </para>
+        /// <para>
+        /// Alternatively, the application can set this parameter to 0.
+        /// In this case, the function retrieves <see cref="NULL"/> in <paramref name="lpScripts"/>
+        /// and returns the required size for the script buffer.
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// Returns the number of characters retrieved in the output buffer, including a terminating null character,
+        /// if successful and <paramref name="cchScripts"/> is set to a nonzero value.
+        /// The function returns 1 to indicate that no script has been found, for example,
+        /// when the input string only contains COMMON or INHERITED characters and <see cref="GSS_ALLOW_INHERITED_COMMON"/> is not set.
+        /// Given that each found script adds five characters (four characters + delimiter),
+        /// a simple mathematical operation provides the script count as (return_code - 1) / 5.
+        /// </para>
+        /// <para>
+        /// If the function succeeds and the value of <paramref name="cchScripts"/> is 0,
+        /// the function returns the required size, in characters including a terminating null character, for the script buffer.
+        /// The script count is as described above.
+        /// </para>
+        /// <para>
+        /// This function returns 0 if it does not succeed.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_BADDB"/>.
+        /// The function could not access the data.
+        /// This situation should not normally occur, and typically indicates a bad installation, a disk problem, or the like.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_FLAGS"/>.
+        /// The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// This function is useful as part of a strategy to mitigate security issues related to internationalized domain names (IDNs).
+        /// </para>
+        /// <para>
+        /// The script determination is based on the script values
+        /// published by the Unicode Consortium in http://www.unicode.org/Public/4.1.0/ucd/Scripts.txt,
+        /// except that the unassigned characters have the value "Zzzz" (UNASSIGNED) instead of "Zyyy" (COMMON).
+        /// </para>
+        /// <para>
+        /// Here are some examples of the behavior of this function:
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Input string
+        /// </term>
+        /// <term>
+        /// <paramref name="dwFlags"/>
+        /// </term>
+        /// <term>
+        /// <paramref name="lpScripts"/>
+        /// </term>
+        /// <term>
+        /// Scripts
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// Microsoft.com
+        /// </term>
+        /// <term>
+        /// 0
+        /// </term>
+        /// <term>
+        /// Latn;
+        /// </term>
+        /// <term>
+        /// Latin
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Microsoft.com
+        /// </term>
+        /// <term>
+        /// <see cref="GSS_ALLOW_INHERITED_COMMON"/>
+        /// </term>
+        /// <term>
+        /// Latn;Zyyy;
+        /// </term>
+        /// <term>
+        /// Latin + Common
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Niño
+        /// </term>
+        /// <term>
+        /// 004E 0069 0241 006F
+        /// </term>
+        /// <term>
+        /// <see cref="GSS_ALLOW_INHERITED_COMMON"/>
+        /// </term>
+        /// <term>
+        /// Latn;
+        /// </term>
+        /// <term>
+        /// Latin
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Uses LATIN SMALL LETTER N WITH TILDE
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Niño
+        /// </term>
+        /// <term>
+        /// 004E 0069 006E 0303 006F
+        /// </term>
+        /// <term>
+        /// <see cref="GSS_ALLOW_INHERITED_COMMON"/>
+        /// </term>
+        /// <term>
+        /// Latn;Qaii;
+        /// </term>
+        /// <term>
+        /// Latin + Inherited
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Uses COMBINING TILDE
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Spооf
+        /// </term>
+        /// <term>
+        /// 0053 0070 043e 043e 0066
+        /// </term>
+        /// <term>
+        /// 0
+        /// </term>
+        /// <term>
+        /// Latn;Cyrl;
+        /// </term>
+        /// <term>
+        /// Latin + Cyrillic
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Uses CYRILLIC SMALL LETTER O
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 
+        /// </term>
+        /// <term>
+        /// U+f000
+        /// </term>
+        /// <term>
+        /// 0
+        /// </term>
+        /// <term>
+        /// Zzzz;
+        /// </term>
+        /// <term>
+        /// Unassigned
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 
+        /// </term>
+        /// <term>
+        /// U+f000
+        /// </term>
+        /// <term>
+        /// <see cref="GSS_ALLOW_INHERITED_COMMON"/>
+        /// </term>
+        /// <term>
+        /// Zzzz;
+        /// </term>
+        /// <term>
+        /// Unassigned
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetStringScripts", ExactSpelling = true, SetLastError = true)]
+        public static extern int GetStringScripts([In] DWORD dwFlags, [In] LPCWSTR lpString, [In] int cchString,
+            [In] LPWSTR lpScripts, [In] int cchScripts);
+
+        /// <summary>
+        /// <para>
         /// Returns the language identifier for the system locale.
         /// </para>
         /// <para>
@@ -5323,6 +6006,67 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemDefaultLCID", ExactSpelling = true)]
         public static extern LCID GetSystemDefaultLCID();
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the system default locale name.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// It is recommended that applications call <see cref="GetUserDefaultLocaleName"/> in preference over this function.
+        /// This is due to the user locale generally being more useful and accurate for the user than the system locale.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// The application should call this function in preference to <see cref="GetSystemDefaultLCID"/>
+        /// if designed to run only on Windows Vista and later.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getsystemdefaultlocalename"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpLocaleName">
+        /// Pointer to a buffer in which this function retrieves the locale name.
+        /// </param>
+        /// <param name="cchLocaleName">
+        /// Size, in characters, of the output buffer indicated by <paramref name="lpLocaleName"/>.
+        /// The maximum possible character length of a locale name (including a terminating null character)
+        /// is the value of <see cref="LOCALE_NAME_MAX_LENGTH"/>.
+        /// This is the recommended size.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// Returns a value greater than 0 that indicates the length of the locale name,
+        /// including the terminating null character, if successful.
+        /// </para>
+        /// <para>
+        /// This function returns 0 if it does not succeed.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// This function can retrieve data from custom locales.
+        /// Data is not guaranteed to be the same from computer to computer or between runs of an application.
+        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemDefaultLocaleName", ExactSpelling = true)]
+        public static extern int GetSystemDefaultLocaleName([In] LPWSTR lpLocaleName, [In] int cchLocaleName);
 
         /// <summary>
         /// <para>
@@ -6712,6 +7456,95 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Converts an internationalized domain name (IDN) or another internationalized label
+        /// to the NamePrep form specified by Network Working Group RFC 3491,
+        /// but does not perform the additional conversion to Punycode.
+        /// For more information and links to related draft standards, see Handling Internationalized Domain Names (IDNs).
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-idntonameprepunicode"/>
+        /// </para>
+        /// </summary>
+        /// <param name="dwFlags">
+        /// Flags specifying conversion options.
+        /// For detailed definitions, see the <paramref name="dwFlags"/> parameter of <see cref="IdnToAscii"/>.
+        /// </param>
+        /// <param name="lpUnicodeCharStr">
+        /// Pointer to a Unicode string representing an IDN or another internationalized label.
+        /// </param>
+        /// <param name="cchUnicodeChar">
+        /// Count of Unicode characters in the input Unicode string indicated by <paramref name="lpUnicodeCharStr"/>.
+        /// </param>
+        /// <param name="lpNameprepCharStr">
+        /// Pointer to a buffer that receives a version of the input Unicode string converted through NamePrep processing.
+        /// Alternatively, the function can retrieve <see cref="NULL"/> for this parameter,
+        /// if <paramref name="cchNameprepChar"/> is set to 0.
+        /// In this case, the function returns the size required for this buffer.
+        /// </param>
+        /// <param name="cchNameprepChar">
+        /// Size, in characters, of the buffer indicated by <paramref name="lpNameprepCharStr"/>.
+        /// The application can set the size to 0 to retrieve <see cref="NULL"/> in <paramref name="lpNameprepCharStr"/>
+        /// and have the function return the required buffer size.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// Returns the number of characters retrieved in <paramref name="lpNameprepCharStr"/> if successful.
+        /// The retrieved string is null-terminated only if the input Unicode string is null-terminated.
+        /// </para>
+        /// <para>
+        /// If the function succeeds and the value of <paramref name="cchNameprepChar"/> is 0,
+        /// the function returns the required size, in characters including a terminating null character if it was part of the input buffer.
+        /// </para>
+        /// <para>
+        /// The function returns 0 if it does not succeed.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_FLAGS"/>.
+        /// The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_NAME"/>.
+        /// An invalid name was supplied to the function. Note that this error code catches all syntax errors.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_NO_UNICODE_TRANSLATION"/>.
+        /// Invalid Unicode was found in a string.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// See Remarks for <see cref="IdnToAscii"/>.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IdnToNameprepUnicode", ExactSpelling = true, SetLastError = true)]
+        public static extern int IdnToNameprepUnicode([In] IDNFlags dwFlags, [In] LPCWSTR lpUnicodeCharStr, [In] int cchUnicodeChar,
+            [In] LPWSTR lpNameprepCharStr, [In] int cchNameprepChar);
+
+        /// <summary>
+        /// <para>
         /// Converts the Punycode form of an internationalized domain name (IDN) or another internationalized label to the normal Unicode UTF-16 encoding syntax.
         /// </para>
         /// <para>
@@ -6809,6 +7642,50 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IdnToUnicode", ExactSpelling = true, SetLastError = true)]
         public static extern int IdnToUnicode([In] IDNFlags dwFlags, [In] LPCWSTR lpASCIICharStr, [In] int cchASCIIChar,
             [In] LPWSTR lpUnicodeCharStr, [In] int cchUnicodeChar);
+
+        /// <summary>
+        /// <para>
+        /// Identifies whether the specified year is a leap year within the given era for the specific calendar.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/intl/iscalendarleapyear"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Calendar">
+        /// The calendar identifier to use for checking leap year.
+        /// </param>
+        /// <param name="year">
+        /// The year to check.
+        /// </param>
+        /// <param name="era">
+        /// The era to check.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// Returns <see cref="TRUE"/> if the specified year is a leap year, or <see cref="FALSE"/> otherwise.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// This function does not have an associated header file or library file.
+        /// The application can call <see cref="LoadLibrary"/> with the DLL name (Kernel32.dll) to obtain a module handle.
+        /// It can then call <see cref="GetProcAddress"/> with that module handle and the name of this function to get the function address.
+        /// </remarks>
+        [Obsolete]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsCalendarLeapYear", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL IsCalendarLeapYear([In] CALID Calendar, [In] UINT year, [In] UINT era);
 
         /// <summary>
         /// <para>
@@ -8232,6 +9109,118 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Converts a locale identifier to a locale name.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// For custom locales, including those created by Microsoft
+        /// your applications should prefer locale names over locale identifiers.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-lcidtolocalename"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Locale">
+        /// <para>
+        /// Locale identifier to translate.
+        /// You can use the <see cref="MAKELCID"/> macro to create a locale identifier or use one of the following predefined values.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_INVARIANT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_SYSTEM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_USER_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Windows Vista: The following custom locale identifiers are also supported.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UI_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_CUSTOM_UNSPECIFIED"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="lpName">
+        /// <para>
+        /// Pointer to a buffer in which this function retrieves the locale name, or one of the following predefined values.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_INVARIANT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_SYSTEM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_USER_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="cchName">
+        /// <para>
+        /// Size, in characters, of the locale name buffer.
+        /// The maximum possible length of a locale name, including a terminating null character, is <see cref="LOCALE_NAME_MAX_LENGTH"/>.
+        /// This is the recommended size to supply for this parameter.
+        /// </para>
+        /// <para>
+        /// Alternatively, the application can set this parameter to 0.
+        /// In this case, the function returns the required size for the locale name buffer.
+        /// </para>
+        /// </param>
+        /// <param name="dwFlags">
+        /// <para>
+        /// Before Windows 7:
+        /// Reserved; should always be 0.
+        /// </para>
+        /// <para>
+        /// Starting with Windows 7:
+        /// Can be set to <see cref="LOCALE_ALLOW_NEUTRAL_NAMES"/> to allow the return of a neutral name.
+        /// </para>
+        /// </param>
+        /// <returns></returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LCIDToLocaleName", ExactSpelling = true, SetLastError = true)]
+        public static extern int LCIDToLocaleName([In] LCID Locale, [In] LPWSTR lpName, [In] int cchName, [In] DWORD dwFlags);
+
+        /// <summary>
+        /// <para>
         /// Converts a locale name to a locale identifier.
         /// </para>
         /// <para>
@@ -9239,6 +10228,312 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetUserGeoID", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetUserGeoID([In] GEOID GeoId);
+
+        /// <summary>
+        /// <para>
+        /// Gets the day of the week that corresponds to a specified day
+        /// and populates the <see cref="CALDATETIME.DayOfWeek"/> member
+        /// in the specified <see cref="CALDATETIME"/> structure with that value.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/intl/updatecalendardayofweek"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpCalDateTime">
+        /// Pointer to the <see cref="CALDATETIME"/> structure containing the date for which to set the day of the week.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// Returns <see cref="TRUE"/> if successful or <see cref="FALSE"/> otherwise.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_DATE_OUT_OF_RANGE"/>.
+        /// The specified date was out of range.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// This function does not have an associated header file or library file.
+        /// The application can call <see cref="LoadLibrary"/> with the DLL name (Kernel32.dll) to obtain a module handle.
+        /// It can then call <see cref="GetProcAddress"/> with that module handle and the name of this function to get the function address.
+        /// </remarks>
+        [Obsolete]
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "UpdateCalendarDayOfWeek", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL UpdateCalendarDayOfWeek([In][Out] ref CALDATETIME lpCalDateTime);
+
+        /// <summary>
+        /// <para>
+        /// Compares two enumerated lists of scripts.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-verifyscripts"/>
+        /// </para>
+        /// </summary>
+        /// <param name="dwFlags">
+        /// <para>
+        /// Flags specifying script verification options.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="VS_ALLOW_LATIN"/>
+        /// </term>
+        /// <term>
+        /// Allow "Latn" (Latin script) in the test list even if it is not in the locale list.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="lpLocaleScripts">
+        /// Pointer to the locale list, the enumerated list of scripts for a given locale.
+        /// This list is typically populated by calling <see cref="GetLocaleInfoEx"/>
+        /// with <c>LCType</c> set to <see cref="LOCALE_SSCRIPTS"/>.
+        /// </param>
+        /// <param name="cchLocaleScripts">
+        /// Size, in characters, of the string indicated by <paramref name="lpLocaleScripts"/>.
+        /// The application sets this parameter to -1 if the string is null-terminated.
+        /// If this parameter is set to 0, the function fails.
+        /// </param>
+        /// <param name="lpTestScripts">
+        /// Pointer to the test list, a second enumerated list of scripts.
+        /// This list is typically populated by calling <see cref="GetStringScripts"/>.
+        /// </param>
+        /// <param name="cchTestScripts">
+        /// Size, in characters, of the string indicated by <paramref name="lpTestScripts"/>.
+        /// The application sets this parameter to -1 if the string is null-terminated.
+        /// If this parameter is set to 0, the function fails.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// Returns <see cref="TRUE"/> if the test list is non-empty and all items in the list are also included in the locale list.
+        /// The function still returns <see cref="TRUE"/> if the locale list contains more scripts than the test list,
+        /// but all the test list scripts must be contained in the locale list.
+        /// If <see cref="VS_ALLOW_LATIN"/> is specified in <paramref name="dwFlags"/>,
+        /// the function behaves as if "Latn;" is always in the locale list.
+        /// </para>
+        /// <para>
+        /// In all other cases, the function returns <see cref="FALSE"/>.
+        /// This return can indicate that the test list contains an item that is not in the locale list, or it can indicate an error.
+        /// To distinguish between these two cases, the application should call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_FLAGS"/>.
+        /// The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_SUCCESS"/>.
+        /// The action completed successfully but yielded no results.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// This function compares strings, such as "Latn;Cyrl;",
+        /// that consist of a series of 4-character script names, with each script name followed by a semicolon.
+        /// It also has a special case to account for the fact
+        /// that the Latin script is often used in languages and locales for which it is not native.
+        /// </para>
+        /// <para>
+        /// This function is useful as part of a strategy to mitigate security issues related to internationalized domain names (IDNs).
+        /// </para>
+        /// <para>
+        /// The following are examples of the return of this function
+        /// and a subsequent call to <see cref="GetLastError"/> in various scenarios.
+        /// The last two examples illustrate, respectively,
+        /// a case in which the test list lacks a terminating semicolon (malformed string) and a case in which the test list is empty.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Locale string
+        /// </term>
+        /// <term>
+        /// Test string
+        /// </term>
+        /// <term>
+        /// <paramref name="dwFlags"/>
+        /// </term>
+        /// <term>
+        /// Return value
+        /// </term>
+        /// <term>
+        /// <see cref="GetLastError"/> return
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// Hani;Hira;Kana;
+        /// </term>
+        /// <term>
+        /// Hani;
+        /// </term>
+        /// <term>
+        /// *
+        /// </term>
+        /// <term>
+        /// <see cref="TRUE"/>
+        /// </term>
+        /// <term>
+        /// (unchanged)
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Hani;Hira;Kana;
+        /// </term>
+        /// <term>
+        /// Hani;Latn;
+        /// </term>
+        /// <term>
+        /// 0
+        /// </term>
+        /// <term>
+        /// <see cref="FALSE"/>
+        /// </term>
+        /// <term>
+        /// <see cref="ERROR_SUCCESS"/>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Hani;Hira;Kana;
+        /// </term>
+        /// <term>
+        /// Hani;Latn;
+        /// </term>
+        /// <term>
+        /// <see cref="VS_ALLOW_LATIN"/>
+        /// </term>
+        /// <term>
+        /// <see cref="TRUE"/>
+        /// </term>
+        /// <term>
+        /// (unchanged)
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Hani;Hira;Kana;
+        /// </term>
+        /// <term>
+        /// Cyrl;
+        /// </term>
+        /// <term>
+        /// *
+        /// </term>
+        /// <term>
+        /// <see cref="FALSE"/>
+        /// </term>
+        /// <term>
+        /// <see cref="ERROR_SUCCESS"/>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Hani;
+        /// </term>
+        /// <term>
+        /// Hani;Hira;Kana;
+        /// </term>
+        /// <term>
+        /// *
+        /// </term>
+        /// <term>
+        /// <see cref="FALSE"/>
+        /// </term>
+        /// <term>
+        /// <see cref="ERROR_SUCCESS"/>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Hani;Hira;Kana;
+        /// </term>
+        /// <term>
+        /// Cyrl
+        /// </term>
+        /// <term>
+        /// *
+        /// </term>
+        /// <term>
+        /// <see cref="FALSE"/>
+        /// </term>
+        /// <term>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Hani;Hira;Kana;
+        /// </term>
+        /// <term>
+        /// </term>
+        /// <term>
+        /// *
+        /// </term>
+        /// <term>
+        /// <see cref="TRUE"/>
+        /// </term>
+        /// <term>
+        /// (unchanged)
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// Results are the same whether <see cref="VS_ALLOW_LATIN"/> is passed
+        /// in the <paramref name="dwFlags"/> parameter or no flags are supplied.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VerifyScripts", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL VerifyScripts([In] DWORD dwFlags, [In] LPCWSTR lpLocaleScripts, [In] int cchLocaleScripts,
+            [In] LPCWSTR lpTestScripts, [In] int cchTestScripts);
 
         /// <summary>
         /// <para>

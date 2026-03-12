@@ -28,6 +28,7 @@ namespace Lsj.Util.Tests.Win32
 
             // x86 Only
             "InterlockedCompareExchange",
+            "InterlockedCompareExchange64",
             "InterlockedDecrement",
             "InterlockedExchange",
             "InterlockedExchangeAdd",
@@ -217,6 +218,32 @@ namespace Lsj.Util.Tests.Win32
             "TraceEvent",
             "TraceEventInstance",
             "UnregisterTraceGuids",
+
+            // BoundaryDescriptor and PrivateNamespace
+            "AddSIDToBoundaryDescriptor",
+            "ClosePrivateNamespace",
+            "CreateBoundaryDescriptorW",
+            "CreatePrivateNamespaceW",
+            "DeleteBoundaryDescriptor",
+            "OpenPrivateNamespaceW",
+
+            // Application Recovery and Restart
+            "ApplicationRecoveryFinished",
+            "ApplicationRecoveryInProgress",
+            "GetApplicationRecoveryCallback",
+            "GetApplicationRestartSettings",
+            "RegisterApplicationRecoveryCallback",
+            "RegisterApplicationRestart",
+            "UnregisterApplicationRecoveryCallback",
+            "UnregisterApplicationRestart",
+
+            // Windows Error Reporting
+            "WerGetFlags",
+            "WerRegisterFile",
+            "WerRegisterMemoryBlock",
+            "WerSetFlags",
+            "WerUnregisterFile",
+            "WerUnregisterMemoryBlock",
         };
     }
 }

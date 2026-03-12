@@ -629,9 +629,20 @@ namespace Lsj.Util.Tests.Win32
             "UnregisterUserApiHook",                                // undocument
 
             // Vista
+            "BaseCheckRunApp",                                      // undocument
+            "BaseGenerateAppCompatData",                            // undocument
+            "BaseIsAppcompatInfrastructureDisabled",                // undocument
+            "BasepCheckBadapp",                                     // undocument
+            "BasepFreeAppCompatData",                               // undocument
+            "BaseThreadInitThunk",                                  // not api
             "CheckDesktopByThreadId",                               // undocument
+            "CheckElevation",                                       // undocument
+            "CheckElevationEnabled",                                // undocument
+            "CheckForReadOnlyResource",                             // undocument
             "CheckWindowThreadDesktop",                             // undocument
+            "CompareCalendarDates",                                 // undocument
             "ConfigureOPMProtectedOutput",                          // Output Protection Manager
+            "ConvertNLSDayOfWeekToWin32DayOfWeek",                  // undocument
             "CreateOPMProtectedOutputs",                            // Output Protection Manager
             "D3DKMTCheckExclusiveOwnership",                        // DDI
             "D3DKMTCheckMonitorPowerState",                         // DDI
@@ -709,9 +720,15 @@ namespace Lsj.Util.Tests.Win32
             "FrostCrashedWindow",                                   // undocument
             "GdiGetBitmapBitsSize",                                 // undocument
             "GdiIsScreenDC",                                        // undocument
+            "GetCalendarDateFormat",                                // undocument
+            "GetCalendarDaysInMonth",                               // undocument
+            "GetCalendarDifferenceInDays",                          // undocument
+            "GetCalendarMonthsInYear",                              // undocument
+            "GetCalendarWeekNumber",                                // undocument
             "GetCertificate",                                       // Output Protection Manager
             "GetCertificateSize",                                   // Output Protection Manager
             "GetCOPPCompatibleOPMInformation",                      // Output Protection Manager
+            "GetNamedPipeAttribute",                                // undocument
             "GetNumberOfPhysicalMonitors",                          // Monitor Configuration API used by display driver
             "GetOPMInformation",                                    // Output Protection Manager
             "GetOPMRandomNumber",                                   // Output Protection Manager
@@ -724,10 +741,22 @@ namespace Lsj.Util.Tests.Win32
             "GhostWindowFromHungWindow",                            // undocument
             "HungWindowFromGhostWindow",                            // undocument
             "InternalGetWindowIcon",                                // undocument
+            "IsCalendarLeapDay",                                    // undocument
+            "IsCalendarLeapMonth",                                  // undocument
             "IsSETEnabled",                                         // undocument
             "IsThreadDesktopComposited",                            // undocument
+            "IsTimeZoneRedirectionEnabled",                         // undocument
+            "IsValidCalDateTime",                                   // undocument
             "IsValidEnhMetaRecord",                                 // undocument
             "IsValidEnhMetaRecordOffExt",                           // undocument
+            "LoadStringBaseExW",                                    // undocument
+            "LoadStringBaseW",                                      // undocument
+            "NlsCheckPolicy",                                       // undocument
+            "NlsEventDataDescCreate",                               // undocument
+            "NlsUpdateLocale",                                      // undocument
+            "NlsUpdateSystemLocale",                                // undocument
+            "NlsWriteEtwEvent",                                     // undocument
+            "NotifyUILanguageChange",                               // undocument
             "OpenThreadDesktop",                                    // undocument
             "PaintMonitor",                                         // undocument
             "PrivateRegisterICSProc",                               // undocument
@@ -736,12 +765,19 @@ namespace Lsj.Util.Tests.Win32
             "RegisterGhostWindow",                                  // undocument
             "RegisterSessionPort",                                  // undocument
             "SetMirrorRendering",                                   // undocument
+            "SetNamedPipeAttribute",                                // undocument
             "SetWindowRgnEx",                                       // undocument
             "ShowSystemCursor",                                     // undocument
             "SetOPMSigningKeyAndSequenceNumbers",                   // Output Protection Manager 
             "SwitchDesktopWithFade",                                // undocument
             "UnregisterSessionPort",                                // undocument
             "UpdateWindowTransform",                                // undocument
+            "WerpCleanupMessageMapping",                            // undocument
+            "WerpInitiateRemoteRecovery",                           // undocument
+            "WerpNotifyLoadStringResource",                         // undocument
+            "WerpNotifyLoadStringResourceEx",                       // undocument
+            "WerpNotifyUseStringResource",                          // undocument
+            "WerpStringLookup",                                     // undocument
             "_UserTestTokenForInteractive",                         // undocument
 
             // 7

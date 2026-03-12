@@ -51,6 +51,41 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// An application-defined callback function that processes enumerated time format information
+        /// provided by the <see cref="EnumTimeFormatsEx"/> function.
+        /// The <see cref="TIMEFMT_ENUMPROCEX"/> type defines a pointer to this callback function.
+        /// <see cref="EnumTimeFormatsProcEx"/> is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/previous-versions/windows/desktop/legacy/dd317833(v=vs.85)"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpTimeFormatString">
+        /// Pointer to a buffer containing a null-terminated time format string.
+        /// </param>
+        /// <param name="lParam">
+        /// An application-provided input parameter of <see cref="EnumTimeFormatsEx"/>.
+        /// This value is especially useful for multi-threaded applications,
+        /// since it can be used to pass thread-specific data to this callback function.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> to continue enumeration or <see cref="FALSE"/> otherwise.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// An <see cref="EnumTimeFormatsProcEx"/> function can carry out any desired task.
+        /// The application registers this function by passing its address to the <see cref="EnumTimeFormatsEx"/> function.
+        /// </para>
+        /// <para>
+        /// This callback function can process enumerated data from custom locales.
+        /// Data is not guaranteed to be the same from computer to computer or between runs of an application.
+        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// </para>
+        /// </remarks>
+        public delegate BOOL EnumTimeFormatsProcEx([In] LPWSTR lpTimeFormatString, [In] LPARAM lParam);
+
+        /// <summary>
+        /// <para>
         /// Converts MS-DOS date and time values to a file time.
         /// </para>
         /// <para>
@@ -311,6 +346,107 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumTimeFormatsW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EnumTimeFormats([In] TIMEFMT_ENUMPROC lpTimeFmtEnumProc, [In] LCID Locale, [In] DWORD dwFlags);
+
+        /// <summary>
+        /// <para>
+        /// Enumerates the time formats that are available for a locale specified by name.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// The application should call this function in preference to <see cref="EnumTimeFormats"/>
+        /// if designed to run only on Windows Vista and later.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// This function can enumerate data that changes between releases, for example, due to a custom locale.
+        /// If your application must persist or transmit data, see Using Persistent Locale Data.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-enumtimeformatsex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpTimeFmtEnumProcEx">
+        /// Pointer to an application-defined callback function.
+        /// For more information, see <c>EnumTimeFormatsProcEx</c>.
+        /// </param>
+        /// <param name="lpLocaleName">
+        /// <para>
+        /// Pointer to a locale name, or one of the following predefined values.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_INVARIANT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_SYSTEM_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="LOCALE_NAME_USER_DEFAULT"/>
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="dwFlags">
+        /// The time format.
+        /// Set to 0 to use the current user's long time format,
+        /// or <see cref="TIME_NOSECONDS"/> (starting with Windows 7) to use the short time format.
+        /// </param>
+        /// <param name="lParam">
+        /// An application-provided parameter to be passed to the callback function.
+        /// This is especially useful for multi-threaded applications.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// Returns a nonzero value if successful, or 0 otherwise.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_FLAGS"/>.
+        /// The values supplied for flags were not valid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// This function enumerates the time formats by passing time format string pointers, one at a time,
+        /// to the specified application-defined callback function,
+        /// along with an application-defined constant that is useful for multi-threaded applications.
+        /// The first value in the enumeration is always the user default (override) value.
+        /// The function continues enumeration until the last time format is found or the callback function returns <see cref="FALSE"/>.
+        /// </para>
+        /// <para>
+        /// Beginning in Windows 8:
+        /// If your app passes language tags to this function from the <c>Windows.Globalization</c> namespace,
+        /// it must first convert the tags by calling <see cref="ResolveLocaleName"/>.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumTimeFormatsEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnumTimeFormatsEx([In] TIMEFMT_ENUMPROCEX lpTimeFmtEnumProcEx,
+            [In] LPCWSTR lpLocaleName, [In] DWORD dwFlags, [In] LPARAM lParam);
 
         /// <summary>
         /// <para>

@@ -397,6 +397,217 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Enumerates language-specific resources, of the specified type and name, associated with a specified binary module.
+        /// Extends <see cref="EnumResourceLanguages"/> by allowing more control over the enumeration.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-enumresourcelanguagesexw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hModule">
+        /// <para>
+        /// The handle to a module to search.
+        /// Typically this is a language-neutral Portable Executable (LN file),
+        /// and if flag <see cref="RESOURCE_ENUM_MUI"/> is set, then appropriate .mui files are included in the search.
+        /// Alternately, this can be a handle to an .mui file or other LN file.
+        /// If this is a specific .mui file, only that file is searched for resources.
+        /// </para>
+        /// <para>
+        /// If this parameter is <see cref="NULL"/>,
+        /// it is equivalent to passing in a handle to the module used to create the current process.
+        /// </para>
+        /// </param>
+        /// <param name="lpType">
+        /// <para>
+        /// The type of the resource for which the language is being enumerated.
+        /// Alternately, rather than a pointer, this parameter can be <see cref="MAKEINTRESOURCE"/>(ID),
+        /// where ID is an integer value representing a predefined resource type.
+        /// For a list of predefined resource types, see Resource Types.
+        /// For more information, see the Remarks section below.
+        /// </para>
+        /// </param>
+        /// <param name="lpName">
+        /// The name of the resource for which the language is being enumerated.
+        /// Alternately, rather than a pointer, this parameter can be <see cref="MAKEINTRESOURCE"/>(ID),
+        /// where ID is the integer identifier of the resource.
+        /// For more information, see the Remarks section below.
+        /// </param>
+        /// <param name="lpEnumFunc">
+        /// A pointer to the callback function to be called for each enumerated resource language.
+        /// For more information, see <c>EnumResLangProcW</c>.
+        /// </param>
+        /// <param name="lParam">
+        /// An application-defined value passed to the callback function.
+        /// This parameter can be used in error checking.
+        /// </param>
+        /// <param name="dwFlags">
+        /// <para>
+        /// The type of file to be searched.
+        /// The following values are supported.
+        /// Note that if <paramref name="dwFlags"/> is zero,
+        /// then the <see cref="RESOURCE_ENUM_LN"/> and <see cref="RESOURCE_ENUM_MUI"/> flags are assumed to be specified.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="RESOURCE_ENUM_MUI"/>
+        /// </para>
+        /// <para>
+        /// 0x0002
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Search for language-specific resources in .mui files associated with the LN file specified by <paramref name="hModule"/>.
+        /// Alternately, if <paramref name="LangId"/> is nonzero,
+        /// the only .mui file searched will be the one matching the specified <paramref name="LangId"/>.
+        /// Typically this flag should be used only if <paramref name="hModule"/> references an LN file.
+        /// If <paramref name="hModule"/> references an .mui file,
+        /// then that file is actually covered by the <see cref="RESOURCE_LN"/> flag, despite the name of the flag.
+        /// See the Remarks section below for sequence of search.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="RESOURCE_ENUM_LN"/>
+        /// </para>
+        /// <para>
+        /// 0x0001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Searches the file specified by <paramref name="hModule"/>,
+        /// regardless of whether the file is an LN file, another type of LN file, or an .mui file.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="RESOURCE_ENUM_MUI_SYSTEM"/>
+        /// </para>
+        /// <para>
+        /// 0x0004
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Restricts the .mui files search to system-installed MUI languages.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="RESOURCE_ENUM_VALIDATE"/>
+        /// </para>
+        /// <para>
+        /// 0x0008
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Performs extra validation on the resource section and its reference in the PE header
+        /// while doing the enumeration to ensure that resources are properly formatted.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="LangId">
+        /// The localization language used to filter the search in the .mui file.
+        /// This parameter is used only when the <see cref="RESOURCE_ENUM_MUI"/> flag is set in <paramref name="dwFlags"/>.
+        /// If zero is specified, then all .mui files are included in the search.
+        /// If a nonzero <paramref name="LangId"/> is specified,
+        /// then the only .mui file searched will be the one matching the specified <paramref name="LangId"/>.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> if the function succeeds
+        /// or <see cref="FALSE"/> if the function does not find a resource of the type specified,
+        /// or if the function fails for another reason.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// If <c>IS_INTRESOURCE(lpType)</c> is <see cref="TRUE"/>,
+        /// then <paramref name="lpType"/> specifies the integer identifier of the given resource type.
+        /// Otherwise, it is a pointer to a null-terminated string.
+        /// If the first character of the string is a pound sign (#),
+        /// then the remaining characters represent a decimal number that specifies the integer identifier of the resource type.
+        /// For example, the string "#258" represents the identifier 258.
+        /// </para>
+        /// <para>
+        /// Similarly, if <c>if IS_INTRESOURCE(lpName)</c> is <see cref="TRUE"/>,
+        /// then <paramref name="lpName"/> specifies the integer identifier of the given resource.
+        /// Otherwise, it is a pointer to a null-terminated string.
+        /// If the first character of the string is a pound sign (#),
+        /// then the remaining characters represent a decimal number that specifies the
+        /// </para>
+        /// <para>
+        /// integer identifier of the resource.
+        /// </para>
+        /// <para>
+        /// Starting with Windows Vista, the binary module is typically an LN file,
+        /// and the enumeration will also include resources from the corresponding language-specific resource files (.mui files)
+        /// that contain localizable language resources.
+        /// </para>
+        /// <para>
+        /// For each such resource found, <see cref="EnumResourceLanguagesEx"/> calls
+        /// an application-defined callback function <paramref name="lpEnumFunc"/>,
+        /// passing to the callback function the language identifier (see Language Identifiers) of the language
+        /// for which a resource was found (as well as the various other parameters
+        /// that were passed to <see cref="EnumResourceLanguagesEx"/>).
+        /// </para>
+        /// <para>
+        /// The search can include both an LN file and its associated .mui files,
+        /// or it can be limited either to a single binary module of any type,
+        /// or to the .mui files associated with a single LN file.
+        /// Also, by specifying an LN file for the <paramref name="hModule"/> parameter
+        /// and a nonzero <paramref name="LangId"/> parameter,
+        /// the search can be limited to the unique .mui file associated with that LN file and language.
+        /// </para>
+        /// <para>
+        /// The <see cref="EnumResourceLanguagesEx"/> function continues to enumerate resource languages
+        /// until the callback function returns <see cref="FALSE"/> or all resource languages have been enumerated.
+        /// </para>
+        /// <para>
+        /// If <paramref name="hModule"/> specifies an LN file, and both flags are selected,
+        /// the languages enumerated include all languages
+        /// whose resources reside either in the LN file or in any .mui files associated with it.
+        /// If no .mui files are found, only languages from the LN file are returned.
+        /// </para>
+        /// <para>
+        /// If <paramref name="dwFlags"/> contains <see cref="RESOURCE_ENUM_MUI"/> or <see cref="NULL"/>
+        /// and <paramref name="LangId"/> is 0, then the enumeration first includes the languages
+        /// associated with all system-installed .mui files, using languages retrieved from <see cref="EnumUILanguages"/>.
+        /// Finally, if the <see cref="RESOURCE_ENUM_LN"/> flag is also set,
+        /// the file designated by <paramref name="hModule"/> is also searched.
+        /// </para>
+        /// <para>
+        /// If the <paramref name="LangId"/> is nonzero, then only the .mui file corresponding to that language identifier will be searched.
+        /// Language fallbacks will not be used.
+        /// If an .mui file for that language does not exist, the enumeration will be empty
+        /// (unless resources for that language exist in the LN file, and the flag is set to search the LN file as well).
+        /// </para>
+        /// <para>
+        /// The enumeration never includes duplicates:
+        /// if resources for a particular language are contained in both the LN file and in an .mui file,
+        /// the type will only be enumerated once.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumResourceLanguagesExW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnumResourceLanguagesEx([In] HMODULE hModule, [In] LPCWSTR lpType, [In] LPCWSTR lpName,
+            [In] ENUMRESLANGPROC lpEnumFunc, [In] LONG_PTR lParam, [In] DWORD dwFlags, [In] LANGID LangId);
+
+        /// <summary>
+        /// <para>
         /// Enumerates resources of a specified type within a binary module.
         /// For Windows Vista and later, this is typically a language-neutral Portable Executable (LN file),
         /// and the enumeration will also include resources from the corresponding language-specific resource files (.mui files)
@@ -488,6 +699,183 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Enumerates resources of a specified type that are associated with a specified binary module.
+        /// The search can include both an LN file and its associated .mui files, or it can be limited in several ways.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-enumresourcenamesexw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hModule">
+        /// <para>
+        /// The handle to a module to search.
+        /// Typically this is an LN file, and if flag <see cref="RESOURCE_ENUM_MUI"/> is set,
+        /// then appropriate .mui files are included in the search.
+        /// Alternately, this can be a handle to an .mui file or other LN file.
+        /// </para>
+        /// <para>
+        /// If this parameter is <see cref="NULL"/>, it is equivalent to passing in a handle to the module used to create the current process.
+        /// </para>
+        /// </param>
+        /// <param name="lpType">
+        /// The type of the resource for which the name is being enumerated.
+        /// Alternately, rather than a pointer, this parameter can be <c>MAKEINTRESOURCE(ID)</c>,
+        /// where ID is an integer value representing a predefined resource type.
+        /// For a list of predefined resource types, see Resource Types.
+        /// For more information, see the Remarks section below.
+        /// </param>
+        /// <param name="lpEnumFunc">
+        /// A pointer to the callback function to be called for each enumerated resource name.
+        /// For more information, see <c>EnumResNameProc</c>.
+        /// </param>
+        /// <param name="lParam">
+        /// An application-defined value passed to the callback function.
+        /// This parameter can be used in error checking.
+        /// </param>
+        /// <param name="dwFlags">
+        /// <para>
+        /// The type of file to search. The following values are supported.
+        /// Note that if <paramref name="dwFlags"/> is zero,
+        /// then the <see cref="RESOURCE_ENUM_LN"/> and <see cref="RESOURCE_ENUM_MUI"/> flags are assumed to be specified.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="RESOURCE_ENUM_MUI"/>
+        /// </para>
+        /// <para>
+        /// 0x0002
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Search for resources in .mui files associated with the LN file specified by <paramref name="hModule"/>
+        /// and with the current language preferences,
+        /// following the usual Resource Loader strategy (see User Interface Language Management).
+        /// Alternately, if <paramref name="LangId"/> is nonzero, then only the specified .mui file will be searched.
+        /// Typically this flag should be used only if <paramref name="hModule"/> references an LN file.
+        /// If <paramref name="hModule"/> references an .mui file,
+        /// then that file is actually covered by the <see cref="RESOURCE_ENUM_LN"/> flag, despite the name of the flag.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="RESOURCE_ENUM_LN"/>
+        /// </para>
+        /// <para>
+        /// 0x0001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Searches the file specified by <paramref name="hModule"/>,
+        /// regardless of whether the file is an LN file, another type of LN file, or an .mui file.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="RESOURCE_ENUM_VALIDATE"/>
+        /// </para>
+        /// <para>
+        /// 0x0008
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Performs extra validation on the resource section and its reference in the PE header
+        /// while doing the enumeration to ensure that resources are properly formatted.
+        /// The validation sets a maximum limit of 260 characters for each name that is enumerated.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="LangId">
+        /// The localization language used to filter the search in the MUI module.
+        /// This parameter is used only when the <see cref="RESOURCE_ENUM_MUI"/> flag is set in <paramref name="dwFlags"/>.
+        /// If zero is specified, then all .mui files that match current language preferences are included in the search,
+        /// following the usual Resource Loader strategy (see User Interface Language Management).
+        /// If a nonzero <paramref name="LangId"/> is specified,
+        /// then the only .mui file searched will be the one matching the specified <paramref name="LangId"/>.
+        /// </param>
+        /// <returns>
+        /// The function <see cref="TRUE"/> if successful,
+        /// or <see cref="FALSE"/> if the function does not find a resource of the type specified,
+        /// or if the function fails for another reason.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// If <c>IS_INTRESOURCE(lpType)</c> is <see cref="TRUE"/>,
+        /// then <paramref name="lpType"/> specifies the integer identifier of the given resource type.
+        /// Otherwise, it is a pointer to a null-terminated string.
+        /// If the first character of the string is a pound sign (#),
+        /// then the remaining characters represent a decimal number that specifies the integer identifier of the resource type.
+        /// For example, the string "#258" represents the identifier 258.
+        /// </para>
+        /// <para>
+        /// The enumeration search can include both an LN file and its associated .mui files.
+        /// It can be limited to a single binary module of any type.
+        /// It can also be limited to the .mui files associated with a single LN file.
+        /// By specifying an LN file for the <paramref name="hModule"/> parameter
+        /// and a nonzero <paramref name="LangId"/> parameter,
+        /// the search can be limited to the unique .mui file associated with that LN file and language.
+        /// </para>
+        /// <para>
+        /// For each resource found, <see cref="EnumResourceNamesEx"/> calls
+        /// an application-defined callback function <paramref name="lpEnumFunc"/>,
+        /// passing the name or the ID of each resource it finds,
+        /// as well as the various other parameters that were passed to <see cref="EnumResourceNamesEx"/>.
+        /// The passed name is only valid inside the callback -
+        /// if the passed name is a string pointer, it points to an internal buffer that is reused for all callback invocations.
+        /// </para>
+        /// <para>
+        /// If a resource has an ID, the ID is returned to the callback function;
+        /// otherwise the resource name is returned to the callback function.
+        /// For more information, see <see cref="EnumResNameProc"/>.
+        /// </para>
+        /// <para>
+        /// The <see cref="EnumResourceNamesEx"/> function continues to enumerate resource names
+        /// until the callback function returns <see cref="FALSE"/> or all resource names for this type have been enumerated.
+        /// </para>
+        /// <para>
+        /// If <paramref name="hModule"/> specifies an LN file, and both flags are selected,
+        /// the names enumerated correspond to resources residing either in that LN file or the .mui files associated with it.
+        /// If no .mui files are found, only names from the LN file are returned.
+        /// After one appropriate .mui file is found the search will not continue further,
+        /// because all .mui files corresponding to a single LN file have the same resource names.
+        /// </para>
+        /// <para>
+        /// If <paramref name="dwFlags"/> and <paramref name="LangId"/> are both zero,
+        /// then the function behaves like <see cref="EnumResourceNames"/>.
+        /// </para>
+        /// <para>
+        /// If <paramref name="LangId"/> is nonzero, then only the .mui file corresponding to that Language identifier will be searched.
+        /// Language fallbacks will not be used.
+        /// If an .mui file for that language does not exist, the enumeration will be empty
+        /// (unless resources for that language exist in the LN file, and the flag is set to search the LN file as well).
+        /// </para>
+        /// <para>
+        /// The enumeration never includes duplicates:
+        /// if resources for a particular language are contained in both the LN file and in an .mui file, the name will only be enumerated once.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumResourceNamesExW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnumResourceNamesEx([In] HMODULE hModule, [In] LPCWSTR lpType, [In] ENUMRESNAMEPROC lpEnumFunc,
+            [In] LONG_PTR lParam, [In] DWORD dwFlags, [In] LANGID LangId);
+
+        /// <summary>
+        /// <para>
         /// Enumerates resource types within a binary module.
         /// Starting with Windows Vista, this is typically a language-neutral Portable Executable (LN file),
         /// and the enumeration also includes resources from one of the corresponding language-specific resource files (.mui files)—
@@ -553,6 +941,157 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumResourceTypesW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EnumResourceTypes([In] HMODULE hModule, [In] ENUMRESTYPEPROC lpEnumFunc, [In] LONG_PTR lParam);
+
+        /// <summary>
+        /// <para>
+        /// Enumerates resource types associated with a specified binary module.
+        /// The search can include both a language-neutral Portable Executable file (LN file) and its associated .mui files.
+        /// Alternately, it can be limited to a single binary module of any type,
+        /// or to the .mui files associated with a single LN file.
+        /// The search can also be limited to a single associated .mui file that contains resources for a specific language.
+        /// </para>
+        /// <para>
+        /// For each resource type found, <see cref="EnumResourceTypesEx"/> calls
+        /// an application-defined callback function <paramref name="lpEnumFunc"/>,
+        /// passing the resource type it finds,
+        /// as well as the various other parameters that were passed to <see cref="EnumResourceTypesEx"/>.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-enumresourcetypesexw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hModule">
+        /// <para>
+        /// The handle to a module to be searched.
+        /// Typically this is an LN file, and if flag <see cref="RESOURCE_ENUM_MUI"/> is set,
+        /// then appropriate .mui files can be included in the search.
+        /// Alternately, this can be a handle to an .mui file or other LN file.
+        /// </para>
+        /// <para>
+        /// If this parameter is <see cref="NULL"/>,
+        /// it is equivalent to passing in a handle to the module used to create the current process.
+        /// </para>
+        /// </param>
+        /// <param name="lpEnumFunc">
+        /// A pointer to the callback function to be called for each enumerated resource type.
+        /// For more information, see <c>EnumResTypeProc</c>.
+        /// </param>
+        /// <param name="lParam">
+        /// An application-defined value passed to the callback function.
+        /// </param>
+        /// <param name="dwFlags">
+        /// <para>
+        /// The type of file to be searched.
+        /// The following values are supported. Note that if <paramref name="dwFlags"/> is zero,
+        /// then the <see cref="RESOURCE_ENUM_LN"/> and <see cref="RESOURCE_ENUM_MUI"/> flags are assumed to be specified.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="RESOURCE_ENUM_MUI"/>
+        /// </para>
+        /// <para>
+        /// 0x0002
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Search for resource types in one of the .mui files associated with the file
+        /// specified by <paramref name="hModule"/> and with the current language preferences,
+        /// following the usual Resource Loader strategy (see User Interface Language Management).
+        /// Alternately, if <paramref name="LangId"/> is nonzero,
+        /// then only the .mui file of the language as specified by <paramref name="LangId"/> will be searched.
+        /// Typically this flag should be used only if <paramref name="hModule"/> references an LN file.
+        /// If <paramref name="hModule"/> references an .mui file,
+        /// then that file is actually covered by the <see cref="RESOURCE_ENUM_LN"/> flag, despite the name of the flag.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="RESOURCE_ENUM_LN"/>
+        /// </para>
+        /// <para>
+        /// 0x0001
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Searches only the file specified by <paramref name="hModule"/>,
+        /// regardless of whether the file is an LN file or an .mui file.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="RESOURCE_ENUM_VALIDATE"/>
+        /// </para>
+        /// <para>
+        /// 0x0008
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Performs extra validation on the resource section and its reference in the PE header
+        /// while doing the enumeration to ensure that resources are properly formatted.
+        /// The validation sets a maximum limit of 260 characters for each type that is enumerated.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="LangId">
+        /// The language used to filter the search in the MUI module.
+        /// This parameter is used only when the <see cref="RESOURCE_ENUM_MUI"/> flag is set in <paramref name="dwFlags"/>.
+        /// If zero is specified, then all .mui files that match current language preferences are included in the search,
+        /// following the usual Resource Loader strategy (see User Interface Language Management).
+        /// If a nonzero <paramref name="LangId"/> is specified,
+        /// then the only .mui file searched will be the one matching the specified <paramref name="LangId"/>.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> if successful
+        /// or <see cref="FALSE"/> if the function does not find a resource of the type specified,
+        /// or if the function fails for another reason.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The <see cref="EnumResourceTypesEx"/> function continues to enumerate resource types
+        /// until the callback function returns <see cref="FALSE"/> or all resource types have been enumerated.
+        /// </para>
+        /// <para>
+        /// If <paramref name="hModule"/> specifies an LN file, and both flags are selected,
+        /// the types enumerated correspond to resources residing either in the LN file or in the .mui files associated with it.
+        /// If no .mui files are found, only types from the LN file are returned.
+        /// Once one appropriate .mui file is found the search will not continue further,
+        /// because all .mui files corresponding to a single LN file have the same resource types.
+        /// </para>
+        /// <para>
+        /// If <paramref name="dwFlags"/> and <paramref name="LangId"/> are both zero,
+        /// then the function behaves like <see cref="EnumResourceTypes"/>.
+        /// </para>
+        /// <para>
+        /// If <paramref name="LangId"/> is nonzero, then only the .mui file corresponding to that language identifier will be searched.
+        /// Language fallbacks will not be used.
+        /// If an .mui file for that language does not exist, the enumeration will be empty
+        /// (unless resources for that language exist in the LN file, and the flag is set to search the LN file as well).
+        /// </para>
+        /// <para>
+        /// The enumeration never includes duplicates:
+        /// if resources for a particular language are contained in both the LN file and in an .mui file, the type will only be enumerated once.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumResourceTypesExW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnumResourceTypesEx([In] HMODULE hModule, [In] ENUMRESTYPEPROC lpEnumFunc, [In] LONG_PTR lParam,
+            [In] DWORD dwFlags, [In] LANGID LangId);
 
         /// <summary>
         /// <para>

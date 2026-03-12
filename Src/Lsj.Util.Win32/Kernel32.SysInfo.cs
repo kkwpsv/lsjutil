@@ -165,6 +165,143 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Enumerates all system firmware tables of the specified type.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-enumsystemfirmwaretables"/>
+        /// </para>
+        /// </summary>
+        /// <param name="FirmwareTableProviderSignature">
+        /// <para>
+        /// The identifier of the firmware table provider to which the query is to be directed.
+        /// This parameter can be one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// 'ACPI'
+        /// </term>
+        /// <term>
+        /// The ACPI firmware table provider.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 'FIRM'
+        /// </term>
+        /// <term>
+        /// The raw firmware table provider.
+        /// Not supported for UEFI systems; use 'RSMB' instead.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// 'RSMB'
+        /// </term>
+        /// <term>
+        /// The raw SMBIOS firmware table provider.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <param name="pFirmwareTableEnumBuffer">
+        /// <para>
+        /// A pointer to a buffer that receives the list of firmware tables.
+        /// If this parameter is <see cref="NULL"/>, the return value is the required buffer size.
+        /// </para>
+        /// <para>
+        /// For more information on the contents of this buffer, see the Remarks section.
+        /// </para>
+        /// </param>
+        /// <param name="BufferSize">
+        /// The size of the <paramref name="pFirmwareTableBuffer"/> buffer, in bytes.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is the number of bytes written to the buffer.
+        /// This value will always be less than or equal to <paramref name="BufferSize"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails because the buffer is not large enough,
+        /// the return value is the required buffer size, in bytes.
+        /// This value is always greater than <paramref name="BufferSize"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails for any other reason, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// Starting with Windows 10, version 1803, Universal Windows apps can access the System Management BIOS (SMBIOS) information
+        /// by declaring the <c>smbios</c> restricted capability in the app manifest.
+        /// See Access SMBIOS information from a Universal Windows App for details.
+        /// Only raw SMBIOS (RSMB) firmware tables can be accessed from a Universal Windows app.
+        /// </para>
+        /// <para>
+        /// As of Windows Server 2003 with Service Pack 1 (SP1), applications cannot access the <c>\Device\PhysicalMemory</c> object.
+        /// Access to this object is limited to kernel-mode drivers.
+        /// This change affects applications read System Management BIOS (SMBIOS)
+        /// or other BIOS data stored in the lowest 1MB of physical memory.
+        /// Applications have the following alternatives to read data from low physical memory:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// Retrieve the SMBIOS properties using WMI.
+        /// Many individual properties are contained in the Win32 classes.
+        /// You can also retrieve the raw SMBIOS data in a single buffer using the <c>MSSMBios_RawSMBiosTables</c> class.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Use the <see cref="GetSystemFirmwareTable"/> function to read the raw SMBIOS firmware table.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// There is no way for applications to write to low physical memory.
+        /// </para>
+        /// <para>
+        /// The raw SMBIOS table provider ('RSMB') currently returns a single table identifier, 0x0000.
+        /// This corresponds to the raw SMBIOS firmware table.
+        /// </para>
+        /// <para>
+        /// The raw firmware table provider ('FIRM') returns a list of <see cref="DWORD"/> table identifiers.
+        /// Each identifier corresponds to the beginning of a physical address range.
+        /// Currently, this provider returns 'C0000' and 'E0000'.
+        /// These values correspond to physical memory from 0xC0000 to 0xDFFFF and 0xE0000 to 0xFFFFF, respectively.
+        /// </para>
+        /// <para>
+        /// The ACPI table provider ('ACPI') returns a list of <see cref="DWORD"/> table identifiers.
+        /// Each identifier returned corresponds to Signature field of the <c>DESCRIPTION_HEADER</c> structure
+        /// for an ACPI table currently in the ACPI namespace of the system.
+        /// </para>
+        /// <para>
+        /// For ACPI, if the system contains multiple tables with the same name,
+        /// they are all enumerated with <see cref="EnumSystemFirmwareTables"/>.
+        /// However, <see cref="GetSystemFirmwareTable"/> retrieves only the first table in the list with this name.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumSystemFirmwareTables", ExactSpelling = true, SetLastError = true)]
+        public static extern UINT EnumSystemFirmwareTables([In] DWORD FirmwareTableProviderSignature,
+            [In] PVOID pFirmwareTableEnumBuffer, [In] DWORD BufferSize);
+
+        /// <summary>
+        /// <para>
         /// Gets a value indicating whether the 64-bit Common Language Runtime (CLR) is installed.
         /// </para>
         /// <para>
@@ -1227,6 +1364,53 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNumaProcessorNodeEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetNumaProcessorNodeEx([Out] out PROCESSOR_NUMBER Processor, [Out] out USHORT NodeNumber);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the NUMA node number that corresponds to the specified proximity domain identifier.
+        /// </para>
+        /// <para>
+        /// Use the <see cref="GetNumaProximityNodeEx"/> function to retrieve the node number as a <see cref="USHORT"/> value.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getnumaproximitynode"/>
+        /// </para>
+        /// </summary>
+        /// <param name="ProximityId">
+        /// The proximity domain identifier of the node.
+        /// </param>
+        /// <param name="NodeNumber">
+        /// The node number. If the processor does not exist, this parameter is 0xFF.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// A proximity domain identifier is an index to a NUMA node on a NUMA system.
+        /// Proximity domain identifiers are found in the ACPI System Resource Affinity Table (SRAT),
+        /// where they are used to associate processors and memory regions with a particular NUMA node.
+        /// Proximity domain identifiers are also found in the ACPI namespace,
+        /// where they are used to associate a device with a particular NUMA node.
+        /// Proximity domain identifiers are typically used only by management applications provided by system manufacturers.
+        /// Windows does not use proximity domain identifiers to identify NUMA nodes;
+        /// instead, it assigns a unique number to each NUMA node in the system.
+        /// </para>
+        /// <para>
+        /// The relative distance between nodes on a system is stored in the ACPI System Locality Distance Information Table (SLIT),
+        /// which is not exposed by any Windows functions.
+        /// For more information about ACPI tables, see the ACPI specifications.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNumaProximityNode", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetNumaProximityNode([In] ULONG ProximityId, [Out] out UCHAR NodeNumber);
 
         /// <summary>
         /// <para>
@@ -2719,6 +2903,86 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemDirectoryW", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetSystemDirectory([In] IntPtr lpBuffer, [In] UINT uSize);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the current size limits for the working set of the system cache.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-getsystemfilecachesize"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpMinimumFileCacheSize">
+        /// A pointer to a variable that receives the minimum size of the file cache, in bytes.
+        /// The virtual memory manager attempts to keep at least this much memory resident in the system file cache,
+        /// if there is a previous call to the <see cref="SetSystemFileCacheSize"/> function with the <see cref="FILE_CACHE_MIN_HARD_ENABLE"/> flag.
+        /// </param>
+        /// <param name="lpMaximumFileCacheSize">
+        /// A pointer to a variable that receives the maximum size of the file cache, in bytes.
+        /// The virtual memory manager enforces this limit only if there is a previous call
+        /// to <see cref="SetSystemFileCacheSize"/> with the <see cref="FILE_CACHE_MAX_HARD_ENABLE"/> flag.
+        /// </param>
+        /// <param name="lpFlags">
+        /// <para>
+        /// The flags that indicate which of the file cache limits are enabled.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="FILE_CACHE_MAX_HARD_ENABLE"/>
+        /// </para>
+        /// <para>
+        /// 0x1
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The maximum size limit is enabled. If this flag is not present, this limit is disabled.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="FILE_CACHE_MIN_HARD_ENABLE"/>
+        /// </para>
+        /// <para>
+        /// 0x4
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The minimum size limit is enabled. If this flag is not present, this limit is disabled.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is a nonzero value.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is 0 (zero).
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// The <c>FILE_CACHE_*</c> constants will be defined in the Windows header files starting with the Windows SDK for Windows Server 2008.
+        /// If you are using header files from an earlier version of the SDK,
+        /// add the definitions shown in <see cref="SetSystemFileCacheSize"/> to your code.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemFileCacheSize", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetSystemFileCacheSize([Out] out SIZE_T lpMinimumFileCacheSize, [Out] out SIZE_T lpMaximumFileCacheSize,
+            [Out] out DWORD lpFlags);
 
         /// <summary>
         /// <para>
@@ -4602,6 +4866,47 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the cycle time for the idle thread of each processor in the system.
+        /// </para>
+        /// <para>
+        /// On a system with more than 64 processors, this function retrieves the cycle time
+        /// for the idle thread of each processor in the processor group to which the calling thread is assigned.
+        /// Use the <see cref="QueryIdleProcessorCycleTimeEx"/> function to retrieve the cycle time
+        /// for the idle thread on each logical processor for a specific processor group.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/realtimeapiset/nf-realtimeapiset-queryidleprocessorcycletime"/>
+        /// </para>
+        /// </summary>
+        /// <param name="BufferLength">
+        /// <para>
+        /// On input, specifies the size of the <paramref name="ProcessorIdleCycleTime"/> buffer, in bytes.
+        /// This buffer is expected to be 8 times the number of processors in the group.
+        /// </para>
+        /// <para>
+        /// On output, specifies the number of elements written to the buffer.
+        /// If the buffer size is not sufficient, the function fails and this parameter receives the required length of the buffer.
+        /// </para>
+        /// </param>
+        /// <param name="ProcessorIdleCycleTime">
+        /// The number of CPU clock cycles used by each idle thread.
+        /// This buffer must be 8 times the number of processors in the system in size.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryIdleProcessorCycleTime", ExactSpelling = true)]
+        public static extern BOOL QueryIdleProcessorCycleTime([In][Out] ref ULONG BufferLength, [Out] ULONG64[] ProcessorIdleCycleTime);
+
+        /// <summary>
+        /// <para>
         /// Gets the current unbiased interrupt-time count, in units of 100 nanoseconds.
         /// The unbiased interrupt-time count does not include time the system spends in sleep or hibernation.
         /// </para>
@@ -4911,6 +5216,158 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetLocalTime", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetLocalTime([In] in SYSTEMTIME lpSystemTime);
+
+        /// <summary>
+        /// <para>
+        /// Limits the size of the working set for the file system cache.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-setsystemfilecachesize"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpMinimumFileCacheSize">
+        /// <para>
+        /// The minimum size of the file cache, in bytes.
+        /// The virtual memory manager attempts to keep at least this much memory resident in the system file cache.
+        /// </para>
+        /// <para>
+        /// To flush the cache, specify <c>(SIZE_T) -1</c>.
+        /// </para>
+        /// </param>
+        /// <param name="lpMaximumFileCacheSize">
+        /// <para>
+        /// The maximum size of the file cache, in bytes.
+        /// The virtual memory manager enforces this limit only if this call or a previous call
+        /// to <see cref="SetSystemFileCacheSize"/> specifies <see cref="FILE_CACHE_MAX_HARD_ENABLE"/>.
+        /// </para>
+        /// <para>
+        /// To flush the cache, specify <c>(SIZE_T) -1</c>.
+        /// </para>
+        /// </param>
+        /// <param name="lpFlags">
+        /// <para>
+        /// The flags that enable or disable the file cache limits.
+        /// If this parameter is 0 (zero), the size limits retain the current setting, which is either disabled or enabled.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="FILE_CACHE_MAX_HARD_DISABLE"/>
+        /// </para>
+        /// <para>
+        /// 0x2
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Disable the maximum size limit.
+        /// </para>
+        /// <para>
+        /// The <see cref="FILE_CACHE_MAX_HARD_DISABLE"/> and <see cref="FILE_CACHE_MAX_HARD_ENABLE"/> flags are mutually exclusive.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="FILE_CACHE_MAX_HARD_ENABLE"/>
+        /// </para>
+        /// <para>
+        /// 0x1
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Enable the maximum size limit.
+        /// </para>
+        /// <para>
+        /// The <see cref="FILE_CACHE_MAX_HARD_DISABLE"/> and <see cref="FILE_CACHE_MAX_HARD_ENABLE"/> flags are mutually exclusive.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="FILE_CACHE_MIN_HARD_DISABLE"/>
+        /// </para>
+        /// <para>
+        /// 0x8
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Disable the minimum size limit.
+        /// </para>
+        /// <para>
+        /// The <see cref="FILE_CACHE_MIN_HARD_DISABLE"/> and <see cref="FILE_CACHE_MIN_HARD_ENABLE"/> flags are mutually exclusive.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="FILE_CACHE_MIN_HARD_ENABLE"/>
+        /// </para>
+        /// <para>
+        /// 0x4
+        /// </para>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// Enable the minimum size limit.
+        /// </para>
+        /// <para>
+        /// The <see cref="FILE_CACHE_MIN_HARD_DISABLE"/> and <see cref="FILE_CACHE_MIN_HARD_ENABLE"/> flags are mutually exclusive.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is a nonzero value.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is 0 (zero).
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The calling process must enable the <see cref="SE_INCREASE_QUOTA_NAME"/> privilege.
+        /// </para>
+        /// <para>
+        /// Setting the <paramref name="lpMaximumFileCacheSize"/> parameter to a very low value can adversely affect system performance.
+        /// </para>
+        /// <para>
+        /// The <c>FILE_CACHE_*</c> constants will be defined in the Windows header files starting with the Windows SDK for Windows Server 2008.
+        /// If you are using header files from an earlier version of the SDK, add the following definitions to your code.
+        /// </para>
+        /// <code>
+        /// #ifndef FILE_CACHE_FLAGS_DEFINED
+        /// 
+        /// #define FILE_CACHE_MAX_HARD_ENABLE      0x00000001
+        /// #define FILE_CACHE_MAX_HARD_DISABLE     0x00000002
+        /// #define FILE_CACHE_MIN_HARD_ENABLE      0x00000004
+        /// #define FILE_CACHE_MIN_HARD_DISABLE     0x00000008
+        /// 
+        /// #endif // FILE_CACHE_FLAGS_DEFINED
+        /// </code>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSystemFileCacheSize", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetSystemFileCacheSize([In] SIZE_T lpMinimumFileCacheSize, [In] SIZE_T lpMaximumFileCacheSize, [In] DWORD lpFlags);
 
         /// <summary>
         /// <para>

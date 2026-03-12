@@ -3,7 +3,7 @@ using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.RegistryValueTypes;
 using static Lsj.Util.Win32.Enums.SearchPathModes;
@@ -363,6 +363,57 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetEnvironmentVariableW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetEnvironmentVariable([In] LPCWSTR lpName, [In] LPWSTR lpBuffer, [In] DWORD nSize);
+
+        /// <summary>
+        /// <para>
+        /// Determines whether the current directory should be included in the search path for the specified executable.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processenv/nf-processenv-needcurrentdirectoryforexepathw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="ExeName">
+        /// The name of the executable file.
+        /// </param>
+        /// <returns>
+        /// If the current directory should be part of the search path, the return value is <see cref="TRUE"/>.
+        /// Otherwise, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// This function should only be called in instances
+        /// where the caller must explicitly resolve a relative executable name to an absolute name. 
+        /// If <see cref="CreateProcess"/> is called with a relative executable name,
+        /// it will automatically search for the executable, calling this function to determine the search path.
+        /// </para>
+        /// <para>
+        /// Most system functions perform their own path resolution,
+        /// therefore, this function should only be called if you are attempting to resolve a search path
+        /// for the specified executable based on the current directory.
+        /// </para>
+        /// <para>
+        /// The value of the <c>NoDefaultCurrentDirectoryInExePath</c> environment variable determines the value this function returns.
+        /// However, you should call this function rather than checking the environment variable directly,
+        /// as the registry location of this environment variable can change.
+        /// </para>
+        /// <para>
+        /// If the value of the <paramref name="ExeName"/> parameter contains a backslash (\),
+        /// this function will always return <see cref="TRUE"/>.
+        /// If it does not contain a backslash,
+        /// the existence of the <c>NoDefaultCurrentDirectoryInExePath</c> environment variable is checked, and not its value.
+        /// </para>
+        /// <para>
+        /// An example of an instance when this function should be called
+        /// instead of relying on the default search path resolution algorithm in <see cref="CreateProcess"/> is the "cmd.exe" executable.
+        /// It calls this function to determine the command search path
+        /// because it does its own path resolution before calling <see cref="CreateProcess"/>.
+        /// If this function returns <see cref="TRUE"/>, cmd.exe uses the path ".;%PATH%" for the executable search.
+        /// If it returns <see cref="FALSE"/>, cmd.exe uses the path "%PATH%" for the search.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "NeedCurrentDirectoryForExePathW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL NeedCurrentDirectoryForExePathW([In] LPCWSTR ExeName);
 
         /// <summary>
         /// <para>

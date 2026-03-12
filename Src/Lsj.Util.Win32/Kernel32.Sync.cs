@@ -1047,6 +1047,54 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Inserts a singly-linked list at the front of another singly linked list.
+        /// </para>
+        /// <para>
+        /// Access to the lists is synchronized on a multiprocessor system.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/sync/interlockedpushlistslist"/>
+        /// </para>
+        /// </summary>
+        /// <param name="ListHead">
+        /// Pointer to an <see cref="SLIST_HEADER"/> structure that represents the head of a singly linked list.
+        /// The list specified by the <paramref name="List"/> and <paramref name="ListEnd"/> parameters
+        /// is inserted at the front of this list.
+        /// </param>
+        /// <param name="List">
+        /// Pointer to an <c>SLIST_ENTRY</c> structure that represents the first item in the list to be inserted.
+        /// </param>
+        /// <param name="ListEnd">
+        /// Pointer to an <c>SLIST_ENTRY</c> structure that represents the last item in the list to be inserted.
+        /// </param>
+        /// <param name="Count">
+        /// The number of items in the list to be inserted.
+        /// </param>
+        /// <returns>
+        /// The return value is the previous first item in the list specified by the <paramref name="ListHead"/> parameter.
+        /// If the list was previously empty, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// All list items must be aligned on a <see cref="MEMORY_ALLOCATION_ALIGNMENT"/> boundary;
+        /// otherwise, this function will behave unpredictably.
+        /// See <c>_aligned_malloc</c>.
+        /// </para>
+        /// <para>
+        /// Windows 8 and Windows Server 2012: This function has been superceded by <see cref="InterlockedPushListSListEx"/>.
+        /// </para>
+        /// <para>
+        /// When compiling with <c>NTDDI_VERSION</c> set to <c>NTDDI_WIN8</c> or greater,
+        /// calls to <see cref="InterlockedPushListSList"/> will go to <see cref="InterlockedPushListSListEx"/> instead.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InterlockedPushListSList", ExactSpelling = true)]
+        public static extern PSLIST_ENTRY InterlockedPushListSList([In][Out] ref SLIST_HEADER ListHead,
+            [In] PSLIST_ENTRY List, [In] PSLIST_ENTRY ListEnd, [In] ULONG Count);
+
+        /// <summary>
+        /// <para>
         /// Releases ownership of the specified critical section object.
         /// </para>
         /// <para>

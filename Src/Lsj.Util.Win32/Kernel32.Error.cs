@@ -54,6 +54,50 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Registers a vectored continue handler.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/errhandlingapi/nf-errhandlingapi-addvectoredcontinuehandler"/>
+        /// </para>
+        /// </summary>
+        /// <param name="First">
+        /// The order in which the handler should be called.
+        /// If the parameter is nonzero, the handler is the first handler to be called.
+        /// If the parameter is zero, the handler is the last handler to be called.
+        /// </param>
+        /// <param name="Handler">
+        /// A pointer to the handler to be called.
+        /// For more information, see <c>VectoredHandler</c>.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is a pointer to the exception handler.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// If the <paramref name="First"/> parameter is nonzero, the handler is the first handler to be called
+        /// until a subsequent call to <see cref="AddVectoredContinueHandler"/> is used
+        /// to specify a different handler as the first handler.
+        /// </para>
+        /// <para>
+        /// If the <paramref name="Handler"/> parameter points to a function in a DLL and that DLL is unloaded,
+        /// the handler is still registered.
+        /// This can lead to application errors.
+        /// </para>
+        /// <para>
+        /// To unregister the handler, use the <see cref="RemoveVectoredContinueHandler"/> function.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddVectoredContinueHandler", ExactSpelling = true)]
+        public static extern PVOID AddVectoredContinueHandler([In] ULONG First, [In] PVECTORED_EXCEPTION_HANDLER Handler);
+
+        /// <summary>
+        /// <para>
         /// Registers a vectored exception handler.
         /// </para>
         /// <para>
@@ -930,6 +974,30 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "RaiseException", ExactSpelling = true)]
         public static extern void RaiseException([In] ExceptionCodes dwExceptionCode, [In] ExceptionFlags dwExceptionFlags,
             [In] DWORD nNumberOfArguments, [In] ULONG_PTR[] lpArguments);
+
+        /// <summary>
+        /// <para>
+        /// Unregisters a vectored continue handler.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/errhandlingapi/nf-errhandlingapi-removevectoredcontinuehandler"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Handle">
+        /// A pointer to a vectored exception handler previously registered
+        /// using the <see cref="AddVectoredContinueHandler"/> function.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "RemoveVectoredContinueHandler", ExactSpelling = true)]
+        public static extern ULONG RemoveVectoredContinueHandler([In] PVOID Handle);
 
         /// <summary>
         /// <para>

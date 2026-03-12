@@ -88,6 +88,7 @@ namespace Lsj.Util.Tests.Win32
             "OleCreateLink",
             "OleLoad",
             "OleSave",
+            "SetFileIoOverlappedRange",
             "SetNamedSecurityInfo",
             "SetSecurityInfo",
             "StgOpenStorage",
@@ -101,7 +102,7 @@ namespace Lsj.Util.Tests.Win32
             var apis = ReadFromFiles();
             var toCheckApis = apis.Where(x =>
                 (x.Value.DllName == "user32" && x.Value.Version <= WindowsVersion.Windows10 && x.Value.BuildNumber <= BuildNumbers.Windows10_22H2) ||
-                (x.Value.DllName == "kernel32" && x.Value.Version <= WindowsVersion.WindowsXP) ||
+                (x.Value.DllName == "kernel32" && x.Value.Version <= WindowsVersion.WindowsVista && x.Value.BuildNumber <= BuildNumbers.WindowsVista) ||
                 (x.Value.DllName == "advapi32" && x.Value.Version <= WindowsVersion.Windows2000) ||
                 (x.Value.DllName == "gdi32" && x.Value.Version <= WindowsVersion.Windows7))
                 .Where(x => !x.Key.EndsWith("A") && !_skipApiList.Contains(x.Key) && !_notImplemntApiList.Contains(x.Key))

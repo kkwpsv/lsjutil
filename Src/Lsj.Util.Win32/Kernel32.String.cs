@@ -1782,6 +1782,75 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetStringTypeExW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetStringTypeEx([In] LCID Locale, [In] DWORD dwInfoType, [In] LPCWSTR lpSrcStr, [In] int cchSrc, [Out] WORD[] lpCharType);
 
+        /// <summary>
+        /// <para>
+        /// Verifies that a string is normalized according to Unicode 4.0 TR#15.
+        /// For more information, see Using Unicode Normalization to Represent Strings.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-isnormalizedstring"/>
+        /// </para>
+        /// </summary>
+        /// <param name="NormForm">
+        /// Normalization form to use. <see cref="NORM_FORM"/> specifies the standard Unicode normalization forms.
+        /// </param>
+        /// <param name="lpString">
+        /// Pointer to the string to test.
+        /// </param>
+        /// <param name="cwLength">
+        /// Length, in characters, of the input string, including a null terminating character.
+        /// If this value is -1, the function assumes the string to be null-terminated and calculates the length automatically.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// Returns <see cref="TRUE"/> if the input string is already normalized to the appropriate form,
+        /// or <see cref="FALSE"/> otherwise.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// Any of the parameter values was invalid.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_NO_UNICODE_TRANSLATION"/>.
+        /// Invalid Unicode was found in string.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="ERROR_SUCCESS"/>.
+        /// The action completed successfully but yielded no results.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If you need to reliably determine <see cref="FALSE"/> from an error condition,
+        /// then it must call <c>SetLastError(ERROR_SUCCESS)</c>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// Windows XP, Windows Server 2003:
+        /// </para>
+        /// <para>
+        /// No longer supported.
+        /// </para>
+        /// <para>
+        /// The required header file and DLL are part of the Microsoft Internationalized Domain Name (IDN) Mitigation APIs,
+        /// which are no longer available for download.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsNormalizedString", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL IsNormalizedString([In] NORM_FORM NormForm, [In] LPCWSTR lpString, [In] int cwLength);
+
 #pragma warning disable IDE1006
 
         /// <summary>
