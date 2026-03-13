@@ -68,6 +68,9 @@ namespace Lsj.Util.Win32.Structs
             public GUID GPOId;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         public struct INSTALLSPEC_COMClass
         {

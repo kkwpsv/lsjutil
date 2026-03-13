@@ -7,6 +7,18 @@ using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
 {
+    /// <summary>
+    /// <para>
+    /// Represents a buffer that contains a two-dimensional surface, such as a video frame.
+    /// </para>
+    /// <para>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/mfobjects/nn-mfobjects-imf2dbuffer2"/>
+    /// </para>
+    /// </summary>
+    /// <remarks>
+    /// This interface extends the <see cref="IMF2DBuffer"/> interface
+    /// and adds a safer version of the <see cref="IMF2DBuffer.Lock2D"/> method.
+    /// </remarks>
     [WindowsVersionRequirement(WindowsVersion.Windows8)]
     [ComInterface(IID = "33ae5ea6-4316-436f-8ddd-d73d22f829ec", BeginVTableSlotIndex = 10, EndVTableSlotIndex = 11,
         InheritedFromTypes = [typeof(IUnknown), typeof(IMF2DBuffer)])]

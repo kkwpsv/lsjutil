@@ -43,6 +43,9 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public RAWINPUT_data data;
 
+        /// <summary>
+        /// 
+        /// </summary>
         [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
         public struct RAWINPUT_data
         {

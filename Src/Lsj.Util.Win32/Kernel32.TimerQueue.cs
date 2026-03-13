@@ -124,6 +124,37 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateTimerQueue", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE CreateTimerQueue();
 
+        /// <summary>
+        /// <para>
+        /// Deletes a timer queue.
+        /// Any pending timers in the queue are canceled and deleted.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// This function is obsolete and has been replaced by the <see cref="DeleteTimerQueueEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/threadpoollegacyapiset/nf-threadpoollegacyapiset-deletetimerqueue"/>
+        /// </para>
+        /// </summary>
+        /// <param name="TimerQueue">
+        /// A handle to the timer queue.
+        /// This handle is returned by the <see cref="CreateTimerQueue"/> function.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <see cref="DeleteTimerQueue"/> does not wait for all callback functions associated with the timer to complete.
+        /// </remarks>
         [Obsolete]
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteTimerQueue", ExactSpelling = true, SetLastError = true)]
