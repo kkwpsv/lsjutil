@@ -44,6 +44,9 @@ namespace Lsj.Util.Win32.BaseTypes
         public static bool operator !=(GUID left, GUID right) => !(left == right);
 
         /// <inheritdoc/>
+        public override bool Equals(object? obj) => obj is GUID guid && _value == guid._value;
+
+        /// <inheritdoc/>
         public override int GetHashCode() => _value.GetHashCode();
     }
 }
