@@ -1002,7 +1002,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </param>
         /// <param name="pEntries">
         /// A pointer to an array of palette entries.
-        /// For RGB streams, the palette entries use the <see cref="DXGI_FORMAT_B8G8R8A8"/> representation.
+        /// For RGB streams, the palette entries use the <c>DXGI_FORMAT_B8G8R8A8</c> representation.
         /// For YCbCr streams, the palette entries use the <see cref="DXGI_FORMAT_AYUV"/> representation.
         /// The caller allocates the array.
         /// </param>
@@ -1588,7 +1588,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <param name="pEntries">
         /// A pointer to a <see cref="UINT"/> array allocated by the caller.
         /// The method fills the array with the palette entries.
-        /// For RGB streams, the palette entries use the <see cref="DXGI_FORMAT_B8G8R8A8"/> representation.
+        /// For RGB streams, the palette entries use the <c>DXGI_FORMAT_B8G8R8A8</c> representation.
         /// For YCbCr streams, the palette entries use the <see cref="DXGI_FORMAT_AYUV"/> representation.
         /// </param>
         /// <remarks>

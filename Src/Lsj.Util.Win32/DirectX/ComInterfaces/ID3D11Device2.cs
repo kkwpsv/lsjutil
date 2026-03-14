@@ -6,6 +6,7 @@ using Lsj.Util.Win32.DirectX.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.DirectX.Constants;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_CHECK_MULTISAMPLE_QUALITY_LEVELS_FLAG;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_CREATE_DEVICE_FLAG;
 using static Lsj.Util.Win32.DirectX.Enums.DXGI_ERROR;

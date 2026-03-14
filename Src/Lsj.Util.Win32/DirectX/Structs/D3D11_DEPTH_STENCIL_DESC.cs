@@ -40,7 +40,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </listheader>
     /// <item>
     /// <term>
-    /// DepthEnable
+    /// <see cref="DepthEnable"/>
     /// </term>
     /// <term>
     /// <see cref="TRUE"/>
@@ -48,7 +48,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </item>
     /// <item>
     /// <term>
-    /// DepthWriteMask
+    /// <see cref="DepthWriteMask"/>
     /// </term>
     /// <term>
     /// <see cref="D3D11_DEPTH_WRITE_MASK_ALL"/>
@@ -56,7 +56,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </item>
     /// <item>
     /// <term>
-    /// DepthFunc
+    /// <see cref="DepthFunc"/>
     /// </term>
     /// <term>
     /// <see cref="D3D11_COMPARISON_LESS"/>
@@ -64,7 +64,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </item>
     /// <item>
     /// <term>
-    /// StencilEnable
+    /// <see cref="StencilEnable"/>
     /// </term>
     /// <term>
     /// <see cref="FALSE"/>
@@ -72,7 +72,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </item>
     /// <item>
     /// <term>
-    /// StencilReadMask
+    /// <see cref="StencilReadMask"/>
     /// </term>
     /// <term>
     /// <see cref="D3D11_DEFAULT_STENCIL_READ_MASK"/>
@@ -80,7 +80,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </item>
     /// <item>
     /// <term>
-    /// StencilWriteMask
+    /// <see cref="StencilWriteMask"/>
     /// </term>
     /// <term>
     /// <see cref="D3D11_DEFAULT_STENCIL_WRITE_MASK"/>
@@ -89,13 +89,13 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// <item>
     /// <term>
     /// <para>
-    /// FrontFace.StencilFunc
+    /// <c>FrontFace.StencilFunc</c>
     /// </para>
     /// <para>
     /// and
     /// </para>
     /// <para>
-    /// BackFace.StencilFunc
+    /// <c>BackFace.StencilFunc</c>
     /// </para>
     /// </term>
     /// <term>
@@ -105,13 +105,13 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// <item>
     /// <term>
     /// <para>
-    /// FrontFace.StencilDepthFailOp
+    /// <c>FrontFace.StencilDepthFailOp</c>
     /// </para>
     /// <para>
     /// and
     /// </para>
     /// <para>
-    /// BackFace.StencilDepthFailOp
+    /// <c>BackFace.StencilDepthFailOp</c>
     /// </para>
     /// </term>
     /// <term>
@@ -121,13 +121,13 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// <item>
     /// <term>
     /// <para>
-    /// FrontFace.StencilPassOp
+    /// <c>FrontFace.StencilPassOp</c>
     /// </para>
     /// <para>
     /// and
     /// </para>
     /// <para>
-    /// BackFace.StencilPassOp
+    /// <c>BackFace.StencilPassOp</c>
     /// </para>
     /// </term>
     /// <term>
@@ -137,13 +137,13 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// <item>
     /// <term>
     /// <para>
-    /// FrontFace.StencilFailOp
+    /// <c>FrontFace.StencilFailOp</c>
     /// </para>
     /// <para>
     /// and
     /// </para>
     /// <para>
-    /// BackFace.StencilFailOp
+    /// <c>BackFace.StencilFailOp</c>
     /// </para>
     /// </term>
     /// <term>

@@ -3,6 +3,7 @@ using Lsj.Util.Win32.DirectX.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.DirectX.Enums.D3D11_BIND_FLAG;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_CONSERVATIVE_RASTERIZATION_MODE;
 
 namespace Lsj.Util.Win32.DirectX.Structs

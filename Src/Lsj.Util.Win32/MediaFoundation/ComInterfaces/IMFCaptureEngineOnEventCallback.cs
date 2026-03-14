@@ -4,6 +4,7 @@ using Lsj.Util.Win32.ComInterfaces;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.MediaFoundation.GUIDs.MediaCaptureEventExtendedTypeGuids;
 
 namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
 {

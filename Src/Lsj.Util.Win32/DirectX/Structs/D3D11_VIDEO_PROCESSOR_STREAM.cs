@@ -3,6 +3,7 @@ using Lsj.Util.Win32.DirectX.ComInterfaces;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.DirectX.Enums.D3D11_VIDEO_PROCESSOR_STEREO_FORMAT;
 
 namespace Lsj.Util.Win32.DirectX.Structs
 {

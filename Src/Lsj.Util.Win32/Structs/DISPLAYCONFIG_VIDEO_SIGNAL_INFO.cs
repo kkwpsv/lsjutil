@@ -47,7 +47,7 @@ namespace Lsj.Util.Win32.Structs
 
         /// <summary>
         /// The video standard (if any) that defines the video signal.
-        /// For a list of possible values, see the <see cref="D3DKMDT_VIDEO_SIGNAL_STANDARD"/> enumerated type.
+        /// For a list of possible values, see the <c>D3DKMDT_VIDEO_SIGNAL_STANDARD</c> enumerated type.
         /// </summary>
         [FieldOffset(40)]
         public UINT32 videoStandard;
@@ -76,7 +76,7 @@ namespace Lsj.Util.Win32.Structs
 
             /// <summary>
             /// The video standard (if any) that defines the video signal.
-            /// For a list of possible values, see the <see cref="D3DKMDT_VIDEO_SIGNAL_STANDARD"/> enumerated type.
+            /// For a list of possible values, see the <c>D3DKMDT_VIDEO_SIGNAL_STANDARD</c> enumerated type.
             /// Supported starting with Windows 8.1.
             /// </summary>
 #pragma warning disable IDE1006

@@ -1,13 +1,14 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.DirectX.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
-using static Lsj.Util.Win32.DirectX.Enums.DXGI_ERROR;
 using static Lsj.Util.Win32.DirectX.D3D11;
-using Lsj.Util.Win32.Attributes;
+using static Lsj.Util.Win32.DirectX.Enums.D3D11_CREATE_DEVICE_FLAG;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_ERROR;
 
 namespace Lsj.Util.Win32.DirectX
 {

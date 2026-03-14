@@ -33,6 +33,7 @@ using static Lsj.Util.Win32.Enums.ShellGetStockIconInfoFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.SystemMetricIndexes;
 using static Lsj.Util.Win32.Enums.TokenAccessRights;
+using static Lsj.Util.Win32.Enums.VARENUM;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Ole32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;

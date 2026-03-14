@@ -1,11 +1,12 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.DirectX.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.DirectX.Enums.D3D11_USAGE;
+using static Lsj.Util.Win32.DirectX.Constants;
+using static Lsj.Util.Win32.DirectX.D3D11;
 using static Lsj.Util.Win32.DirectX.Enums.D3D_FEATURE_LEVEL;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_BIND_FLAG;
-using static Lsj.Util.Win32.DirectX.D3D11;
-using Lsj.Util.Win32.DirectX.ComInterfaces;
+using static Lsj.Util.Win32.DirectX.Enums.D3D11_USAGE;
 
 namespace Lsj.Util.Win32.DirectX.Structs
 {

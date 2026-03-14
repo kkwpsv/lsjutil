@@ -2,6 +2,7 @@
 using Lsj.Util.Win32.DirectX.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.DirectX.Constants;
 using static Lsj.Util.Win32.DirectX.Enums.D3D_FEATURE_LEVEL;
 
 namespace Lsj.Util.Win32.DirectX.Structs

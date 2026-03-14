@@ -5,8 +5,9 @@ using Lsj.Util.Win32.DirectX.Enums;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
-using static Lsj.Util.Win32.DirectX.Enums.DXGI_FORMAT;
+using static Lsj.Util.Win32.DirectX.Constants;
 using static Lsj.Util.Win32.DirectX.Enums.DXGI_COLOR_SPACE_TYPE;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_FORMAT;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
 {

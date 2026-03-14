@@ -1,8 +1,9 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
-using static Lsj.Util.Win32.User32;
-using static Lsj.Util.Win32.Enums.WindowPlacementFlags;
+using static Lsj.Util.Win32.Enums.ExtendedWindowStyles;
 using static Lsj.Util.Win32.Enums.ShowWindowCommands;
+using static Lsj.Util.Win32.Enums.WindowPlacementFlags;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Structs
 {

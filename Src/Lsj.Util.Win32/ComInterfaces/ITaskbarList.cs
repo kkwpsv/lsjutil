@@ -2,6 +2,7 @@
 using System;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.WindowStyles;
 
 namespace Lsj.Util.Win32.ComInterfaces
 {

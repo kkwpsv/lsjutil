@@ -4,6 +4,7 @@ using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.MediaFoundation.ComInterfaces;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.MediaFoundation.GUIDs.MediaFoundationAttributes;
 using static Lsj.Util.Win32.MediaFoundation.Mfplat;
 using static Lsj.Util.Win32.Ole32;
 

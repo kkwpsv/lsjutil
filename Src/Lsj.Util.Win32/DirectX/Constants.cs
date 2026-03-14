@@ -24,9 +24,139 @@ namespace Lsj.Util.Win32.DirectX
         public static readonly HRESULT D3D_OK = S_OK;
 
         /// <summary>
+        /// D3D11_1_UAV_SLOT_COUNT
+        /// </summary>
+        public const uint D3D11_1_UAV_SLOT_COUNT = 64;
+
+        /// <summary>
+        /// D3D11_APPEND_ALIGNED_ELEMENT
+        /// </summary>
+        public const uint D3D11_APPEND_ALIGNED_ELEMENT = 0xFFFFFFFF;
+
+        /// <summary>
+        /// D3D11_COMMONSHADER_CONSTANT_BUFFER_API_SLOT_COUNT
+        /// </summary>
+        public const uint D3D11_COMMONSHADER_CONSTANT_BUFFER_API_SLOT_COUNT = 14;
+
+        /// <summary>
+        /// D3D11_COMMONSHADER_INPUT_RESOURCE_SLOT_COUNT
+        /// </summary>
+        public const uint D3D11_COMMONSHADER_INPUT_RESOURCE_SLOT_COUNT = 128;
+
+        /// <summary>
+        /// D3D11_COMMONSHADER_SAMPLER_SLOT_COUNT
+        /// </summary>
+        public const uint D3D11_COMMONSHADER_SAMPLER_SLOT_COUNT = 16;
+
+        /// <summary>
+        /// D3D11_CS_DISPATCH_MAX_THREAD_GROUPS_PER_DIMENSION
+        /// </summary>
+        public const uint D3D11_CS_DISPATCH_MAX_THREAD_GROUPS_PER_DIMENSION = 65535;
+
+        /// <summary>
+        /// D3D11_IA_VERTEX_INPUT_RESOURCE_SLOT_COUNT
+        /// </summary>
+        public const uint D3D11_IA_VERTEX_INPUT_RESOURCE_SLOT_COUNT = 32;
+
+        /// <summary>
+        /// D3D11_KEEP_RENDER_TARGETS_AND_DEPTH_STENCIL
+        /// </summary>
+        public const uint D3D11_KEEP_RENDER_TARGETS_AND_DEPTH_STENCIL = 0xFFFFFFFF;
+
+        /// <summary>
+        /// D3D11_KEEP_UNORDERED_ACCESS_VIEWS
+        /// </summary>
+        public const uint D3D11_KEEP_UNORDERED_ACCESS_VIEWS = 0xFFFFFFFF;
+
+        /// <summary>
+        /// D3D11_MAX_MULTISAMPLE_SAMPLE_COUNT
+        /// </summary>
+        public const uint D3D11_MAX_MULTISAMPLE_SAMPLE_COUNT = 32;
+
+        /// <summary>
+        /// D3D11_PACKED_TILE
+        /// </summary>
+        public const uint D3D11_PACKED_TILE = 0xFFFFFFFF;
+
+        /// <summary>
+        /// D3D11_PACKED_TILE
+        /// </summary>
+        public const uint D3D11_PS_CS_UAV_REGISTER_COUNT = 8;
+
+        /// <summary>
         /// D3D11_REQ_CONSTANT_BUFFER_ELEMENT_COUNT
         /// </summary>
         public const uint D3D11_REQ_CONSTANT_BUFFER_ELEMENT_COUNT = 4096;
+
+        /// <summary>
+        /// D3D11_REQ_TEXTURE2D_ARRAY_AXIS_DIMENSION
+        /// </summary>
+        public const uint D3D11_REQ_TEXTURE1D_ARRAY_AXIS_DIMENSION = 2048;
+
+        /// <summary>
+        /// D3D11_REQ_TEXTURE1D_U_DIMENSION
+        /// </summary>
+        public const uint D3D11_REQ_TEXTURE1D_U_DIMENSION = 16384;
+
+        /// <summary>
+        /// D3D11_REQ_TEXTURE2D_ARRAY_AXIS_DIMENSION
+        /// </summary>
+        public const uint D3D11_REQ_TEXTURE2D_ARRAY_AXIS_DIMENSION = 2048;
+
+        /// <summary>
+        /// D3D11_REQ_TEXTURE2D_U_OR_V_DIMENSION
+        /// </summary>
+        public const uint D3D11_REQ_TEXTURE2D_U_OR_V_DIMENSION = 16384;
+
+        /// <summary>
+        /// D3D11_REQ_TEXTURE3D_U_V_OR_W_DIMENSION
+        /// </summary>
+        public const uint D3D11_REQ_TEXTURE3D_U_V_OR_W_DIMENSION = 2048;
+
+        /// <summary>
+        /// D3D11_REQ_TEXTURECUBE_DIMENSION
+        /// </summary>
+        public const uint D3D11_REQ_TEXTURECUBE_DIMENSION = 16384;
+
+        /// <summary>
+        /// D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT
+        /// </summary>
+        public const uint D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT = 8;
+
+        /// <summary>
+        /// D3D11_SO_BUFFER_SLOT_COUNT
+        /// </summary>
+        public const uint D3D11_SO_BUFFER_SLOT_COUNT = 4;
+
+        /// <summary>
+        /// D3D11_SO_NO_RASTERIZED_STREAM
+        /// </summary>
+        public const uint D3D11_SO_NO_RASTERIZED_STREAM = 0xFFFFFFFF;
+
+        /// <summary>
+        /// D3D11_SO_OUTPUT_COMPONENT_COUNT
+        /// </summary>
+        public const uint D3D11_SO_OUTPUT_COMPONENT_COUNT = 128;
+
+        /// <summary>
+        /// D3D11_SO_STREAM_COUNT
+        /// </summary>
+        public const uint D3D11_SO_STREAM_COUNT = 4;
+
+        /// <summary>
+        /// D3D11_VIEWPORT_BOUNDS_MIN
+        /// </summary>
+        public const int D3D11_VIEWPORT_BOUNDS_MIN = -32768;
+
+        /// <summary>
+        /// D3D11_VIEWPORT_BOUNDS_MAX
+        /// </summary>
+        public const int D3D11_VIEWPORT_BOUNDS_MAX = 32767;
+
+        /// <summary>
+        /// D3D11_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE
+        /// </summary>
+        public const uint D3D11_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE = 16;
 
         /// <summary>
         /// <para>
@@ -282,5 +412,10 @@ namespace Lsj.Util.Win32.DirectX
         /// D3DWRAP_W
         /// </summary>
         public const uint D3DWRAP_W = 0x00000004;
+
+        /// <summary>
+        /// DXGI_MAX_SWAP_CHAIN_BUFFERS
+        /// </summary>
+        public const uint DXGI_MAX_SWAP_CHAIN_BUFFERS = 16;
     }
 }

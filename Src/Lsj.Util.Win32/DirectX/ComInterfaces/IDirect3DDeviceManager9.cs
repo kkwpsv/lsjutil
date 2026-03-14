@@ -4,6 +4,9 @@ using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.MediaFoundation.ComInterfaces;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.DirectX.Enums.D3DERR;
 using static Lsj.Util.Win32.Dxva2;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
