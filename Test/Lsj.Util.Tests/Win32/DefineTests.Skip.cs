@@ -183,10 +183,16 @@ namespace Lsj.Util.Tests.Win32
             "LsaSetSecret",                                         // undocument
             "LsaSetSecurityObject",                                 // undocument
             "LsaSetSystemAccessAccount",                            // undocument
-            "NTAccessMaskToProvAccessRights",                       // undocument
+            "lstrcat",                                              // duplicate of lstrcatW
+            "lstrcmp",                                              // duplicate of lstrcmpW
+            "lstrcmpi",                                             // duplicate of lstrcmpiW
+            "lstrcpy",                                              // duplicate of lstrcpyW
+            "lstrcpyn",                                             // duplicate of lstrcpynW
+            "lstrlen",                                              // duplicate of lstrlenW
             "MBToWCSEx",                                            // undocument
             "MenuWindowProcW",                                      // undocument
             "NamedEscape",                                          // undocument
+            "NTAccessMaskToProvAccessRights",                       // undocument
             "OpenConsoleW",                                         // undocument
             "OpenProfileUserMapping",                               // undocument
             "PrivateExtractIconExW",                                // undocument
@@ -295,12 +301,6 @@ namespace Lsj.Util.Tests.Win32
             "VirtualBufferExceptionHandler",                        // undocument
             "WCSToMBEx",                                            // undocument
             "WriteConsoleInputVDMW",                                // undocument
-            "lstrcat",                                              // duplicate of lstrcatW
-            "lstrcmp",                                              // duplicate of lstrcmpW
-            "lstrcmpi",                                             // duplicate of lstrcmpiW
-            "lstrcpy",                                              // duplicate of lstrcpyW
-            "lstrcpyn",                                             // duplicate of lstrcpynW
-            "lstrlen",                                              // duplicate of lstrlenW
             
             // 2000
             "AlignRects",                                           // undocument
