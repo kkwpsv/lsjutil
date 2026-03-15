@@ -290,8 +290,8 @@ GetAltTabInfo
 GetAltTabInfoA
 GetAltTabInfoW
 GetAncestor
-GetAppCompatFlags2
 GetAppCompatFlags
+GetAppCompatFlags2
 GetAsyncKeyState
 GetAutoRotationState
 GetAwarenessFromDpiAwarenessContext
@@ -304,6 +304,8 @@ GetClassInfoExA
 GetClassInfoExW
 GetClassInfoW
 GetClassLongA
+GetClassLongPtrA
+GetClassLongPtrW
 GetClassLongW
 GetClassNameA
 GetClassNameW
@@ -486,6 +488,8 @@ GetWindowDpiHostingBehavior
 GetWindowFeedbackSetting
 GetWindowInfo
 GetWindowLongA
+GetWindowLongPtrA
+GetWindowLongPtrW
 GetWindowLongW
 GetWindowMinimizeRect
 GetWindowModuleFileName
@@ -493,12 +497,13 @@ GetWindowModuleFileNameA
 GetWindowModuleFileNameW
 GetWindowPlacement
 GetWindowProcessHandle
+
+
 GetWindowRect
 GetWindowRgn
+
 GetWindowRgnBox
 GetWindowRgnEx
-
-
 GetWindowTextA
 GetWindowTextLengthA
 
@@ -506,7 +511,6 @@ GetWindowTextLengthW
 GetWindowTextW
 GetWindowThreadProcessId
 GetWindowWord
-
 GhostWindowFromHungWindow
 GrayStringA
 GrayStringW
@@ -798,6 +802,8 @@ SetCapture
 SetCaretBlinkTime
 SetCaretPos
 SetClassLongA
+SetClassLongPtrA
+SetClassLongPtrW
 SetClassLongW
 SetClassWord
 SetClipboardData
@@ -882,6 +888,8 @@ SetWindowContextHelpId
 SetWindowDisplayAffinity
 SetWindowFeedbackSetting
 SetWindowLongA
+SetWindowLongPtrA
+SetWindowLongPtrW
 SetWindowLongW
 SetWindowPlacement
 SetWindowPos
@@ -991,14 +999,6 @@ WindowFromPoint
 _UserTestTokenForInteractive
 gSharedInfo
 gapfnScSendMessage
-keybd_event
-mouse_event
-wsprintfA
-wsprintfW
-wvsprintfA
-wvsprintfW
-
-
 DelegateInput
 UndelegateInput
 HandleDelegatedInput
@@ -1039,11 +1039,11 @@ IsThreadMessageQueueAttached
 
 
 
+keybd_event
 
 
 
-
-
+mouse_event
 
 
 
@@ -1058,7 +1058,7 @@ ReportInertia
 
 
 
-
+wsprintfA
 
 
 
@@ -1076,6 +1076,10 @@ SetCoreWindow
 
 
 
+wsprintfW
+
+
+wvsprintfA
 
 
 
@@ -1088,11 +1092,7 @@ SetCoreWindow
 
 
 
-
-
-
-
-
+wvsprintfW
 
 
 

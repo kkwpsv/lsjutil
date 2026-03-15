@@ -1,5 +1,3 @@
-BaseThreadInitThunk
-InterlockedPushListSList
 AcquireSRWLockExclusive
 AcquireSRWLockShared
 ActivateActCtx
@@ -68,6 +66,7 @@ BaseIsDosApplication
 BaseQueryModuleData
 BaseReadAppCompatDataForProcessWorker
 BaseSetLastNTError
+BaseThreadInitThunk
 BaseUpdateAppcompatCache
 BaseUpdateAppcompatCacheWorker
 BaseUpdateVDMEntry
@@ -233,7 +232,6 @@ CreateSemaphoreA
 CreateSemaphoreExA
 CreateSemaphoreExW
 CreateSemaphoreW
-CreateSocketHandle
 CreateSymbolicLinkA
 CreateSymbolicLinkTransactedA
 CreateSymbolicLinkTransactedW
@@ -249,6 +247,8 @@ CreateThreadpoolWork
 CreateTimerQueue
 CreateTimerQueueTimer
 CreateToolhelp32Snapshot
+CreateUmsCompletionList
+CreateUmsThreadContext
 CreateWaitableTimerA
 CreateWaitableTimerExA
 CreateWaitableTimerExW
@@ -279,8 +279,11 @@ DeleteSynchronizationBarrier
 DeleteTimerQueue
 DeleteTimerQueueEx
 DeleteTimerQueueTimer
+DeleteUmsCompletionList
+DeleteUmsThreadContext
 DeleteVolumeMountPointA
 DeleteVolumeMountPointW
+DequeueUmsCompletionListItems
 DeviceIoControl
 DisableThreadLibraryCalls
 DisableThreadProfiling
@@ -303,6 +306,7 @@ EndUpdateResourceA
 EndUpdateResourceW
 EnterCriticalSection
 EnterSynchronizationBarrier
+EnterUmsSchedulingMode
 EnumCalendarInfoA
 EnumCalendarInfoExA
 EnumCalendarInfoExEx
@@ -345,6 +349,7 @@ EnumerateLocalComputerNamesA
 EnumerateLocalComputerNamesW
 EraseTape
 EscapeCommFunction
+ExecuteUmsThread
 ExitProcess
 ExitThread
 ExitVDM
@@ -537,6 +542,7 @@ GetCurrentProcessorNumberEx
 GetCurrentThread
 GetCurrentThreadId
 GetCurrentThreadStackLimits
+GetCurrentUmsThread
 GetDateFormatA
 GetDateFormatAWorker
 GetDateFormatEx
@@ -597,7 +603,6 @@ GetFullPathNameTransactedW
 GetFullPathNameW
 GetGeoInfoA
 GetGeoInfoW
-GetHandleContext
 GetHandleInformation
 GetLargePageMinimum
 GetLargestConsoleWindowSize
@@ -638,6 +643,7 @@ GetNamedPipeInfo
 GetNamedPipeServerProcessId
 GetNamedPipeServerSessionId
 GetNativeSystemInfo
+GetNextUmsListItem
 GetNextVDMCommand
 GetNumaAvailableMemoryNode
 GetNumaAvailableMemoryNodeEx
@@ -767,8 +773,8 @@ GetThreadSelectedCpuSets
 GetThreadSelectorEntry
 GetThreadTimes
 GetThreadUILanguage
-GetTickCount64
 GetTickCount
+GetTickCount64
 GetTimeFormatA
 GetTimeFormatAWorker
 GetTimeFormatEx
@@ -777,6 +783,8 @@ GetTimeFormatWWorker
 GetTimeZoneInformation
 GetTimeZoneInformationForYear
 GetUILanguageInfo
+GetUmsCompletionListEvent
+GetUmsSystemThreadInformation
 GetUserDefaultLCID
 GetUserDefaultLangID
 GetUserDefaultLocaleName
@@ -861,15 +869,10 @@ InitializeSListHead
 InitializeSRWLock
 InitializeSynchronizationBarrier
 InstallELAMCertificateInfo
-InterlockedCompareExchange64
-InterlockedCompareExchange
-InterlockedDecrement
-InterlockedExchange
-InterlockedExchangeAdd
 InterlockedFlushSList
-InterlockedIncrement
 InterlockedPopEntrySList
 InterlockedPushEntrySList
+InterlockedPushListSList
 InterlockedPushListSListEx
 InvalidateConsoleDIBits
 IsBadCodePtr
@@ -1094,6 +1097,7 @@ QueryProtectedPolicy
 QueryThreadCycleTime
 QueryThreadProfiling
 QueryThreadpoolStackInformation
+QueryUmsThreadInformation
 QueryUnbiasedInterruptTime
 QueueUserAPC
 QueueUserWorkItem
@@ -1213,12 +1217,22 @@ ResolveDelayLoadsFromDll
 ResolveLocaleName
 RestoreLastError
 ResumeThread
+RtlAddFunctionTable
 RtlCaptureContext
 RtlCaptureStackBackTrace
+RtlCompareMemory
+RtlCopyMemory
+RtlDeleteFunctionTable
 RtlFillMemory
+RtlInstallFunctionTableCallback
+RtlLookupFunctionEntry
 RtlMoveMemory
 RtlPcToFileHeader
+RtlRaiseException
+RtlRestoreContext
 RtlUnwind
+RtlUnwindEx
+RtlVirtualUnwind
 RtlZeroMemory
 ScrollConsoleScreenBufferA
 ScrollConsoleScreenBufferW
@@ -1307,7 +1321,6 @@ SetFirmwareEnvironmentVariableA
 SetFirmwareEnvironmentVariableExA
 SetFirmwareEnvironmentVariableExW
 SetFirmwareEnvironmentVariableW
-SetHandleContext
 SetHandleCount
 SetHandleInformation
 SetInformationJobObject
@@ -1372,6 +1385,7 @@ SetThreadpoolWait
 SetThreadpoolWaitEx
 SetTimeZoneInformation
 SetTimerQueueTimer
+SetUmsThreadInformation
 SetUnhandledExceptionFilter
 SetUserGeoID
 SetVDMCurrentDirectories
@@ -1435,6 +1449,7 @@ TzSpecificLocalTimeToSystemTime
 TzSpecificLocalTimeToSystemTimeEx
 UTRegister
 UTUnRegister
+UmsThreadYield
 UnhandledExceptionFilter
 UnlockFile
 UnlockFileEx
@@ -1556,11 +1571,15 @@ WriteProfileStringW
 WriteTapemark
 ZombifyActCtx
 ZombifyActCtxWorker
+__C_specific_handler
+__chkstk
+__misaligned_access
 _hread
 _hwrite
 _lclose
 _lcreat
 _llseek
+_local_unwind
 _lopen
 _lread
 _lwrite
@@ -1587,3 +1606,11 @@ timeEndPeriod
 timeGetDevCaps
 timeGetSystemTime
 timeGetTime
+uaw_lstrcmpW
+uaw_lstrcmpiW
+uaw_lstrlenW
+uaw_wcschr
+uaw_wcscpy
+uaw_wcsicmp
+uaw_wcslen
+uaw_wcsrchr

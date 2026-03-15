@@ -7,9 +7,9 @@ PIXEndCapture
 PIXGetCaptureState
 SetAppCompatStringPointer
 UpdateHMDEmulationStatus
+CreateDXGIFactory
 CreateDXGIFactory1
 CreateDXGIFactory2
-CreateDXGIFactory
 DXGID3D10CreateDevice
 DXGID3D10CreateLayeredDevice
 DXGID3D10GetLayeredDeviceSize

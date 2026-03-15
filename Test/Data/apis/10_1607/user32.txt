@@ -284,8 +284,8 @@ GetAltTabInfo
 GetAltTabInfoA
 GetAltTabInfoW
 GetAncestor
-GetAppCompatFlags2
 GetAppCompatFlags
+GetAppCompatFlags2
 GetAsyncKeyState
 GetAutoRotationState
 GetAwarenessFromDpiAwarenessContext
@@ -298,6 +298,8 @@ GetClassInfoExA
 GetClassInfoExW
 GetClassInfoW
 GetClassLongA
+GetClassLongPtrA
+GetClassLongPtrW
 GetClassLongW
 GetClassNameA
 GetClassNameW
@@ -468,6 +470,8 @@ GetWindowDpiAwarenessContext
 GetWindowFeedbackSetting
 GetWindowInfo
 GetWindowLongA
+GetWindowLongPtrA
+GetWindowLongPtrW
 GetWindowLongW
 GetWindowMinimizeRect
 GetWindowModuleFileName
@@ -493,12 +497,13 @@ HungWindowFromGhostWindow
 IMPGetIMEA
 IMPGetIMEW
 IMPQueryIMEA
+
+
 IMPQueryIMEW
 IMPSetIMEA
+
 IMPSetIMEW
 ImpersonateDdeClientWindow
-
-
 InSendMessage
 InSendMessageEx
 
@@ -506,7 +511,6 @@ InflateRect
 InheritWindowMonitor
 InitDManipHook
 InitializeInputDeviceInjection
-
 InitializeLpkHooks
 InitializePointerDeviceInjection
 InitializeTouchInjection
@@ -759,6 +763,8 @@ SetCapture
 SetCaretBlinkTime
 SetCaretPos
 SetClassLongA
+SetClassLongPtrA
+SetClassLongPtrW
 SetClassLongW
 SetClassWord
 SetClipboardData
@@ -835,6 +841,8 @@ SetWindowContextHelpId
 SetWindowDisplayAffinity
 SetWindowFeedbackSetting
 SetWindowLongA
+SetWindowLongPtrA
+SetWindowLongPtrW
 SetWindowLongW
 SetWindowPlacement
 SetWindowPos
@@ -950,14 +958,6 @@ wsprintfA
 wsprintfW
 wvsprintfA
 wvsprintfW
-
-
-
-
-
-
-
-
 
 
 
