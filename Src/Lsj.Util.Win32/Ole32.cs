@@ -637,7 +637,7 @@ namespace Lsj.Util.Win32
         /// This function encapsulates three calls:
         /// first, to <see cref="CoGetClassObject"/> to connect to the class object associated with the specified CLSID,
         /// specifying the location of the class; second, to <see cref="IClassFactory.CreateInstance"/> to create an uninitialized instance,
-        /// and finally, to <see cref="IClassFactory.Release"/>, to release the class object.
+        /// and finally, to <c>IClassFactory.Release</c>, to release the class object.
         /// </para>
         /// <para>
         /// The object so created must still be initialized through a call to one of the initialization interfaces (such as <see cref="IPersistStorage.Load"/>).
@@ -1789,7 +1789,7 @@ namespace Lsj.Util.Win32
         /// </item>
         /// <item>
         /// <term>
-        /// <see cref="E_OUT_OF_MEMORY"/>
+        /// <see cref="E_OUTOFMEMORY"/>
         /// </term>
         /// <term>
         /// Out of memory.
@@ -2217,7 +2217,7 @@ namespace Lsj.Util.Win32
         /// pcs->Release();
         /// </code>
         /// <para>
-        /// This sequence calls <see cref="QueryInterface"/> on the proxy to get a pointer to <see cref="IClientSecurity"/>,
+        /// This sequence calls <see cref="IUnknown.QueryInterface"/> on the proxy to get a pointer to <see cref="IClientSecurity"/>,
         /// and with the resulting pointer, calls <see cref="IClientSecurity.QueryBlanket"/> and then releases the pointer.
         /// </para>
         /// <para>
@@ -2577,7 +2577,7 @@ namespace Lsj.Util.Win32
         /// When this occurs, applications may benefit if subsequent calls (with the obvious exceptions
         /// of <see cref="IUnknown.AddRef"/> and <see cref="IUnknown.Release"/>) to the class object fail.
         /// Note that <see cref="CoRegisterClassObject"/> calls <see cref="IUnknown.AddRef"/>
-        /// and <see cref="CoRevokeClassObject"/> calls <see cref="Release"/>,
+        /// and <see cref="CoRevokeClassObject"/> calls <see cref="IUnknown.Release"/>,
         /// so the two functions form an <see cref="IUnknown.AddRef"/>/<see cref="IUnknown.Release"/> pair.
         /// </para>
         /// <para>
@@ -2750,7 +2750,7 @@ namespace Lsj.Util.Win32
         /// pcs->Release();
         /// </code>
         /// <para>
-        /// This sequence calls <see cref="QueryInterface"/> on the proxy to get a pointer to <see cref="IClientSecurity"/>,
+        /// This sequence calls <see cref="IUnknown.QueryInterface"/> on the proxy to get a pointer to <see cref="IClientSecurity"/>,
         /// and with the resulting pointer, calls <see cref="IClientSecurity.SetBlanket"/> and then releases the pointer.
         /// </para>
         /// </remarks>

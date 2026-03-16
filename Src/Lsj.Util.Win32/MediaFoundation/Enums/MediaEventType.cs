@@ -2,6 +2,7 @@
 using Lsj.Util.Win32.MediaFoundation.ComInterfaces;
 using Lsj.Util.Win32.Structs;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.VARENUM;
 
 namespace Lsj.Util.Win32.MediaFoundation.Enums

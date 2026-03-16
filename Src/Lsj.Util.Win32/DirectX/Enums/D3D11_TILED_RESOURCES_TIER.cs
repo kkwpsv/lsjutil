@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.DirectX.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Structs;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_RESOURCE_MISC_FLAG;
 
 namespace Lsj.Util.Win32.DirectX.Enums

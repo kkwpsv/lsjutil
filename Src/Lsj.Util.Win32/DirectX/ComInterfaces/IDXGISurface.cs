@@ -30,7 +30,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// For example, the runtime creates an <see cref="IDXGISurface"/> interface
     /// when you call <see cref="ID3D11Device.CreateTexture2D"/> or <see cref="ID3D10Device.CreateTexture2D"/> to create a 2D texture.
     /// To retrieve the <see cref="IDXGISurface"/> interface that represents the 2D texture surface,
-    /// call <see cref="ID3D11Texture2D.QueryInterface"/> or <see cref="ID3D10Texture2D.QueryInterface"/>.
+    /// call <c>ID3D11Texture2D.QueryInterface</c> or <c>ID3D10Texture2D.QueryInterface</c>.
     /// In this call, you must pass the identifier of <see cref="IDXGISurface"/>.
     /// If the 2D texture has only a single MIP-map level and does not consist of an array of textures,
     /// <see cref="IUnknown.QueryInterface"/> succeeds and returns a pointer to the <see cref="IDXGISurface"/> interface pointer.

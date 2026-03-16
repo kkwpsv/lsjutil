@@ -1,6 +1,5 @@
 ﻿using Lsj.Util.Win32.Attributes;
 using Lsj.Util.Win32.BaseTypes;
-using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
@@ -12,6 +11,7 @@ using static Lsj.Util.Win32.BaseTypes.HKEY;
 using static Lsj.Util.Win32.BaseTypes.USHORT;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.COMPUTER_NAME_FORMAT;
+using static Lsj.Util.Win32.Enums.FileCacheSizeFlags;
 using static Lsj.Util.Win32.Enums.LOGICAL_PROCESSOR_RELATIONSHIP;
 using static Lsj.Util.Win32.Enums.PrivilegeConstants;
 using static Lsj.Util.Win32.Enums.ProcessFeatures;
@@ -3057,7 +3057,7 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemFileCacheSize", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetSystemFileCacheSize([Out] out SIZE_T lpMinimumFileCacheSize, [Out] out SIZE_T lpMaximumFileCacheSize,
-            [Out] out DWORD lpFlags);
+            [Out] out FileCacheSizeFlags lpFlags);
 
         /// <summary>
         /// <para>
@@ -5442,7 +5442,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSystemFileCacheSize", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetSystemFileCacheSize([In] SIZE_T lpMinimumFileCacheSize, [In] SIZE_T lpMaximumFileCacheSize, [In] DWORD lpFlags);
+        public static extern BOOL SetSystemFileCacheSize([In] SIZE_T lpMinimumFileCacheSize, [In] SIZE_T lpMaximumFileCacheSize, [In] FileCacheSizeFlags lpFlags);
 
         /// <summary>
         /// <para>

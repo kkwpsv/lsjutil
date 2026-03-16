@@ -1660,7 +1660,8 @@ namespace Lsj.Util.Win32
         /// </summary>
         /// <param name="hDevice">
         /// A handle to the raw input device.
-        /// This comes from the <see cref="hDevice"/> member of <see cref="RAWINPUTHEADER"/> or from <see cref="GetRawInputDeviceList"/>.
+        /// This comes from the <see cref="RAWINPUTHEADER.hDevice"/> member of <see cref="RAWINPUTHEADER"/>
+        /// or from <see cref="GetRawInputDeviceList"/>.
         /// </param>
         /// <param name="uiCommand">
         /// <para>

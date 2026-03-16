@@ -7,6 +7,9 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.MediaFoundation.GUIDs.MediaCaptureEventExtendedTypeGuids;
+using static Lsj.Util.Win32.MediaFoundation.GUIDs.MediaFoundationAttributes;
+using static Lsj.Util.Win32.MediaFoundation.Mfplat;
 
 namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
 {

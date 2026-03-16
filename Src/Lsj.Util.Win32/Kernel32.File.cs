@@ -17653,10 +17653,15 @@ namespace Lsj.Util.Win32
         /// </returns>
         /// <remarks>
         /// <para>
-        /// The file pointer that is identified by the value of the <paramref name="hFile"/> parameter is not used for overlapped read and write operations.
+        /// The file pointer that is identified by the value of the <paramref name="hFile"/> parameter
+        /// is not used for overlapped read and write operations.
         /// </para>
         /// <para>
-        /// The <paramref name="hFile"/> parameter must refer to a file stored on a seeking device; for example, a disk volume. Calling the <see cref="SetFilePointer"/> function with a handle to a non-seeking device such as a pipe or a communications device is not supported, even though the <see cref="SetFilePointer"/> function may not return an error. The behavior of the <see cref="SetFilePointer"/> function in this case is undefined.
+        /// The <paramref name="hFile"/> parameter must refer to a file stored on a seeking device; for example, a disk volume.
+        /// Calling the <see cref="SetFilePointer"/> function with a handle to a non-seeking device
+        /// such as a pipe or a communications device is not supported, 
+        /// even though the <see cref="SetFilePointer"/> function may not return an error.
+        /// The behavior of the <see cref="SetFilePointer"/> function in this case is undefined.
         /// </para>
         /// <para>
         /// To specify the offset for overlapped operations
@@ -17665,7 +17670,8 @@ namespace Lsj.Util.Win32
         /// <list type="bullet">
         /// <item>
         /// <description>
-        /// Use the <see cref="Offset"/> and <see cref="OffsetHigh"/> members of the <see cref="OVERLAPPED"/> structure.
+        /// Use the <see cref="OVERLAPPED.Offset"/> and <see cref="OVERLAPPED.OffsetHigh"/> members
+        /// of the <see cref="OVERLAPPED"/> structure.
         /// </description>
         /// </item>
         /// </list>

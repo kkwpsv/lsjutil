@@ -62,7 +62,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// </item>
     /// <item>
     /// <description>
-    /// Call <see cref="CreateDeviceEx"/> to create the Direct3D device.
+    /// Call <see cref="IDirect3D9Ex.CreateDeviceEx"/> to create the Direct3D device.
     /// </description>
     /// </item>
     /// </list>

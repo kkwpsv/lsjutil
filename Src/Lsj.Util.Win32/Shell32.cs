@@ -1029,7 +1029,7 @@ namespace Lsj.Util.Win32
         /// <item>
         /// <description>
         /// Once the filter is created, the <see cref="IFolderFilterSite"/> interface is no longer needed.
-        /// Call <see cref="IFolderFilterSite.Release"/> if you have no further use for it.
+        /// Call <c>IFolderFilterSite.Release</c> if you have no further use for it.
         /// </description>
         /// </item>
         /// </list>

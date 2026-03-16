@@ -1,10 +1,12 @@
 ﻿using Lsj.Util.Win32.Attributes;
 using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
+using Lsj.Util.Win32.MediaFoundation.Enums;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.DirectX.Enums.D3DERR;
+using static Lsj.Util.Win32.MediaFoundation.Enums.MF2DBuffer_LockFlags;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
@@ -209,7 +211,7 @@ namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
         /// and will incur a both copy from and copy back when unlocked.
         /// The general guidance for best performance is to avoid using <see cref="IMFMediaBuffer"/> and <see cref="IMF2DBuffer"/> whenever possible
         /// and instead use <see cref="IMF2DBuffer2"/> with the minimum required lock flags.
-        /// Note that if the buffer is locked using <see cref="Lock2D"/>,
+        /// Note that if the buffer is locked using <see cref="IMF2DBuffer.Lock2D"/>,
         /// the <see cref="Lock"/> method might return <see cref="MF_E_INVALIDREQUEST"/>.
         /// </para>
         /// <para>

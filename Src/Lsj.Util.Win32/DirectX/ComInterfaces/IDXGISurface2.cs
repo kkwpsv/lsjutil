@@ -37,7 +37,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// In this call, you must pass the identifier of <see cref="IDXGISurface2"/>.
     /// If the 2D texture has only a single MIP-map level and does not consist of an array of textures,
     /// <see cref="IUnknown.QueryInterface"/> succeeds and returns a pointer to the <see cref="IDXGISurface2"/> interface pointer.
-    /// Otherwise, <see cref="QueryInterface"/> fails and does not return the pointer to <see cref="IDXGISurface2"/>.
+    /// Otherwise, <see cref="IUnknown.QueryInterface"/> fails and does not return the pointer to <see cref="IDXGISurface2"/>.
     /// </para>
     /// <para>
     /// You can call the <see cref="IDXGIResource1.CreateSubresourceSurface"/> method

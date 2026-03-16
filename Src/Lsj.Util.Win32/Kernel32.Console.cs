@@ -1742,7 +1742,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <returns>
         /// <para>
-        /// If <see cref="nSize"/> is zero, the return value is zero.
+        /// If <paramref name="nSize"/> is zero, the return value is zero.
         /// </para>
         /// <para>
         /// If the function succeeds, the return value is the length of the original console title, in characters.
@@ -2670,8 +2670,8 @@ namespace Lsj.Util.Win32
         /// </para>
         /// <para>
         /// Intermediate Read is an augmentation to that behavior on the <see cref="ReadConsole"/> call in cooked read mode.
-        /// Setting a flag in <see cref="dwCtrlWakeupMask"/> on the <see cref="CONSOLE_READCONSOLE_CONTROL"/> structure
-        /// and pass it into <see cref="pinputControl"/> as it calls <see cref="ReadConsole"/>,
+        /// Setting a flag in <see cref="CONSOLE_READCONSOLE_CONTROL.dwCtrlWakeupMask"/> on the <see cref="CONSOLE_READCONSOLE_CONTROL"/> structure
+        /// and pass it into <paramref name="pInputControl"/> as it calls <see cref="ReadConsole"/>,
         /// will result in the read will not necessarily waiting for a newline, but returning on a specified character as well.
         /// </para>
         /// </remarks>

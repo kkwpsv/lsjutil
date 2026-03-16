@@ -4206,7 +4206,7 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </term>
         /// <term>
-        /// Notifications are sent to the <see cref="HandlerEx"/> callback function
+        /// Notifications are sent to the <c>HandlerEx</c> callback function
         /// with a <c>dwControl</c> parameter of <see cref="SERVICE_CONTROL_POWEREVENT"/> and a <c>dwEventType</c> of <see cref="PBT_POWERSETTINGCHANGE"/>.
         /// </term>
         /// </item>

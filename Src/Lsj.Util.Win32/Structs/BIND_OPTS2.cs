@@ -88,15 +88,16 @@ namespace Lsj.Util.Win32.Structs
         public DWORD dwTickCountDeadline;
 
         /// <summary>
-        /// /// <para>
+        /// <para>
         /// A moniker can use this value during link tracking.
         /// If the original persisted data that the moniker is referencing has been moved,
         /// the moniker can attempt to reestablish the link by searching for the original data though some adequate mechanism.
         /// This member provides additional information on how the link should be resolved.
-        /// See the documentation of the fFlags parameter in <see cref="IShellLink::Resolve"/>.
+        /// See the documentation of the fFlags parameter in <see cref="IShellLink.Resolve"/>.
         /// </para>
         /// <para>
-        /// COM's file moniker implementation uses the shell link mechanism to reestablish links and passes these flags to <see cref="IShellLink.Resolve"/>.
+        /// COM's file moniker implementation uses the shell link mechanism to reestablish links
+        /// and passes these flags to <see cref="IShellLink.Resolve"/>.
         /// </para>
         /// </summary>
         public DWORD dwTrackFlags;

@@ -35,6 +35,7 @@ using static Lsj.Util.Win32.Enums.WindowHookTypes;
 using static Lsj.Util.Win32.Enums.WindowSizingTypes;
 using static Lsj.Util.Win32.Enums.WindowStyles;
 using static Lsj.Util.Win32.Enums.WinHelpCommands;
+using static Lsj.Util.Win32.Enums.ApplicationCommands;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Oleacc;
@@ -2072,7 +2073,7 @@ namespace Lsj.Util.Win32.Enums
         /// <para>
         /// The identifier of the common control sending the message. This identifier is not guaranteed to be unique.
         /// An application should use the <see cref="NMHDR.hwndFrom"/> or <see cref="NMHDR.idFrom"/> member
-        /// of the <see cref="NMHDR"/> structure (passed as the lParam parameter) to identify the control.
+        /// of the <see cref="NMHDR"/> structure (passed as the <c>lParam</c> parameter) to identify the control.
         /// </para>
         /// <para>
         /// lParam
@@ -6076,7 +6077,7 @@ namespace Lsj.Util.Win32.Enums
         /// </term>
         /// <term>
         /// Item is contained in the window menu.
-        /// The <see cref="lParam"/> parameter contains a handle to the menu associated with the message.
+        /// The <c>lParam</c> parameter contains a handle to the menu associated with the message.
         /// </term>
         /// </item>
         /// </list>
@@ -6379,7 +6380,7 @@ namespace Lsj.Util.Win32.Enums
         /// This command supports devices that have power-saving features, such as a battery-powered personal computer.
         /// </para>
         /// <para>
-        /// The <see cref="lParam"/> parameter can have the following values:
+        /// The <c>lParam</c> parameter can have the following values:
         /// </para>
         /// <list type="bullet">
         /// <item>
