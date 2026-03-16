@@ -2543,6 +2543,17 @@ namespace Lsj.Util.Win32
         public static extern BOOL QueryPerformanceFrequency([Out] out LARGE_INTEGER lpFrequency);
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="TargetPartition"></param>
+        /// <param name="SparePartition"></param>
+        /// <param name="Flags"></param>
+        /// <returns></returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista, BuildNumbers.WindowsVistaSP1)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReplacePartitionUnit", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ReplacePartitionUnit([In] LPWSTR TargetPartition, [In] LPWSTR SparePartition, [In] ULONG Flags);
+
+        /// <summary>
         /// <para>
         /// Retrieves a context record in the context of the caller.
         /// </para>

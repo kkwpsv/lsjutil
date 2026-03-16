@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.Attributes;
 using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -26,6 +27,108 @@ namespace Lsj.Util.Win32
 {
     public static partial class Kernel32
     {
+        /// <summary>
+        /// <para>
+        /// An application-defined function previously registered with the <see cref="AddSecureMemoryCacheCallback"/> function
+        /// that is called when a secured memory range is freed or its protections are changed.
+        /// </para>
+        /// <para>
+        /// The <see cref="PSECURE_MEMORY_CACHE_CALLBACK"/> type defines a pointer to this callback function.
+        /// <c>SecureMemoryCacheCallback</c> is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winnt/nc-winnt-psecure_memory_cache_callback"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Addr">
+        /// The starting address of the memory range.
+        /// </param>
+        /// <param name="Range">
+        /// The size of the memory range, in bytes.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// The return value indicates the success or failure of this function.
+        /// </para>
+        /// <para>
+        /// If the caller has secured the specified memory range, this function should unsecure the memory and return <see cref="TRUE"/>.
+        /// </para>
+        /// <para>
+        /// If the caller has not secured the specified memory range, this function should return <see cref="FALSE"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// After the callback function is registered,
+        /// it is called after any attempt to free the specified memory range or change its protections.
+        /// If the application has secured any part of the specified memory range,
+        /// the callback function must invalidate all of the application's cached memory mappings for the secured memory range,
+        /// unsecure the secured parts of the memory range, and return <see cref="TRUE"/>.
+        /// Otherwise it must return <see cref="FALSE"/>.
+        /// </para>
+        /// <para>
+        /// The application secures and unsecures a memory range by sending requests to a device driver,
+        /// which uses the <c>MmSecureVirtualMemory</c> and <c>MmUnsecureVirtualMemory</c> functions
+        /// to actually secure and unsecure the range.
+        /// Operations on other types of secured or locked memory do not trigger this callback.
+        /// </para>
+        /// <para>
+        /// Examples of function calls that trigger the callback function
+        /// include calls to the <see cref="VirtualFree"/>, <see cref="VirtualFreeEx"/>, <see cref="VirtualProtect"/>,
+        /// <see cref="VirtualProtectEx"/>, and <see cref="UnmapViewOfFile"/> functions.
+        /// </para>
+        /// <para>
+        /// The callback function can also be triggered by a heap operation.
+        /// In this case, the function must not perform any further operations on the heap that triggered the callback.
+        /// This includes calling heap functions on a private heap or the process's default heap,
+        /// or calling standard library functions such as <c>malloc</c> and <c>free</c>,
+        /// which implicitly use the process's default heap.
+        /// </para>
+        /// <para>
+        /// To unregister the callback function, use the <see cref="RemoveSecureMemoryCacheCallback"/> function.
+        /// </para>
+        /// </remarks>
+        public delegate BOOLEAN PsecureMemoryCacheCallback([In] PVOID Addr, [In] SIZE_T Range);
+
+
+        /// <summary>
+        /// <para>
+        /// Registers a callback function to be called when a secured memory range is freed or its protections are changed.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-addsecurememorycachecallback"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pfnCallBack">
+        /// A pointer to the application-defined <c>SecureMemoryCacheCallback</c> function to register.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, it registers the callback function and returns <see cref="TRUE"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, it returns <see cref="FALSE"/>.
+        /// To get extended error information, call the <see cref="GetLastError"/> function.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// An application that performs I/O directly to a high-performance device
+        /// typically caches a virtual-to-physical memory mapping for the buffer it uses for the I/O.
+        /// The device's driver typically secures this memory address range by calling the <c>MmSecureVirtualMemory</c> routine,
+        /// which prevents the memory range from being freed or its protections changed until the driver unsecures the memory.
+        /// </para>
+        /// <para>
+        /// An application can use <see cref="AddSecureMemoryCacheCallback"/> to register a callback function
+        /// that will be called when the memory is freed or its protections are changed,
+        /// so the application can invalidate its cached memory mapping.
+        /// For more information, see <c>SecureMemoryCacheCallback</c>.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista, BuildNumbers.WindowsVistaSP1)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddSecureMemoryCacheCallback", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL AddSecureMemoryCacheCallback([In] PSECURE_MEMORY_CACHE_CALLBACK pfnCallBack);
+
         /// <summary>
         /// <para>
         /// Allocates physical memory pages to be mapped and unmapped within any Address Windowing Extensions (AWE) region of a specified process.
@@ -4006,6 +4109,29 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ResetWriteWatch", ExactSpelling = true, SetLastError = true)]
         public static extern UINT ResetWriteWatch([In] LPVOID lpBaseAddress, [In] SIZE_T dwRegionSize);
+
+        /// <summary>
+        /// <para>
+        /// Unregisters a callback function that was previously registered with the <see cref="AddSecureMemoryCacheCallback"/> function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-removesecurememorycachecallback"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pfnCallBack">
+        /// A pointer to the application-defined <c>SecureMemoryCacheCallback</c> function to remove.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, it returns <see cref="TRUE"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, it returns <see cref="FALSE"/>.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista, BuildNumbers.WindowsVistaSP1)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "RemoveSecureMemoryCacheCallback", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL RemoveSecureMemoryCacheCallback([In] PSECURE_MEMORY_CACHE_CALLBACK pfnCallBack);
 
         /// <summary>
         /// <para>

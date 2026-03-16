@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.Attributes;
 using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
@@ -1411,6 +1412,80 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNumaProximityNode", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetNumaProximityNode([In] ULONG ProximityId, [Out] out UCHAR NodeNumber);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the amount of RAM that is physically installed on the computer.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-getphysicallyinstalledsystemmemory"/>
+        /// </para>
+        /// </summary>
+        /// <param name="TotalMemoryInKilobytes">
+        /// A pointer to a variable that receives the amount of physically installed RAM, in kilobytes.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, it returns <see cref="TRUE"/>
+        /// and sets the <paramref name="TotalMemoryInKilobytes"/> parameter to a nonzero value.
+        /// </para>
+        /// <para>
+        /// If the function fails, it returns <see cref="FALSE"/>
+        /// and does not modify the <paramref name="TotalMemoryInKilobytes"/> parameter.
+        /// To get extended error information, use the <see cref="GetLastError"/> function.
+        /// Common errors are listed in the following table.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_INVALID_PARAMETER"/>
+        /// </term>
+        /// <term>
+        /// The <paramref name="TotalMemoryInKilobytes"/> parameter is <see cref="NullRef{ULONGLONG}"/>.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_INVALID_DATA"/>
+        /// </term>
+        /// <term>
+        /// The System Management BIOS (SMBIOS) data is malformed.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The <see cref="GetPhysicallyInstalledSystemMemory"/> function retrieves
+        /// the amount of physically installed RAM from the computer's SMBIOS firmware tables.
+        /// This can differ from the amount reported by the <see cref="GlobalMemoryStatusEx"/> function,
+        /// which sets the <see cref="MEMORYSTATUSEX.ullTotalPhys"/> member of the <see cref="MEMORYSTATUSEX"/> structure
+        /// to the amount of physical memory that is available for the operating system to use.
+        /// The amount of memory available to the operating system can be less than
+        /// the amount of memory physically installed in the computer
+        /// because the BIOS and some drivers may reserve memory as I/O regions for memory-mapped devices,
+        /// making the memory unavailable to the operating system and applications.
+        /// </para>
+        /// <para>
+        /// The amount of physical memory retrieved by the <see cref="GetPhysicallyInstalledSystemMemory"/> function
+        /// must be equal to or greater than the amount reported by the <see cref="GlobalMemoryStatusEx"/> function;
+        /// if it is less, the SMBIOS data is malformed and the function fails with <see cref="ERROR_INVALID_DATA"/>.
+        /// Malformed SMBIOS data may indicate a problem with the user's computer.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsVista, BuildNumbers.WindowsVistaSP1)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPhysicallyInstalledSystemMemory", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetPhysicallyInstalledSystemMemory([Out] out ULONGLONG TotalMemoryInKilobytes);
 
         /// <summary>
         /// <para>
