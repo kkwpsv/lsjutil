@@ -24,10 +24,13 @@ namespace Lsj.Util.Win32.Marshals
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public LPCSTR(string val) : base(IntPtr.Zero)
+        public LPCSTR(string? val) : base(IntPtr.Zero)
         {
             _str = val;
-            SetHandle(Marshal.StringToHGlobalAnsi(_str));
+            if (_str != null)
+            {
+                SetHandle(Marshal.StringToHGlobalAnsi(_str));
+            }
         }
 
         /// <inheritdoc/>
@@ -60,7 +63,7 @@ namespace Lsj.Util.Win32.Marshals
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator LPCSTR(string val) => new LPCSTR(val);
+        public static implicit operator LPCSTR(string? val) => new LPCSTR(val);
 
         /// <summary>
         /// 
