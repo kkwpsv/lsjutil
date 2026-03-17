@@ -194,6 +194,6 @@ namespace Lsj.Util.Win32.DirectX.Enums
         /// Windows Store apps must use <see cref="DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL"/> or <see cref="DXGI_SWAP_EFFECT_FLIP_DISCARD"/>.
         /// </para>
         /// </summary>
-        DXGI_SWAP_EFFECT_FLIP_DISCARD = 4
+        DXGI_SWAP_EFFECT_FLIP_DISCARD = 4,
     }
 }

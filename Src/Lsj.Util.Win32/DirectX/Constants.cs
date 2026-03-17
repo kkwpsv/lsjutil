@@ -14,6 +14,11 @@ namespace Lsj.Util.Win32.DirectX
     public static class Constants
     {
         /// <summary>
+        /// D3D_COMPILE_STANDARD_FILE_INCLUDE
+        /// </summary>
+        public static readonly P<ID3DInclude> D3D_COMPILE_STANDARD_FILE_INCLUDE = (nint)1;
+
+        /// <summary>
         /// <para>
         /// No error occurred.
         /// </para>
