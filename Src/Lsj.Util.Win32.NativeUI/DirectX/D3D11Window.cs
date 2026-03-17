@@ -1,13 +1,16 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.DirectX.ComInterfaces;
+using Lsj.Util.Win32.DirectX.Enums;
 using Lsj.Util.Win32.DirectX.Structs;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Extensions.COM;
 using Lsj.Util.Win32.Extensions.DirectX.Direct3D11;
 using Lsj.Util.Win32.Structs;
+using System;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.DirectX.Enums.DXGI_FORMAT;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_SWAP_EFFECT;
 using static Lsj.Util.Win32.DirectX.Enums.DXGI_USAGE;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
@@ -38,74 +41,130 @@ namespace Lsj.Util.Win32.NativeUI.DirectX
         /// </summary>
         public P<IDXGISwapChain> SwapChain { get; private set; }
 
-        /// <inheritdoc/>
-        protected override LRESULT OnCreate(HWND hWnd, WPARAM wParam, LPARAM lParam, ref CREATESTRUCT createStruct)
+        private int _swapChainBufferCount = 2;
+
+        /// <summary>
+        /// Swapchain buffer count
+        /// </summary>
+        public int SwapChainBufferCount
         {
-            try
+            get => _swapChainBufferCount;
+            set
             {
-                var device = CreateD3D11Device();
-                if (device == NULL)
+                if (IsInitiated)
                 {
-                    return -1;
+                    throw new InvalidOperationException("Cannot change after initialization.");
                 }
-
-                Device = device;
-
-                Device.Value.GetImmediateContext(out var deviceContext);
-                DeviceContext = deviceContext;
-
-                var dxgiDevice = device.AsIUnknown().ToInterface<IDXGIDevice>(IIDs.IID_IDXGIDevice, false, true);
-                var result = dxgiDevice.As<IDXGIObject>().GetParent(IIDs.IID_IDXGIAdapter, out var pAdapter);
-                dxgiDevice.AsIUnknown().Value.Release();
-                if (!result)
-                {
-                    return -1;
-                }
-
-                P<IDXGIAdapter> adapter = (P<IDXGIAdapter>)pAdapter;
-                result = adapter.As<IDXGIObject>().GetParent(IIDs.IID_IDXGIFactory2, out var pFactory);
-                adapter.AsIUnknown().Value.Release();
-                if (!result)
-                {
-                    return -1;
-                }
-
-                P<IDXGIFactory2> factory = (P<IDXGIFactory2>)pFactory;
-                var desc = new DXGI_SWAP_CHAIN_DESC1
-                {
-                    BufferCount = 1,
-                    BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT,
-                    Format = DXGI_FORMAT_R8G8B8A8_UNORM,
-                    SampleDesc = new DXGI_SAMPLE_DESC
-                    {
-                        Count = 1,
-                    }
-                };
-                result = factory.Value.CreateSwapChainForHwnd(device.AsIUnknown(), hWnd, desc, NullRef<DXGI_SWAP_CHAIN_FULLSCREEN_DESC>(), NULL, out var swapChain);
-                factory.AsIUnknown().Value.Release();
-                if (!result)
-                {
-                    return -1;
-                }
-
-                SwapChain = swapChain.AsIUnknown().ToInterface<IDXGISwapChain>(IIDs.IID_IDXGISwapChain1, true, true);
-
-                if (!CreateRenderTarget())
-                {
-                    return -1;
-                }
-
-                if (!OnAfterInitD3D11(hWnd))
-                {
-                    return -1;
-                }
+                _swapChainBufferCount = value;
             }
-            catch
+        }
+
+        private DXGI_SWAP_EFFECT _swapChainSwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
+
+        /// <summary>
+        /// Swapchain swap effect
+        /// </summary>
+        public DXGI_SWAP_EFFECT SwapChainSwapEffect
+        {
+            get => _swapChainSwapEffect;
+            set
             {
-                return -1;
+                if (IsInitiated)
+                {
+                    throw new InvalidOperationException("Cannot change after initialization.");
+                }
+                _swapChainSwapEffect = value;
+            }
+        }
+
+        /// <summary>
+        /// Is Initiated
+        /// </summary>
+        public bool IsInitiated { get; private set; }
+
+        /// <summary>
+        /// Init D3D11
+        /// </summary>
+        /// <returns></returns>
+        public bool InitD3D11()
+        {
+            if (IsInitiated)
+            {
+                return false;
             }
 
-            return base.OnCreate(hWnd, wParam, lParam, ref createStruct);
+            if (Device != NULL)
+            {
+                Device.AsIUnknown().Value.Release();
+            }
+            var device = CreateD3D11Device();
+            if (device == NULL)
+            {
+                return false;
+            }
+
+            Device = device;
+
+            Device.Value.GetImmediateContext(out var deviceContext);
+            if (DeviceContext != NULL)
+            {
+                DeviceContext.AsIUnknown().Value.Release();
+            }
+            DeviceContext = deviceContext;
+
+            var dxgiDevice = device.AsIUnknown().ToInterface<IDXGIDevice>(IIDs.IID_IDXGIDevice, false, true);
+            var result = dxgiDevice.As<IDXGIObject>().GetParent(IIDs.IID_IDXGIAdapter, out var pAdapter);
+            dxgiDevice.AsIUnknown().Value.Release();
+            if (!result)
+            {
+                return false;
+            }
+
+            P<IDXGIAdapter> adapter = (P<IDXGIAdapter>)pAdapter;
+            result = adapter.As<IDXGIObject>().GetParent(IIDs.IID_IDXGIFactory2, out var pFactory);
+            adapter.AsIUnknown().Value.Release();
+            if (!result)
+            {
+                return false;
+            }
+
+            P<IDXGIFactory2> factory = (P<IDXGIFactory2>)pFactory;
+            var desc = new DXGI_SWAP_CHAIN_DESC1
+            {
+                BufferCount = SwapChainBufferCount,
+                BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT,
+                Format = DXGI_FORMAT_R8G8B8A8_UNORM,
+                SwapEffect = SwapChainSwapEffect,
+                SampleDesc = new DXGI_SAMPLE_DESC
+                {
+                    Count = 1,
+                }
+            };
+            result = factory.Value.CreateSwapChainForHwnd(device.AsIUnknown(), Handle, desc, NullRef<DXGI_SWAP_CHAIN_FULLSCREEN_DESC>(), NULL, out var swapChain);
+            factory.AsIUnknown().Value.Release();
+            if (!result)
+            {
+                return false;
+            }
+
+            if(SwapChain != NULL)
+            {
+                SwapChain.AsIUnknown().Value.Release();
+            }
+            SwapChain = swapChain.AsIUnknown().ToInterface<IDXGISwapChain>(IIDs.IID_IDXGISwapChain1, true, true);
+
+            if (!CreateRenderTarget())
+            {
+                return false;
+            }
+
+            if (!OnAfterInitD3D11(Handle))
+            {
+                return false;
+            }
+
+            IsInitiated = true;
+            return true;
         }
 
         /// <summary>

@@ -43,68 +43,80 @@ namespace Lsj.Util.Win32.NativeUI.DirectX
         /// </summary>
         public P<IDirect3DSwapChain9> SwapChain => SwapChainEx.AsP<IDirect3DSwapChain9>();
 
-        /// <inheritdoc/>
-        protected override LRESULT OnCreate(HWND hWnd, WPARAM wParam, LPARAM lParam, ref CREATESTRUCT createStruct)
+        /// <summary>
+        /// Is Initiated
+        /// </summary>
+        public bool IsInitiated { get; private set; }
+
+        /// <summary>
+        /// Init D3D9Ex
+        /// </summary>
+        /// <returns></returns>
+        public bool InitD3D9Ex()
         {
-            try
+            if (!Direct3DCreate9Ex(D3D_SDK_VERSION, out var iDirect3D9Ex))
             {
-                if (!Direct3DCreate9Ex(D3D_SDK_VERSION, out var iDirect3D9Ex))
-                {
-                    return -1;
-                }
-
-                var presentParameters = new D3DPRESENT_PARAMETERS
-                {
-                    Windowed = true,
-                    SwapEffect = D3DSWAPEFFECT_FLIPEX,
-                    BackBufferFormat = D3DFMT_A8R8G8B8,
-                    BackBufferWidth = 0,
-                    BackBufferHeight = 0,
-                    BackBufferCount = 2,
-                    PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE,
-                };
-
-                if (!iDirect3D9Ex.Value.CreateDeviceEx(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_MULTITHREADED,
-                    ref presentParameters, ref NullRef<D3DDISPLAYMODEEX>(), out var device))
-                {
-                    return -1;
-                }
-
-                DeviceEx = device;
-
-                if (!device.As<IDirect3DDevice9>().GetSwapChain(0, out var swapChain))
-                {
-                    return -1;
-                }
-
-                var swapChainEx = swapChain.AsIUnknown().ToInterface<IDirect3DSwapChain9Ex>(IIDs.IID_IDirect3DSwapChain9Ex, true, true);
-                SwapChainEx = swapChainEx;
-
-                if (!swapChainEx.AsP<IDirect3DSwapChain9>().Value.GetBackBuffer(0, D3DBACKBUFFER_TYPE_MONO, out var backBuffer))
-                {
-                    return -1;
-                }
-
-                var result = DeviceEx.AsP<IDirect3DDevice9>().Value.SetRenderTarget(0, backBuffer);
-
-                backBuffer.AsIUnknown().Value.Release();
-
-                if (!result)
-                {
-                    return -1;
-                }
-
-                if (!OnAfterInitD3D9Ex(hWnd))
-                {
-                    return -1;
-                }
-            }
-            catch
-            {
-                return -1;
+                return false;
             }
 
-            return base.OnCreate(hWnd, wParam, lParam, ref createStruct);
+            var presentParameters = new D3DPRESENT_PARAMETERS
+            {
+                Windowed = true,
+                SwapEffect = D3DSWAPEFFECT_FLIPEX,
+                BackBufferFormat = D3DFMT_A8R8G8B8,
+                BackBufferWidth = 0,
+                BackBufferHeight = 0,
+                BackBufferCount = 2,
+                PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE,
+            };
+
+            var result = !iDirect3D9Ex.Value.CreateDeviceEx(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, Handle, D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_MULTITHREADED,
+                ref presentParameters, ref NullRef<D3DDISPLAYMODEEX>(), out var device);
+            iDirect3D9Ex.AsIUnknown().Value.Release();
+            if (!result)
+            {
+                return false;
+            }
+
+            if (DeviceEx != NULL)
+            {
+                DeviceEx.AsIUnknown().Value.Release();
+            }
+            DeviceEx = device;
+
+            if (!device.As<IDirect3DDevice9>().GetSwapChain(0, out var swapChain))
+            {
+                return false;
+            }
+
+            var swapChainEx = swapChain.AsIUnknown().ToInterface<IDirect3DSwapChain9Ex>(IIDs.IID_IDirect3DSwapChain9Ex, true, true);
+            if (SwapChainEx != NULL)
+
+            {
+                SwapChainEx.AsIUnknown().Value.Release();
+            }
+            SwapChainEx = swapChainEx;
+
+            if (!swapChainEx.AsP<IDirect3DSwapChain9>().Value.GetBackBuffer(0, D3DBACKBUFFER_TYPE_MONO, out var backBuffer))
+            {
+                return false;
+            }
+
+            result = DeviceEx.AsP<IDirect3DDevice9>().Value.SetRenderTarget(0, backBuffer);
+
+            backBuffer.AsIUnknown().Value.Release();
+
+            if (!result)
+            {
+                return false;
+            }
+
+            if (!OnAfterInitD3D9Ex(Handle))
+            {
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>
