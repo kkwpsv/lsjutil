@@ -43,6 +43,76 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly IID IID_IClientSecurity = "0000013D-0000-0000-C000-000000000046";
 
         /// <summary>
+        /// IID_ID2D1DCRenderTarget
+        /// </summary>
+        public static readonly IID IID_ID2D1DCRenderTarget = "1c51bc64-de61-46fd-9899-63a5d8f03950";
+
+        /// <summary>
+        /// IID_ID2D1DrawingStateBlock
+        /// </summary>
+        public static readonly IID IID_ID2D1DrawingStateBlock = "28506e39-ebf6-46a1-bb47-fd85565ab957";
+
+        /// <summary>
+        /// IID_ID2D1EllipseGeometry
+        /// </summary>
+        public static readonly IID IID_ID2D1EllipseGeometry = "2cd906a4-12e2-11dc-9fed-001143a055f9";
+
+        /// <summary>
+        /// IID_ID2D1Factory
+        /// </summary>
+        public static readonly IID IID_ID2D1Factory = "06152247-6f50-465a-9245-118bfd3b6007";
+
+        /// <summary>
+        /// IID_ID2D1Geometry
+        /// </summary>
+        public static readonly IID IID_ID2D1Geometry = "2cd906a1-12e2-11dc-9fed-001143a055f9";
+
+        /// <summary>
+        /// IID_ID2D1GeometryGroup
+        /// </summary>
+        public static readonly IID IID_ID2D1GeometryGroup = "2cd906a6-12e2-11dc-9fed-001143a055f9";
+
+        /// <summary>
+        /// IID_ID2D1HwndRenderTarget
+        /// </summary>
+        public static readonly IID IID_ID2D1HwndRenderTarget = "2cd90694-12e2-11dc-9fed-001143a055f9";
+
+        /// <summary>
+        /// IID_ID2D1PathGeometry
+        /// </summary>
+        public static readonly IID IID_ID2D1PathGeometry = "2cd906a5-12e2-11dc-9fed-001143a055f9";
+
+        /// <summary>
+        /// IID_ID2D1RectangleGeometry
+        /// </summary>
+        public static readonly IID IID_ID2D1RectangleGeometry = "2cd906a2-12e2-11dc-9fed-001143a055f9";
+
+        /// <summary>
+        /// IID_ID2D1RenderTarget
+        /// </summary>
+        public static readonly IID IID_ID2D1RenderTarget = "2cd90694-12e2-11dc-9fed-001143a055f9";
+
+        /// <summary>
+        /// IID_ID2D1Resource
+        /// </summary>
+        public static readonly IID IID_ID2D1Resource = "2cd90691-12e2-11dc-9fed-001143a055f9";
+
+        /// <summary>
+        /// IID_ID2D1RoundedRectangleGeometry
+        /// </summary>
+        public static readonly IID IID_ID2D1RoundedRectangleGeometry = "2cd906a3-12e2-11dc-9fed-001143a055f9";
+
+        /// <summary>
+        /// IID_ID2D1StrokeStyle
+        /// </summary>
+        public static readonly IID IID_ID2D1StrokeStyle = "2cd9069d-12e2-11dc-9fed-001143a055f9";
+
+        /// <summary>
+        /// IID_ID2D1TransformedGeometry
+        /// </summary>
+        public static readonly IID IID_ID2D1TransformedGeometry = "2cd906bb-12e2-11dc-9fed-001143a055f9";
+
+        /// <summary>
         /// IID_ID3D10Blob
         /// </summary>
         public static readonly IID IID_ID3D10Blob = "8BA5FB08-5195-40e2-AC58-0D989C3A0102";
@@ -136,6 +206,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// IID_IDispatch
         /// </summary>
         public static readonly IID IID_IDispatch = "00020400-0000-0000-C000-000000000046";
+
+        /// <summary>
+        /// IID_IDWriteRenderingParams
+        /// </summary>
+        public static readonly IID IID_IDWriteRenderingParams = "06152247-6f50-465a-9245-118bfd3b6007";
 
         /// <summary>
         /// IID_IDirect3D11CaptureFrame
@@ -906,5 +981,15 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// IID_IVirtualDesktopManager
         /// </summary>
         public static readonly IID IID_IVirtualDesktopManager = "a5cd92ff-29be-454c-8d04-d82879fb3f1b";
+
+        /// <summary>
+        /// IID_IWICBitmap
+        /// </summary>
+        public static readonly IID IID_IWICBitmap = "00000120-a8f2-4877-ba0a-fd2b6645fb94";
+
+        /// <summary>
+        /// IID_IWICBitmapSource
+        /// </summary>
+        public static readonly IID IID_IWICBitmapSource = "00000120-a8f2-4877-ba0a-fd2b6645fb94";
     }
 }
