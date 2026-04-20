@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.DirectX.BaseTypes
     /// To set a tag before a series of rendering operations, use the <see cref="ID2D1RenderTarget.SetTags"/> method.
     /// To retrieve the current tag, use the <see cref="ID2D1RenderTarget.GetTags"/> method.
     /// </remarks>
-    [StructLayout(LayoutKind.Explicit, Size = 4)]
+    [StructLayout(LayoutKind.Explicit, Size = 8)]
     public struct D2D1_TAG
     {
         [FieldOffset(0)]

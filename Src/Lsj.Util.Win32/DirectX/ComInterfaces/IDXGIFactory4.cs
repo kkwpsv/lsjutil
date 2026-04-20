@@ -7,6 +7,7 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
+using static Lsj.Util.Win32.DirectX.D3D12;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
 {

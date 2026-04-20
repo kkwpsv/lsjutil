@@ -19,6 +19,46 @@ namespace Lsj.Util.Win32.DirectX
     {
         /// <summary>
         /// <para>
+        /// Calculates a subresource index for a texture.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/direct3d12/d3d12calcsubresource"/>
+        /// </para>
+        /// </summary>
+        /// <param name="MipSlice">
+        /// The zero-based index for the mipmap level to address; 0 indicates the first, most detailed mipmap level.
+        /// </param>
+        /// <param name="ArraySlice">
+        /// The zero-based index for the array level to address; always use 0 for volume (3D) textures.
+        /// </param>
+        /// <param name="PlaneSlice">
+        /// The zero-based index for the plane level to address.
+        /// </param>
+        /// <param name="MipLevels">
+        /// The number of mipmap levels in the resource.
+        /// </param>
+        /// <param name="ArraySize">
+        /// The number of elements in the array.
+        /// </param>
+        /// <returns>
+        /// The index which equals <paramref name="MipSlice"/> + (<paramref name="ArraySlice"/> * <paramref name="MipLevels"/>).
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// A buffer is an unstructured resource and is therefore defined as containing a single subresource.
+        /// APIs that take buffers do not need a subresource index.
+        /// A texture on the other hand is highly structured.
+        /// Each texture object may contain one or more subresources depending on the size of the array and the number of mipmap levels.
+        /// </para>
+        /// <para>
+        /// For volume (3D) textures, all slices for a given mipmap level are a single subresource index.
+        /// </para>
+        /// </remarks>
+        public static UINT D3D12CalcSubresource(UINT MipSlice, UINT ArraySlice, UINT PlaneSlice, UINT MipLevels, UINT ArraySize) =>
+            MipSlice + ArraySlice * MipLevels + PlaneSlice * MipLevels * ArraySize;
+
+        /// <summary>
+        /// <para>
         /// Creates a device that represents the display adapter.
         /// </para>
         /// <para>

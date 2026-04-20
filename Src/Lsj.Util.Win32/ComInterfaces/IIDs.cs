@@ -183,9 +183,104 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly IID IID_ID3D11VideoDevice = "10EC4D5B-975A-4689-B9E4-D0AAC30FE333";
 
         /// <summary>
+        /// IID_ID3D12CommandAllocator
+        /// </summary>
+        public static readonly IID IID_ID3D12CommandAllocator = "6102dee4-af59-4b09-b999-b44d73f09b24";
+
+        /// <summary>
+        /// IID_ID3D12CommandList
+        /// </summary>
+        public static readonly IID IID_ID3D12CommandList = "7116d91c-e7e4-47ce-b8c6-ec8168f437e5";
+
+        /// <summary>
+        /// IID_ID3D12CommandQueue
+        /// </summary>
+        public static readonly IID IID_ID3D12CommandQueue = "0ec870a6-5d7e-4c22-8cfc-5baae07616ed";
+
+        /// <summary>
+        /// IID_ID3D12CommandSignature
+        /// </summary>
+        public static readonly IID IID_ID3D12CommandSignature = "c36a797c-ec80-4f0a-8985-a7b2475082d1";
+
+        /// <summary>
+        /// IID_ID3D12DescriptorHeap
+        /// </summary>
+        public static readonly IID IID_ID3D12DescriptorHeap = "8efb471d-616c-4f49-90f7-127bb763fa51";
+
+        /// <summary>
         /// IID_ID3D12Device
         /// </summary>
         public static readonly IID IID_ID3D12Device = "189819f1-1db6-4b57-be54-1821339b85f7";
+
+        /// <summary>
+        /// IID_ID3D12Device1
+        /// </summary>
+        public static readonly IID IID_ID3D12Device1 = "77acce80-638e-4e65-8895-c1f23386863e";
+
+        /// <summary>
+        /// IID_ID3D12Device2
+        /// </summary>
+        public static readonly IID IID_ID3D12Device2 = "30baa41e-b15b-475c-a0bb-1af5c5b64328";
+
+        /// <summary>
+        /// IID_ID3D12DeviceChild
+        /// </summary>
+        public static readonly IID IID_ID3D12DeviceChild = "905db94b-a00c-4140-9df5-2b64ca9ea357";
+
+        /// <summary>
+        /// IID_ID3D12Fence
+        /// </summary>
+        public static readonly IID IID_ID3D12Fence = "0a753dcf-c4d8-4b91-adf6-be5a60d95a76";
+
+        /// <summary>
+        /// IID_ID3D12GraphicsCommandList
+        /// </summary>
+        public static readonly IID IID_ID3D12GraphicsCommandList = "5b160d0f-ac1b-4185-8ba8-b3ae42a5a455";
+
+        /// <summary>
+        /// IID_ID3D12Heap
+        /// </summary>
+        public static readonly IID IID_ID3D12Heap = "6b3b2502-6e51-45b3-90ee-9884265e8df3";
+
+        /// <summary>
+        /// IID_ID3D12Object
+        /// </summary>
+        public static readonly IID IID_ID3D12Object = "c4fec28f-7966-4e95-9f94-f431cb56c3b8";
+
+        /// <summary>
+        /// IID_ID3D12Pageable
+        /// </summary>
+        public static readonly IID IID_ID3D12Pageable = "63ee58fb-1268-4835-86da-f008ce62f0d6";
+
+        /// <summary>
+        /// IID_ID3D12PipelineLibrary
+        /// </summary>
+        public static readonly IID IID_ID3D12PipelineLibrary = "c64226a8-9201-46af-b4cc-53fb9ff7414f";
+
+        /// <summary>
+        /// IID_ID3D12PipelineLibrary1
+        /// </summary>
+        public static readonly IID IID_ID3D12PipelineLibrary1 = "80eabf42-2568-4e5e-bd82-c37f86961dc3";
+
+        /// <summary>
+        /// IID_ID3D12PipelineState
+        /// </summary>
+        public static readonly IID IID_ID3D12PipelineState = "765a30f3-f624-4c6f-a828-ace948622445";
+
+        /// <summary>
+        /// IID_ID3D12QueryHeap
+        /// </summary>
+        public static readonly IID IID_ID3D12QueryHeap = "0d9658ae-ed45-469e-a61d-970ec583cab4";
+
+        /// <summary>
+        /// IID_ID3D12Resource
+        /// </summary>
+        public static readonly IID IID_ID3D12Resource = "696442be-a72e-4059-bc79-5b5c98040fad";
+
+        /// <summary>
+        /// IID_ID3D12RootSignature
+        /// </summary>
+        public static readonly IID IID_ID3D12RootSignature = "c54a6b66-72df-4ee8-8be5-a946a1429214";
 
         /// <summary>
         /// IID_ID3DBlob

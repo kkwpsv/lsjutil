@@ -14,6 +14,11 @@ namespace Lsj.Util.Win32.BaseTypes
     [StructLayout(LayoutKind.Explicit, Size = 4)]
     public struct UINT64
     {
+        /// <summary>
+        /// UINT64_MAX
+        /// </summary>
+        public static readonly UINT64 UINT64_MAX = 0xffffffffffffffff;
+
         [FieldOffset(0)]
         private ulong _value;
 

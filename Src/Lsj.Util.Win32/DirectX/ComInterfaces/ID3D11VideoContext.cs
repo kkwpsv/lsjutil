@@ -14,6 +14,7 @@ using static Lsj.Util.Win32.DirectX.Enums.D3D11_CONTENT_PROTECTION_CAPS;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_QUERY;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_USAGE;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_VIDEO_PROCESSOR_ALPHA_FILL_MODE;
+using static Lsj.Util.Win32.DirectX.Enums.D3D11_VIDEO_PROCESSOR_FEATURE_CAPS;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_VIDEO_PROCESSOR_OUTPUT_RATE;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_VIDEO_PROCESSOR_STEREO_FORMAT;
 using static Lsj.Util.Win32.DirectX.Enums.D3DERR;
@@ -919,7 +920,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <remarks>
         /// <para>
         /// To use this feature, the driver must support stereo video,
-        /// indicated by the <see cref="D3D11_VIDEO_PROCESSOR_FEATURE_CAPS_ALHPA_STREAM"/> capability flag.
+        /// indicated by the <see cref="D3D11_VIDEO_PROCESSOR_FEATURE_CAPS_ALPHA_STREAM"/> capability flag.
         /// To query for this capability, call <see cref="ID3D11VideoProcessorEnumerator.GetVideoProcessorCaps"/>.
         /// </para>
         /// <para>

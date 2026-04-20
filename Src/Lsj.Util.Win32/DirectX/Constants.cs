@@ -29,6 +29,31 @@ namespace Lsj.Util.Win32.DirectX
         public static readonly HRESULT D3D_OK = S_OK;
 
         /// <summary>
+        /// D3D10_REQ_TEXTURE1D_ARRAY_AXIS_DIMENSION
+        /// </summary>
+        public const uint D3D10_REQ_TEXTURE1D_ARRAY_AXIS_DIMENSION = 512;
+
+        /// <summary>
+        /// D3D10_REQ_TEXTURE1D_U_DIMENSION
+        /// </summary>
+        public const uint D3D10_REQ_TEXTURE1D_U_DIMENSION = 8192;
+
+        /// <summary>
+        /// D3D10_REQ_TEXTURE2D_ARRAY_AXIS_DIMENSION
+        /// </summary>
+        public const uint D3D10_REQ_TEXTURE2D_ARRAY_AXIS_DIMENSION = 512;
+
+        /// <summary>
+        /// D3D10_REQ_TEXTURE2D_U_OR_V_DIMENSION
+        /// </summary>
+        public const uint D3D10_REQ_TEXTURE2D_U_OR_V_DIMENSION = 8192;
+
+        /// <summary>
+        /// D3D10_REQ_TEXTURE3D_U_V_OR_W_DIMENSION
+        /// </summary>
+        public const uint D3D10_REQ_TEXTURE3D_U_V_OR_W_DIMENSION = 2048;
+
+        /// <summary>
         /// D3D11_1_UAV_SLOT_COUNT
         /// </summary>
         public const uint D3D11_1_UAV_SLOT_COUNT = 64;
@@ -149,9 +174,14 @@ namespace Lsj.Util.Win32.DirectX
         public const uint D3D11_SO_STREAM_COUNT = 4;
 
         /// <summary>
-        /// D3D11_VIEWPORT_BOUNDS_MIN
+        /// D3D12_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE
         /// </summary>
-        public const int D3D11_VIEWPORT_BOUNDS_MIN = -32768;
+        public const uint D3D12_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE = 16;
+
+        /// <summary>
+        /// D3D11_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE
+        /// </summary>
+        public const uint D3D11_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE = 16;
 
         /// <summary>
         /// D3D11_VIEWPORT_BOUNDS_MAX
@@ -159,9 +189,89 @@ namespace Lsj.Util.Win32.DirectX
         public const int D3D11_VIEWPORT_BOUNDS_MAX = 32767;
 
         /// <summary>
-        /// D3D11_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE
+        /// D3D11_VIEWPORT_BOUNDS_MIN
         /// </summary>
-        public const uint D3D11_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE = 16;
+        public const int D3D11_VIEWPORT_BOUNDS_MIN = -32768;
+
+        /// <summary>
+        /// D3D12_APPEND_ALIGNED_ELEMENT
+        /// </summary>
+        public const uint D3D12_APPEND_ALIGNED_ELEMENT = 0xFFFFFFFF;
+
+        /// <summary>
+        /// D3D11_VIEWPORT_BOUNDS_MIN
+        /// </summary>
+        public const ulong D3D12_DEFAULT_MSAA_RESOURCE_PLACEMENT_ALIGNMENT = 4194304;
+
+        /// <summary>
+        /// D3D11_VIEWPORT_BOUNDS_MIN
+        /// </summary>
+        public const ulong D3D12_DEFAULT_RESOURCE_PLACEMENT_ALIGNMENT = 65536;
+
+        /// <summary>
+        /// D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING
+        /// </summary>
+        public const uint D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING = 0x1688;
+
+        /// <summary>
+        /// D3D12_DEFAULT_STENCIL_READ_MASK
+        /// </summary>
+        public const byte D3D12_DEFAULT_STENCIL_READ_MASK = 0xFF;
+
+        /// <summary>
+        /// D3D12_DEFAULT_STENCIL_WRITE_MASK
+        /// </summary>
+        public const byte D3D12_DEFAULT_STENCIL_WRITE_MASK = 0xFF;
+
+        /// <summary>
+        /// D3D12_PACKED_TILE
+        /// </summary>
+        public const uint D3D12_PACKED_TILE = 0xFFFFFFFF;
+
+        /// <summary>
+        /// D3D12_REQ_SUBRESOURCES
+        /// </summary>
+        public const uint D3D12_REQ_SUBRESOURCES = 30720;
+
+        /// <summary>
+        /// D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES
+        /// </summary>
+        public const uint D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES = 0xFFFFFFFF;
+
+        /// <summary>
+        /// D3D12_TEXTURE_DATA_PITCH_ALIGNMENT
+        /// </summary>
+        public const uint D3D12_TEXTURE_DATA_PITCH_ALIGNMENT = 256;
+
+        /// <summary>
+        /// D3D12_TEXTURE_DATA_PLACEMENT_ALIGNMENT
+        /// </summary>
+        public const ulong D3D12_TEXTURE_DATA_PLACEMENT_ALIGNMENT = 512;
+
+        /// <summary>
+        /// D3D12_SHADER_COMPONENT_MAPPING_ALWAYS_SET_BIT_AVOIDING_ZEROMEM_MISTAKES
+        /// </summary>
+        public const uint D3D12_SHADER_COMPONENT_MAPPING_ALWAYS_SET_BIT_AVOIDING_ZEROMEM_MISTAKES = (1 << (D3D12_SHADER_COMPONENT_MAPPING_SHIFT * 4));
+
+        /// <summary>
+        /// D3D12_SHADER_COMPONENT_MAPPING_SHIFT
+        /// </summary>
+        public const byte D3D12_SHADER_COMPONENT_MAPPING_SHIFT = 3;
+
+        /// <summary>
+        /// D3D12_SHADER_COMPONENT_MAPPING_MASK
+        /// </summary>
+        public const byte D3D12_SHADER_COMPONENT_MAPPING_MASK = 0x7;
+
+        /// <summary>
+        /// D3D12_SIMULTANEOUS_RENDER_TARGET_COUNT
+        /// </summary>
+        public const uint D3D12_SIMULTANEOUS_RENDER_TARGET_COUNT = 8;
+
+        /// <summary>
+        /// D3D12_UAV_COUNTER_PLACEMENT_ALIGNMENT
+        /// </summary>
+        public const ulong D3D12_UAV_COUNTER_PLACEMENT_ALIGNMENT = 4096;
 
         /// <summary>
         /// <para>
@@ -422,5 +532,10 @@ namespace Lsj.Util.Win32.DirectX
         /// DXGI_MAX_SWAP_CHAIN_BUFFERS
         /// </summary>
         public const uint DXGI_MAX_SWAP_CHAIN_BUFFERS = 16;
+
+        /// <summary>
+        /// WKPDID_D3DDebugObjectName
+        /// </summary>
+        public static readonly GUID WKPDID_D3DDebugObjectName = (GUID)"429b8c22-9188-4b0c-8742-acb0bf85c200";
     }
 }

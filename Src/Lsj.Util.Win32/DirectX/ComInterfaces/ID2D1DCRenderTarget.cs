@@ -1,6 +1,12 @@
 ﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
+using Lsj.Util.Win32.Structs;
 using System;
+using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.DirectX.Enums.D2D1_ALPHA_MODE;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_FORMAT;
 using static Lsj.Util.Win32.Gdi32;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
@@ -31,11 +37,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// </para>
     /// <para>
     /// Your application should create render targets once and hold onto them for the life of the application
-    /// or until the render target's <see cref="EndDraw"/> method returns the <see cref="D2DERR_RECREATE_TARGET"/> error.
+    /// or until the render target's <see cref="ID2D1RenderTarget.EndDraw"/> method returns the <see cref="D2DERR_RECREATE_TARGET"/> error.
     /// When you receive this error, you need to recreate the render target (and any resources it created).
     /// </para>
     /// <para>
-    /// <see cref="ID2D1DCRenderTargets"/>, GDI Transforms, and Right-to-Left Language Builds of Windows
+    /// ID2D1DCRenderTargets, GDI Transforms, and Right-to-Left Language Builds of Windows
     /// </para>
     /// <para>
     /// When you use an <see cref="ID2D1DCRenderTarget"/>, it renders Direct2D content to an internal bitmap,
@@ -76,10 +82,36 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// </code>
     /// </remarks>
     [WindowsVersionRequirement(WindowsVersion.Windows7)]
-    [ComInterface(IID = "1c51bc64-de61-46fd-9899-63a5d8f03950", BeginVTableSlotIndex = 57, EndVTableSlotIndex = 59,
+    [ComInterface(IID = "1c51bc64-de61-46fd-9899-63a5d8f03950", BeginVTableSlotIndex = 57, EndVTableSlotIndex = 57,
         InheritedFromTypes = [typeof(IUnknown), typeof(ID2D1Resource), typeof(ID2D1RenderTarget)])]
     public unsafe struct ID2D1DCRenderTarget
     {
         IntPtr* _vTable;
+
+        /// <summary>
+        /// Binds the render target to the device context to which it issues drawing commands.
+        /// </summary>
+        /// <param name="hDC">
+        /// The device context to which the render target issues drawing commands.
+        /// </param>
+        /// <param name="pSubRect">
+        /// The dimensions of the handle to a device context (HDC) to which the render target is bound.
+        /// </param>
+        /// <returns>
+        /// If this method succeeds, it returns <see cref="S_OK"/>.
+        /// Otherwise, it returns an <see cref="HRESULT"/> error code.
+        /// </returns>
+        /// <remarks>
+        /// Before you can render with the DC render target,
+        /// you must use its <see cref="BindDC"/> method to associate it with a GDI DC.
+        /// You do this each time you use a different DC, or the size of the area you want to draw to changes.
+        /// </remarks>
+        public HRESULT BindDC([In] HDC hDC, [In] in RECT pSubRect)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, HDC, in RECT, HRESULT>)_vTable[57])(thisPtr, hDC, pSubRect);
+            }
+        }
     }
 }

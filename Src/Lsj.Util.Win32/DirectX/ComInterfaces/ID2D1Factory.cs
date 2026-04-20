@@ -9,6 +9,7 @@ using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.DirectX.Enums.D2D1_ALPHA_MODE;
 using static Lsj.Util.Win32.DirectX.Enums.D2D1_FEATURE_LEVEL;
 using static Lsj.Util.Win32.DirectX.Enums.D2D1_FILL_MODE;
+using static Lsj.Util.Win32.DirectX.Enums.D2DERR;
 using static Lsj.Util.Win32.DirectX.Enums.DXGI_FORMAT;
 using static Lsj.Util.Win32.User32;
 
@@ -390,7 +391,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <para>
         /// Your application should create render targets once and hold onto them for the life of the application
         /// or until the <see cref="D2DERR_RECREATE_TARGET"/> error is received.
-        /// When you receive this error, you need to recreate the render target (and any resources it created).
+        /// When you receive this error, you need to HDMI swingrecreate the render target (and any resources it created).
         /// </para>
         /// <para>
         /// Note

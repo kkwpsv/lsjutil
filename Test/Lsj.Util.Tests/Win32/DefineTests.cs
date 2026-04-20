@@ -301,7 +301,15 @@ namespace Lsj.Util.Tests.Win32
                         {
                             parentAttribute = cache[parentType]!;
                         }
-                        if (attribute.BeginVTableSlotIndex != parentAttribute.EndVTableSlotIndex + 1)
+
+                        if (attribute.BeginVTableSlotIndex == -1) // 没有方法的情况
+                        {
+                            if (attribute.EndVTableSlotIndex != parentAttribute.EndVTableSlotIndex)
+                            {
+                                wrongBeginVTableSlotIndexInterfaces.Add(interfaceType);
+                            }
+                        }
+                        else if (attribute.BeginVTableSlotIndex != parentAttribute.EndVTableSlotIndex + 1)
                         {
                             wrongBeginVTableSlotIndexInterfaces.Add(interfaceType);
                         }

@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Win32.Attributes;
 using Lsj.Util.Win32.ComInterfaces;
 using System;
+using static Lsj.Util.Win32.DirectX.Enums.D2D1_FILL_MODE;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
 {
