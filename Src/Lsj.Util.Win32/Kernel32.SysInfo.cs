@@ -303,6 +303,52 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Returns the number of active processors in a processor group or in the system.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getactiveprocessorcount"/>
+        /// </para>
+        /// </summary>
+        /// <param name="GroupNumber">
+        /// The processor group number.
+        /// If this parameter is <see cref="ALL_PROCESSOR_GROUPS"/>,
+        /// the function returns the number of active processors in the system.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is the number of active processors in the specified group.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, use <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetActiveProcessorCount", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetActiveProcessorCount([In] WORD GroupNumber);
+
+        /// <summary>
+        /// <para>
+        /// Returns the number of active processor groups in the system.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getactiveprocessorgroupcount"/>
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is the number of active processor groups in the system.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetActiveProcessorGroupCount", ExactSpelling = true, SetLastError = true)]
+        public static extern WORD GetActiveProcessorGroupCount();
+
+        /// <summary>
+        /// <para>
         /// Gets a value indicating whether the 64-bit Common Language Runtime (CLR) is installed.
         /// </para>
         /// <para>
@@ -1037,6 +1083,52 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Returns the maximum number of logical processors that a processor group or the system can have.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getmaximumprocessorcount"/>
+        /// </para>
+        /// </summary>
+        /// <param name="GroupNumber">
+        /// The processor group number.
+        /// If this parameter is <see cref="ALL_PROCESSOR_GROUPS"/>,
+        /// the function returns the maximum number of processors that the system can have.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is the maximum number of processors that the specified group can have.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, use <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMaximumProcessorCount", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetMaximumProcessorCount([In] WORD GroupNumber);
+
+        /// <summary>
+        /// <para>
+        /// Returns the maximum number of processor groups that the system can have.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getmaximumprocessorgroupcount"/>
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is the maximum number of processor groups that the system can have.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMaximumProcessorGroupCount", ExactSpelling = true, SetLastError = true)]
+        public static extern WORD GetMaximumProcessorGroupCount();
+
+        /// <summary>
+        /// <para>
         /// Retrieves information about the current system to an application running under WOW64.
         /// If the function is called from a 64-bit application, it is equivalent to the <see cref="GetSystemInfo"/> function.
         /// If the function is called from an x86 or x64 application running on a 64-bit system
@@ -1172,6 +1264,39 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsXP, Note = "Windows XP with SP2")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNumaHighestNodeNumber", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetNumaHighestNodeNumber([Out] out ULONG HighestNodeNumber);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the NUMA node associated with the file or I/O device represented by the specified file handle.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getnumanodenumberfromhandle"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to a file or I/O device.
+        /// Examples of I/O devices include files, file streams, volumes, physical disks, and sockets.
+        /// For more information, see the <see cref="CreateFile"/> function.
+        /// </param>
+        /// <param name="NodeNumber">
+        /// A pointer to a variable to receive the number of the NUMA node associated with the specified file handle.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, use <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// If the specified handle does not have a node associated with it, the function returns <see cref="FALSE"/>.
+        /// The value of the <paramref name="NodeNumber"/> parameter is undetermined and should not be used.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNumaNodeNumberFromHandle", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetNumaNodeNumberFromHandle([In] HANDLE hFile, [Out] out USHORT NodeNumber);
 
         /// <summary>
         /// <para>
@@ -1415,6 +1540,54 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the NUMA node number that corresponds to the specified proximity identifier as a <see cref="USHORT"/> value.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/systemtopologyapi/nf-systemtopologyapi-getnumaproximitynodeex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="ProximityId">
+        /// The proximity identifier of the node.
+        /// </param>
+        /// <param name="NodeNumber">
+        /// Points to a variable to receive the node number for the specified proximity identifier.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// A proximity domain identifier is an index to a NUMA node on a NUMA system.
+        /// Proximity domain identifiers are found in the ACPI System Resource Affinity Table (SRAT),
+        /// where they are used to associate processors and memory regions with a particular NUMA node.
+        /// Proximity domain identifiers are also found in the ACPI namespace,
+        /// where they are used to associate a device with a particular NUMA node.
+        /// Proximity domain identifiers are typically used only by management applications provided by system manufacturers.
+        /// Windows does not use proximity domain identifiers to identify NUMA nodes;
+        /// instead, it assigns a unique number to each NUMA node in the system.
+        /// </para>
+        /// <para>
+        /// The relative distance between nodes on a system is stored
+        /// in the ACPI System Locality Distance Information Table (SLIT),
+        /// which is not exposed by any Windows functions.
+        /// For more information about ACPI tables, see the ACPI specifications.
+        /// </para>
+        /// <para>
+        /// The only difference between the <see cref="GetNumaProximityNodeEx"/> function
+        /// and the <see cref="GetNumaProximityNode"/> function is the data type of the <paramref name="NodeNumber"/> parameter.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNumaProximityNodeEx", ExactSpelling = true)]
+        public static extern BOOL GetNumaProximityNodeEx([In] ULONG ProximityId, [Out] out USHORT NodeNumber);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the amount of RAM that is physically installed on the computer.
         /// </para>
         /// <para>
@@ -1486,6 +1659,48 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsVista, BuildNumbers.WindowsVistaSP1)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPhysicallyInstalledSystemMemory", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetPhysicallyInstalledSystemMemory([Out] out ULONGLONG TotalMemoryInKilobytes);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the cycle time each processor in the specified processor group spent
+        /// executing deferred procedure calls (DPCs) and interrupt service routines (ISRs) since the processor became active.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-getprocessorsystemcycletime"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Group">
+        /// The number of the processor group for which to retrieve the cycle time.
+        /// </param>
+        /// <param name="Buffer">
+        /// A pointer to a buffer to receive a <see cref="SYSTEM_PROCESSOR_CYCLE_TIME_INFORMATION"/> structure
+        /// for each processor in the group.
+        /// On output, the <see cref="DWORD64"/> <see cref="SYSTEM_PROCESSOR_CYCLE_TIME_INFORMATION.CycleTime"/> member
+        /// of this structure is set to the cycle time for one processor.
+        /// </param>
+        /// <param name="ReturnedLength">
+        /// The size of the buffer, in bytes.
+        /// When the function returns, this parameter contains the number of bytes written to <paramref name="Buffer"/>.
+        /// If the buffer is too small for the data, the function fails with <see cref="ERROR_INSUFFICIENT_BUFFER"/>
+        /// and sets the <paramref name="ReturnedLength"/> parameter to the required buffer size.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is a nonzero value.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, use <see cref="GetLastError"/>.
+        /// </para>
+        /// <para>
+        /// If the error value is <see cref="ERROR_INSUFFICIENT_BUFFER"/>,
+        /// the <paramref name="ReturnedLength"/> parameter contains the required buffer size.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessorSystemCycleTime", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetProcessorSystemCycleTime([In] USHORT Group,
+            [Out] out SYSTEM_PROCESSOR_CYCLE_TIME_INFORMATION Buffer, [In][Out] ref DWORD ReturnedLength);
 
         /// <summary>
         /// <para>
@@ -4977,8 +5192,47 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryIdleProcessorCycleTime", ExactSpelling = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryIdleProcessorCycleTime", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL QueryIdleProcessorCycleTime([In][Out] ref ULONG BufferLength, [Out] ULONG64[] ProcessorIdleCycleTime);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the accumulated cycle time for the idle thread on each logical processor in the specified processor group.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/realtimeapiset/nf-realtimeapiset-queryidleprocessorcycletimeex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Group">
+        /// The number of the processor group for which to retrieve the cycle time.
+        /// </param>
+        /// <param name="BufferLength">
+        /// <para>
+        /// On input, specifies the size of the <paramref name="ProcessorIdleCycleTime"/> buffer, in bytes.
+        /// This buffer is expected to be 8 times the number of processors in the group.
+        /// </para>
+        /// <para>
+        /// On output, specifies the number of elements written to the buffer.
+        /// If the buffer size is not sufficient, the function fails and this parameter receives the required length of the buffer.
+        /// </para>
+        /// </param>
+        /// <param name="ProcessorIdleCycleTime">
+        /// The number of CPU clock cycles used by each idle thread.
+        /// If this parameter is <see langword="null"/>,
+        /// the function updates the <paramref name="BufferLength"/> parameter with the required length.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, use <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryIdleProcessorCycleTimeEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL QueryIdleProcessorCycleTimeEx([In] USHORT Group, [In][Out] ref ULONG BufferLength, [Out] ULONG64[] ProcessorIdleCycleTime);
 
         /// <summary>
         /// <para>

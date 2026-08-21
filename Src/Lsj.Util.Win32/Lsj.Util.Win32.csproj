@@ -13,4 +13,11 @@
   <ItemGroup>
     <ProjectReference Include="..\Lsj.Util\Lsj.Util.csproj" />
   </ItemGroup>
+  <Target Name="RemoveImplicitSystemDataReference"
+          BeforeTargets="ResolveAssemblyReferences"
+          Condition="'$(TargetFramework)' == 'net45'">
+    <ItemGroup>
+      <Reference Remove="System.Data" />
+    </ItemGroup>
+  </Target>
 </Project>

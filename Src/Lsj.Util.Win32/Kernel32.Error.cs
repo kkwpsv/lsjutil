@@ -15,6 +15,7 @@ using static Lsj.Util.Win32.Enums.MemoryProtectionConstants;
 using static Lsj.Util.Win32.Enums.NTSTATUS;
 using static Lsj.Util.Win32.Enums.OpenFileFlags;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
 {
@@ -974,6 +975,81 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "RaiseException", ExactSpelling = true)]
         public static extern void RaiseException([In] ExceptionCodes dwExceptionCode, [In] ExceptionFlags dwExceptionFlags,
             [In] DWORD nNumberOfArguments, [In] ULONG_PTR[] lpArguments);
+
+        /// <summary>
+        /// <para>
+        /// Raises an exception that bypasses all exception handlers (frame or vector based).
+        /// Raising this exception terminates the application and invokes Windows Error Reporting, if Windows Error Reporting is enabled.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/errhandlingapi/nf-errhandlingapi-raisefailfastexception"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pExceptionRecord">
+        /// <para>
+        /// A pointer to an <see cref="EXCEPTION_RECORD"/> structure that contains the exception information.
+        /// You must specify the <see cref="EXCEPTION_RECORD.ExceptionAddress"/> and <see cref="EXCEPTION_RECORD.ExceptionCode"/> members.
+        /// </para>
+        /// <para>
+        /// If this parameter is <see cref="NullRef{EXCEPTION_RECORD}"/>, the function creates an exception record
+        /// and sets the <see cref="EXCEPTION_RECORD.ExceptionCode"/> member to <see cref="STATUS_FAIL_FAST_EXCEPTION"/>.
+        /// The function will also set the <see cref="EXCEPTION_RECORD.ExceptionAddress"/> member
+        /// if the <paramref name="dwFlags"/> parameter contains the <see cref="FAIL_FAST_GENERATE_EXCEPTION_ADDRESS"/> flag.
+        /// </para>
+        /// </param>
+        /// <param name="pContextRecord">
+        /// A pointer to a <see cref="CONTEXT"/> structure that contains the context information.
+        /// If <see cref="NullRef{CONTEXT}"/>, this function generates the context
+        /// (however, the context will not exactly match the context of the caller).
+        /// </param>
+        /// <param name="dwFlags">
+        /// <para>
+        /// You can specify zero or the following flag that control this function's behavior:
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="FAIL_FAST_GENERATE_EXCEPTION_ADDRESS"/>
+        /// </para>
+        /// <para>
+        /// 0x1
+        /// </para>
+        /// </term>
+        /// <term>
+        /// Causes <see cref="RaiseFailFastException"/> to set the <see cref="EXCEPTION_RECORD.ExceptionAddress"/> of <see cref="EXCEPTION_RECORD"/> 
+        /// to the return address of this function (the next instruction in the caller after the call to <see cref="RaiseFailFastException"/>).
+        /// This function will set the exception address only if <see cref="EXCEPTION_RECORD.ExceptionAddress"/> is not <see cref="NULL"/>.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <remarks>
+        /// <para>
+        /// Typically, you call this function if your application is in a bad state
+        /// and you want to terminate the application immediately and have a Windows Error Report created.
+        /// </para>
+        /// <para>
+        /// If the WER service is disabled or cannot be started or there is no debugger attached to the process, the process will be terminated.
+        /// </para>
+        /// <para>
+        /// This function raises a second chance exception.
+        /// If JIT debugging is enabled, a debugger will attach to the process.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "RaiseFailFastException", ExactSpelling = true)]
+        public static extern void RaiseFailFastException([In] in EXCEPTION_RECORD pExceptionRecord, [In] in CONTEXT pContextRecord, [In] DWORD dwFlags);
 
         /// <summary>
         /// <para>

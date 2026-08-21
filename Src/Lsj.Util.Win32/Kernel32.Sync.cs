@@ -172,7 +172,7 @@ namespace Lsj.Util.Win32
         /// and cause one or more threads to become permanently blocked.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows8)]
+        [WindowsVersionRequirement(WindowsVersion.Windows8_1)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteSynchronizationBarrier", ExactSpelling = true)]
         public static extern BOOL DeleteSynchronizationBarrier([In][Out] ref SYNCHRONIZATION_BARRIER lpBarrier);
 
@@ -331,7 +331,7 @@ namespace Lsj.Util.Win32
         /// only if performance testing indicates the application would benefit from them.
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows8)]
+        [WindowsVersionRequirement(WindowsVersion.Windows8_1)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnterSynchronizationBarrier", ExactSpelling = true)]
         public static extern BOOL EnterSynchronizationBarrier([In][Out] ref SYNCHRONIZATION_BARRIER lpBarrier, [In] SynchronizationBarrierFlags dwFlags);
 
@@ -689,7 +689,7 @@ namespace Lsj.Util.Win32
         /// If the barrier was not successfully initialized, this function returns <see cref="FALSE"/>.
         /// Use <see cref="GetLastError"/> to get extended error information.
         /// </returns>
-        [WindowsVersionRequirement(WindowsVersion.Windows8)]
+        [WindowsVersionRequirement(WindowsVersion.Windows8_1)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitializeSynchronizationBarrier", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL InitializeSynchronizationBarrier([Out] out SYNCHRONIZATION_BARRIER lpBarrier, [In] LONG lTotalThreads, [In] LONG lSpinCount);
 

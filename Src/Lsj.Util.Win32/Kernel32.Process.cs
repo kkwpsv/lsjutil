@@ -1353,6 +1353,54 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the processor group affinity of the specified process.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processtopologyapi/nf-processtopologyapi-getprocessgroupaffinity"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// <para>
+        /// A handle to the process.
+        /// </para>
+        /// <para>
+        /// This handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> or <see cref="PROCESS_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </para>
+        /// </param>
+        /// <param name="GroupCount">
+        /// On input, specifies the number of elements in <paramref name="GroupArray"/> array.
+        /// On output, specifies the number of processor groups written to the array.
+        /// If the array is too small, the function fails with <see cref="ERROR_INSUFFICIENT_BUFFER"/>
+        /// and sets the <paramref name="GroupCount"/> parameter to the number of elements required.
+        /// </param>
+        /// <param name="GroupArray">
+        /// An array of processor group numbers.
+        /// A group number is included in the array if a thread in the process is assigned to a processor in the group.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, use <see cref="GetLastError"/>.
+        /// </para>
+        /// <para>
+        /// If the error value is <see cref="ERROR_INSUFFICIENT_BUFFER"/>,
+        /// the <paramref name="GroupCount"/> parameter contains the required buffer size in number of elements.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// Starting with Windows 11 and Windows Server 2022, on a system with more than 64 processors,
+        /// process and thread affinities span all processors in the system, across all processor groups, by default.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessGroupAffinity", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetProcessGroupAffinity([In] HANDLE hProcess, [In][Out] ref USHORT GroupCount, [Out] USHORT[] GroupArray);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the number of open handles that belong to the specified process.
         /// </para>
         /// <para>
@@ -2314,6 +2362,159 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetStartupInfoW", ExactSpelling = true)]
         public static extern void GetStartupInfo([Out] out STARTUPINFO lpStartupInfo);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the pages that have been added to the working set of the specified process
+        /// since the last time this function or the <see cref="InitializeProcessForWsWatch"/> function was called.
+        /// </para>
+        /// <para>
+        /// To retrieve extended information, use the <see cref="GetWsChangesEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/psapi/nf-psapi-getwschanges"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process.
+        /// The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <param name="lpWatchInfo">
+        /// A pointer to a user-allocated buffer that receives an array of <see cref="PSAPI_WS_WATCH_INFORMATION"/> structures.
+        /// The array is terminated with a structure whose <see cref="PSAPI_WS_WATCH_INFORMATION.FaultingPc"/> member is <see cref="NULL"/>.
+        /// </param>
+        /// <param name="cb">
+        /// The size of the <paramref name="lpWatchInfo"/> buffer, in bytes.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// <para>
+        /// <see cref="GetLastError"/> returns <see cref="ERROR_INSUFFICIENT_BUFFER"/>
+        /// if the <paramref name="lpWatchInfo"/> buffer is not large enough to contain all the working set change records;
+        /// the buffer is returned empty.
+        /// Reallocate a larger block of memory for the buffer and call again.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The operating system uses one buffer per process to maintain working set change records.
+        /// If more than one application (or multiple threads in the same application) calls this function with the same process handle,
+        /// neither application will have a complete accounting of the working set changes because each call empties the buffer.
+        /// </para>
+        /// <para>
+        /// The operating system does not record new change records while it is processing the query (and emptying the buffer).
+        /// The function sets the error code to <see cref="NO_MORE_ENTRIES"/> if a concurrent query is received while it is processing another query.
+        /// </para>
+        /// <para>
+        /// If the buffer becomes full, no new records are added to the buffer
+        /// until this function or the <see cref="InitializeProcessForWsWatch"/> function is called.
+        /// You should call this method with enough frequency to prevent possible data loss.
+        /// If records are lost, the array is terminated with a structure
+        /// whose <see cref="PSAPI_WS_WATCH_INFORMATION.FaultingPc"/> member is <see cref="NULL"/>
+        /// and whose <see cref="PSAPI_WS_WATCH_INFORMATION.FaultingVa"/> member is set to the number of records that were lost.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "K32GetWsChanges", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetWsChanges([In] HANDLE hProcess, [Out] PSAPI_WS_WATCH_INFORMATION[] lpWatchInfo, [In] DWORD cb);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves extended information about the pages that have been added to the working set of the specified process
+        /// since the last time this function or the <see cref="InitializeProcessForWsWatch"/> function was called.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/psapi/nf-psapi-getwschangesex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process. 
+        /// The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <param name="lpWatchInfoEx">
+        /// <para>
+        /// A pointer to a user-allocated buffer that receives an array of
+        /// </para>
+        /// <para>
+        /// <see cref="PSAPI_WS_WATCH_INFORMATION_EX"/> structures.
+        /// The array is terminated with a structure whose <see cref="PSAPI_WS_WATCH_INFORMATION.FaultingPc"/> member is <see cref="NULL"/>.
+        /// </para>
+        /// </param>
+        /// <param name="cb">
+        /// The size of the <paramref name="lpWatchInfoEx"/> buffer, in bytes.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call the <see cref="GetLastError"/> function.
+        /// </para>
+        /// <para>
+        /// The <see cref="GetLastError"/> function returns <see cref="ERROR_INSUFFICIENT_BUFFER"/>
+        /// if the <paramref name="lpWatchInfoEx"/> buffer is not large enough to contain all the working set change records;
+        /// the buffer is returned empty.
+        /// Reallocate a larger block of memory for the buffer and call again.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The operating system uses one buffer per process to maintain working set change records.
+        /// If more than one application (or multiple threads in the same application) calls this function with the same process handle,
+        /// neither application will have a complete accounting of the working set changes because each call empties the buffer.
+        /// </para>
+        /// <para>
+        /// The operating system does not record new change records while it is processing the query (and emptying the buffer).
+        /// This function sets the error code to <see cref="NO_MORE_ENTRIES"/>
+        /// if a concurrent query is received while it is processing another query.
+        /// </para>
+        /// <para>
+        /// If the buffer becomes full, no new records are added to the buffer
+        /// until this function or the <see cref="InitializeProcessForWsWatch"/> function is called.
+        /// You should call <see cref="GetWsChangesEx"/> with enough frequency to prevent possible data loss.
+        /// If records are lost, the array is terminated with a structure
+        /// whose <see cref="PSAPI_WS_WATCH_INFORMATION.FaultingPc"/> member is <see cref="NULL"/>
+        /// and whose <see cref="PSAPI_WS_WATCH_INFORMATION.FaultingVa"/> member is set to the number of records that were lost.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "K32GetWsChangesEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetWsChangesEx([In] HANDLE hProcess, [Out] PSAPI_WS_WATCH_INFORMATION_EX[] lpWatchInfoEx, [In][Out] ref DWORD cb);
+
+        /// <summary>
+        /// <para>
+        /// Initiates monitoring of the working set of the specified process. You must call this function before calling the <see cref="GetWsChanges"/> function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/psapi/nf-psapi-initializeprocessforwswatch"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process.
+        /// The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "K32InitializeProcessForWsWatch", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL InitializeProcessForWsWatch([In] HANDLE hProcess);
 
         /// <summary>
         /// <para>

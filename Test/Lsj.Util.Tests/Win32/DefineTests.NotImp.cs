@@ -220,6 +220,7 @@ namespace Lsj.Util.Tests.Win32
             "UnregisterTraceGuids",
 
             // BoundaryDescriptor and PrivateNamespace
+            "AddIntegrityLabelToBoundaryDescriptor",
             "AddSIDToBoundaryDescriptor",
             "ClosePrivateNamespace",
             "CreateBoundaryDescriptorW",
@@ -244,6 +245,8 @@ namespace Lsj.Util.Tests.Win32
             "WerSetFlags",
             "WerUnregisterFile",
             "WerUnregisterMemoryBlock",
+            "WerRegisterRuntimeExceptionModule",
+            "WerUnregisterRuntimeExceptionModule",
         };
     }
 }

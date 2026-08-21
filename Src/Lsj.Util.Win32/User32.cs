@@ -16,6 +16,7 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CONSOLECONTROL;
 using static Lsj.Util.Win32.Enums.ControlSignalTypes;
 using static Lsj.Util.Win32.Enums.DEVICE_SCALE_FACTOR;
+using static Lsj.Util.Win32.Enums.DeviceNotifyFlags;
 using static Lsj.Util.Win32.Enums.EndSessionFlags;
 using static Lsj.Util.Win32.Enums.EventConstants;
 using static Lsj.Util.Win32.Enums.ExitWindowsExFlags;
@@ -27,7 +28,6 @@ using static Lsj.Util.Win32.Enums.NTSTATUS;
 using static Lsj.Util.Win32.Enums.PowerManagementEvents;
 using static Lsj.Util.Win32.Enums.PrivilegeConstants;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
-using static Lsj.Util.Win32.Enums.DeviceNotifyFlags;
 using static Lsj.Util.Win32.Enums.SECURITY_INFORMATION;
 using static Lsj.Util.Win32.Enums.SetWinEventHookFlags;
 using static Lsj.Util.Win32.Enums.ShowWindowCommands;
@@ -38,10 +38,13 @@ using static Lsj.Util.Win32.Enums.SystemMetricIndexes;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoFlags;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.Enums.SystemShutdownReasonCodes;
+using static Lsj.Util.Win32.Enums.TOOLTIP_DISMISS_FLAGS;
+using static Lsj.Util.Win32.Enums.UserObjectInformationIndexes;
 using static Lsj.Util.Win32.Enums.WindowClassStyles;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Enums.WinHelpCommands;
 using static Lsj.Util.Win32.Gdi32;
+using static Lsj.Util.Win32.GUIDs.PowerSettingGUIDs;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Oleacc;
 using static Lsj.Util.Win32.Shcore;
@@ -4153,6 +4156,90 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Registers or unregisters windows to receive notification to dismiss their tooltip windows.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-registerfortooltipdismissnotification"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// The handle of the window to receive the <see cref="WM_TOOLTIPDISMISS"/> message.
+        /// </param>
+        /// <param name="tdFlags">
+        /// A value of the enumeration that specifies whether the function registers or unregisters the window.
+        /// <see cref="TDF_REGISTER"/> to register; <see cref="TDF_UNREGISTER"/> to unregister.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// The <see cref="HWND"/> passed into the function must be owned by the calling process;
+        /// otherwise, the function returns <see cref="FALSE"/>.
+        /// </para>
+        /// <para>
+        /// When called with <see cref="TDF_REGISTER"/> and a window belonging to the calling process,
+        /// the function returns <see cref="TRUE"/> if the window was successfully registered
+        /// or <see cref="FALSE"/> if the window was already registered.
+        /// The window is treated as registered either way.
+        /// </para>
+        /// <para>
+        /// When called with <see cref="TDF_UNREGISTER"/> and a windows belonging to the calling process,
+        /// the function returns <see cref="TRUE"/> if the window is successfully unregistered,
+        /// or <see cref="FALSE"/> if the windows was not currently registered.
+        /// The window is treated as unregistered either way.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// This function makes tooltips more accessible by letting apps and frameworks that support tooltips register and unregister
+        /// to be notified by a <see cref="WM_TOOLTIPDISMISS"/> message when the system requires all showing tooltips to be dismissed.
+        /// </para>
+        /// <para>
+        /// Apps should register for this notification each time they show a tooltip and hide their tooltips
+        /// in response to a <see cref="WM_TOOLTIPDISMISS"/> message.
+        /// When a tooltip is hidden for some other reason, like a mouse action, the app should unregister.
+        /// </para>
+        /// <para>
+        /// System-defined triggers for tooltip dismissal include a solitary Ctrl key up or Ctrl+Shift+F10.
+        /// (The set of triggers may change over time.)
+        /// </para>
+        /// <para>
+        /// The function takes either the <see cref="HWND"/> of a tooltip window
+        /// or the <see cref="HWND"/> of an app window that has child tooltips.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// If a tooltip <see cref="HWND"/> itself is registered, the tooltip window is expected to register upon showing
+        /// and to dismiss upon receiving a <see cref="WM_TOOLTIPDISMISS"/> message.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If an app <see cref="HWND"/> registers on behalf of its tooltips,
+        /// the app's window is expected to register upon showing tooltips
+        /// and dismiss all of its tooltips upon receiving a <see cref="WM_TOOLTIPDISMISS"/> message.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Tooltip or app windows are expected to call the function to register each time tooltips are shown.
+        /// Registered windows are automatically unregistered upon posting <see cref="WM_TOOLTIPDISMISS"/>.
+        /// </para>
+        /// <para>
+        /// The <see cref="TDF_UNREGISTER"/> flag is used to explicitly unregister a window
+        /// when a tooltip window is dismissed by application or framework prerogative (such as moving the cursor out of the "safe zone").
+        /// If an app or framework calls <see cref="RegisterForTooltipDismissNotification"/> with <see cref="TDF_UNREGISTER"/>
+        /// after the window has been automatically unregistered, the function returns <see cref="FALSE"/>.
+        /// There is no impact on future registrations.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows11, BuildNumbers.Windows11_22H2)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterForTooltipDismissNotification", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL RegisterForTooltipDismissNotification([In] HWND hWnd, [In] TOOLTIP_DISMISS_FLAGS tdFlags);
+
+        /// <summary>
+        /// <para>
         /// Registers the application to receive power setting notifications for the specific power setting event.
         /// </para>
         /// <para>
@@ -4266,6 +4353,102 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterSuspendResumeNotification", ExactSpelling = true, SetLastError = true)]
         public static extern HPOWERNOTIFY RegisterSuspendResumeNotification([In] HANDLE hRecipient, [In] DeviceNotifyFlags Flags);
+
+        /// <summary>
+        /// <para>
+        /// <see cref="SetAdditionalForegroundBoostProcesses"/> is a performance assist API
+        /// to help applications with a multi-process application model
+        /// where multiple processes contribute to a foreground experience, either as data or rendering.
+        /// Examples include browsers (with the browser manager or frame, tabs, plugins, etc. hosted in different processes)
+        /// and IDEs (which spawn processes for compilation and other tasks).
+        /// </para>
+        /// <para>
+        /// Applications can use this API to provide a foreground priority boost to worker processes that help support the main application.
+        /// Such applications can have a uniform priority boost applied to all of their constituent processes
+        /// when the application's top level window is in the foreground.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setadditionalforegroundboostprocesses"/>
+        /// </para>
+        /// </summary>
+        /// <param name="topLevelWindow">
+        /// A handle to the top level window (HWND) of the application.
+        /// </param>
+        /// <param name="processHandleCount">
+        /// The number of process handles in <paramref name="processHandleArray"/>.
+        /// This function can be called at a single time with a maximum of 32 handles.
+        /// Set this parameter to 0 along with setting <paramref name="processHandleArray"/>
+        /// to <see langword="null"/> to clear a prior boost configuration.
+        /// </param>
+        /// <param name="processHandleArray">
+        /// A group of process handles to be foreground boosted or de-boosted.
+        /// Set this parameter to <see langword="null"/> along with
+        /// setting <paramref name="processHandleCount"/> to 0 to clear a prior boost configuration.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> if the call succeeds in boosting the application, <see cref="FALSE"/> otherwise.
+        /// <see cref="SetAdditionalForegroundBoostProcesses"/> sets the last error code,
+        /// so the application can call <see cref="GetLastError"/> to obtain extended information if the call failed
+        /// (for example, <see cref="ERROR_INVALID_PARAMETER"/>, <see cref="ERROR_NOT_ENOUGH_MEMORY"/>, or <see cref="ERROR_ACCESS_DENIED"/>).
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// This function takes a group of process handles that all get foreground boosted or de-boosted
+        /// when the passed-in top level <see cref="HWND"/> moves to the foreground or background respectively.
+        /// Whenever the passed-in top level <see cref="HWND"/> becomes the foreground window,
+        /// a foreground boost will also be applied to the processes passed in the handle array.
+        /// A similar de-boost happens when the top level <see cref="HWND"/> moves to the background.
+        /// </para>
+        /// <para>
+        /// The top level <see cref="HWND"/> passed to this function must be owned by the calling process.
+        /// The calling process should have the <see cref="PROCESS_SET_INFORMATION"/> access right
+        /// on the process handles in the <paramref name="processHandleArray"/>
+        /// - in other words, you must have full control of every window in your process.
+        /// If some external component injects a window that takes foreground, or if a dialog box appears, then you lose your boost.
+        /// </para>
+        /// <para>
+        /// If you have two top level windows, you need to call this function for each one.
+        /// </para>
+        /// <para>
+        /// If the passed-in top level <see cref="HWND"/> is already in the foreground
+        /// when <see cref="SetAdditionalForegroundBoostProcesses"/> is called,
+        /// all of the processes in the <paramref name="processHandleArray"/> are immediately boosted.
+        /// </para>
+        /// <para>
+        /// A process whose handle is in the <paramref name="processHandleArray"/>
+        /// will get a foreground boost only when the top level <see cref="HWND"/> becomes the foreground window.
+        /// </para>
+        /// <para>
+        /// Additional foreground boost is applied only when:
+        /// </para>
+        /// <para>
+        /// <list type="number">
+        /// <item>
+        /// <description>
+        /// The foreground window changes, or
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If this function is called while the window is in the foreground and the new list has the process handle,
+        /// or the list does not include the process handle while it was previously included.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// When the process owning the top level <see cref="HWND"/> exits or terminates,
+        /// the additional boosting relationship is torn down and secondary processes do not receive any additional foreground boosting.
+        /// </para>
+        /// <para>
+        /// The primary process's top level <see cref="HWND"/> will continue to hold references to secondary processes
+        /// until either the primary process's top level <see cref="HWND"/> clears its grouped boost state, or the <see cref="HWND"/> is destroyed.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows11, BuildNumbers.Windows11_22H2)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetAdditionalForegroundBoostProcesses", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetAdditionalForegroundBoostProcesses([In] HWND topLevelWindow,
+            [In] DWORD processHandleCount, [In] HANDLE[]? processHandleArray);
 
         /// <summary>
         /// <para>

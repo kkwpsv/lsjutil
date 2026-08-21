@@ -61,6 +61,37 @@ namespace Lsj.Util.Win32
         /// </remarks>
         public delegate BOOL EnumCodePagesProc([In] LPWSTR lpCodePageString);
 
+        /// <summary>
+        /// <para>
+        /// An application-defined callback function used with the <see cref="EnumPageFiles"/> function.
+        /// </para>
+        /// <para>
+        /// The <see cref="PENUM_PAGE_FILE_CALLBACK"/> type defines a pointer to this callback function.
+        /// <c>EnumPageFilesProc</c> is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/psapi/nc-psapi-penum_page_file_callbackw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pContext">
+        /// The user-defined data passed from <see cref="EnumPageFiles"/>.
+        /// </param>
+        /// <param name="pPageFileInfo">
+        /// A pointer to an <see cref="ENUM_PAGE_FILE_INFORMATION"/> structure.
+        /// </param>
+        /// <param name="lpFilename">
+        /// The name of the pagefile.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// To continue enumeration, the callback function must return <see cref="TRUE"/>.
+        /// </para>
+        /// <para>
+        /// To stop enumeration, the callback function must return <see cref="FALSE"/>.
+        /// </para>
+        /// </returns>
+        public delegate BOOL PenumPageFileCallbackw([In] LPVOID pContext, [In] in ENUM_PAGE_FILE_INFORMATION pPageFileInfo, [In] LPCWSTR lpFilename);
+
 
         /// <summary>
         /// <para>
@@ -232,6 +263,74 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsXP, Note = "Windows XP with SP2")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EncodeSystemPointer", ExactSpelling = true)]
         public static extern PVOID EncodeSystemPointer([In] PVOID Ptr);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the load address for each device driver in the system.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/psapi/nf-psapi-enumdevicedrivers"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpImageBase">
+        /// An array that receives the list of load addresses for the device drivers.
+        /// </param>
+        /// <param name="cb">
+        /// The size of the <paramref name="lpImageBase"/> array, in bytes.
+        /// If the array is not large enough to store the load addresses,
+        /// the <paramref name="lpcbNeeded"/> parameter receives the required size of the array.
+        /// </param>
+        /// <param name="lpcbNeeded">
+        /// The number of bytes returned in the <paramref name="lpImageBase"/> array.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// To determine how many device drivers were enumerated by the call to <see cref="EnumDeviceDrivers"/>, 
+        /// divide the resulting value in the <paramref name="lpcbNeeded"/> parameter by <c>sizeof(LPVOID)</c>.
+        /// </para>
+        /// <para>
+        /// Starting in Windows 11 Version 24H2, <see cref="EnumDeviceDrivers"/> will require <c>SeDebugPrivilege</c>
+        /// to return valid <c>ImageBase</c> values.
+        /// The function will still succeed if the caller does not have this privilege enabled, 
+        /// but the returned <paramref name="lpImageBase"/> array will contain addresses that are all <see cref="NULL"/>.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "K32EnumDeviceDrivers", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnumDeviceDrivers([Out] out LPVOID lpImageBase, [In] DWORD cb, [Out] out DWORD lpcbNeeded);
+
+        /// <summary>
+        /// <para>
+        /// Calls the callback routine for each installed pagefile in the system.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/psapi/nf-psapi-enumpagefilesw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pCallBackRoutine">
+        /// A pointer to the routine called for each pagefile.
+        /// For more information, see <c>EnumPageFilesProc</c>.
+        /// </param>
+        /// <param name="pContext">
+        /// The user-defined data passed to the callback routine.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "K32EnumPageFilesW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnumPageFiles([In] PENUM_PAGE_FILE_CALLBACK pCallBackRoutine, [In] LPVOID pContext);
 
         /// <summary>
         /// 
@@ -1249,6 +1348,71 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the base name of the specified device driver.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/psapi/nf-psapi-getdevicedriverbasenamew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="ImageBase">
+        /// The load address of the device driver.
+        /// This value can be retrieved using the <see cref="EnumDeviceDrivers"/> function.
+        /// </param>
+        /// <param name="lpBaseName">
+        /// A pointer to the buffer that receives the base name of the device driver.
+        /// </param>
+        /// <param name="nSize">
+        /// The size of the <paramref name="lpBaseName"/> buffer, in characters.
+        /// If the buffer is not large enough to store the base name plus the terminating null character, the string is truncated.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value specifies the length of the string copied to the buffer,
+        /// not including any terminating null character.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "K32GetDeviceDriverBaseNameW", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetDeviceDriverBaseName([In] LPVOID ImageBase, [In] LPWSTR lpBaseName, [In] DWORD nSize);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the path available for the specified device driver.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/psapi/nf-psapi-getdevicedriverfilenamew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="ImageBase">
+        /// The load address of the device driver.
+        /// </param>
+        /// <param name="lpFilename">
+        /// A pointer to the buffer that receives the path to the device driver.
+        /// </param>
+        /// <param name="nSize">
+        /// The size of the <paramref name="lpFilename"/> buffer, in characters.
+        /// If the buffer is not large enough to store the path plus the terminating null character, the string is truncated.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value specifies the length of the string copied to the buffer,
+        /// not including any terminating null character.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "K32GetDeviceDriverFileNameW", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetDeviceDriverFileName([In] LPVOID ImageBase, [In] LPWSTR lpFilename, [In] DWORD nSize);
+
+        /// <summary>
+        /// <para>
         /// Formats a duration of time as a time string for a locale specified by identifier.
         /// </para>
         /// <para>
@@ -1699,6 +1863,103 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDurationFormatEx", ExactSpelling = true, SetLastError = true)]
         public static extern int GetDurationFormatEx([In] LPCWSTR lpLocaleName, [In] DWORD dwFlags, [In] in SYSTEMTIME lpDuration,
             [In] ULONGLONG ullDuration, [In] LPCWSTR lpFormat, [In] LPWSTR lpDurationStr, [In] int cchDuration);
+
+        /// <summary>
+        /// <para>
+        /// Checks whether the specified address is within a memory-mapped file in the address space of the specified process.
+        /// If so, the function returns the name of the memory-mapped file.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/psapi/nf-psapi-getmappedfilenamew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process.
+        /// The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <param name="lpv">
+        /// The address to be verified.
+        /// </param>
+        /// <param name="lpFilename">
+        /// A pointer to the buffer that receives the name of the memory-mapped file
+        /// to which the address specified by <paramref name="lpv"/> belongs.
+        /// </param>
+        /// <param name="nSize">
+        /// The size of the <paramref name="lpFilename"/> buffer, in characters.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is the length of the string that is copied to the buffer, in characters,
+        /// not including the terminating null character.
+        /// If the buffer is too small to hold the module name, the string is truncated to nSize characters (including the terminating null character),
+        /// the function returns <paramref name="nSize"/>, and the the last error is set to <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// In Windows Server 2012, this function is supported by the following technologies.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Technology
+        /// </term>
+        /// <term>
+        /// Supported
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// Server Message Block (SMB) 3.0 protocol
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// SMB 3.0 Transparent Failover (TFO)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// SMB 3.0 with Scale-out File Shares (SO)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Cluster Shared Volume File System (CsvFS)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// Resilient File System (ReFS)
+        /// </term>
+        /// <term>
+        /// Yes
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "K32GetMappedFileNameW", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetMappedFileName([In] HANDLE hProcess, [In] LPVOID lpv, [In] LPWSTR lpFilename, [In] DWORD nSize);
 
         /// <summary>
         /// <para>
@@ -2483,6 +2744,251 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MulDiv", ExactSpelling = true)]
         public static extern int MulDiv([In] int nNumber, [In] int nNumerator, [In] int nDenominator);
+
+        /// <summary>
+        /// <para>
+        /// Decrements the count of power requests of the specified type for a power request object.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-powerclearrequest"/>
+        /// </para>
+        /// </summary>
+        /// <param name="PowerRequest">
+        /// A handle to a power request object.
+        /// </param>
+        /// <param name="RequestType">
+        /// <para>
+        /// The power request type to be decremented.
+        /// This parameter can be one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Meaning
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="PowerRequestDisplayRequired"/>
+        /// </term>
+        /// <term>
+        /// The display remains on even if there is no user input for an extended period of time.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PowerRequestSystemRequired"/>
+        /// </term>
+        /// <term>
+        /// The system continues to run instead of entering sleep after a period of user inactivity.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PowerRequestAwayModeRequired"/>
+        /// </term>
+        /// <term>
+        /// The system enters away mode instead of sleep.
+        /// In away mode, the system continues to run but turns off audio and video to give the appearance of sleep.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PowerRequestExecutionRequired"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The calling process continues to run instead of being suspended or terminated by process lifetime management mechanisms.
+        /// When and how long the process is allowed to run depends on the operating system and power policy settings.
+        /// </para>
+        /// <para>
+        /// When a <see cref="PowerRequestExecutionRequired"/> request is active, it implies <see cref="PowerRequestSystemRequired"/>.
+        /// </para>
+        /// <para>
+        /// The <see cref="PowerRequestExecutionRequired"/> request type can be used only by applications.
+        /// Services cannot use this request type.
+        /// </para>
+        /// <para>
+        /// Windows 7 and Windows Server 2008 R2:
+        /// This request type is supported starting with Windows 8 and Windows Server 2012.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, it returns a nonzero value.
+        /// </para>
+        /// <para>
+        /// If the function fails, it returns zero. To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "PowerClearRequest", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL PowerClearRequest([In] HANDLE PowerRequest, [In] POWER_REQUEST_TYPE RequestType);
+
+        /// <summary>
+        /// <para>
+        /// Creates a new power request object.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-powercreaterequest"/>
+        /// </para>
+        /// </summary>
+        /// <param name="Context">
+        /// Points to a <see cref="REASON_CONTEXT"/> structure that contains information about the power request.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is a handle to the power request object.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is <see cref="INVALID_HANDLE_VALUE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// When the power request object is no longer needed,
+        /// use the <see cref="CloseHandle"/> function to free the handle and clean up the object.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "PowerCreateRequest", ExactSpelling = true, SetLastError = true)]
+        public static extern HANDLE PowerCreateRequest([In] in REASON_CONTEXT Context);
+
+        /// <summary>
+        /// <para>
+        /// Increments the count of power requests of the specified type for a power request object.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-powersetrequest"/>
+        /// </para>
+        /// </summary>
+        /// <param name="PowerRequest">
+        /// A handle to a power request object.
+        /// </param>
+        /// <param name="RequestType">
+        /// <para>
+        /// The power request type to be incremented.
+        /// This parameter can be one of the following values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Value
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="PowerRequestDisplayRequired"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The display remains on even if there is no user input for an extended period of time.
+        /// </para>
+        /// <para>
+        /// Note: A <see cref="PowerRequestSystemRequired"/> must be taken
+        /// in addition to a <see cref="PowerRequestDisplayRequired"/> to ensure the display stays on
+        /// and the system does not enter sleep for the duration of the request.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PowerRequestSystemRequired"/>
+        /// </term>
+        /// <term>
+        /// The system continues to run instead of entering sleep after a period of user inactivity.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PowerRequestAwayModeRequired"/>
+        /// </term>
+        /// <term>
+        /// The system enters away mode instead of sleep in response to explicit action by the user.
+        /// In away mode, the system continues to run but turns off audio and video to give the appearance of sleep.
+        /// <see cref="PowerRequestAwayModeRequired"/> is only applicable on Traditional Sleep (S3) systems.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="PowerRequestExecutionRequired"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The calling process continues to run instead of being suspended or terminated by process lifetime management mechanisms.
+        /// When and how long the process is allowed to run depends on the operating system and power policy settings.
+        /// </para>
+        /// <para>
+        /// On Traditional Sleep (S3) systems, an active <see cref="PowerRequestExecutionRequired"/> request implies <see cref="PowerRequestSystemRequired"/>.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, it returns a nonzero value.
+        /// </para>
+        /// <para>
+        /// If the function fails, it returns zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// On Modern Standby systems on DC power, system and execution required power requests
+        /// are terminated 5 minutes after the system sleep timeout has expired.
+        /// </para>
+        /// <para>
+        /// Except for <see cref="PowerRequestAwayModeRequired"/> on Traditional Sleep (S3) systems,
+        /// power requests are terminated upon user-initiated system sleep entry
+        /// (power button, lid close or selecting <see cref="Sleep"/> from the Start menu).
+        /// </para>
+        /// <para>
+        /// To conserve power and provide the best user experience,
+        /// applications that use power requests should follow these best practices:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// When creating a power request, provide a localized text string that describes the reason
+        /// for the request in the <see cref="REASON_CONTEXT"/> structure.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Call <see cref="PowerSetRequest"/> immediately before the scenario that requires the request.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Call <see cref="PowerClearRequest"/> to decrement the reference count for the request as soon as the scenario is finished.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Clean up all request objects and associated handles before the process exits or the service stops.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "PowerSetRequest", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL PowerSetRequest([In] HANDLE PowerRequest, [In] POWER_REQUEST_TYPE RequestType);
 
         /// <summary>
         /// <para>

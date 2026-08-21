@@ -1086,6 +1086,44 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the processor group affinity of the specified thread.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processtopologyapi/nf-processtopologyapi-getthreadgroupaffinity"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hThread">
+        /// <para>
+        /// A handle to the thread for which the processor group affinity is desired.
+        /// </para>
+        /// <para>
+        /// The handle must have the <see cref="THREAD_QUERY_INFORMATION"/> or <see cref="THREAD_QUERY_INFORMATION"/> access right.
+        /// For more information, see Thread Security and Access Rights.
+        /// </para>
+        /// </param>
+        /// <param name="GroupAffinity">
+        /// A pointer to a <see cref="GROUP_AFFINITY"/> structure that receives the group affinity of the thread.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, use <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// Starting with Windows 11 and Windows Server 2022, on a system with more than 64 processors,
+        /// process and thread affinities span all processors in the system, across all processor groups, by default.
+        /// The <see cref="GetThreadGroupAffinity"/> function retrieves the group affinity over the thread's primary group.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadGroupAffinity", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetThreadGroupAffinity([In] HANDLE hThread, [Out] out GROUP_AFFINITY GroupAffinity);
+
+        /// <summary>
+        /// <para>
         /// A handle to the thread.
         /// The handle must have the <see cref="THREAD_QUERY_INFORMATION"/> or <see cref="THREAD_QUERY_LIMITED_INFORMATION"/> access right.
         /// For more information about access rights, see Thread Security and Access Rights.
@@ -1927,6 +1965,50 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Sets the processor group affinity for the specified thread.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processtopologyapi/nf-processtopologyapi-setthreadgroupaffinity"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hThread">
+        /// <para>
+        /// A handle to the thread.
+        /// </para>
+        /// <para>
+        /// The handle must have the <see cref="THREAD_SET_INFORMATION"/> access right.
+        /// For more information, see Thread Security and Access Rights.
+        /// </para>
+        /// </param>
+        /// <param name="GroupAffinity">
+        /// A <see cref="GROUP_AFFINITY"/> structure that specifies the processor group affinity to be used for the specified thread.
+        /// </param>
+        /// <param name="PreviousGroupAffinity">
+        /// A pointer to a <see cref="GROUP_AFFINITY"/> structure to receive the thread's previous group affinity.
+        /// This parameter can be <see cref="NullRef{GROUP_AFFINITY}"/>.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, use <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// Starting with Windows 11 and Windows Server 2022, on a system with more than 64 processors,
+        /// process and thread affinities span all processors in the system, across all processor groups, by default.
+        /// The <see cref="SetThreadGroupAffinity"/> function restricts a thread's affinity to the processors
+        /// over the single processor group specified by the given <paramref name="GroupAffinity"/>.
+        /// This group will also become the thread's primary group.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadGroupAffinity", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetThreadGroupAffinity([In] HANDLE hThread, [In] in GROUP_AFFINITY GroupAffinity, [Out] out GROUP_AFFINITY PreviousGroupAffinity);
+
+        /// <summary>
+        /// <para>
         /// Sets a preferred processor for a thread. The system schedules threads on their preferred processors whenever possible.
         /// </para>
         /// <para>
@@ -2398,51 +2480,6 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadStackGuarantee", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetThreadStackGuarantee([In][Out] ref ULONG StackSizeInBytes);
-
-        /// <summary>
-        /// <para>
-        /// The <see cref="SetThreadToken"/> function assigns an impersonation token to a thread.
-        /// The function can also cause a thread to stop using an impersonation token.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadtoken"/>
-        /// </para>
-        /// </summary>
-        /// <param name="Thread">
-        /// <para>
-        /// A pointer to a handle to the thread to which the function assigns the impersonation token.
-        /// </para>
-        /// <para>
-        /// If <paramref name="Thread"/> is <see cref="NullRef{HANDLE}"/>,
-        /// the function assigns the impersonation token to the calling thread.
-        /// </para>
-        /// </param>
-        /// <param name="Token">
-        /// <para>
-        /// A handle to the impersonation token to assign to the thread.
-        /// This handle must have been opened with <see cref="TOKEN_IMPERSONATE"/> access rights.
-        /// For more information, see Access Rights for Access-Token Objects.
-        /// </para>
-        /// <para>
-        /// If <paramref name="Token"/> is <see cref="NULL"/>, the function causes the thread to stop using an impersonation token.
-        /// </para>
-        /// </param>
-        /// <returns>
-        /// <para>
-        /// If the function succeeds, the return value is nonzero.
-        /// </para>
-        /// <para>
-        /// If the function fails, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </para>
-        /// </returns>
-        /// <remarks>
-        /// When using the <see cref="SetThreadToken"/> function to impersonate, you must have the impersonate privileges
-        /// and make sure that the <see cref="SetThreadToken"/> function succeeds before calling the <see cref="RevertToSelf"/> function.
-        /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadToken", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetThreadToken([In] in HANDLE Thread, [In] HANDLE Token);
 
         /// <summary>
         /// <para>

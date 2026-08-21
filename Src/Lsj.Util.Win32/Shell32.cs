@@ -330,6 +330,238 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Parses an input string that contains references to one or more environment variables and replaces them with their fully expanded values.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-doenvironmentsubstw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pszSrc">
+        /// <para>
+        /// A pointer to a null-terminated string that contains references to one or more environment variables, each in the following form.
+        /// Case is ignored.
+        /// </para>
+        /// <code>
+        /// %VariableName%
+        /// </code>
+        /// <para>
+        /// Any character in the string that is not enclosed in '%' characters is ignored and returned unchanged.
+        /// Therefore, if your string contains multiple environment variables,
+        /// you can use any character other than '%' as a separator, including spaces or no separator.
+        /// </para>
+        /// <para>
+        /// When this function returns successfully, each <c>%VariableName%</c> is replaced with its expanded value.
+        /// The replacement rules are the same as those used by the command interpreter.
+        /// If the variable name is not found on the system, the <c>%VariableName%</c> is left as it was submitted on entry.
+        /// </para>
+        /// <para>
+        /// If this function fails due to the expanded string being too large for the buffer, the contents of this buffer are left unchanged.
+        /// </para>
+        /// </param>
+        /// <param name="cchSrc">
+        /// The size, in characters, of the buffer pointed to by <paramref name="pszSrc"/>.
+        /// Note that the buffer must be large enough to hold the returned string.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the expanded string fits in the buffer, <see cref="TRUE"/> is returned in the HIWORD and the length,
+        /// in characters, of the new <paramref name="pszSrc"/> is returned in the LOWORD.
+        /// </para>
+        /// <para>
+        /// If the expanded string is too large for the buffer,
+        /// <see cref="FALSE"/> is returned in the HIWORD and <paramref name="cchSrc"/> in the LOWORD.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// Parameters must contain valid, non-<see cref="NULL"/> values.
+        /// You must validate these values. Failure to do so can provide unexpected results.
+        /// </para>
+        /// <para>
+        /// Because the string that is returned in <paramref name="pszSrc"/> will typically be longer than the input string,
+        /// make sure that the buffer is large enough to hold the expanded version of the string.
+        /// The allotted size of the <paramref name="cchSrc"/> buffer for ANSI strings must be one larger than the buffer for a Unicode string.
+        /// When dealing with ANSI strings, use the formula buffer size = string length + terminating null character + 1
+        /// to determine the minimum correct buffer size.
+        /// </para>
+        /// <para>
+        /// Because environment variables can be added by the user or applications, the complete list is system-dependent.
+        /// The following environment variables are standard and are available to both interactive applications and services.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// ALLUSERSPROFILE
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// APPDATA
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// COMPUTERNAME
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// LOCALAPPDATA
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// NUMBER_OF_PROCESSORS
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// OS
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// PROCESSOR_ARCHITECTURE
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// PROCESSOR_IDENTIFIER
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// PROCESSOR_LEVEL
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// PROCESSOR_REVISION
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// ProgramData
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// ProgramFiles
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// PUBLIC
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// SystemDrive
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// SystemRoot
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// USERPROFILE
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// windir
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// The following are only available to interactive applications.
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// HOMEDRIVE
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// HOMEPATH
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// LOGONSERVER
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// USERDOMAIN
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// USERNAME
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// The environment variables that correspond to file system folders can be mapped to
+        /// an equivalent <see cref="CSIDL"/> or <see cref="KNOWNFOLDERID"/> value
+        /// can be obtained through <see cref="SHGetFolderLocation"/> or <see cref="SHGetKnownFolderPath"/>.
+        /// <see cref="CSIDL"/>s and <see cref="KNOWNFOLDERID"/>s are more reliable than environment variable names and should be used whenever possible.
+        /// </para>
+        /// </remarks>
+        [Obsolete("This function is retained only for backward compatibility. Use ExpandEnvironmentStrings instead.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "DoEnvironmentSubstW", ExactSpelling = true)]
+        public static extern DWORD DoEnvironmentSubst([In] LPWSTR pszSrc, [In] UINT cchSrc);
+
+        /// <summary>
+        /// <para>
+        /// Registers whether a window accepts dropped files.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-dragacceptfiles"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// The identifier of the window that is registering whether it will accept dropped files.
+        /// </param>
+        /// <param name="fAccept">
+        /// A value that indicates if the window identified by the <paramref name="hWnd"/> parameter accepts dropped files.
+        /// This value is <see cref="TRUE"/> to accept dropped files or <see cref="FALSE"/> to discontinue accepting dropped files.
+        /// </param>
+        /// <remarks>
+        /// An application that calls <see cref="DragAcceptFiles"/> with the <paramref name="fAccept"/> parameter set to <see cref="TRUE"/>
+        /// has identified itself as able to process the <see cref="WM_DROPFILES"/> message from File Manager.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "DragAcceptFiles", ExactSpelling = true)]
+        public static extern void DragAcceptFiles([In] HWND hWnd, [In] BOOL fAccept);
+
+        /// <summary>
+        /// <para>
+        /// Releases memory that the system allocated for use in transferring file names to the application.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-dragfinish"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hDrop">
+        /// Identifier of the structure that describes dropped files.
+        /// This handle is retrieved from the <c>wParam</c> parameter of the <see cref="WM_DROPFILES"/> message.
+        /// </param>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "DragFinish", ExactSpelling = true)]
+        public static extern void DragFinish([In] HDROP hDrop);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the names of dropped files that result from a successful drag-and-drop operation.
         /// </para>
         /// <para>
@@ -374,6 +606,31 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "DragQueryFileW", ExactSpelling = true)]
         public static extern UINT DragQueryFile([In] HDROP hDrop, [In] UINT iFile, [In] LPWSTR lpszFile, [In] UINT cch);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the position of the mouse pointer at the time a file was dropped during a drag-and-drop operation.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-dragquerypoint"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hDrop">
+        /// Handle of the drop structure that describes the dropped file.
+        /// </param>
+        /// <param name="ppt">
+        /// Pointer to a <see cref="POINT"/> structure that, when this function returns successfully,
+        /// receives the coordinates of the mouse pointer at the time the file was dropped.
+        /// </param>
+        /// <returns>
+        /// <see cref="TRUE"/> if the drop occurred in the client area of the window; otherwise <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The window for which coordinates are returned is the window that received the <see cref="WM_DROPFILES"/> message.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "DragQueryPoint", ExactSpelling = true)]
+        public static extern BOOL DragQueryPoint([In] HDROP hDrop, [Out] out POINT ppt);
 
         /// <summary>
         /// <para>
@@ -457,6 +714,61 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtractAssociatedIconW", ExactSpelling = true)]
         public static extern HICON ExtractAssociatedIcon([In] HINSTANCE hInst, [In][Out] LPWSTR pszIconPath, [In][Out] ref WORD piIcon);
+
+        /// <summary>
+        /// <para>
+        /// Gets a handle to an icon stored as a resource in a file or an icon stored in a file's associated executable file.
+        /// It extends the <see cref="ExtractAssociatedIcon"/> function by retrieving the icon's ID when that icon is extracted from an executable file.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-extractassociatediconexw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hInst">
+        /// The handle of the module from which to extract the icon.
+        /// </param>
+        /// <param name="pszIconPath">
+        /// <para>
+        /// Pointer to a string that, on entry, specifies the full path and file name of the file that contains the icon.
+        /// The function extracts the icon handle from that file, or from an executable file associated with that file.
+        /// </para>
+        /// <para>
+        /// When this function returns, if the icon handle was obtained from an executable file
+        /// (either an executable file directly pointed to by this parameter or an associated executable file)
+        /// the function stores the full path and file name of that executable in the buffer pointed to by this parameter.
+        /// </para>
+        /// </param>
+        /// <param name="piIconIndex">
+        /// <para>
+        /// Pointer to a <see cref="WORD"/> value that, on entry, specifies the index of the icon whose handle is to be obtained.
+        /// </para>
+        /// <para>
+        /// When the function returns, if the icon handle was obtained from an executable file
+        /// (either an executable file pointed to by <paramref name="pszIconPath"/> or an associated executable file),
+        /// this value points to the icon's index in that file.
+        /// </para>
+        /// </param>
+        /// <param name="piIcon">
+        /// <para>
+        /// Pointer to a <see cref="WORD"/> value that, on entry, specifies the ID of the icon whose handle is to be obtained.
+        /// </para>
+        /// <para>
+        /// When the function returns, if the icon handle was obtained from an executable file
+        /// (either an executable file pointed to by <paramref name="pszIconPath"/> or an associated executable file),
+        /// this value points to the icon's ID within that file.
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// Returns the icon's handle if successful, otherwise <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// The icon handle returned by this function must be released by calling <see cref="DestroyIcon"/> when it is no longer needed.
+        /// </remarks>
+        [Obsolete("ExtractAssociatedIconEx is available for use in the operating systems specified in the Requirements section." +
+            " It may be altered or unavailable in subsequent versions.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtractAssociatedIconExW", ExactSpelling = true)]
+        public static extern HICON ExtractAssociatedIconEx([In] HINSTANCE hInst, [In][Out] LPWSTR pszIconPath, [In][Out] ref WORD piIconIndex, [In][Out] ref WORD piIcon);
 
         /// <summary>
         /// <para>
@@ -583,6 +895,146 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the name of and handle to the executable (.exe) file associated with a specific document file.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-findexecutablew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpFile">
+        /// The address of a null-terminated string that specifies a file name.
+        /// This file should be a document.
+        /// </param>
+        /// <param name="lpDirectory">
+        /// The address of a null-terminated string that specifies the default directory. 
+        /// This value can be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="lpResult">
+        /// The address of a buffer that receives the file name of the associated executable file.
+        /// This file name is a null-terminated string that specifies the executable file started
+        /// when an "open" by association is run on the file specified in the <paramref name="lpFile"/> parameter.
+        /// Put simply, this is the application that is launched when the document file is directly double-clicked
+        /// or when <c>Open</c> is chosen from the file's shortcut menu.
+        /// This parameter must contain a valid non-null value and is assumed to be of length <see cref="MAX_PATH"/>.
+        /// Responsibility for validating the value is left to the programmer.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// Returns a value greater than 32 if successful, or a value less than or equal to 32 representing an error.
+        /// </para>
+        /// <para>
+        /// The following table lists possible error values.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code/value
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SE_ERR_FNF"/>
+        /// </para>
+        /// <para>
+        /// 2
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The specified file was not found.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SE_ERR_PNF"/>
+        /// </para>
+        /// <para>
+        /// 3
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The specified path is invalid.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SE_ERR_ACCESSDENIED"/>
+        /// </para>
+        /// <para>
+        /// 5
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The specified file cannot be accessed.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SE_ERR_OOM"/>
+        /// </para>
+        /// <para>
+        /// 8
+        /// </para>
+        /// </term>
+        /// <term>
+        /// The system is out of memory or resources.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <para>
+        /// <see cref="SE_ERR_NOASSOC"/>
+        /// </para>
+        /// <para>
+        /// 31
+        /// </para>
+        /// </term>
+        /// <term>
+        /// There is no association for the specified file type with an executable file.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// Use <see cref="FindExecutable"/> for documents.
+        /// If you want to retrieve the path of an executable file, use the following:
+        /// </para>
+        /// <code>
+        /// AssocQueryString(ASSOCF_OPEN_BYEXENAME,
+        ///                  ASSOCSTR_EXECUTABLE,
+        ///                  pszExecutableName,
+        ///                  NULL,
+        ///                  pszPath,
+        ///                  pcchOut);
+        /// </code>
+        /// <para>
+        /// Here, <c>pszExecutableName</c> is a pointer to a null-terminated string that specifies the name of the executable file,
+        /// <c>pszPath</c> is a pointer to the null-terminated string buffer that receives the path to the executable file,
+        /// and <c>pcchOut</c> is a pointer to a <see cref="DWORD"/> that specifies the number of characters in the <c>pszPath</c> buffer.
+        /// When the function returns, <c>pcchOut</c> is set to the number of characters actually placed in the buffer.
+        /// See <see cref="AssocQueryString"/> for more information.
+        /// </para>
+        /// <para>
+        /// When <see cref="FindExecutable"/> returns, the <paramref name="lpResult"/> parameter may contain the path
+        /// to the Dynamic Data Exchange (DDE) server started if a server does not respond to a request
+        /// to initiate a DDE conversation with the DDE client application.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindExecutableW", ExactSpelling = true, SetLastError = true)]
+        public static extern HINSTANCE FindExecutable([In] LPCWSTR lpFile, [In] LPCWSTR lpDirectory, [In] LPWSTR lpResult);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the application-defined, explicit Application User Model ID (AppUserModelID) for the current process.
         /// </para>
         /// <para>
@@ -608,7 +1060,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentProcessExplicitAppUserModelID", ExactSpelling = true)]
-        public static extern HRESULT GetCurrentProcessExplicitAppUserModelID([Out] out IntPtr AppID);
+        public static extern HRESULT GetCurrentProcessExplicitAppUserModelID([Out] out nint AppID);
 
         /// <summary>
         /// <para>
@@ -879,6 +1331,123 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHAddToRecentDocs", ExactSpelling = true)]
         public static extern void SHAddToRecentDocs([In] SHARD uFlags, [In] LPCVOID pv);
+
+        /// <summary>
+        /// <para>
+        /// Sends an appbar message to the system.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-shappbarmessage"/>
+        /// </para>
+        /// </summary>
+        /// <param name="dwMessage">
+        /// <para>
+        /// Appbar message value to send.
+        /// This parameter can be one of the following values.
+        /// </para>
+        /// <para>
+        /// <see cref="ABM_NEW"/> (0x00000000)
+        /// </para>
+        /// <para>
+        /// Registers a new appbar and specifies the message identifier 
+        /// that the system should use to send notification messages to the appbar.
+        /// </para>
+        /// <para>
+        /// <see cref="ABM_REMOVE"/>
+        /// (0x00000001)
+        /// </para>
+        /// <para>
+        /// Unregisters an appbar, removing the bar from the system's internal list.
+        /// </para>
+        /// <para>
+        /// <see cref="ABM_QUERYPOS"/> (0x00000002)
+        /// </para>
+        /// <para>
+        /// Requests a size and screen position for an appbar.
+        /// </para>
+        /// <para>
+        /// <see cref="ABM_SETPOS"/> (0x00000003)
+        /// </para>
+        /// <para>
+        /// Sets the size and screen position of an appbar.
+        /// </para>
+        /// <para>
+        /// <see cref="ABM_GETSTATE"/> (0x00000004)
+        /// </para>
+        /// <para>
+        /// Retrieves the autohide and always-on-top states of the Windows taskbar.
+        /// </para>
+        /// <para>
+        /// <see cref="ABM_GETTASKBARPOS"/> (0x00000005)
+        /// </para>
+        /// <para>
+        /// Retrieves the bounding rectangle of the Windows taskbar.
+        /// Note that this applies only to the system taskbar.
+        /// Other objects, particularly toolbars supplied with third-party software, also can be present.
+        /// As a result, some of the screen area not covered by the Windows taskbar might not be visible to the user.
+        /// To retrieve the area of the screen not covered by both the taskbar and other app bars
+        /// —the working area available to your application—, use the <see cref="GetMonitorInfo"/> function.
+        /// </para>
+        /// <para>
+        /// <see cref="ABM_ACTIVATE"/> (0x00000006)
+        /// </para>
+        /// <para>
+        /// Notifies the system to activate or deactivate an appbar.
+        /// The <see cref="APPBARDATA.lParam"/> member of the <see cref="APPBARDATA"/>
+        /// pointed to by <paramref name="pData"/> is set to <see cref="TRUE"/> to activate or <see cref="FALSE"/> to deactivate.
+        /// </para>
+        /// <para>
+        /// <see cref="ABM_GETAUTOHIDEBAR"/> (0x00000007)
+        /// </para>
+        /// <para>
+        /// Retrieves the handle to the autohide appbar associated with a particular edge of the screen.
+        /// </para>
+        /// <para>
+        /// <see cref="ABM_SETAUTOHIDEBAR"/> (0x00000008)
+        /// </para>
+        /// <para>
+        /// Registers or unregisters an autohide appbar for an edge of the screen.
+        /// </para>
+        /// <para>
+        /// <see cref="ABM_WINDOWPOSCHANGED"/> (0x00000009)
+        /// </para>
+        /// <para>
+        /// Notifies the system when an appbar's position has changed.
+        /// </para>
+        /// <para>
+        /// <see cref="ABM_SETSTATE"/> (0x0000000A)
+        /// </para>
+        /// <para>
+        /// Windows XP and later: Sets the state of the appbar's autohide and always-on-top attributes.
+        /// </para>
+        /// <para>
+        /// <see cref="ABM_GETAUTOHIDEBAREX"/> (0x0000000B)
+        /// </para>
+        /// <para>
+        /// Windows XP and later:
+        /// Retrieves the handle to the autohide appbar associated with a particular edge of a particular monitor.
+        /// </para>
+        /// <para>
+        /// <see cref="ABM_SETAUTOHIDEBAREX"/> (0x0000000C)
+        /// </para>
+        /// <para>
+        /// Windows XP and later:
+        /// Registers or unregisters an autohide appbar for an edge of a particular monitor.
+        /// </para>
+        /// </param>
+        /// <param name="pData">
+        /// A pointer to an <see cref="APPBARDATA"/> structure.
+        /// The content of the structure on entry and on exit depends on the value set in the <paramref name="dwMessage"/> parameter.
+        /// See the individual message pages for specifics.
+        /// </param>
+        /// <returns>
+        /// This function returns a message-dependent value.
+        /// For more information, see the Windows SDK documentation for the specific appbar message sent.
+        /// Links to those documents are given in the See Also section.
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHAppBarMessage", ExactSpelling = true)]
+        public static extern UINT_PTR SHAppBarMessage([In] DWORD dwMessage, [In][Out] ref APPBARDATA pData);
 
         /// <summary>
         /// <para>
@@ -1749,6 +2318,58 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Displays a ShellAbout dialog box.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-shellaboutw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// A window handle to a parent window.
+        /// This parameter can be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="szApp">
+        /// <para>
+        /// A pointer to a null-terminated string that contains text to be displayed in the title bar of the <see cref="ShellAbout"/> dialog box
+        /// and on the first line of the dialog box after the text "Microsoft".
+        /// If the text contains a separator (#) that divides it into two parts,
+        /// the function displays the first part in the title bar and the second part on the first line after the text "Microsoft".
+        /// </para>
+        /// <para>
+        /// Windows 2000, Windows XP, Windows Server 2003:
+        /// If the string pointed to by this parameter contains a separator (#), then the string must be writable.
+        /// </para>
+        /// <para>
+        /// Windows Vista, Windows Server 2008: This string cannot exceed 200 characters in length.
+        /// The contents of <paramref name="szApp"/> will no longer show after "Microsoft",
+        /// unless there is a # separator, in which case the part after the # will completely replace the first line.
+        /// </para>
+        /// </param>
+        /// <param name="szOtherStuff">
+        /// A pointer to a null-terminated string that contains text to be displayed in the dialog box after the version and copyright information.
+        /// This parameter can be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="hIcon">
+        /// The handle of an icon that the function displays in the dialog box.
+        /// This parameter can be <see cref="NULL"/>, in which case the function displays the Windows icon.
+        /// </param>
+        /// <returns>
+        /// <see cref="TRUE"/> if successful; otherwise, <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// Note that the <see cref="ShellAbout"/> function dialog box uses text and a default icon that are specific to Windows.
+        /// </para>
+        /// <para>
+        /// To see an example of a <see cref="ShellAbout"/> dialog box, run the <c>winver.exe</c> command.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "ShellAboutW", ExactSpelling = true)]
+        public static extern INT ShellAbout([In] HWND hwnd, [In] LPCWSTR szApp, [In] LPCWSTR szOtherStuff, [In] HICON hIcon);
+
+        /// <summary>
+        /// <para>
         /// Performs an operation on a specified file.
         /// </para>
         /// <para>
@@ -2211,6 +2832,211 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Sends a message to the taskbar's status area.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-shell_notifyiconw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="dwMessage">
+        /// <para>
+        /// A value that specifies the action to be taken by this function.
+        /// It can have one of the following values:
+        /// </para>
+        /// <para>
+        /// <see cref="NIM_ADD"/> (0x00000000)
+        /// </para>
+        /// <para>
+        /// 0x00000000.
+        /// Adds an icon to the status area.
+        /// The icon is given an identifier in the <see cref="NOTIFYICONDATA"/> structure pointed to by <paramref name="lpData"/>
+        /// —either through its <see cref="NOTIFYICONDATA.uID"/> or <see cref="NOTIFYICONDATA.guidItem"/> member.
+        /// This identifier is used in subsequent calls to <see cref="Shell_NotifyIcon"/> to perform later actions on the icon.
+        /// </para>
+        /// <para>
+        /// <see cref="NIM_MODIFY"/> (0x00000001)
+        /// </para>
+        /// <para>
+        /// 0x00000001.
+        /// Modifies an icon in the status area.
+        /// <see cref="NOTIFYICONDATA"/> structure pointed to by <paramref name="lpData"/> uses the ID originally assigned to the icon
+        /// when it was added to the notification area (<see cref="NIM_ADD"/>) to identify the icon to be modified.
+        /// </para>
+        /// <para>
+        /// <see cref="NIM_DELETE"/> (0x00000002)
+        /// </para>
+        /// <para>
+        /// 0x00000002. Deletes an icon from the status area.
+        /// <see cref="NOTIFYICONDATA"/> structure pointed to by <paramref name="lpData"/> uses the ID originally assigned to the icon
+        /// when it was added to the notification area (<see cref="NIM_ADD"/>) to identify the icon to be deleted.
+        /// </para>
+        /// <para>
+        /// <see cref="NIM_SETFOCUS"/> (0x00000003)
+        /// </para>
+        /// <para>
+        /// 0x00000003.
+        /// Shell32.dll version 5.0 and later only. Returns focus to the taskbar notification area.
+        /// Notification area icons should use this message when they have completed their UI operation.
+        /// For example, if the icon displays a shortcut menu, but the user presses ESC to cancel it,
+        /// use <see cref="NIM_SETFOCUS"/> to return focus to the notification area.
+        /// </para>
+        /// <para>
+        /// <see cref="NIM_SETVERSION"/> (0x00000004)
+        /// </para>
+        /// <para>
+        /// 0x00000004.
+        /// Shell32.dll version 5.0 and later only.
+        /// Instructs the notification area to behave according to the version number
+        /// specified in the <see cref="NOTIFYICONDATA.uVersion"/> member of the structure pointed to by <paramref name="lpData"/>.
+        /// The version number specifies which members are recognized.
+        /// </para>
+        /// <para>
+        /// <see cref="NIM_SETVERSION"/> must be called every time a notification area icon is added (<see cref="NIM_ADD"/>).
+        /// It does not need to be called with <see cref="NIM_MODIFY"/>. The version setting is not persisted once a user logs off.
+        /// </para>
+        /// <para>
+        /// For details, see the Remarks section.
+        /// </para>
+        /// </param>
+        /// <param name="lpData">
+        /// A pointer to a <see cref="NOTIFYICONDATA"/> structure.
+        /// The content of the structure depends on the value of <paramref name="dwMessage"/>.
+        /// It can define an icon to add to the notification area, cause that icon to display a notification, or identify an icon to modify or delete.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> if successful, or <see cref="FALSE"/> otherwise.
+        /// If <paramref name="dwMessage"/> is set to <see cref="NIM_SETVERSION"/>,
+        /// the function returns <see cref="TRUE"/> if the version was successfully changed,
+        /// or <see cref="FALSE"/> if the requested version is not supported.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// As of Windows 2000 (Shell32.dll version 5.0), if you set the <see cref="NOTIFYICONDATA.uVersion"/> member
+        /// of the <see cref="NOTIFYICONDATA"/> structure pointed to by <paramref name="lpData"/> to <see cref="NOTIFYICON_VERSION_4"/> or higher,
+        /// <see cref="Shell_NotifyIcon"/> mouse and keyboard events are handled differently than in earlier versions of Windows.
+        /// The differences include the following:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// If a user selects a notify icon's shortcut menu with the keyboard,
+        /// the Shell now sends the associated application a <see cref="WM_CONTEXTMENU"/> message.
+        /// Earlier versions send <see cref="WM_RBUTTONDOWN"/> and <see cref="WM_RBUTTONUP"/> messages.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If a user selects a notify icon with the keyboard and activates it with the SPACEBAR or ENTER key,
+        /// the version 5.0 Shell sends the associated application an <see cref="NIN_KEYSELECT"/> notification.
+        /// Earlier versions send <see cref="WM_RBUTTONDOWN"/> and <see cref="WM_RBUTTONUP"/> messages.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// If a user selects a notify icon with the mouse and activates it with the ENTER key,
+        /// the Shell now sends the associated application an <see cref="NIN_SELECT"/> notification.
+        /// Earlier versions send <see cref="WM_RBUTTONDOWN"/> and <see cref="WM_RBUTTONUP"/> messages.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// As of Windows XP (Shell32.dll version 6.0),
+        /// if a user passes the mouse pointer over an icon with which a balloon notification is associated,
+        /// the Shell sends the following messages:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="NIN_BALLOONSHOW"/>.
+        /// Sent when the balloon is shown (balloons are queued).
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <para>
+        /// <see cref="NIN_BALLOONHIDE"/>.
+        /// Sent when the balloon disappears.
+        /// For example, when the icon is deleted.
+        /// This message is not sent if the balloon is dismissed because of a timeout or if the user clicks the mouse.
+        /// </para>
+        /// <para>
+        /// As of Windows 7, <see cref="NIN_BALLOONHIDE"/> is also sent
+        /// when a notification with the <see cref="NIIF_RESPECT_QUIET_TIME"/> flag set attempts to display during quiet time
+        /// (a user's first hour on a new computer).
+        /// In that case, the balloon is never displayed at all.
+        /// </para>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="NIN_BALLOONTIMEOUT"/>.
+        /// Sent when the balloon is dismissed because of a timeout.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="NIN_BALLOONUSERCLICK"/>.
+        /// Sent when the balloon is dismissed because the user clicked the mouse.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// In addition to those messages, as of Windows Vista (Shell32.dll version 6.0.6),
+        /// if a user passes the mouse pointer over an icon with which a balloon notification is associated,
+        /// the Windows Vista Shell also adds the following messages:
+        /// </para>
+        /// <para>
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// <see cref="NIN_POPUPOPEN"/>.
+        /// Sent when the user hovers the cursor over an icon to indicate that the richer pop-up UI should be used in place of a standard textual tooltip.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <see cref="NIN_POPUPCLOSE"/>. Sent when a cursor no longer hovers over an icon to indicate that the rich pop-up UI should be closed.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Regardless of the operating system version, you can select which way the Shell should behave
+        /// by calling <see cref="Shell_NotifyIcon"/> with <paramref name="dwMessage"/> set to <see cref="NIM_SETVERSION"/>.
+        /// Set the <see cref="NOTIFYICONDATA.uVersion"/> member of the <see cref="NOTIFYICONDATA"/> structure
+        /// pointed to by <paramref name="lpData"/> to indicate whether you want Windows 2000, Windows Vista, or pre-version 5.0 (Windows 95) behavior.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// The messages discussed above are not conventional Windows messages.
+        /// They are sent as the <c>lParam</c> value of the application-defined message
+        /// that is specified in the <see cref="NOTIFYICONDATA.uCallbackMessage"/> member of the <see cref="NOTIFYICONDATA"/> structure
+        /// pointed to by <paramref name="lpData"/>,
+        /// when <see cref="Shell_NotifyIcon"/> is called with the <see cref="NIM_ADD"/> flag set in <paramref name="dwMessage"/>.
+        /// </para>
+        /// <para>
+        /// As of Windows XP Service Pack 2 (SP2), a custom icon can be displayed in the notification balloon.
+        /// This allows the calling process to customize the notification beyond the previously available options of info, warning, and error,
+        /// and distinguish it from other types of notification for the user.
+        /// </para>
+        /// <para>
+        /// On Windows 10, the balloon messages are shown as banner notifications, which then stay in the Notification Center until dismissed.
+        /// On Windows 11, the behavior of banner notifications more closely follows the legacy behavior in making them transient.
+        /// When a bannner notification times out or is otherwise dismissed, it will not be displayed in the Notification Center.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "Shell_NotifyIconW", ExactSpelling = true)]
+        public static extern BOOL Shell_NotifyIcon([In] DWORD dwMessage, [In] NOTIFYICONDATA lpData);
+
+        /// <summary>
+        /// <para>
         /// Copies, moves, renames, or deletes a file system object.
         /// This function has been replaced in Windows Vista by <see cref="IFileOperation"/>.
         /// </para>
@@ -2664,6 +3490,114 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Opens the Shell's Format dialog box.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shlobj_core/nf-shlobj_core-shformatdrive"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// The handle of the parent window of the dialog box.
+        /// The Format dialog box must have a parent window; therefore, this parameter cannot be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="drive">
+        /// The drive to format.
+        /// The value of this parameter represents a letter drive starting at 0 for the A: drive.
+        /// For example, a value of 2 stands for the C: drive.
+        /// </param>
+        /// <param name="fmtID">
+        /// <para>
+        /// The ID of the physical format.
+        /// Only the following flag is currently defined.
+        /// </para>
+        /// <para>
+        /// SHFMT_ID_DEFAULT (0xFFFF)
+        /// </para>
+        /// <para>
+        /// The default format ID.
+        /// </para>
+        /// </param>
+        /// <param name="options">
+        /// <para>
+        /// This value must be 0 or one of the following values that alter the default format options in the dialog box.
+        /// This value is regarded as a bitfield and should be treated accordingly.
+        /// </para>
+        /// <para>
+        /// <see cref="SHFMT_OPT_FULL"/> (0x0001)
+        /// </para>
+        /// <para>
+        /// 0x001. If this flag is set, then the Quick Format option is selected.
+        /// </para>
+        /// <para>
+        /// This function is included in Shlobj.h only in Windows XP with SP1 and later.
+        /// </para>
+        /// <para>
+        /// Windows XP:
+        /// Prior to Windows XP with SP1, this function is accessible through Shell32.lib.
+        /// </para>
+        /// <para>
+        /// <see cref="SHFMT_OPT_SYSONLY"/> (0x0002)
+        /// </para>
+        /// <para>
+        /// 0x002.
+        /// Selects the Create an MS-DOS startup disk option, creating a system boot disk.
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// Returns the format ID of the last successful format or one of the following values.
+        /// The LOWORD of this value can be passed on subsequent calls as the <paramref name="fmtID"/> parameter to repeat the last format.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="SHFMT_ERROR"/>
+        /// </term>
+        /// <term>
+        /// An error occurred during the last format.
+        /// This does not indicate that the drive is unformattable.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SHFMT_CANCEL"/>
+        /// </term>
+        /// <term>
+        /// The last format was canceled.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SHFMT_NOFORMAT"/>
+        /// </term>
+        /// <term>
+        /// The drive cannot be formatted.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// The format is controlled by the dialog box interface.
+        /// That is, the user must click the OK button to actually begin the format—the format cannot be started programmatically.
+        /// </remarks>
+        [Obsolete("SHFormatDrive is available for use in the operating systems specified in the Requirements section. " +
+            "It may be altered or unavailable in subsequent versions.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHFormatDrive", ExactSpelling = true)]
+        public static extern DWORD SHFormatDrive([In] HWND hwnd, [In] UINT drive, [In] UINT fmtID, [In] UINT options);
+
+        /// <summary>
+        /// <para>
         /// Frees a file name mapping object that was retrieved by the <see cref="SHFileOperation"/> function.
         /// </para>
         /// <para>
@@ -2676,6 +3610,97 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHFreeNameMappings", ExactSpelling = true)]
         public static extern void SHFreeNameMappings([In] HANDLE hNameMappings);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves extended property data from a relative identifier list.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shlobj_core/nf-shlobj_core-shgetdatafromidlistw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="psf">
+        /// The address of the parent <see cref="IShellFolder"/> interface.
+        /// This must be the immediate parent of the <see cref="ITEMIDLIST"/> structure referenced by the <paramref name="pidl"/> parameter.
+        /// </param>
+        /// <param name="pidl">
+        /// A pointer to an <see cref="ITEMIDLIST"/> structure that identifies the object relative to the folder specified in <paramref name="psf"/>.
+        /// </param>
+        /// <param name="nFormat">
+        /// <para>
+        /// The format in which the data is being requested.
+        /// This parameter must be set to one of the following values.
+        /// </para>
+        /// <para>
+        /// <see cref="SHGDFIL_FINDDATA"/>
+        /// </para>
+        /// <para>
+        /// Format used for file system objects.
+        /// The <paramref name="pv"/> parameter is the address of a <see cref="WIN32_FIND_DATA"/> structure.
+        /// </para>
+        /// <para>
+        /// <see cref="SHGDFIL_NETRESOURCE"/>
+        /// </para>
+        /// <para>
+        /// Format used for network resources.
+        /// The <paramref name="pv"/> parameter is the address of a <see cref="NETRESOURCE"/> structure.
+        /// </para>
+        /// <para>
+        /// <see cref="SHGDFIL_DESCRIPTIONID"/>
+        /// </para>
+        /// <para>
+        /// Version 4.71.
+        /// Format used for network resources.
+        /// The <paramref name="pv"/> parameter is the address of an <see cref="SHDESCRIPTIONID"/> structure.
+        /// </para>
+        /// </param>
+        /// <param name="pv">
+        /// <para>
+        /// A pointer to a buffer that, when this function returns successfully, receives the requested data.
+        /// The format of this buffer is determined by <paramref name="nFormat"/>.
+        /// </para>
+        /// <para>
+        /// If <paramref name="nFormat"/> is <see cref="SHGDFIL_NETRESOURCE"/>, there are two possible cases.
+        /// If the buffer is large enough, the net resource's string information
+        /// (fields for the network name, local name, provider, and comments) will be placed into the buffer.
+        /// If the buffer is not large enough, only the net resource structure
+        /// will be placed into the buffer and the string information pointers will be <see cref="NULL"/>.
+        /// </para>
+        /// </param>
+        /// <param name="cb">
+        /// Size of the buffer at <paramref name="pv"/>, in bytes.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="S_OK"/> if successful, or <see cref="E_INVALIDARG"/> otherwise.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// This function extracts only information that is present in the pointer to an item identifier list (PIDL).
+        /// Since the content of a PIDL depends on the folder object that created the PIDL,
+        /// there is no guarantee that all requested information will be available.
+        /// In addition, the information that is returned reflects the state of the object at the time the PIDL was created.
+        /// The current state of the object could be different.
+        /// For example, if you set <paramref name="nFormat"/> to <see cref="SHGDFIL_FINDDATA"/>,
+        /// the function might assign meaningful values to only some of the members of the <see cref="WIN32_FIND_DATA"/> structure.
+        /// The remaining members will be set to zero.
+        /// To retrieve complete current information on a file system file or folder,
+        /// use standard file system functions such as <see cref="GetFileTime"/> or <see cref="FindFirstFile"/>.
+        /// </para>
+        /// <para>
+        /// <see cref="E_INVALIDARG"/> is returned if the <paramref name="psf"/>, <paramref name="pidl"/>,
+        /// <paramref name="pv"/>, or <paramref name="cb"/> parameter does not match the <paramref name="nFormat"/> parameter,
+        /// or if <paramref name="nFormat"/> is not one of the specific <c>SHGDFIL_</c> values shown above.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetDataFromIDListW", ExactSpelling = true)]
+        public static extern HRESULT SHGetDataFromIDList(
+#if NETFRAMEWORK
+            [In] nint psf,
+#else
+            [In] P<IShellFolder> psf,
+#endif
+            [In] LPITEMIDLIST pidl, [In] int nFormat, [In] nint pv, [In] int cb);
 
         /// <summary>
         /// <para>
@@ -3198,6 +4223,56 @@ namespace Lsj.Util.Win32
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetFolderPathW", ExactSpelling = true)]
         public static extern HRESULT SHGetFolderPath([In] HWND hwnd, [In] CSIDL csidl, [In] HANDLE hToken, [In] ShellGetFolderPathTypes dwFlags, [In] LPWSTR pszPath);
 
+        /// <summary>
+        /// <para>
+        /// Retrieves an interface that allows hosted Shell extensions and other components to prevent their host process from closing prematurely.
+        /// The host process is typically Windows Explorer or Windows Internet Explorer, but this function can also be used by other applications.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shlobj_core/nf-shlobj_core-shgetinstanceexplorer"/>
+        /// </para>
+        /// </summary>
+        /// <param name="ppunk">
+        /// When this function returns successfully, contains the address of the host process' <see cref="IUnknown"/> interface pointer.
+        /// This is a free-threaded interface used to prevent the host process from terminating.
+        /// If the function call fails, this value is set to <see cref="NULL"/>.
+        /// </param>
+        /// <returns>
+        /// If this function succeeds, it returns <see cref="S_OK"/>.
+        /// Otherwise, it returns an <see cref="HRESULT"/> error code.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// There are a number of components, such as Shell extension handlers,
+        /// that are implemented as DLLs and run in a host process such as Windows Explorer (Explorer.exe) or Internet Explorer (Iexplore.exe).
+        /// Typically, when the user closes the host process, the component is shut down immediately as well.
+        /// Such an abrupt termination can create problems for some components.
+        /// For example, if a component is using a background thread to download data or run user-interface functions,
+        /// it might need additional time to safely shut itself down.
+        /// </para>
+        /// <para>
+        /// <see cref="SHGetInstanceExplorer"/> allows components that run in a host process to hold a reference on the host process.
+        /// <see cref="SHGetInstanceExplorer"/> increments the host's reference count
+        /// and returns a pointer to the host's <see cref="IUnknown"/> interface.
+        /// By holding that reference, a component can prevent the host process from closing prematurely.
+        /// After the component has completed its necessary processing, it should call <c>(*ppunk)->Release</c>
+        /// to release the host's reference and allow the process to terminate.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// If <see cref="SHGetInstanceExplorer"/> is successful, the component must release the host's reference when it is no longer needed.
+        /// Otherwise, all resources associated with the process will remain in memory.
+        /// The <see cref="IUnknown"/> interface pointed to by *<paramref name="ppunk"/> can only be used to release this reference.
+        /// Components cannot use <c>(*ppunk)->QueryInterface</c> to request other interface pointers.
+        /// <see cref="SHGetInstanceExplorer"/> succeeds only if it is called from from an application
+        /// which had previously called <see cref="SHSetInstanceExplorer"/> to set a process reference.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetInstanceExplorer", ExactSpelling = true)]
+        public static extern HRESULT SHGetInstanceExplorer([Out] out P<IUnknown> ppunk);
 
         /// <summary>
         /// <para>
@@ -3381,6 +4456,35 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves a pointer to the Shell's <see cref="IMalloc"/> interface.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shlobj_core/nf-shlobj_core-shgetmalloc"/>
+        /// </para>
+        /// </summary>
+        /// <param name="ppMalloc">
+        /// The address of a pointer that receives the Shell's <see cref="IMalloc"/> interface pointer.
+        /// </param>
+        /// <returns>
+        /// If this function succeeds, it returns <see cref="S_OK"/>.
+        /// Otherwise, it returns an <see cref="HRESULT"/> error code.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="SHGetMalloc"/> was introduced in Windows 95 and Microsoft Windows NT 4.0,
+        /// but as of Windows 2000 it is no longer necessary.
+        /// In its place, programs can call the equivalent (and easier to use) <see cref="CoTaskMemAlloc"/> and <see cref="CoTaskMemFree"/>.
+        /// If you find an older reference document that suggests or even requires the use of <see cref="SHGetMalloc"/>,
+        /// it is acceptable and encouraged to use <see cref="CoTaskMemAlloc"/> and <see cref="CoTaskMemFree"/> instead.
+        /// </remarks>
+        [Obsolete("SHGetMalloc is available through Windows Vista and Windows Server 2003, " +
+            "but may be altered or unavailable in subsequent versions of the operating system or product. " +
+            "See the Remarks section for alternate recommendations.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetMalloc", ExactSpelling = true)]
+        public static extern HRESULT SHGetMalloc([Out] out P<IMalloc> ppMalloc);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the display name of an item identified by its IDList.
         /// </para>
         /// <para>
@@ -3407,6 +4511,107 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetNameFromIDList", ExactSpelling = true)]
         public static extern HRESULT SHGetNameFromIDList([In] LPCITEMIDLIST pidl, [In] SIGDN sigdnName, [Out] out LPWSTR ppszName);
+
+        /// <summary>
+        /// <para>
+        /// Creates a name for a new shortcut based on the shortcut's proposed target.
+        /// This function does not create the shortcut, just the name.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-shgetnewlinkinfow"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pszLinkTo">
+        /// A pointer to the path and file name of the shortcut's target.
+        /// If <paramref name="uFlags"/> does not contain the <see cref="SHGNLI_PIDL"/> value,
+        /// this parameter is the address of a null-terminated string that contains the target.
+        /// If <paramref name="uFlags"/> contains the <see cref="SHGNLI_PIDL"/> value,
+        /// this parameter is a PIDL that represents the target.
+        /// </param>
+        /// <param name="pszDir">
+        /// A pointer to a null-terminated string that contains the path of the folder in which the shortcut would be created.
+        /// </param>
+        /// <param name="pszName">
+        /// A pointer to a string that receives the null-terminated path and file name for the shortcut.
+        /// This buffer is assumed to be at least <see cref="MAX_PATH"/> characters in size.
+        /// </param>
+        /// <param name="pfMustCopy">
+        /// The address of a <see cref="BOOL"/> value that receives a flag indicating whether the shortcut would be copied.
+        /// When a shortcut to another shortcut is created, the Shell simply copies the target shortcut and modifies that copied shortcut appropriately.
+        /// This parameter receives a nonzero value if the target specified in <paramref name="pszLinkTo"/>
+        /// specifies a shortcut that will cause the target shortcut to be copied.
+        /// This parameter receives zero if the target does not specify a shortcut that would be copied.
+        /// </param>
+        /// <param name="uFlags">
+        /// <para>
+        /// The options for the function. This can be zero or a combination of the following values.
+        /// </para>
+        /// <para>
+        /// <see cref="SHGNLI_PIDL"/> (0x000000001)
+        /// </para>
+        /// <para>
+        /// 0x000000001.
+        /// The target pointed to by <paramref name="pszLinkTo"/> is a PIDL that represents the target.
+        /// If this flag is not included, <paramref name="pszLinkTo"/> is regarded as the address of a string that contains the path and file name of the target.
+        /// </para>
+        /// <para>
+        /// <see cref="SHGNLI_NOUNIQUE"/> (0x000000002)
+        /// </para>
+        /// <para>
+        /// 0x000000002.
+        /// Skip the normal checks that ensure that the shortcut name is unique within the destination folder.
+        /// If this flag is not included, the function creates the shortcut name and then determines whether the name is unique in the destination folder.
+        /// If a file with the same name already exists in the destination folder,
+        /// the shortcut name will be modified. This process is repeated until a unique name is found.
+        /// </para>
+        /// <para>
+        /// <see cref="SHGNLI_PREFIXNAME"/> (0x000000004)
+        /// </para>
+        /// <para>
+        /// 0x000000004.
+        /// The created name will be preceded by the string "Shortcut to ".
+        /// </para>
+        /// <para>
+        /// <see cref="SHGNLI_NOLNK"/> (0x000000008)
+        /// </para>
+        /// <para>
+        /// 0x000000008.
+        /// Version 5.0
+        /// Do not add the .lnk file name extension.
+        /// You must set the <c>_WIN32_IE</c> macro to 5.01 or greater to use this flag.
+        /// For more information about versioning, see Shell and Common Controls Versions.
+        /// </para>
+        /// <para>
+        /// <see cref="SHGNLI_NOLOCNAME"/> (0x000000010)
+        /// </para>
+        /// <para>
+        /// 0x000000010.
+        /// Windows Vista and later.
+        /// Use the non-localized parsing name of the target pointed to by <paramref name="pszLinkTo"/> as the name of the shortcut file.
+        /// If this flag is not set, the localized name is used.
+        /// </para>
+        /// <para>
+        /// <see cref="SHGNLI_USEURLEXT"/> (0x000000020)
+        /// </para>
+        /// <para>
+        /// 0x000000020.
+        /// Windows 7 and later.
+        /// Append a .url file name extension (rather than .lnk) to the name pointed to by <paramref name="pszName"/>.
+        /// If this flag is not set, the shortcut name uses a .lnk extension unless <see cref="SHGNLI_NOLNK"/> is set.
+        /// </para>
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> if successful; otherwise, <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="SHGetNewLinkInfo"/> determines whether the destination file system supports long file names.
+        /// If it does, a long file name is used for the shortcut name.
+        /// If the destination file system does not support long file names, the shortcut name is returned in an 8.3 format.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetNewLinkInfoW", ExactSpelling = true)]
+        public static extern BOOL SHGetNewLinkInfo([In] LPCWSTR pszLinkTo, [In] LPCWSTR pszDir, [In] LPWSTR pszName,
+            [Out] out BOOL pfMustCopy, [In] UINT uFlags);
 
         /// <summary>
         /// <para>
@@ -3509,7 +4714,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetPropertyStoreForWindow", ExactSpelling = true)]
-        public static extern HRESULT SHGetPropertyStoreForWindow([In] HWND hwnd, [In] in IID riid, [Out] out IntPtr ppv);
+        public static extern HRESULT SHGetPropertyStoreForWindow([In] HWND hwnd, [In] in IID riid, [Out] out nint ppv);
 
         /// <summary>
         /// <para>
@@ -3571,7 +4776,7 @@ namespace Lsj.Util.Win32
         [Obsolete("SHGetSpecialFolderPath is not supported. Instead, use SHGetFolderPath.")]
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetSpecialFolderPathW", ExactSpelling = true)]
-        public static extern BOOL SHGetSpecialFolderPath([In] HWND hwnd, [In] IntPtr pszPath, [In] CSIDL csidl, [In] BOOL fCreate);
+        public static extern BOOL SHGetSpecialFolderPath([In] HWND hwnd, [In] LPWSTR pszPath, [In] CSIDL csidl, [In] BOOL fCreate);
 
         /// <summary>
         /// <para>
@@ -3660,6 +4865,42 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetStockIconInfo", ExactSpelling = true)]
         public static extern HRESULT SHGetStockIconInfo([In] SHSTOCKICONID siid, [In] ShellGetStockIconInfoFlags uFlags, [Out] out SHSTOCKICONINFO psii);
+
+        /// <summary>
+        /// <para>
+        /// Creates an instance of the specified object class from within the context of the Shell's process.
+        /// </para>
+        /// <para>
+        /// Windows Vista and later: This function has been disabled and returns <see cref="E_NOTIMPL"/>.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shlobj_core/nf-shlobj_core-shloadinproc"/>
+        /// </para>
+        /// </summary>
+        /// <param name="rclsid">
+        /// The CLSID of the object class to be created.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="S_OK"/> if successful, or an error value otherwise.
+        /// In Windows Vista and later versions, always returns <see cref="E_NOTIMPL"/>.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// This function is available through Windows XP Service Pack 2 (SP2) and Windows Server 2003.
+        /// It is not available in later versions of Windows, including Windows Vista.
+        /// </para>
+        /// <para>
+        /// This function creates the requested object instance by calling the <see cref="CoCreateInstance"/> function and immediately releasing the returned object.
+        /// The associated DLL is unloaded according to standard Component Object Model (COM) rules
+        /// when it returns <see cref="S_OK"/> from its <c>DllCanUnloadNow</c> function.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHLoadInProc", ExactSpelling = true)]
+        public static extern HRESULT SHLoadInProc([In] in CLSID rclsid);
 
         /// <summary>
         /// <para>
@@ -3765,5 +5006,302 @@ namespace Lsj.Util.Win32
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHSetKnownFolderPath", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT SHSetKnownFolderPath([In] in KNOWNFOLDERID rfid, [In] KNOWN_FOLDER_FLAG dwFlags,
             [In] HANDLE hToken, [In] LPCWSTR pszPath);
+
+        /// <summary>
+        /// <para>
+        /// Performs an operation on a specified file.
+        /// <see cref="WOWShellExecute"/> exists only for use with the Microsoft Windows NT Virtual DOS Machine (Ntvdm.exe),
+        /// which allows disk operating system (DOS) and 16-bit software to run on a Windows system, and should not be used by anyone else.
+        /// Use <see cref="ShellExecute"/> instead.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/shell/wowshellexecute"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// A handle to the owner window used for displaying a UI or error messages.
+        /// This value can be <see cref="NULL"/> if the operation is not associated with a window.
+        /// </param>
+        /// <param name="lpOperation">
+        /// <para>
+        /// A pointer to a null-terminated string, referred to in this case as a <c>verb</c>,
+        /// that specifies the action to be performed.
+        /// The set of available verbs depends on the particular file or folder.
+        /// Generally, the actions available from an object's shortcut menu are available verbs.
+        /// For more information about verbs and their availability, see the Object Verbs section of Launching Applications.
+        /// See Extending Shortcut Menus for further discussion of shortcut menus.
+        /// The following verbs are commonly used.
+        /// </para>
+        /// <para>
+        /// <c>edit</c>
+        /// </para>
+        /// <para>
+        /// Launches an editor and opens the document for editing.
+        /// If <paramref name="lpFile"/> is not a document file, the function will fail.
+        /// </para>
+        /// <para>
+        /// <c>explore</c>
+        /// </para>
+        /// <para>
+        /// Explores the folder specified by <paramref name="lpFile"/>.
+        /// </para>
+        /// <para>
+        /// <c>find</c>
+        /// </para>
+        /// <para>
+        /// Initiates a search starting from the specified directory.
+        /// </para>
+        /// <para>
+        /// <c>open</c>
+        /// </para>
+        /// <para>
+        /// Opens the file specified by the <paramref name="lpFile"/> parameter.
+        /// The file can be an executable file, a document file, or a folder.
+        /// </para>
+        /// <para>
+        /// <c>print</c>
+        /// </para>
+        /// <para>
+        /// Prints the document file specified by <paramref name="lpFile"/>.
+        /// If <paramref name="lpFile"/> is not a document file, the function will fail.
+        /// </para>
+        /// <para>
+        /// <see cref="NULL"/>
+        /// </para>
+        /// <para>
+        /// For systems prior to Windows 2000, the default verb is used if it is valid and available in the registry.
+        /// If not, the "open" verb is used.
+        /// </para>
+        /// <para>
+        /// For Windows 2000 and later systems, the default verb is used if available.
+        /// If not, the "open" verb is used.
+        /// If neither verb is available, the system uses the first verb listed in the registry.
+        /// </para>
+        /// </param>
+        /// <param name="lpFile">
+        /// A pointer to a null-terminated string that specifies the file or object on which to execute the specified verb.
+        /// To specify a Shell namespace object, pass the fully qualified parse name.
+        /// Note that not all verbs are supported on all objects.
+        /// For example, not all document types support the "print" verb.
+        /// </param>
+        /// <param name="lpParameters">
+        /// If the <paramref name="lpFile"/> parameter specifies an executable file,
+        /// <paramref name="lpParameters"/> is a pointer to a null-terminated string that specifies the parameters to be passed to the application.
+        /// The format of this string is determined by the verb that is to be invoked.
+        /// If <paramref name="lpFile"/> specifies a document file, <paramref name="lpParameters"/> should be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="lpDirectory">
+        /// A pointer to a null-terminated string that specifies the default directory.
+        /// </param>
+        /// <param name="nShowCmd">
+        /// The flags that specify how an application is to be displayed when it is opened.
+        /// If <paramref name="lpFile"/> specifies a document file, the flag is simply passed to the associated application.
+        /// It is up to the application to decide how to handle it.
+        /// It can be any of the values that can be specified in the <c>nCmdShow</c> parameter for the <see cref="ShowWindow"/> function.
+        /// </param>
+        /// <param name="lpfnCBWinExec">
+        /// Callback function used to call <see cref="CreateProcess"/> in the 16-bit kernel.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// Returns a value greater than 32 if successful, or an error value that is less than or equal to 32 otherwise.
+        /// The following table lists the error values.
+        /// The return value is cast as an <see cref="HINSTANCE"/> for backward compatibility with 16-bit Windows applications.
+        /// It is not a true <see cref="HINSTANCE"/>, however.
+        /// The only thing that can be done with the returned <see cref="HINSTANCE"/> is to cast it to an <see cref="int"/>
+        /// and compare it with the value 32 or one of the error codes below.
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// 0
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The operating system is out of memory or resources.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_FILE_NOT_FOUND"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The specified file was not found.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_PATH_NOT_FOUND"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The specified path was not found.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="ERROR_BAD_FORMAT"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The .exe file is invalid (non-Win32 .exe or error in .exe image).
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SE_ERR_ACCESSDENIED"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The operating system denied access to the specified file.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SE_ERR_ASSOCINCOMPLETE"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The file name association is incomplete or invalid.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SE_ERR_DDEBUSY"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The DDE transaction could not be completed because other DDE transactions were being processed.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SE_ERR_DDEFAIL"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The DDE transaction failed.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SE_ERR_DDETIMEOUT"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The DDE transaction could not be completed because the request timed out.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SE_ERR_DLLNOTFOUND"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The specified DLL was not found.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SE_ERR_FNF"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The specified file was not found.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SE_ERR_NOASSOC"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// There is no application associated with the given file name extension.
+        /// This error will also be returned if you attempt to print a file that is not printable.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SE_ERR_OOM"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// There was not enough memory to complete the operation.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SE_ERR_PNF"/>
+        /// </term>
+        /// <term>
+        /// <para>
+        /// The specified path was not found.
+        /// </para>
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="SE_ERR_SHARE"/>
+        /// </term>
+        /// <term>
+        /// A sharing violation occurred.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// <see cref="WOWShellExecute"/> is not included in a header or .lib file.
+        /// It is exported from Shell32.dll by name.
+        /// </para>
+        /// <para>
+        /// This method allows you to execute any commands in a folder's shortcut menu or stored in the registry.
+        /// </para>
+        /// <para>
+        /// If <paramref name="lpOperation"/> is <see cref="NULL"/>, the function opens the file specified by <paramref name="lpFile"/>.
+        /// If <paramref name="lpOperation"/> is "open" or "explore", the function attempts to open or explore the folder.
+        /// </para>
+        /// <para>
+        /// To obtain information about the application that is launched as a result of calling <see cref="WOWShellExecute"/>, use <see cref="ShellExecuteEx"/>.
+        /// </para>
+        /// <para>
+        ///  Note
+        /// </para>
+        /// <para>
+        /// The Launch folder windows in a separate process setting in Folder Options affects <see cref="WOWShellExecute"/>.
+        /// If that option is disabled (the default setting), <see cref="WOWShellExecute"/> uses an open Explorer window rather than launch a new one.
+        /// If no Explorer window is open, <see cref="WOWShellExecute"/> launches a new one.
+        /// </para>
+        /// </remarks>
+        [Obsolete("This function is available through Windows XP with Service Pack 2 (SP2) and Windows Server 2003. " +
+            "It might be altered or unavailable in subsequent versions of Windows.")]
+        [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "WOWShellExecute", ExactSpelling = true)]
+        public static extern HINSTANCE WOWShellExecute([In] HWND hwnd, [In] LPCSTR lpOperation, [In] LPCSTR lpFile, [In] LPCSTR lpParameters,
+            [In] LPCSTR lpDirectory, [In] ShowWindowCommands nShowCmd, [In] nint lpfnCBWinExec);
     }
 }

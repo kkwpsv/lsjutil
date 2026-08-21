@@ -470,6 +470,72 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the base name of the specified module.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/psapi/nf-psapi-getmodulebasenamew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// <para>
+        /// A handle to the process that contains the module.
+        /// </para>
+        /// <para>
+        /// The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> and <see cref="PROCESS_VM_READ"/> access rights.
+        /// For more information, see Process Security and Access Rights.
+        /// </para>
+        /// </param>
+        /// <param name="hModule">
+        /// A handle to the module.
+        /// If this parameter is <see cref="NULL"/>, this function returns the name of the file used to create the calling process.
+        /// </param>
+        /// <param name="lpBaseName">
+        /// A pointer to the buffer that receives the base name of the module.
+        /// If the base name is longer than maximum number of characters specified by the <paramref name="nSize"/> parameter, the base name is truncated.
+        /// </param>
+        /// <param name="nSize">
+        /// The size of the <paramref name="lpBaseName"/> buffer, in characters.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value specifies the length of the string copied to the buffer, in characters.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero. To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The <see cref="GetModuleBaseName"/> function is primarily designed for use by debuggers
+        /// and similar applications that must extract module information from another process.
+        /// If the module list in the target process is corrupted or is not yet initialized,
+        /// or if the module list changes during the function call as a result of DLLs being loaded or unloaded,
+        /// <see cref="GetModuleBaseName"/> may fail or return incorrect information.
+        /// </para>
+        /// <para>
+        /// To retrieve the base name of a module in the current process,
+        /// use the <see cref="GetModuleFileName"/> function to retrieve the full module name
+        /// and then use a function call such as <c>strrchr(szmodulename, '\')</c> to scan to the beginning of the base name within the module name string.
+        /// This is more efficient and more reliable than calling <see cref="GetModuleBaseName"/> with a handle to the current process.
+        /// </para>
+        /// <para>
+        /// To retrieve the base name of the main executable module for a remote process,
+        /// use the <see cref="GetProcessImageFileName"/> or <see cref="QueryFullProcessImageName"/> function
+        /// to retrieve the module name and then use the <c>strrchr</c> function as described in the previous paragraph.
+        /// This is more efficient and more reliable than calling <see cref="GetModuleBaseName"/> with a NULL module handle.
+        /// </para>
+        /// <para>
+        /// The <see cref="GetModuleBaseName"/> function does not retrieve the base name for modules
+        /// that were loaded with the <see cref="LOAD_LIBRARY_AS_DATAFILE"/> flag.
+        /// For more information, see <see cref="LoadLibraryEx"/>.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "K32GetModuleBaseNameW", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetModuleBaseName([In] HANDLE hProcess, [In] HMODULE hModule, [In] LPWSTR lpBaseName, [In] DWORD nSize);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the fully qualified path for the file that contains the specified module.
         /// The module must have been loaded by the current process.
         /// </para>
@@ -793,6 +859,55 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetModuleHandleExW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetModuleHandleEx([In] GetModuleHandleExFlags dwFlags, [In] LPWSTR lpModuleName, [Out] out HMODULE phModule);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the specified module in the <see cref="MODULEINFO"/> structure.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/psapi/nf-psapi-getmoduleinformation"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// <para>
+        /// A handle to the process that contains the module.
+        /// </para>
+        /// <para>
+        /// The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> and <see cref="PROCESS_VM_READ"/> access rights.
+        /// For more information, see Process Security and Access Rights.
+        /// </para>
+        /// </param>
+        /// <param name="hModule">
+        /// A handle to the module.
+        /// </param>
+        /// <param name="lpmodinfo">
+        /// A pointer to the <see cref="MODULEINFO"/> structure that receives information about the module.
+        /// </param>
+        /// <param name="cb">
+        /// The size of the <see cref="MODULEINFO"/> structure, in bytes.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// To get information for the calling process, pass the handle returned by <see cref="GetCurrentProcess"/>.
+        /// </para>
+        /// <para>
+        /// The <see cref="GetModuleInformation"/> function does not retrieve information for modules
+        /// that were loaded with the <see cref="LOAD_LIBRARY_AS_DATAFILE"/> flag.
+        /// For more information, see <see cref="LoadLibraryEx"/>.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "K32GetModuleInformation", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetModuleInformation([In] HANDLE hProcess, [In] HMODULE hModule, [Out] out MODULEINFO lpmodinfo, [In] DWORD cb);
 
         /// <summary>
         /// <para>

@@ -2,6 +2,7 @@
 using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
+using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Advapi32;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
@@ -9,6 +10,8 @@ using static Lsj.Util.Win32.BaseTypes.HKEY;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.FormatMessageFlags;
 using static Lsj.Util.Win32.Enums.OSFeatures;
+using static Lsj.Util.Win32.Enums.PlatformIds;
+using static Lsj.Util.Win32.Enums.SuiteMasks;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Kernel32;
 
@@ -627,5 +630,157 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Shlwapi.dll", CharSet = CharSet.Unicode, EntryPoint = "SHDeleteKeyW", ExactSpelling = true)]
         public static extern LSTATUS SHDeleteKey([In] HKEY hkey, [In] LPCWSTR pszSubKey);
+
+        /// <summary>
+        /// <para>
+        /// Searches a string for the first occurrence of a character that matches the specified character.
+        /// The comparison is not case-sensitive.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shlwapi/nf-shlwapi-strchriw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pszStart">
+        /// A pointer to the string to be searched.
+        /// </param>
+        /// <param name="wMatch">
+        /// The character to be used for comparison.
+        /// </param>
+        /// <returns>
+        /// Returns the address of the first occurrence of the character in the string if successful, or <see cref="NULL"/> otherwise.
+        /// </returns>
+        /// <remarks>
+        /// The comparison assumes <paramref name="pszStart"/> points to the start of a null-terminated string.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("Shlwapi.dll", CharSet = CharSet.Unicode, EntryPoint = "StrChrIW", ExactSpelling = true)]
+        public static extern LPCWSTR StrChrI([In] LPCWSTR pszStart, [In] WCHAR wMatch);
+
+        /// <summary>
+        /// <para>
+        /// Searches a string for the first occurrence of a character that matches the specified character.
+        /// The comparison is case-sensitive.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shlwapi/nf-shlwapi-strchrw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pszStart">
+        /// The address of the string to be searched.
+        /// </param>
+        /// <param name="wMatch">
+        /// The character to be used for comparison.
+        /// </param>
+        /// <returns>
+        /// Returns the address of the first occurrence of the character in the string if successful, or <see cref="NULL"/> otherwise.
+        /// </returns>
+        /// <remarks>
+        /// The comparison assumes <paramref name="pszStart"/> points to the start of a null-terminated string.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("Shlwapi.dll", CharSet = CharSet.Unicode, EntryPoint = "StrChrW", ExactSpelling = true)]
+        public static extern LPCWSTR StrChr([In] LPCWSTR pszStart, [In] WCHAR wMatch);
+
+        /// <summary>
+        /// <para>
+        /// Compares a specified number of characters from the beginning of two strings to determine if they are the same.
+        /// The comparison is not case-sensitive.
+        /// The <see cref="StrNCmpI"/> macro differs from this function in name only.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shlwapi/nf-shlwapi-strcmpniw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="psz1">
+        /// A pointer to the first null-terminated string to be compared.
+        /// </param>
+        /// <param name="psz2">
+        /// A pointer to the second null-terminated string to be compared.
+        /// </param>
+        /// <param name="nChar">
+        /// The number of characters from the beginning of each string to be compared.
+        /// </param>
+        /// <remarks>
+        /// Returns zero if the strings are identical.
+        /// Returns a positive value if the first <paramref name="nChar"/> characters of the string
+        /// pointed to by <paramref name="psz1"/> are greater than those from the string pointed to by <paramref name="psz2"/>.
+        /// It returns a negative value if the first <paramref name="nChar"/> characters of the string
+        /// pointed to by <paramref name="psz1"/> are less than those from the string pointed to by <paramref name="psz2"/>.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("Shlwapi.dll", CharSet = CharSet.Unicode, EntryPoint = "StrCmpNIW", ExactSpelling = true)]
+        public static extern int StrCmpNI([In] LPCWSTR psz1, [In] LPCWSTR psz2, [In] int nChar);
+
+        /// <summary>
+        /// <para>
+        /// Compares a specified number of characters from the beginning of two strings to determine if they are the same.
+        /// The comparison is case-sensitive.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shlwapi/nf-shlwapi-strcmpnw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="psz1">
+        /// A pointer to the first null-terminated string to be compared.
+        /// </param>
+        /// <param name="psz2">
+        /// A pointer to the second null-terminated string to be compared.
+        /// </param>
+        /// <param name="nChar">
+        /// The number of characters from the beginning of each string to be compared.
+        /// </param>
+        /// <remarks>
+        /// Returns zero if the strings are identical.
+        /// Returns a positive value if the first <paramref name="nChar"/> characters of the string
+        /// pointed to by <paramref name="psz1"/> are greater than those from the string pointed to by <paramref name="psz2"/>.
+        /// It returns a negative value if the first <paramref name="nChar"/> characters of the string
+        /// pointed to by <paramref name="psz1"/> are less than those from the string pointed to by <paramref name="psz2"/>.
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("Shlwapi.dll", CharSet = CharSet.Unicode, EntryPoint = "StrCmpNW", ExactSpelling = true)]
+        public static extern int StrCmpN([In] LPCWSTR psz1, [In] LPCWSTR psz2, [In] int nChar);
+
+        /// <summary>
+        /// <para>
+        /// Copies a specified number of characters from the beginning of one string to another.
+        /// </para>
+        /// <para>
+        /// Note
+        /// </para>
+        /// <para>
+        /// Do not use this function or the <see cref="StrNCpy"/> macro.
+        /// See Remarks for alternative functions.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/shlwapi/nf-shlwapi-strcpynw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pszDst">
+        /// A pointer to a buffer that, when this function returns successfully, receives the copied string.
+        /// This buffer must be of sufficient size to hold the copied characters.
+        /// This string is not guaranteed to be null-terminated.
+        /// </param>
+        /// <param name="pszSrc">
+        /// A pointer to the null-terminated source string.
+        /// </param>
+        /// <param name="cchMax">
+        /// The number of characters to be copied, including the terminating null character.
+        /// </param>
+        /// <returns>
+        /// Returns a pointer to <paramref name="pszDst"/>.
+        /// </returns>
+        /// <remarks>
+        /// Security Warning:
+        /// Using this function incorrectly can compromise the security of your application.
+        /// The copied string is not guaranteed to be null-terminated.
+        /// Consider using one of the following alternatives.
+        /// <see cref="StringCbCopy"/>, <see cref="StringCbCopyEx"/>, <see cref="StringCbCopyN"/>, <see cref="StringCbCopyNEx"/>,
+        /// <see cref="StringCchCopy"/>, <see cref="StringCchCopyEx"/>, <see cref="StringCchCopyN"/>, <see cref="StringCchCopyNEx"/>.
+        /// You should review Security Considerations: Microsoft Windows Shell before continuing.
+        /// </remarks>
+        [Obsolete("Do not use this function or the StrNCpy macro. See Remarks for alternative functions.")]
+        [WindowsVersionRequirement(WindowsVersion.Windows2000)]
+        [DllImport("Shlwapi.dll", CharSet = CharSet.Unicode, EntryPoint = "StrCpyNW", ExactSpelling = true)]
+        public static extern nint StrCpyN([In] LPWSTR pszDst, [In] LPCWSTR pszSrc, [In] int cchMax);
     }
 }

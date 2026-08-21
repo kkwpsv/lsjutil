@@ -3,13 +3,14 @@ using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
-using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Advapi32;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.ULONG;
 using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.FileCompletionNotificationModes;
+using static Lsj.Util.Win32.Enums.NTSTATUS;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.ThreadPoolCallbackPriorities;
 using static Lsj.Util.Win32.Enums.WorkThreadFlags;
@@ -1677,6 +1678,34 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the stack reserve and commit sizes for threads in the specified thread pool.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-querythreadpoolstackinformation"/>
+        /// </para>
+        /// </summary>
+        /// <param name="ptpp">
+        /// A pointer to a <c>TP_POOL</c> structure that specifies the thread pool.
+        /// The <see cref="CreateThreadpool"/> function returns this pointer.
+        /// </param>
+        /// <param name="ptpsi">
+        /// A pointer to a <see cref="TP_POOL_STACK_INFORMATION"/> structure that receives the stack reserve and commit size.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryThreadpoolStackInformation", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL QueryThreadpoolStackInformation([In] PTP_POOL ptpp, [Out] out TP_POOL_STACK_INFORMATION ptpsi);
+
+        /// <summary>
+        /// <para>
         /// Queues a work item to a worker thread in the thread pool.
         /// </para>
         /// <para>
@@ -2036,6 +2065,36 @@ namespace Lsj.Util.Win32
         {
             pcbe.u.Flags |= 0xF000;
         }
+
+        /// <summary>
+        /// <para>
+        /// Sets the stack reserve and commit sizes for new threads in the specified thread pool.
+        /// Stack reserve and commit sizes for existing threads are not changed.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-setthreadpoolstackinformation"/>
+        /// </para>
+        /// </summary>
+        /// <param name="ptpp">
+        /// A pointer to a <c>TP_POOL</c> structure that specifies the thread pool.
+        /// The <see cref="CreateThreadpool"/> function returns this pointer.
+        /// </param>
+        /// <param name="ptpsi">
+        /// A pointer to a <see cref="TP_POOL_STACK_INFORMATION"/> structure
+        /// that specifies the stack reserve and commit size for threads in the pool.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadpoolStackInformation", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetThreadpoolStackInformation([In] PTP_POOL ptpp, [In] in TP_POOL_STACK_INFORMATION ptpsi);
 
         /// <summary>
         /// <para>

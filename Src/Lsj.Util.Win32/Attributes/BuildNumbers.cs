@@ -60,7 +60,7 @@ namespace Lsj.Util.Win32.Attributes
 
         public const int Windows11_22H2 = 22621;
 
-        public const int Windows11_23H2 = 22361;
+        public const int Windows11_23H2 = 22631;
 
         public const int Windows11_24H2 = 26100;
 

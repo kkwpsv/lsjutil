@@ -159,7 +159,7 @@ namespace Lsj.Util.Win32
         /// </list>
         /// </para>
         /// </remarks>
-        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1607)]
+        [WindowsVersionRequirement(WindowsVersion.Windows10, BuildNumbers.Windows10_1709)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsWow64Process2", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsWow64Process2([In] HANDLE hProcess, [Out] out USHORT pProcessMachine, [Out] out USHORT pNativeMachine);
 
@@ -452,6 +452,52 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Wow64GetThreadContext", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Wow64GetThreadContext([In] HANDLE hThread, [In][Out] ref WOW64_CONTEXT lpContext);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a descriptor table entry for the specified selector and WOW64 thread.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-wow64getthreadselectorentry"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hThread">
+        /// A handle to the thread containing the specified selector.
+        /// The handle must have been created with <see cref="THREAD_QUERY_INFORMATION"/> access to the thread.
+        /// For more information, see Thread Security and Access Rights.
+        /// </param>
+        /// <param name="dwSelector">
+        /// The global or local selector value to look up in the thread's descriptor tables.
+        /// </param>
+        /// <param name="lpSelectorEntry">
+        /// A pointer to a <see cref="WOW64_LDT_ENTRY"/> structure that receives a copy of the descriptor table entry
+        /// if the specified selector has an entry in the specified thread's descriptor table.
+        /// This information can be used to convert a segment-relative address to a linear virtual address.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// In that case, the structure pointed to by the <paramref name="lpSelectorEntry"/> parameter receives a copy of the specified descriptor table entry.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The <see cref="Wow64GetThreadSelectorEntry"/> function is functional only on 64-bit systems and can be called only by 64-bit processes.
+        /// If this function is called by a 32-bit process, the function fails with <see cref="ERROR_NOT_SUPPORTED"/>.
+        /// A 32-bit process should use the <see cref="GetThreadSelectorEntry"/> function instead.
+        /// </para>
+        /// <para>
+        /// Debuggers use this function to convert segment-relative addresses to linear virtual addresses.
+        /// The <see cref="ReadProcessMemory"/> and <see cref="WriteProcessMemory"/> functions use linear virtual addresses.
+        /// </para>
+        /// </remarks>
+        [WindowsVersionRequirement(WindowsVersion.Windows7)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Wow64GetThreadSelectorEntry", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL Wow64GetThreadSelectorEntry([In] HANDLE hThread, [In] DWORD dwSelector, [Out] out WOW64_LDT_ENTRY lpSelectorEntry);
 
         /// <summary>
         /// <para>

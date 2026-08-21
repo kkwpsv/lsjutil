@@ -104,6 +104,7 @@ namespace Lsj.Util.Tests.Win32
             "SetNamedSecurityInfo",
             "SetSecurityInfo",
             "SetupDiGetDeviceRegistryProperty",
+            "SHGetDataFromIDList",
             "StgOpenStorage",
             "WriteClassStg",
         };
@@ -114,18 +115,19 @@ namespace Lsj.Util.Tests.Win32
         {
             var apis = ReadFromFiles();
             var toCheckApis = apis.Where(x =>
-                (x.Value.DllName == "user32" && x.Value.Version <= WindowsVersion.Windows10 && x.Value.BuildNumber <= BuildNumbers.Windows10_22H2) ||
-                (x.Value.DllName == "kernel32" && x.Value.Version <= WindowsVersion.WindowsVista && x.Value.BuildNumber <= BuildNumbers.WindowsVistaSP1) ||
-                (x.Value.DllName == "advapi32" && x.Value.Version <= WindowsVersion.Windows2000) ||
-                (x.Value.DllName == "gdi32" && x.Value.Version <= WindowsVersion.Windows7))
-                .Where(x => !x.Key.EndsWith("A") && !_skipApiList.Contains(x.Key) && !_notImplemntApiList.Contains(x.Key))
+                (x.Key.DllName == "user32" && x.Value.Version <= WindowsVersion.Windows11 && x.Value.BuildNumber <= BuildNumbers.Windows11_24H2) ||
+                (x.Key.DllName == "kernel32" && x.Value.Version <= WindowsVersion.Windows7 && x.Value.BuildNumber <= BuildNumbers.Windows7) ||
+                (x.Key.DllName == "advapi32" && x.Value.Version <= WindowsVersion.Windows2000) ||
+                (x.Key.DllName == "gdi32" && x.Value.Version <= WindowsVersion.Windows7) ||
+                (x.Key.DllName == "shell32" && x.Value.Version <= WindowsVersion.WindowsNT40))
+                .Where(x => !x.Key.Api.EndsWith("A") && !_skipApiList.Contains(x.Key) && !_notImplemntApiList.Contains(x.Key.Api))
                 .Select(x => x.Key).ToHashSet();
             var methods = typeof(Lsj.Util.Win32.Kernel32).Assembly.GetTypes().SelectMany(t => t.GetMethods()).Where(m => m.IsStatic && m.GetCustomAttribute<DllImportAttribute>() != null);
             var methodsToEntryPoints = methods.Select(m => (Method: m, Attribute: m.GetCustomAttribute<DllImportAttribute>()!)).OrderBy(x => x.Attribute.Value).ThenBy(x => x.Attribute.EntryPoint).ToList();
             var wrongEntrypoints = new List<(MethodInfo Method, DllImportAttribute Attribute)>();
             var missingWindowsVersionRequirementMethods = new List<MethodInfo>();
             var missingAPIDataMethods = new List<MethodInfo>();
-            var wrongWindowsVersionRequirementMethods = new List<(MethodInfo Method, (WindowsVersion Version, int BuildNumber, string? Note, string DllName))>();
+            var wrongWindowsVersionRequirementMethods = new List<(MethodInfo Method, (WindowsVersion Version, int BuildNumber, string? Note))>();
             var hasMarshalAsAttributeMethods = new List<MethodInfo>();
             var hasStringParameterMethods = new List<MethodInfo>();
             var hasObjectParameterMethods = new List<MethodInfo>();
@@ -134,7 +136,8 @@ namespace Lsj.Util.Tests.Win32
             foreach (var item in methodsToEntryPoints)
             {
                 var entryPoint = item.Attribute.EntryPoint;
-                toCheckApis.Remove(entryPoint!);
+                var apiKey = (Api: entryPoint!, DllName: Path.GetFileNameWithoutExtension(item.Attribute.Value).ToLowerInvariant());
+                toCheckApis.Remove(apiKey);
                 if (item.Method.Name == entryPoint || item.Method.Name + "W" == entryPoint ||
                     "K32" + item.Method.Name == entryPoint || "K32" + item.Method.Name + "W" == entryPoint)
                 {
@@ -160,7 +163,7 @@ namespace Lsj.Util.Tests.Win32
                     wrongEntrypoints.Add(item);
                 }
 
-                if (apis.TryGetValue(entryPoint!, out var version))
+                if (apis.TryGetValue(apiKey, out var version))
                 {
                     var attribute = item.Method.GetCustomAttribute<WindowsVersionRequirementAttribute>();
                     if (attribute == null || attribute.Version != version.Version || attribute.BuildNumber != version.BuildNumber ||
@@ -224,7 +227,7 @@ namespace Lsj.Util.Tests.Win32
             fails.AddRange(hasObjectParameterMethods.Select(item => $"{item.DeclaringType!.Name} {item.Name} has object parameter."));
             fails.AddRange(hasRawComInterfaceParameterMethods.Select(item => $"{item.DeclaringType!.Name} {item.Name} has raw COM interface parameter."));
             fails.AddRange(hasGenericTypeParameterMethods.Select(item => $"{item.DeclaringType!.Name} {item.Name} has generic type parameter."));
-            fails.AddRange(toCheckApis.Select(item => $"{item} missing in methods."));
+            fails.AddRange(toCheckApis.Select(item => $"{item.DllName} {item.Api} missing in methods."));
 
             if (fails.Any())
             {
@@ -359,9 +362,9 @@ namespace Lsj.Util.Tests.Win32
             }
         }
 
-        private Dictionary<string, (WindowsVersion Version, int BuildNumber, string? Note, string DllName)> ReadFromFiles()
+        private Dictionary<(string Api, string DllName), (WindowsVersion Version, int BuildNumber, string? Note)> ReadFromFiles()
         {
-            var result = new Dictionary<string, (WindowsVersion version, int buildNumber, string? note, string dllName)>();
+            var result = new Dictionary<(string Api, string DllName), (WindowsVersion Version, int BuildNumber, string? Note)>();
             var dataDir = GetDataDir();
             var apiDir = Path.Combine(dataDir, "apis");
             foreach (var file in new DirectoryInfo(Path.Combine(apiDir, "NT40")).EnumerateFiles())
@@ -369,9 +372,10 @@ namespace Lsj.Util.Tests.Win32
                 var lines = File.ReadAllLines(file.FullName);
                 foreach (var line in lines)
                 {
-                    if (!result.ContainsKey(line))
+                    var key = (Api: line, DllName: Path.GetFileNameWithoutExtension(file.Name).ToLowerInvariant());
+                    if (!result.ContainsKey(key) && line != string.Empty)
                     {
-                        result[line] = (WindowsVersion.WindowsNT40, BuildNumbers.WindowsNT4_0, null, Path.GetFileNameWithoutExtension(file.Name));
+                        result[key] = (WindowsVersion.WindowsNT40, BuildNumbers.WindowsNT4_0, null);
                     }
                 }
             }
@@ -381,9 +385,10 @@ namespace Lsj.Util.Tests.Win32
                 var lines = File.ReadAllLines(file.FullName);
                 foreach (var line in lines)
                 {
-                    if (!result.ContainsKey(line))
+                    var key = (Api: line, DllName: Path.GetFileNameWithoutExtension(file.Name).ToLowerInvariant());
+                    if (!result.ContainsKey(key) && line != string.Empty)
                     {
-                        result[line] = (WindowsVersion.Windows2000, BuildNumbers.Windows2000, null, Path.GetFileNameWithoutExtension(file.Name));
+                        result[key] = (WindowsVersion.Windows2000, BuildNumbers.Windows2000, null);
                     }
                 }
             }
@@ -393,9 +398,10 @@ namespace Lsj.Util.Tests.Win32
                 var lines = File.ReadAllLines(file.FullName);
                 foreach (var line in lines)
                 {
-                    if (!result.ContainsKey(line))
+                    var key = (Api: line, DllName: Path.GetFileNameWithoutExtension(file.Name).ToLowerInvariant());
+                    if (!result.ContainsKey(key) && line != string.Empty)
                     {
-                        result[line] = (WindowsVersion.WindowsXP, BuildNumbers.WindowsXP, null, Path.GetFileNameWithoutExtension(file.Name));
+                        result[key] = (WindowsVersion.WindowsXP, BuildNumbers.WindowsXP, null);
                     }
                 }
             }
@@ -405,9 +411,10 @@ namespace Lsj.Util.Tests.Win32
                 var lines = File.ReadAllLines(file.FullName);
                 foreach (var line in lines)
                 {
-                    if (!result.ContainsKey(line))
+                    var key = (Api: line, DllName: Path.GetFileNameWithoutExtension(file.Name).ToLowerInvariant());
+                    if (!result.ContainsKey(key) && line != string.Empty)
                     {
-                        result[line] = (WindowsVersion.WindowsXP, BuildNumbers.WindowsXP, "SP1", Path.GetFileNameWithoutExtension(file.Name));
+                        result[key] = (WindowsVersion.WindowsXP, BuildNumbers.WindowsXP, "SP1");
                     }
                 }
             }
@@ -417,9 +424,10 @@ namespace Lsj.Util.Tests.Win32
                 var lines = File.ReadAllLines(file.FullName);
                 foreach (var line in lines)
                 {
-                    if (!result.ContainsKey(line))
+                    var key = (Api: line, DllName: Path.GetFileNameWithoutExtension(file.Name).ToLowerInvariant());
+                    if (!result.ContainsKey(key) && line != string.Empty)
                     {
-                        result[line] = (WindowsVersion.WindowsXP, BuildNumbers.WindowsXP, "SP2", Path.GetFileNameWithoutExtension(file.Name));
+                        result[key] = (WindowsVersion.WindowsXP, BuildNumbers.WindowsXP, "SP2");
                     }
                 }
             }
@@ -429,9 +437,10 @@ namespace Lsj.Util.Tests.Win32
                 var lines = File.ReadAllLines(file.FullName);
                 foreach (var line in lines)
                 {
-                    if (!result.ContainsKey(line))
+                    var key = (Api: line, DllName: Path.GetFileNameWithoutExtension(file.Name).ToLowerInvariant());
+                    if (!result.ContainsKey(key) && line != string.Empty)
                     {
-                        result[line] = (WindowsVersion.WindowsXP, BuildNumbers.WindowsXP, "SP3", Path.GetFileNameWithoutExtension(file.Name));
+                        result[key] = (WindowsVersion.WindowsXP, BuildNumbers.WindowsXP, "SP3");
                     }
                 }
             }
@@ -441,9 +450,10 @@ namespace Lsj.Util.Tests.Win32
                 var lines = File.ReadAllLines(file.FullName);
                 foreach (var line in lines)
                 {
-                    if (!result.ContainsKey(line))
+                    var key = (Api: line, DllName: Path.GetFileNameWithoutExtension(file.Name).ToLowerInvariant());
+                    if (!result.ContainsKey(key) && line != string.Empty)
                     {
-                        result[line] = (WindowsVersion.WindowsXP, BuildNumbers.WindowsXP, "KB959426", Path.GetFileNameWithoutExtension(file.Name));
+                        result[key] = (WindowsVersion.WindowsXP, BuildNumbers.WindowsXP, "KB959426");
                     }
                 }
             }
@@ -453,9 +463,10 @@ namespace Lsj.Util.Tests.Win32
                 var lines = File.ReadAllLines(file.FullName);
                 foreach (var line in lines)
                 {
-                    if (!result.ContainsKey(line))
+                    var key = (Api: line, DllName: Path.GetFileNameWithoutExtension(file.Name).ToLowerInvariant());
+                    if (!result.ContainsKey(key) && line != string.Empty)
                     {
-                        result[line] = (WindowsVersion.WindowsVista, BuildNumbers.WindowsVista, null, Path.GetFileNameWithoutExtension(file.Name));
+                        result[key] = (WindowsVersion.WindowsVista, BuildNumbers.WindowsVista, null);
                     }
                 }
             }
@@ -465,9 +476,10 @@ namespace Lsj.Util.Tests.Win32
                 var lines = File.ReadAllLines(file.FullName);
                 foreach (var line in lines)
                 {
-                    if (!result.ContainsKey(line))
+                    var key = (Api: line, DllName: Path.GetFileNameWithoutExtension(file.Name).ToLowerInvariant());
+                    if (!result.ContainsKey(key) && line != string.Empty)
                     {
-                        result[line] = (WindowsVersion.WindowsVista, BuildNumbers.WindowsVistaSP1, null, Path.GetFileNameWithoutExtension(file.Name));
+                        result[key] = (WindowsVersion.WindowsVista, BuildNumbers.WindowsVistaSP1, null);
                     }
                 }
             }
@@ -477,9 +489,10 @@ namespace Lsj.Util.Tests.Win32
                 var lines = File.ReadAllLines(file.FullName);
                 foreach (var line in lines)
                 {
-                    if (!result.ContainsKey(line))
+                    var key = (Api: line, DllName: Path.GetFileNameWithoutExtension(file.Name).ToLowerInvariant());
+                    if (!result.ContainsKey(key) && line != string.Empty)
                     {
-                        result[line] = (WindowsVersion.WindowsVista, BuildNumbers.WindowsVistaSP1, "KB2533623", Path.GetFileNameWithoutExtension(file.Name));
+                        result[key] = (WindowsVersion.WindowsVista, BuildNumbers.WindowsVistaSP1, "KB2533623");
                     }
                 }
             }
@@ -489,9 +502,10 @@ namespace Lsj.Util.Tests.Win32
                 var lines = File.ReadAllLines(file.FullName);
                 foreach (var line in lines)
                 {
-                    if (!result.ContainsKey(line))
+                    var key = (Api: line, DllName: Path.GetFileNameWithoutExtension(file.Name).ToLowerInvariant());
+                    if (!result.ContainsKey(key) && line != string.Empty)
                     {
-                        result[line] = (WindowsVersion.WindowsVista, BuildNumbers.WindowsVistaSP2, "Platform Update Supplement", Path.GetFileNameWithoutExtension(file.Name));
+                        result[key] = (WindowsVersion.WindowsVista, BuildNumbers.WindowsVistaSP2, "Platform Update Supplement");
                     }
                 }
             }
@@ -501,9 +515,10 @@ namespace Lsj.Util.Tests.Win32
                 var lines = File.ReadAllLines(file.FullName);
                 foreach (var line in lines)
                 {
-                    if (!result.ContainsKey(line))
+                    var key = (Api: line, DllName: Path.GetFileNameWithoutExtension(file.Name).ToLowerInvariant());
+                    if (!result.ContainsKey(key) && line != string.Empty)
                     {
-                        result[line] = (WindowsVersion.Windows7, BuildNumbers.Windows7, null, Path.GetFileNameWithoutExtension(file.Name));
+                        result[key] = (WindowsVersion.Windows7, BuildNumbers.Windows7, null);
                     }
                 }
             }
@@ -513,9 +528,10 @@ namespace Lsj.Util.Tests.Win32
                 var lines = File.ReadAllLines(file.FullName);
                 foreach (var line in lines)
                 {
-                    if (!result.ContainsKey(line))
+                    var key = (Api: line, DllName: Path.GetFileNameWithoutExtension(file.Name).ToLowerInvariant());
+                    if (!result.ContainsKey(key) && line != string.Empty)
                     {
-                        result[line] = (WindowsVersion.Windows8, BuildNumbers.Windows8, null, Path.GetFileNameWithoutExtension(file.Name));
+                        result[key] = (WindowsVersion.Windows8, BuildNumbers.Windows8, null);
                     }
                 }
             }
@@ -525,9 +541,10 @@ namespace Lsj.Util.Tests.Win32
                 var lines = File.ReadAllLines(file.FullName);
                 foreach (var line in lines)
                 {
-                    if (!result.ContainsKey(line))
+                    var key = (Api: line, DllName: Path.GetFileNameWithoutExtension(file.Name).ToLowerInvariant());
+                    if (!result.ContainsKey(key) && line != string.Empty)
                     {
-                        result[line] = (WindowsVersion.Windows8_1, BuildNumbers.Windows8_1, null, Path.GetFileNameWithoutExtension(file.Name));
+                        result[key] = (WindowsVersion.Windows8_1, BuildNumbers.Windows8_1, null);
                     }
                 }
             }
@@ -537,9 +554,10 @@ namespace Lsj.Util.Tests.Win32
                 var lines = File.ReadAllLines(file.FullName);
                 foreach (var line in lines)
                 {
-                    if (!result.ContainsKey(line))
+                    var key = (Api: line, DllName: Path.GetFileNameWithoutExtension(file.Name).ToLowerInvariant());
+                    if (!result.ContainsKey(key) && line != string.Empty)
                     {
-                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1507, null, Path.GetFileNameWithoutExtension(file.Name));
+                        result[key] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1507, null);
                     }
                 }
             }
@@ -549,9 +567,10 @@ namespace Lsj.Util.Tests.Win32
                 var lines = File.ReadAllLines(file.FullName);
                 foreach (var line in lines)
                 {
-                    if (!result.ContainsKey(line))
+                    var key = (Api: line, DllName: Path.GetFileNameWithoutExtension(file.Name).ToLowerInvariant());
+                    if (!result.ContainsKey(key) && line != string.Empty)
                     {
-                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1511, null, Path.GetFileNameWithoutExtension(file.Name));
+                        result[key] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1511, null);
                     }
                 }
             }
@@ -561,9 +580,10 @@ namespace Lsj.Util.Tests.Win32
                 var lines = File.ReadAllLines(file.FullName);
                 foreach (var line in lines)
                 {
-                    if (!result.ContainsKey(line))
+                    var key = (Api: line, DllName: Path.GetFileNameWithoutExtension(file.Name).ToLowerInvariant());
+                    if (!result.ContainsKey(key) && line != string.Empty)
                     {
-                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1607, null, Path.GetFileNameWithoutExtension(file.Name));
+                        result[key] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1607, null);
                     }
                 }
             }
@@ -573,9 +593,10 @@ namespace Lsj.Util.Tests.Win32
                 var lines = File.ReadAllLines(file.FullName);
                 foreach (var line in lines)
                 {
-                    if (!result.ContainsKey(line))
+                    var key = (Api: line, DllName: Path.GetFileNameWithoutExtension(file.Name).ToLowerInvariant());
+                    if (!result.ContainsKey(key) && line != string.Empty)
                     {
-                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1703, null, Path.GetFileNameWithoutExtension(file.Name));
+                        result[key] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1703, null);
                     }
                 }
             }
@@ -585,9 +606,10 @@ namespace Lsj.Util.Tests.Win32
                 var lines = File.ReadAllLines(file.FullName);
                 foreach (var line in lines)
                 {
-                    if (!result.ContainsKey(line))
+                    var key = (Api: line, DllName: Path.GetFileNameWithoutExtension(file.Name).ToLowerInvariant());
+                    if (!result.ContainsKey(key) && line != string.Empty)
                     {
-                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1709, null, Path.GetFileNameWithoutExtension(file.Name));
+                        result[key] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1709, null);
                     }
                 }
             }
@@ -597,9 +619,10 @@ namespace Lsj.Util.Tests.Win32
                 var lines = File.ReadAllLines(file.FullName);
                 foreach (var line in lines)
                 {
-                    if (!result.ContainsKey(line))
+                    var key = (Api: line, DllName: Path.GetFileNameWithoutExtension(file.Name).ToLowerInvariant());
+                    if (!result.ContainsKey(key) && line != string.Empty)
                     {
-                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1803, null, Path.GetFileNameWithoutExtension(file.Name));
+                        result[key] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1803, null);
                     }
                 }
             }
@@ -609,9 +632,10 @@ namespace Lsj.Util.Tests.Win32
                 var lines = File.ReadAllLines(file.FullName);
                 foreach (var line in lines)
                 {
-                    if (!result.ContainsKey(line))
+                    var key = (Api: line, DllName: Path.GetFileNameWithoutExtension(file.Name).ToLowerInvariant());
+                    if (!result.ContainsKey(key) && line != string.Empty)
                     {
-                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1809, null, Path.GetFileNameWithoutExtension(file.Name));
+                        result[key] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1809, null);
                     }
                 }
             }
@@ -621,9 +645,10 @@ namespace Lsj.Util.Tests.Win32
                 var lines = File.ReadAllLines(file.FullName);
                 foreach (var line in lines)
                 {
-                    if (!result.ContainsKey(line))
+                    var key = (Api: line, DllName: Path.GetFileNameWithoutExtension(file.Name).ToLowerInvariant());
+                    if (!result.ContainsKey(key) && line != string.Empty)
                     {
-                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1903, null, Path.GetFileNameWithoutExtension(file.Name));
+                        result[key] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1903, null);
                     }
                 }
             }
@@ -633,9 +658,10 @@ namespace Lsj.Util.Tests.Win32
                 var lines = File.ReadAllLines(file.FullName);
                 foreach (var line in lines)
                 {
-                    if (!result.ContainsKey(line))
+                    var key = (Api: line, DllName: Path.GetFileNameWithoutExtension(file.Name).ToLowerInvariant());
+                    if (!result.ContainsKey(key) && line != string.Empty)
                     {
-                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1909, null, Path.GetFileNameWithoutExtension(file.Name));
+                        result[key] = (WindowsVersion.Windows10, BuildNumbers.Windows10_1909, null);
                     }
                 }
             }
@@ -645,9 +671,10 @@ namespace Lsj.Util.Tests.Win32
                 var lines = File.ReadAllLines(file.FullName);
                 foreach (var line in lines)
                 {
-                    if (!result.ContainsKey(line))
+                    var key = (Api: line, DllName: Path.GetFileNameWithoutExtension(file.Name).ToLowerInvariant());
+                    if (!result.ContainsKey(key) && line != string.Empty)
                     {
-                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_2004, null, Path.GetFileNameWithoutExtension(file.Name));
+                        result[key] = (WindowsVersion.Windows10, BuildNumbers.Windows10_2004, null);
                     }
                 }
             }
@@ -657,9 +684,10 @@ namespace Lsj.Util.Tests.Win32
                 var lines = File.ReadAllLines(file.FullName);
                 foreach (var line in lines)
                 {
-                    if (!result.ContainsKey(line))
+                    var key = (Api: line, DllName: Path.GetFileNameWithoutExtension(file.Name).ToLowerInvariant());
+                    if (!result.ContainsKey(key) && line != string.Empty)
                     {
-                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_2004, null, Path.GetFileNameWithoutExtension(file.Name));
+                        result[key] = (WindowsVersion.Windows10, BuildNumbers.Windows10_2004, null);
                     }
                 }
             }
@@ -669,9 +697,10 @@ namespace Lsj.Util.Tests.Win32
                 var lines = File.ReadAllLines(file.FullName);
                 foreach (var line in lines)
                 {
-                    if (!result.ContainsKey(line))
+                    var key = (Api: line, DllName: Path.GetFileNameWithoutExtension(file.Name).ToLowerInvariant());
+                    if (!result.ContainsKey(key) && line != string.Empty)
                     {
-                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_21H1, null, Path.GetFileNameWithoutExtension(file.Name));
+                        result[key] = (WindowsVersion.Windows10, BuildNumbers.Windows10_21H1, null);
                     }
                 }
             }
@@ -681,9 +710,10 @@ namespace Lsj.Util.Tests.Win32
                 var lines = File.ReadAllLines(file.FullName);
                 foreach (var line in lines)
                 {
-                    if (!result.ContainsKey(line))
+                    var key = (Api: line, DllName: Path.GetFileNameWithoutExtension(file.Name).ToLowerInvariant());
+                    if (!result.ContainsKey(key) && line != string.Empty)
                     {
-                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_21H2, null, Path.GetFileNameWithoutExtension(file.Name));
+                        result[key] = (WindowsVersion.Windows10, BuildNumbers.Windows10_21H2, null);
                     }
                 }
             }
@@ -693,9 +723,10 @@ namespace Lsj.Util.Tests.Win32
                 var lines = File.ReadAllLines(file.FullName);
                 foreach (var line in lines)
                 {
-                    if (!result.ContainsKey(line))
+                    var key = (Api: line, DllName: Path.GetFileNameWithoutExtension(file.Name).ToLowerInvariant());
+                    if (!result.ContainsKey(key) && line != string.Empty)
                     {
-                        result[line] = (WindowsVersion.Windows10, BuildNumbers.Windows10_22H2, null, Path.GetFileNameWithoutExtension(file.Name));
+                        result[key] = (WindowsVersion.Windows10, BuildNumbers.Windows10_22H2, null);
                     }
                 }
             }
@@ -705,9 +736,10 @@ namespace Lsj.Util.Tests.Win32
                 var lines = File.ReadAllLines(file.FullName);
                 foreach (var line in lines)
                 {
-                    if (!result.ContainsKey(line))
+                    var key = (Api: line, DllName: Path.GetFileNameWithoutExtension(file.Name).ToLowerInvariant());
+                    if (!result.ContainsKey(key) && line != string.Empty)
                     {
-                        result[line] = (WindowsVersion.Windows11, BuildNumbers.Windows11_21H2, null, Path.GetFileNameWithoutExtension(file.Name));
+                        result[key] = (WindowsVersion.Windows11, BuildNumbers.Windows11_21H2, null);
                     }
                 }
             }
@@ -717,9 +749,10 @@ namespace Lsj.Util.Tests.Win32
                 var lines = File.ReadAllLines(file.FullName);
                 foreach (var line in lines)
                 {
-                    if (!result.ContainsKey(line))
+                    var key = (Api: line, DllName: Path.GetFileNameWithoutExtension(file.Name).ToLowerInvariant());
+                    if (!result.ContainsKey(key) && line != string.Empty)
                     {
-                        result[line] = (WindowsVersion.Windows11, BuildNumbers.Windows11_22H2, null, Path.GetFileNameWithoutExtension(file.Name));
+                        result[key] = (WindowsVersion.Windows11, BuildNumbers.Windows11_22H2, null);
                     }
                 }
             }
@@ -729,9 +762,10 @@ namespace Lsj.Util.Tests.Win32
                 var lines = File.ReadAllLines(file.FullName);
                 foreach (var line in lines)
                 {
-                    if (!result.ContainsKey(line))
+                    var key = (Api: line, DllName: Path.GetFileNameWithoutExtension(file.Name).ToLowerInvariant());
+                    if (!result.ContainsKey(key) && line != string.Empty)
                     {
-                        result[line] = (WindowsVersion.Windows11, BuildNumbers.Windows11_23H2, null, Path.GetFileNameWithoutExtension(file.Name));
+                        result[key] = (WindowsVersion.Windows11, BuildNumbers.Windows11_23H2, null);
                     }
                 }
             }
