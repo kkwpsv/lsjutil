@@ -23,7 +23,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             typeof(IDXGIOutput2), typeof(IDXGIOutput3)])]
     public unsafe struct IDXGIOutput4
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Checks for overlay color space support.

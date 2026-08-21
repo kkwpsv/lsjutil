@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.BaseTypes
     [StructLayout(LayoutKind.Sequential)]
     public struct KAFFINITY
     {
-        private UIntPtr _value;
+        private nuint _value;
 
         /// <inheritdoc/>
         public override string ToString() => _value.ToString();
@@ -18,12 +18,12 @@ namespace Lsj.Util.Win32.BaseTypes
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator UIntPtr(KAFFINITY val) => val._value;
+        public static implicit operator nuint(KAFFINITY val) => val._value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator KAFFINITY(UIntPtr val) => new KAFFINITY { _value = val };
+        public static implicit operator KAFFINITY(nuint val) => new KAFFINITY { _value = val };
     }
 }

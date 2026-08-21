@@ -74,7 +74,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     [ComInterface(IID = "05EEC05D-8F7D-4362-B999-D1BAF357C704", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 10, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IDirect3DResource9
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Retrieves the device associated with a resource.
@@ -165,11 +165,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Direct3D does not manage the memory at <paramref name="pData"/>.
         /// If this buffer was dynamically allocated, it is the calling application's responsibility to free the memory.
         /// </remarks>
-        public HRESULT SetPrivateData([In] in GUID refguid, [In] IntPtr pData, [In] DWORD SizeOfData, [In] DWORD Flags)
+        public HRESULT SetPrivateData([In] in GUID refguid, [In] nint pData, [In] DWORD SizeOfData, [In] DWORD Flags)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in GUID, IntPtr, DWORD, DWORD, HRESULT>)_vTable[4])
+                return ((delegate* unmanaged[Stdcall]<void*, in GUID, nint, DWORD, DWORD, HRESULT>)_vTable[4])
                     (thisPtr, refguid, pData, SizeOfData, Flags);
             }
         }
@@ -228,11 +228,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// that interface will have its reference count incremented before the private data is returned.
         /// </para>
         /// </remarks>
-        public HRESULT GetPrivateData([In] in GUID refguid, [In] IntPtr pData, [In][Out] ref DWORD pSizeOfData)
+        public HRESULT GetPrivateData([In] in GUID refguid, [In] nint pData, [In][Out] ref DWORD pSizeOfData)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in GUID, IntPtr, ref DWORD, HRESULT>)_vTable[5])(thisPtr, refguid, pData, ref pSizeOfData);
+                return ((delegate* unmanaged[Stdcall]<void*, in GUID, nint, ref DWORD, HRESULT>)_vTable[5])(thisPtr, refguid, pData, ref pSizeOfData);
             }
         }
 

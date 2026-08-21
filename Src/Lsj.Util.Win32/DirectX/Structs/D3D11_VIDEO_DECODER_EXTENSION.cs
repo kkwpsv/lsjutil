@@ -30,7 +30,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// <summary>
         /// A pointer to a buffer that contains input data for the driver.
         /// </summary>
-        public IntPtr pPrivateInputData;
+        public nint pPrivateInputData;
 
         /// <summary>
         /// The size of the <see cref="pPrivateInputData"/> buffer, in bytes.
@@ -40,7 +40,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// <summary>
         /// A pointer to a buffer that the driver can use to write output data.
         /// </summary>
-        public IntPtr pPrivateOutputData;
+        public nint pPrivateOutputData;
 
         /// <summary>
         /// The size of the <see cref="pPrivateOutputData"/> buffer, in bytes.

@@ -39,7 +39,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     [ComInterface(IID = "119E7452-DE9E-40fe-8806-88F90C12B441", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 3, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IDXGIDebug
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// <para>

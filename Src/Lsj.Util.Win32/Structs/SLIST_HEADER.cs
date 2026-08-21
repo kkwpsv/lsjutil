@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Structs
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct SLIST_HEADER
     {
-        private IntPtr _padding1;
-        private IntPtr _padding2;
+        private nint _padding1;
+        private nint _padding2;
     }
 }

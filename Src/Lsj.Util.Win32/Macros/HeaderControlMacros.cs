@@ -56,7 +56,7 @@ namespace Lsj.Util.Win32.Macros
         /// The image assigned to this item is used as the basis for the transparent image.
         /// </param>
         /// <returns></returns>
-        public static HIMAGELIST Header_CreateDragImage(HWND hwnd, int i) => (IntPtr)SendMessage(hwnd, (WindowMessages)HDM_CREATEDRAGIMAGE, i, 0);
+        public static HIMAGELIST Header_CreateDragImage(HWND hwnd, int i) => (nint)SendMessage(hwnd, (WindowMessages)HDM_CREATEDRAGIMAGE, i, 0);
 
         /// <summary>
         /// <para>
@@ -119,7 +119,7 @@ namespace Lsj.Util.Win32.Macros
         /// A handle to a header control.
         /// </param>
         /// <returns></returns>
-        public static HIMAGELIST Header_GetImageList(HWND hwnd) => (IntPtr)SendMessage(hwnd, (WindowMessages)HDM_GETIMAGELIST, 0, 0);
+        public static HIMAGELIST Header_GetImageList(HWND hwnd) => (nint)SendMessage(hwnd, (WindowMessages)HDM_GETIMAGELIST, 0, 0);
 
         /// <summary>
         /// <para>
@@ -245,7 +245,7 @@ namespace Lsj.Util.Win32.Macros
         {
             fixed (int* ptr = lpi)
             {
-                return (int)SendMessage(hwnd, (WindowMessages)HDM_GETORDERARRAY, iCount, (IntPtr)ptr);
+                return (int)SendMessage(hwnd, (WindowMessages)HDM_GETORDERARRAY, iCount, (nint)ptr);
             }
         }
 
@@ -282,7 +282,7 @@ namespace Lsj.Util.Win32.Macros
         /// A handle to a header control.
         /// </param>
         /// <returns></returns>
-        public static HIMAGELIST Header_GetStateImageList(HWND hwnd) => (IntPtr)SendMessage(hwnd, (WindowMessages)HDM_GETIMAGELIST, 1, 0);
+        public static HIMAGELIST Header_GetStateImageList(HWND hwnd) => (nint)SendMessage(hwnd, (WindowMessages)HDM_GETIMAGELIST, 1, 0);
 
         /// <summary>
         /// <para>
@@ -463,7 +463,7 @@ namespace Lsj.Util.Win32.Macros
         /// A handle to an image list.
         /// </param>
         /// <returns></returns>
-        public static HIMAGELIST Header_SetImageList(HWND hwnd, HIMAGELIST himl) => (IntPtr)SendMessage(hwnd, (WindowMessages)HDM_SETIMAGELIST, 0, (IntPtr)himl);
+        public static HIMAGELIST Header_SetImageList(HWND hwnd, HIMAGELIST himl) => (nint)SendMessage(hwnd, (WindowMessages)HDM_SETIMAGELIST, 0, (nint)himl);
 
         /// <summary>
         /// <para>
@@ -515,7 +515,7 @@ namespace Lsj.Util.Win32.Macros
         {
             fixed (int* ptr = lpi)
             {
-                return (int)SendMessage(hwnd, (WindowMessages)HDM_SETORDERARRAY, iCount, (IntPtr)ptr);
+                return (int)SendMessage(hwnd, (WindowMessages)HDM_SETORDERARRAY, iCount, (nint)ptr);
             }
         }
 
@@ -534,7 +534,7 @@ namespace Lsj.Util.Win32.Macros
         /// A handle to an image list.
         /// </param>
         /// <returns></returns>
-        public static HIMAGELIST Header_SetStateImageList(HWND hwnd, HIMAGELIST himl) => (IntPtr)SendMessage(hwnd, (WindowMessages)HDM_SETIMAGELIST, 1, (IntPtr)himl);
+        public static HIMAGELIST Header_SetStateImageList(HWND hwnd, HIMAGELIST himl) => (nint)SendMessage(hwnd, (WindowMessages)HDM_SETIMAGELIST, 1, (nint)himl);
 
         /// <summary>
         /// <para>

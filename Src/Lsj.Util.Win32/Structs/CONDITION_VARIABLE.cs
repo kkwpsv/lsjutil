@@ -10,6 +10,6 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Ptr
         /// </summary>
-        public IntPtr Ptr;
+        public nint Ptr;
     }
 }

@@ -246,23 +246,23 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The offset from the beginning of the structure to a string specifying the family name for the font.
         /// </summary>
-        public IntPtr otmpFamilyName;
+        public nint otmpFamilyName;
 
         /// <summary>
         /// The offset from the beginning of the structure to a string specifying the typeface name for the font.
         /// (This typeface name corresponds to the name specified in the <see cref="LOGFONT"/> structure.)
         /// </summary>
-        public IntPtr otmpFaceName;
+        public nint otmpFaceName;
 
         /// <summary>
         /// The offset from the beginning of the structure to a string specifying the style name for the font.
         /// </summary>
-        public IntPtr otmpStyleName;
+        public nint otmpStyleName;
 
         /// <summary>
         /// The offset from the beginning of the structure to a string specifying the full name for the font.
         /// This name is unique for the font and often contains a version number or other identifying information.
         /// </summary>
-        public IntPtr otmpFullName;
+        public nint otmpFullName;
     }
 }

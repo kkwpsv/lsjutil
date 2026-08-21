@@ -31,7 +31,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IDXGIObject)])]
     public unsafe struct IDXGIOutput
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Get a description of the output.

@@ -19,7 +19,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IFileDialog
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Sets the file types that the dialog can open or save.
@@ -235,11 +235,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <remarks>
         /// The calling application is responsible for releasing the retrieved <see cref="IShellItem"/> when it is no longer needed.
         /// </remarks>
-        public HRESULT GetFolder([Out] out IntPtr ppsi)
+        public HRESULT GetFolder([Out] out P<IShellItem> ppsi)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[13])(thisPtr, out ppsi);
+                return ((delegate* unmanaged[Stdcall]<void*, out P<IShellItem>, HRESULT>)_vTable[13])(thisPtr, out ppsi);
             }
         }
 
@@ -258,11 +258,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <remarks>
         /// The calling application is responsible for releasing the retrieved <see cref="IShellItem"/> when it is no longer needed.
         /// </remarks>
-        public HRESULT GetCurrentSelection([Out] out IntPtr ppsi)
+        public HRESULT GetCurrentSelection([Out] out P<IShellItem> ppsi)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[14])(thisPtr, out ppsi);
+                return ((delegate* unmanaged[Stdcall]<void*, out P<IShellItem>, HRESULT>)_vTable[14])(thisPtr, out ppsi);
             }
         }
 
@@ -300,11 +300,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// To get the item the user chose, use <see cref="GetResult"/>.
         /// The calling application is responsible for releasing the retrieved buffer by using the <see cref="CoTaskMemFree"/> function.
         /// </remarks>
-        public HRESULT GetFileName([Out] out IntPtr pszName)
+        public HRESULT GetFileName([Out] out nint pszName)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[16])(thisPtr, out pszName);
+                return ((delegate* unmanaged[Stdcall]<void*, out nint, HRESULT>)_vTable[16])(thisPtr, out pszName);
             }
         }
 
@@ -381,14 +381,14 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <see cref="GetResult"/> can be called after the dialog has closed or during the handling of an OnFileOk event.
         /// Calling this method at any other time will fail.
         /// If multiple items were chosen, this method will fail.
-        /// In the case of multiple items, call <see cref="GetResults"/>.
-        /// <see cref="Show"/> must return a success code for a result to be available to <see cref="GetResult"/>.
+        /// In the case of multiple items, call <see cref="IFileOpenDialog.GetResults"/>.
+        /// <see cref="IModalWindow.Show"/> must return a success code for a result to be available to <see cref="GetResult"/>.
         /// </remarks>
-        public HRESULT GetResult([Out] out IntPtr ppsi)
+        public HRESULT GetResult([Out] out P<IShellItem> ppsi)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[20])(thisPtr, out ppsi);
+                return ((delegate* unmanaged[Stdcall]<void*, out P<IShellItem>, HRESULT>)_vTable[20])(thisPtr, out ppsi);
             }
         }
 

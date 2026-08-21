@@ -41,7 +41,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </remarks>
     public unsafe struct IVirtualDesktopManager
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Indicates whether the provided window is on the currently active virtual desktop.

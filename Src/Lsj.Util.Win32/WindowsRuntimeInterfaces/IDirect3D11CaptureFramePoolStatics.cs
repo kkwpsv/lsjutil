@@ -20,7 +20,7 @@ namespace Lsj.Util.Win32.WindowsRuntimeInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IInspectable)])]
     public unsafe struct IDirect3D11CaptureFramePoolStatics
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Create

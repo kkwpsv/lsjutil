@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.WindowsRuntimeInterfaces
     /// Enables access to the members of the InputPane class in a desktop app.
     /// </para>
     /// <para>
-    /// From: <see href="https://learn.microsoft.com/zh-cn/windows/win32/api/inputpaneinterop/nn-inputpaneinterop-iinputpaneinterop"/>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/inputpaneinterop/nn-inputpaneinterop-iinputpaneinterop"/>
     /// </para>
     /// </summary>
     /// <remarks>
@@ -27,7 +27,7 @@ namespace Lsj.Util.Win32.WindowsRuntimeInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IInspectable)])]
     public unsafe struct IInputPaneInterop
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Gets an instance of an InputPane object for the specified window.
@@ -47,11 +47,11 @@ namespace Lsj.Util.Win32.WindowsRuntimeInterfaces
         /// If this method succeeds, it returns <see cref="S_OK"/>.
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
-        public HRESULT GetForWindow([In] HWND appWindow, [In] in IID riid, [Out] out IntPtr inputPane)
+        public HRESULT GetForWindow([In] HWND appWindow, [In] in IID riid, [Out] out nint inputPane)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, HWND, in IID, out IntPtr, HRESULT>)_vTable[6])(thisPtr, appWindow, riid, out inputPane);
+                return ((delegate* unmanaged[Stdcall]<void*, HWND, in IID, out nint, HRESULT>)_vTable[6])(thisPtr, appWindow, riid, out inputPane);
             }
         }
     }

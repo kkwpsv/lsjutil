@@ -14,45 +14,45 @@ namespace Lsj.Util.Win32.BaseTypes
     [StructLayout(LayoutKind.Sequential)]
     public struct LRESULT
     {
-        private IntPtr _value;
+        private nint _value;
 
         /// <inheritdoc/>
         public override string ToString() => _value.ToString();
 
         /// <summary>
-        /// Safe Convert To <see cref="int"/>
+        /// 
         /// </summary>
-        /// <returns></returns>
-        public int SafeToInt32() => _value.SafeToInt32();
-
-        /// <summary>
-        /// Safe Convert To <see cref="uint"/>
-        /// </summary>
-        /// <returns></returns>
-        public uint SafeToUInt32() => _value.SafeToUInt32();
+        /// <param name="val"></param>
+        public static implicit operator nint(LRESULT val) => val._value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator IntPtr(LRESULT val) => val._value;
+        public static implicit operator LRESULT(nint val) => new LRESULT { _value = val };
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator LRESULT(IntPtr val) => new LRESULT { _value = val };
+        public static implicit operator LRESULT(int val) => new LRESULT { _value = val };
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator LRESULT(int val) => new LRESULT { _value = (IntPtr)val };
+        public static explicit operator int(LRESULT val) => (int)val;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator int(LRESULT val) => val.SafeToInt32();
+        public static implicit operator LRESULT(uint val) => new LRESULT { _value = (nint)val };
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static explicit operator uint(LRESULT val) => (uint)val;
     }
 }

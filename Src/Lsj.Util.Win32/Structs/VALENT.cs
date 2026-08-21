@@ -22,7 +22,7 @@ namespace Lsj.Util.Win32.Structs
         /// The name of the value to be retrieved.
         /// Be sure to set this member before calling <see cref="RegQueryMultipleValues"/>.
         /// </summary>
-        public IntPtr ve_valuename;
+        public nint ve_valuename;
 
         /// <summary>
         /// The size of the data pointed to by <see cref="ve_valueptr"/>, in bytes.

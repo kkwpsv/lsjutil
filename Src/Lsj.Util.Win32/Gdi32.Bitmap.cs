@@ -127,7 +127,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateBitmap", ExactSpelling = true, SetLastError = true)]
-        public static extern HBITMAP CreateBitmap([In] int nWidth, [In] int nHeight, [In] UINT nPlanes, [In] UINT nBitCount, [In] IntPtr lpBits);
+        public static extern HBITMAP CreateBitmap([In] int nWidth, [In] int nHeight, [In] UINT nPlanes, [In] UINT nBitCount, [In] nint lpBits);
 
         /// <summary>
         /// <para>
@@ -424,7 +424,7 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBitmap", ExactSpelling = true, SetLastError = true)]
         public static extern HBITMAP CreateDIBitmap([In] HDC hdc, [In] in BITMAPINFOHEADER pbmih, [In] CreateDIBitmapFlags flInit,
-            [In] IntPtr pjBits, [In] in BITMAPINFO pbmi, [In] UINT iUsage);
+            [In] nint pjBits, [In] in BITMAPINFO pbmi, [In] UINT iUsage);
 
         /// <summary>
         /// <para>
@@ -587,7 +587,7 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBSection", ExactSpelling = true, SetLastError = true)]
         public static extern HBITMAP CreateDIBSection([In] HDC hdc, [In] in BITMAPINFO pbmi, [In] DIBColorTableUsages usage,
-            [Out] out IntPtr ppvBits, [In] HANDLE hSection, [In] DWORD offset);
+            [Out] out nint ppvBits, [In] HANDLE hSection, [In] DWORD offset);
 
         /// <summary>
         /// <para>
@@ -953,7 +953,7 @@ namespace Lsj.Util.Win32
             "Applications should use the SetDIBits function.")]
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBitmapBits", ExactSpelling = true, SetLastError = true)]
-        public static extern LONG SetBitmapBits([In] HBITMAP hbm, [In] DWORD cb, [In] IntPtr pvBits);
+        public static extern LONG SetBitmapBits([In] HBITMAP hbm, [In] DWORD cb, [In] nint pvBits);
 
         /// <summary>
         /// <para>
@@ -1181,7 +1181,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDIBits", ExactSpelling = true, SetLastError = true)]
-        public static extern int SetDIBits([In] HDC hdc, [In] HBITMAP hbm, [In] UINT start, [In] UINT cLines, [In] IntPtr lpBits,
+        public static extern int SetDIBits([In] HDC hdc, [In] HBITMAP hbm, [In] UINT start, [In] UINT cLines, [In] nint lpBits,
             [In] in BITMAPINFO lpbmi, [In] UINT ColorUse);
     }
 }

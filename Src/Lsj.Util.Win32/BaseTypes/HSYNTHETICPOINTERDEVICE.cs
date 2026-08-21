@@ -17,16 +17,19 @@ namespace Lsj.Util.Win32.BaseTypes
         /// <inheritdoc/>
         public IntPtr ToIntPtr() => _value;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="val"></param>
-        public static implicit operator IntPtr(HSYNTHETICPOINTERDEVICE val) => val._value;
+        /// <inheritdoc/>
+        public nint ToNint() => _value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator HSYNTHETICPOINTERDEVICE(IntPtr val) => new HSYNTHETICPOINTERDEVICE { _value = val };
+        public static implicit operator nint(HSYNTHETICPOINTERDEVICE val) => val._value;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static implicit operator HSYNTHETICPOINTERDEVICE(nint val) => new HSYNTHETICPOINTERDEVICE { _value = val };
     }
 }

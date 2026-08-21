@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Callbacks
     [StructLayout(LayoutKind.Sequential)]
     public struct LPCCHOOKPROC
     {
-        private IntPtr _ptr;
+        private nint _ptr;
 
         /// <summary>
         /// 
@@ -33,12 +33,12 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator IntPtr(LPCCHOOKPROC val) => val._ptr;
+        public static explicit operator nint(LPCCHOOKPROC val) => val._ptr;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator LPCCHOOKPROC(IntPtr val) => new LPCCHOOKPROC { _ptr = val };
+        public static explicit operator LPCCHOOKPROC(nint val) => new LPCCHOOKPROC { _ptr = val };
     }
 }

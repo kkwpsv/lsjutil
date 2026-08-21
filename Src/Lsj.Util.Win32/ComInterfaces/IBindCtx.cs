@@ -36,7 +36,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </remarks>
     public unsafe struct IBindCtx
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Registers an object with the bind context to ensure that the object remains active until the bind context is released.
@@ -211,11 +211,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Moniker implementations should call this method instead of using the <see cref="Ole32.GetRunningObjectTable"/> function.
         /// This makes it possible for future implementations of <see cref="IBindCtx"/> to modify binding behavior.
         /// </remarks>
-        public HRESULT GetRunningObjectTable([Out] out IntPtr pprot)
+        public HRESULT GetRunningObjectTable([Out] out P<IRunningObjectTable> pprot)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[8])(thisPtr, out pprot);
+                return ((delegate* unmanaged[Stdcall]<void*, out P<IRunningObjectTable>, HRESULT>)_vTable[8])(thisPtr, out pprot);
             }
         }
 
@@ -316,12 +316,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// By convention, the implementer should use key names that begin with the string form of the CLSID of a moniker class.
         /// (See the <see cref="StringFromCLSID"/> function.)
         /// </remarks>
-        public HRESULT GetObjectParam([In] string pszKey, [Out] out IntPtr ppunk)
+        public HRESULT GetObjectParam([In] string pszKey, [Out] out P<IUnknown> ppunk)
         {
             fixed (void* thisPtr = &this)
             fixed (char* pszKeyPtr = pszKey)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, char*, out IntPtr, HRESULT>)_vTable[10])(thisPtr, pszKeyPtr, out ppunk);
+                return ((delegate* unmanaged[Stdcall]<void*, char*, out P<IUnknown>, HRESULT>)_vTable[10])(thisPtr, pszKeyPtr, out ppunk);
             }
         }
 
@@ -348,11 +348,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// In the system implementation of the <see cref="IBindCtx"/> interface, this method is not implemented.
         /// Therefore, calling this method results in a return value of <see cref="E_NOTIMPL"/>.
         /// </remarks>
-        public HRESULT EnumObjectParam([Out] out IntPtr ppenum)
+        public HRESULT EnumObjectParam([Out] out P<IEnumString> ppenum)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[11])(thisPtr, out ppenum);
+                return ((delegate* unmanaged[Stdcall]<void*, out P<IEnumString>, HRESULT>)_vTable[11])(thisPtr, out ppenum);
             }
         }
 

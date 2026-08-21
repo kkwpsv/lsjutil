@@ -54,7 +54,7 @@ namespace Lsj.Util.Win32.Structs
         /// It is the calling application's responsibility to free this memory with <see cref="CoTaskMemFree"/> when it is no longer needed.
         /// </summary>
         [FieldOffset(4)]
-        public IntPtr pOleStr;
+        public nint pOleStr;
 
         /// <summary>
         /// The offset into the item identifier list.

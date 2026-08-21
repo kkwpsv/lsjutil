@@ -20,7 +20,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct INetworkListManager
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// The <see cref="GetNetworks"/> method retrieves the list of networks available on the local machine.

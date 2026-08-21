@@ -3,9 +3,9 @@ using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.MediaFoundation.Enums;
 using Lsj.Util.Win32.Structs;
-using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.MediaFoundation.Enums.MediaEventType;
 
 namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
 {
@@ -52,7 +52,7 @@ namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IMFAttributes)])]
     public unsafe struct IMFMediaEvent
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Retrieves the event type.

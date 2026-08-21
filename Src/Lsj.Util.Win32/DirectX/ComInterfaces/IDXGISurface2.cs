@@ -48,7 +48,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IDXGIObject), typeof(IDXGIDeviceSubObject), typeof(IDXGISurface), typeof(IDXGISurface1)])]
     public unsafe struct IDXGISurface2
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Gets the parent resource and subresource index that support a subresource surface.
@@ -94,11 +94,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// In this situation, the subresource index is 0.
         /// </para>
         /// </remarks>
-        public HRESULT GetResource([In] in IID riid, [Out] out IntPtr ppParentResource, [Out] out UINT pSubresourceIndex)
+        public HRESULT GetResource([In] in IID riid, [Out] out nint ppParentResource, [Out] out UINT pSubresourceIndex)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IID, out IntPtr, out UINT, HRESULT>)_vTable[13])(thisPtr, riid, out ppParentResource, out pSubresourceIndex);
+                return ((delegate* unmanaged[Stdcall]<void*, in IID, out nint, out UINT, HRESULT>)_vTable[13])(thisPtr, riid, out ppParentResource, out pSubresourceIndex);
             }
         }
     }

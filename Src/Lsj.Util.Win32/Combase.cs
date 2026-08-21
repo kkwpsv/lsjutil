@@ -130,7 +130,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.Windows8)]
         [DllImport("Combase.dll", CharSet = CharSet.Unicode, EntryPoint = "RoGetActivationFactory", ExactSpelling = true)]
-        public static extern HRESULT RoGetActivationFactory([In] HSTRING activatableClassId, [In] in IID iid, [Out] out IntPtr factory);
+        public static extern HRESULT RoGetActivationFactory([In] HSTRING activatableClassId, [In] in IID iid, [Out] out nint factory);
 
         /// <summary>
         /// <para>

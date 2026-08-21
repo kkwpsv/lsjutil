@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Callbacks
     [StructLayout(LayoutKind.Sequential)]
     public struct PVECTORED_EXCEPTION_HANDLER
     {
-        private IntPtr _ptr;
+        private nint _ptr;
 
         /// <summary>
         /// 
@@ -33,12 +33,12 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator IntPtr(PVECTORED_EXCEPTION_HANDLER val) => val._ptr;
+        public static explicit operator nint(PVECTORED_EXCEPTION_HANDLER val) => val._ptr;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator PVECTORED_EXCEPTION_HANDLER(IntPtr val) => new PVECTORED_EXCEPTION_HANDLER { _ptr = val };
+        public static explicit operator PVECTORED_EXCEPTION_HANDLER(nint val) => new PVECTORED_EXCEPTION_HANDLER { _ptr = val };
     }
 }

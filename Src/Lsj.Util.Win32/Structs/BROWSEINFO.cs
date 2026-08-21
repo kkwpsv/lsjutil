@@ -36,13 +36,13 @@ namespace Lsj.Util.Win32.Structs
         /// Pointer to a buffer to receive the display name of the folder selected by the user.
         /// The size of this buffer is assumed to be <see cref="MAX_PATH"/> characters.
         /// </summary>
-        public IntPtr pszDisplayName;
+        public nint pszDisplayName;
 
         /// <summary>
         /// Pointer to a null-terminated string that is displayed above the tree view control in the dialog box.
         /// This string can be used to specify instructions to the user.
         /// </summary>
-        public IntPtr lpszTitle;
+        public nint lpszTitle;
 
         /// <summary>
         /// Flags that specify the options for the dialog box.

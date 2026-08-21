@@ -44,7 +44,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown),typeof(IDirect3D9)])]
     public unsafe struct IDirect3D9Ex
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Returns the number of display modes available.

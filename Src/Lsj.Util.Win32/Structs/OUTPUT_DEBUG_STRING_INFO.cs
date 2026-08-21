@@ -20,7 +20,7 @@ namespace Lsj.Util.Win32.Structs
         /// The debugging string in the calling process's address space.
         /// The debugger can use the <see cref="ReadProcessMemory"/> function to retrieve the value of the string.
         /// </summary>
-        public IntPtr lpDebugStringData;
+        public nint lpDebugStringData;
 
         /// <summary>
         /// The format of the debugging string.

@@ -9,7 +9,11 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.ACCESS_MASK;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.LogonTypes;
+using static Lsj.Util.Win32.Enums.PowerManagementEvents;
 using static Lsj.Util.Win32.Enums.PrivilegeConstants;
+using static Lsj.Util.Win32.Enums.SC_ENUM_TYPE;
+using static Lsj.Util.Win32.Enums.SECURITY_INFORMATION;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.WindowMessages;
@@ -759,7 +763,7 @@ namespace Lsj.Util.Win32
         /// (from the Services snap-in, right-click the service entry, click <c>Properties</c>, and enter the parameters in Start parameters.)
         /// </para>
         /// </param>
-        public delegate void LpserviceMainFunction([In] DWORD dwNumServicesArgs, [In] IntPtr[]? lpServiceArgVectors);
+        public delegate void LpserviceMainFunction([In] DWORD dwNumServicesArgs, [In] nint[]? lpServiceArgVectors);
 
 
         /// <summary>
@@ -5946,7 +5950,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "StartServiceW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL StartService([In] SC_HANDLE hService, [In] DWORD dwNumServiceArgs, [In] IntPtr[]? lpServiceArgVectors);
+        public static extern BOOL StartService([In] SC_HANDLE hService, [In] DWORD dwNumServiceArgs, [In] nint[]? lpServiceArgVectors);
 
         /// <summary>
         /// <para>

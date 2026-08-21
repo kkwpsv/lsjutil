@@ -2,10 +2,11 @@
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
-using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.BaseTypes.MEMBERID;
 using static Lsj.Util.Win32.Enums.DispInvokeFlags;
+using static Lsj.Util.Win32.Enums.TYPEKIND;
 using static Lsj.Util.Win32.Ole32;
 using static Lsj.Util.Win32.OleAut32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
@@ -69,7 +70,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </remarks>
     public unsafe struct ITypeInfo
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Retrieves a <see cref="TYPEATTR"/> structure that contains the attributes of the type description.
@@ -213,13 +214,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// </remarks>
         public HRESULT GetNames([In] MEMBERID memid, [Out] BSTR[] rgBstrNames, [In] UINT cMaxNames, [Out] out UINT pcNames)
         {
-            var buffer = new IntPtr[rgBstrNames.Length];
+            var buffer = new nint[rgBstrNames.Length];
             fixed (void* thisPtr = &this)
             {
-                var result = ((delegate* unmanaged[Stdcall]<void*, MEMBERID, IntPtr[], UINT, out UINT, HRESULT>)_vTable[7])(thisPtr, memid, buffer, cMaxNames, out pcNames);
+                var result = ((delegate* unmanaged[Stdcall]<void*, MEMBERID, nint[], UINT, out UINT, HRESULT>)_vTable[7])(thisPtr, memid, buffer, cMaxNames, out pcNames);
                 for (int i = 0; i < buffer.Length; i++)
                 {
-                    if (buffer[i] != IntPtr.Zero)
+                    if (buffer[i] != 0)
                     {
                         rgBstrNames[i] = new BSTR(buffer[i], true);
                     }
@@ -314,14 +315,14 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// </remarks>
         public HRESULT GetIDsOfNames([In] LPOLESTR[] rgszNames, [In] UINT cNames, [Out] MEMBERID[] pMemId)
         {
-            var buffer = new IntPtr[rgszNames.Length];
+            var buffer = new nint[rgszNames.Length];
             for (int i = 0; i < buffer.Length; i++)
             {
                 buffer[i] = rgszNames[i].Handle;
             }
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr[], UINT, MEMBERID[], HRESULT>)_vTable[10])(thisPtr, buffer, cNames, pMemId);
+                return ((delegate* unmanaged[Stdcall]<void*, nint[], UINT, MEMBERID[], HRESULT>)_vTable[10])(thisPtr, buffer, cNames, pMemId);
             }
         }
 

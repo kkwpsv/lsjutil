@@ -2977,7 +2977,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemDirectoryW", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT GetSystemDirectory([In] IntPtr lpBuffer, [In] UINT uSize);
+        public static extern UINT GetSystemDirectory([In] LPWSTR lpBuffer, [In] UINT uSize);
 
         /// <summary>
         /// <para>
@@ -3473,7 +3473,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemWindowsDirectoryW", ExactSpelling = true, SetLastError = true)]
-        public static extern uint GetSystemWindowsDirectory([In] IntPtr lpBuffer, [In] uint uSize);
+        public static extern uint GetSystemWindowsDirectory([In] LPWSTR lpBuffer, [In] uint uSize);
 
         /// <summary>
         /// <para>
@@ -3790,7 +3790,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowsDirectoryW", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT GetWindowsDirectory([In] IntPtr lpBuffer, [In] UINT uSize);
+        public static extern UINT GetWindowsDirectory([In] LPWSTR lpBuffer, [In] UINT uSize);
 
         /// <summary>
         /// <para>

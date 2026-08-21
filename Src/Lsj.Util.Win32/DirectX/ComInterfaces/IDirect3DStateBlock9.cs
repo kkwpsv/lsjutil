@@ -32,7 +32,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     [ComInterface(IID = "B07C4FE5-310D-4ba8-A23C-4F0F206F218B", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 5, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IDirect3DStateBlock9
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Gets the device.

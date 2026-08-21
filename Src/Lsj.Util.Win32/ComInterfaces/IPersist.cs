@@ -27,7 +27,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IPersist
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Retrieves the class identifier (CLSID) of the object.

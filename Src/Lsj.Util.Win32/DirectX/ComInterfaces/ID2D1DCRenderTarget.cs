@@ -2,10 +2,10 @@
 using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.Structs;
-using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.DirectX.Enums.D2D1_ALPHA_MODE;
+using static Lsj.Util.Win32.DirectX.Enums.D2DERR;
 using static Lsj.Util.Win32.DirectX.Enums.DXGI_FORMAT;
 using static Lsj.Util.Win32.Gdi32;
 
@@ -86,7 +86,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(ID2D1Resource), typeof(ID2D1RenderTarget)])]
     public unsafe struct ID2D1DCRenderTarget
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Binds the render target to the device context to which it issues drawing commands.

@@ -19,7 +19,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IMarshal
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Retrieves the CLSID of the unmarshaling code.
@@ -97,12 +97,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// that implements the CLSID returned from the <see cref="GetUnmarshalClass"/> method.
         /// For more information, see InprocServer32.
         /// </remarks>
-        public HRESULT GetUnmarshalClass([In] in IID riid, [In] IntPtr pv, [In] MSHCTX dwDestContext, [In] IntPtr pvDestContext,
+        public HRESULT GetUnmarshalClass([In] in IID riid, [In] nint pv, [In] MSHCTX dwDestContext, [In] nint pvDestContext,
             [In] MSHLFLAGS mshlflags, [Out] out CLSID pCid)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IID, PVOID, MSHCTX, IntPtr, MSHLFLAGS, out CLSID, HRESULT>)_vTable[3])(thisPtr, riid, pv, dwDestContext, pvDestContext, mshlflags, out pCid);
+                return ((delegate* unmanaged[Stdcall]<void*, in IID, nint, MSHCTX, nint, MSHLFLAGS, out CLSID, HRESULT>)_vTable[3])(thisPtr, riid, pv, dwDestContext, pvDestContext, mshlflags, out pCid);
             }
         }
 
@@ -178,12 +178,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// for all <paramref name="dwDestContext"/> values that your implementation does not understand.
         /// To delegate marshaling to the COM default implementation, call the <see cref="CoGetStandardMarshal"/> function.
         /// </remarks>
-        public HRESULT GetMarshalSizeMax([In] in IID riid, [In] IntPtr pv, [In] MSHCTX dwDestContext, [In] IntPtr pvDestContext,
+        public HRESULT GetMarshalSizeMax([In] in IID riid, [In] nint pv, [In] MSHCTX dwDestContext, [In] nint pvDestContext,
                [In] MSHLFLAGS mshlflags, [Out] out DWORD pSize)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IID, IntPtr, MSHCTX, IntPtr, MSHLFLAGS, out DWORD, HRESULT>)_vTable[4])(thisPtr, riid, pv, dwDestContext, pvDestContext, mshlflags, out pSize);
+                return ((delegate* unmanaged[Stdcall]<void*, in IID, nint, MSHCTX, nint, MSHLFLAGS, out DWORD, HRESULT>)_vTable[4])(thisPtr, riid, pv, dwDestContext, pvDestContext, mshlflags, out pSize);
             }
         }
 
@@ -216,12 +216,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Possible values come from the <see cref="MSHLFLAGS"/> enumeration.
         /// </param>
         /// <returns></returns>
-        public HRESULT MarshalInterface([In] P<IStream> pStm, [In] in IID riid, [In] IntPtr pv, [In] MSHCTX dwDestContext,
-            [In] IntPtr pvDestContext, [In] MSHLFLAGS mshlflags)
+        public HRESULT MarshalInterface([In] P<IStream> pStm, [In] in IID riid, [In] nint pv, [In] MSHCTX dwDestContext,
+            [In] nint pvDestContext, [In] MSHLFLAGS mshlflags)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, P<IStream>, in IID, IntPtr, MSHCTX, IntPtr, MSHLFLAGS, HRESULT>)_vTable[5])(thisPtr, pStm, riid, pv, dwDestContext, pvDestContext, mshlflags);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IStream>, in IID, nint, MSHCTX, nint, MSHLFLAGS, HRESULT>)_vTable[5])(thisPtr, pStm, riid, pv, dwDestContext, pvDestContext, mshlflags);
             }
         }
 
@@ -262,11 +262,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Just before exiting, even if exiting with an error, your implementation should reposition
         /// the seek pointer in the stream immediately after the last byte of data read.
         /// </remarks>
-        public HRESULT UnmarshalInterface([In] P<IStream> pStm, [In] in IID riid, [Out] out IntPtr ppv)
+        public HRESULT UnmarshalInterface([In] P<IStream> pStm, [In] in IID riid, [Out] out nint ppv)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, P<IStream>, in IID, out IntPtr, HRESULT>)_vTable[6])(thisPtr, pStm, riid, out ppv);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IStream>, in IID, out nint, HRESULT>)_vTable[6])(thisPtr, pStm, riid, out ppv);
             }
         }
 

@@ -1,5 +1,5 @@
-﻿using Lsj.Util.Win32.Structs;
-using static Lsj.Util.Win32.DirectX.Enums.DXGI_FORMAT;
+﻿using Lsj.Util.Win32.DirectX.ComInterfaces;
+using Lsj.Util.Win32.Structs;
 
 namespace Lsj.Util.Win32.DirectX.Enums
 {

@@ -32,6 +32,6 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// If a <see cref="RECT"/> was provided to the <see cref="IDirect3DSurface9.LockRect"/> call,
         /// <see cref="pBits"/> will be appropriately offset from the start of the surface.
         /// </summary>
-        public IntPtr pBits;
+        public nint pBits;
     }
 }

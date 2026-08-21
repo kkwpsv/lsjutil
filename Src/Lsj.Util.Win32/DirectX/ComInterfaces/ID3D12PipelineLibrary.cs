@@ -24,7 +24,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(ID3D12Object), typeof(ID3D12DeviceChild)])]
     public unsafe struct ID3D12PipelineLibrary
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Adds the input PSO to an internal database with the corresponding name.
@@ -48,7 +48,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, P<ID3D12PipelineState>, HRESULT>)_vTable[8])(thisPtr, pName.ToIntPtr(), pPipeline);
+                return ((delegate* unmanaged[Stdcall]<void*, nint, P<ID3D12PipelineState>, HRESULT>)_vTable[8])(thisPtr, pName.ToNint(), pPipeline);
             }
         }
 
@@ -81,12 +81,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Refer to the remarks and examples for <see cref="ID3D12Device1.CreatePipelineLibrary"/>.
         /// </remarks>
         public HRESULT LoadGraphicsPipeline([In] LPCWSTR pName, [In] in D3D12_GRAPHICS_PIPELINE_STATE_DESC pDesc,
-            [In] in IID riid, [Out] out IntPtr ppPipelineState)
+            [In] in IID riid, [Out] out nint     ppPipelineState)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, in D3D12_GRAPHICS_PIPELINE_STATE_DESC,
-                    in IID, out IntPtr, HRESULT>)_vTable[9])(thisPtr, pName.ToIntPtr(), pDesc, riid, out ppPipelineState);
+                return ((delegate* unmanaged[Stdcall]<void*, nint, in D3D12_GRAPHICS_PIPELINE_STATE_DESC,
+                    in IID, out nint, HRESULT>)_vTable[9])(thisPtr, pName.ToNint(), pDesc, riid, out ppPipelineState);
             }
         }
 
@@ -121,12 +121,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Refer to the remarks and examples for <see cref="ID3D12Device1.CreatePipelineLibrary"/>.
         /// </remarks>
         public HRESULT LoadComputePipeline([In] LPCWSTR pName, [In] in D3D12_COMPUTE_PIPELINE_STATE_DESC pDesc,
-            [In] in IID riid, [Out] out IntPtr ppPipelineState)
+            [In] in IID riid, [Out] out nint ppPipelineState)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, in D3D12_COMPUTE_PIPELINE_STATE_DESC,
-                    in IID, out IntPtr, HRESULT>)_vTable[10])(thisPtr, pName.ToIntPtr(), pDesc, riid, out ppPipelineState);
+                return ((delegate* unmanaged[Stdcall]<void*, nint, in D3D12_COMPUTE_PIPELINE_STATE_DESC,
+                    in IID, out nint, HRESULT>)_vTable[10])(thisPtr, pName.ToNint(), pDesc, riid, out ppPipelineState);
             }
         }
 
@@ -167,11 +167,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <remarks>
         /// Refer to the remarks and examples for <see cref="ID3D12Device1.CreatePipelineLibrary"/>.
         /// </remarks>
-        public HRESULT Serialize([In] IntPtr pData, [In] SIZE_T DataSizeInBytes)
+        public HRESULT Serialize([In] nint pData, [In] SIZE_T DataSizeInBytes)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, SIZE_T, HRESULT>)_vTable[12])(thisPtr, pData, DataSizeInBytes);
+                return ((delegate* unmanaged[Stdcall]<void*, nint, SIZE_T, HRESULT>)_vTable[12])(thisPtr, pData, DataSizeInBytes);
             }
         }
     }

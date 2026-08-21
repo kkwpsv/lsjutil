@@ -4542,7 +4542,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteConsoleW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL WriteConsole([In] HANDLE hConsoleOutput, [In] IntPtr lpBuffer, [In] DWORD nNumberOfCharsToWrite,
+        public static extern BOOL WriteConsole([In] HANDLE hConsoleOutput, [In] nint lpBuffer, [In] DWORD nNumberOfCharsToWrite,
             [Out] out DWORD lpNumberOfCharsWritten, [In] LPVOID lpReserved);
 
         /// <summary>

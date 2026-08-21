@@ -28,7 +28,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="phContext">
         /// A pointer to a <see cref="CtxtHandle"/> structure.
-        /// On the first call to <see cref="AcceptSecurityContext"/> (CredSSP), this pointer is <see cref="IntPtr.Zero"/>.
+        /// On the first call to <see cref="AcceptSecurityContext"/> (CredSSP), this pointer is <see cref="NULL"/>.
         /// On subsequent calls, <paramref name="phContext"/> specifies the partially formed context returned 
         /// in the <paramref name="phNewContext"/> parameter by the first call.
         /// </param>
@@ -424,8 +424,8 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Secur32.dll", CharSet = CharSet.Unicode, EntryPoint = "AcceptSecurityContext", ExactSpelling = true)]
-        public static extern SECURITY_STATUS AcceptSecurityContext([In] IntPtr phCredential, [In] IntPtr phContext, [In] IntPtr pInput,
-            [In] uint fContextReq, [In] uint TargetDataRep, [In] IntPtr phNewContext, [In] IntPtr pOutput, [Out] out uint pfContextAttr,
-            [In] IntPtr ptsExpiry);
+        public static extern SECURITY_STATUS AcceptSecurityContext([In] nint phCredential, [In] nint phContext, [In] nint    pInput,
+            [In] uint fContextReq, [In] uint TargetDataRep, [In] nint phNewContext, [In] nint pOutput, [Out] out uint pfContextAttr,
+            [In] nint ptsExpiry);
     }
 }

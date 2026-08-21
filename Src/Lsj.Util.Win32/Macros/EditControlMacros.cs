@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System;
 using static Lsj.Util.Win32.Enums.EditControlMessages;
 using static Lsj.Util.Win32.User32;
@@ -34,12 +35,16 @@ namespace Lsj.Util.Win32.Macros
         /// </remarks>
         [Obsolete("Intended for internal use; not recommended for use in applications." +
             "This macro may not be supported in future versions of Windows.")]
-        public static uint Edit_NoSetFocus(IntPtr hwndCtl) =>
-            SendMessage(hwndCtl, (WindowMessages)EM_NOSETFOCUS, UIntPtr.Zero, IntPtr.Zero).SafeToUInt32();
+        public static DWORD Edit_NoSetFocus(HWND hwndCtl) => (uint)SendMessage(hwndCtl, (WindowMessages)EM_NOSETFOCUS, 0, 0);
 
         /// <summary>
+        /// <para>
         /// Forces a single-line edit control to receive keyboard focus.
         /// You can use this macro or send the <see cref="EM_TAKEFOCUS"/> message explicitly.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/commctrl/nf-commctrl-edit_nosetfocus"/>
+        /// </para>
         /// </summary>
         /// <param name="hwndCtl">
         /// A handle to the edit control.
@@ -52,7 +57,6 @@ namespace Lsj.Util.Win32.Macros
         /// </remarks>
         [Obsolete("Intended for internal use; not recommended for use in applications." +
             "This macro may not be supported in future versions of Windows.")]
-        public static uint Edit_TakeFocus(IntPtr hwndCtl) =>
-            SendMessage(hwndCtl, (WindowMessages)EM_TAKEFOCUS, UIntPtr.Zero, IntPtr.Zero).SafeToUInt32();
+        public static DWORD Edit_TakeFocus(HWND hwndCtl) => (uint)SendMessage(hwndCtl, (WindowMessages)EM_TAKEFOCUS, 0, 0);
     }
 }

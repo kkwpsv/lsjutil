@@ -859,7 +859,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetUserObjectInformationW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetUserObjectInformation([In] IntPtr hObj, [In] UserObjectInformationIndexes nIndex, [In] PVOID pvInfo,
+        public static extern BOOL GetUserObjectInformation([In] HANDLE hObj, [In] UserObjectInformationIndexes nIndex, [In] PVOID pvInfo,
             [In] DWORD nLength, [Out] out DWORD lpnLengthNeeded);
 
         /// <summary>

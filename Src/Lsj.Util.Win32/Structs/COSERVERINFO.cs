@@ -74,14 +74,14 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The name of the computer.
         /// </summary>
-        public IntPtr pwszName;
+        public nint pwszName;
 
         /// <summary>
         /// A pointer to a <see cref="COAUTHINFO"/> structure to override the default activation security for machine remote activations.
         /// Otherwise, set to <see cref="NULL"/> to indicate that default values should be used.
         /// For more information, see the Remarks section.
         /// </summary>
-        public IntPtr pAuthInfo;
+        public nint pAuthInfo;
 
         /// <summary>
         /// This member is reserved and must be 0.

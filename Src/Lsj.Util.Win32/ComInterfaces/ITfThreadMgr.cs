@@ -19,7 +19,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct ITfThreadMgr
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Activates TSF for the calling thread.

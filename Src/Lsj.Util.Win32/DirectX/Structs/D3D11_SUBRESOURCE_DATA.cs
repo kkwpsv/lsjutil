@@ -51,7 +51,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// <summary>
         /// Pointer to the initialization data.
         /// </summary>
-        public IntPtr pSysMem;
+        public nint pSysMem;
 
         /// <summary>
         /// The distance (in bytes) from the beginning of one line of a texture to the next line.

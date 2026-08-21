@@ -5,7 +5,6 @@ using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
-using System.Data.SqlTypes;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.GEOCLASS;
@@ -2886,7 +2885,7 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindNLSStringEx", ExactSpelling = true, SetLastError = true)]
         public static extern int FindNLSStringEx([In] LPCWSTR lpLocaleName, [In] DWORD dwFindNLSStringFlags, [In] LPCWSTR lpStringSource,
-            [In] int cchSource, [In] LPCWSTR lpStringValue, [In] int cchValue, [Out] out INT pcchFound, [In] IntPtr lpVersionInformation,
+            [In] int cchSource, [In] LPCWSTR lpStringValue, [In] int cchValue, [Out] out INT pcchFound, [In] nint lpVersionInformation,
             [In] LPVOID lpReserved, [In] LPARAM sortHandle);
 
         /// <summary>
@@ -3426,7 +3425,7 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FormatMessageW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD FormatMessage([In] FormatMessageFlags dwFlags, [In] LPCVOID lpSource, [In] DWORD dwMessageId,
-            [In] DWORD dwLanguageId, [In] LPWSTR lpBuffer, [In] DWORD nSize, [In] IntPtr Arguments);
+            [In] DWORD dwLanguageId, [In] LPWSTR lpBuffer, [In] DWORD nSize, [In] nint Arguments);
 
         /// <summary>
         /// <para>
@@ -5667,7 +5666,7 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessPreferredUILanguages", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetProcessPreferredUILanguages([In] MUIFlags dwFlags, [Out] out ULONG pulNumLanguages,
-            [In] IntPtr pwszLanguagesBuffer, [In][Out] ref ULONG pcchLanguagesBuffer);
+            [In] nint pwszLanguagesBuffer, [In][Out] ref ULONG pcchLanguagesBuffer);
 
         /// <summary>
         /// <para>
@@ -6310,7 +6309,7 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemPreferredUILanguages", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetSystemPreferredUILanguages([In] MUIFlags dwFlags, [Out] out ULONG pulNumLanguages,
-            [In] IntPtr pwszLanguagesBuffer, [In][Out] ref ULONG pcchLanguagesBuffer);
+            [In] nint pwszLanguagesBuffer, [In][Out] ref ULONG pcchLanguagesBuffer);
 
         /// <summary>
         /// <para>
@@ -6544,7 +6543,7 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadPreferredUILanguages", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetThreadPreferredUILanguages([In] MUIFlags dwFlags, [Out] out ULONG pulNumLanguages,
-            [In] IntPtr pwszLanguagesBuffer, [In][Out] ref ULONG pcchLanguagesBuffer);
+            [In] nint pwszLanguagesBuffer, [In][Out] ref ULONG pcchLanguagesBuffer);
 
         /// <summary>
         /// <para>
@@ -6929,7 +6928,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetUILanguageInfo", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetUILanguageInfo([In] MUIFlags dwFlags, [In] IntPtr pwmszLanguage, [In] IntPtr pwszFallbackLanguages,
+        public static extern BOOL GetUILanguageInfo([In] MUIFlags dwFlags, [In] nint pwmszLanguage, [In] nint pwszFallbackLanguages,
             [In][Out] ref DWORD pcchFallbackLanguages, [Out] out DWORD pAttributes);
 
         /// <summary>
@@ -7247,7 +7246,7 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetUserPreferredUILanguages", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetUserPreferredUILanguages([In] MUIFlags dwFlags, [Out] out ULONG pulNumLanguages,
-            [In] IntPtr pwszLanguagesBuffer, [In][Out] ref ULONG pcchLanguagesBuffer);
+            [In] nint pwszLanguagesBuffer, [In][Out] ref ULONG pcchLanguagesBuffer);
 
         /// <summary>
         /// <para>
@@ -9758,7 +9757,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessPreferredUILanguages", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetProcessPreferredUILanguages([In] MUIFlags dwFlags, [In] IntPtr pwszLanguagesBuffer, [Out] out ULONG pulNumLanguages);
+        public static extern BOOL SetProcessPreferredUILanguages([In] MUIFlags dwFlags, [In] nint pwszLanguagesBuffer, [Out] out ULONG pulNumLanguages);
 
         /// <summary>
         /// <para>
@@ -10054,7 +10053,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadPreferredUILanguages", ExactSpelling = true)]
-        public static extern BOOL SetThreadPreferredUILanguages([In] MUIFlags dwFlags, [In] IntPtr pwszLanguagesBuffer, [Out] out ULONG pulNumLanguages);
+        public static extern BOOL SetThreadPreferredUILanguages([In] MUIFlags dwFlags, [In] nint pwszLanguagesBuffer, [Out] out ULONG pulNumLanguages);
 
         /// <summary>
         /// <para>

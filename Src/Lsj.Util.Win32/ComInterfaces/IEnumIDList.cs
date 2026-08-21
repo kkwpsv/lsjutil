@@ -27,7 +27,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </remarks>
     public unsafe struct IEnumIDList
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Retrieves the specified number of item identifiers in the enumeration sequence and advances the current position by the number of items retrieved.
@@ -118,11 +118,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <remarks>
         /// This method makes it possible to record a particular point in the enumeration sequence and then return to that point at a later time.
         /// </remarks>
-        public HRESULT Clone([Out] out IntPtr ppenum)
+        public HRESULT Clone([Out] out P<IEnumIDList> ppenum)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[6])(thisPtr, out ppenum);
+                return ((delegate* unmanaged[Stdcall]<void*, out P<IEnumIDList>, HRESULT>)_vTable[6])(thisPtr, out ppenum);
             }
         }
     }

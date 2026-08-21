@@ -3,13 +3,13 @@ using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.MediaFoundation.Enums;
 using Lsj.Util.Win32.Structs;
-using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.VARENUM;
 using static Lsj.Util.Win32.MediaFoundation.Constants;
+using static Lsj.Util.Win32.MediaFoundation.Enums.MF_SOURCE_READER_FLAG;
 using static Lsj.Util.Win32.MediaFoundation.Mfreadwrite;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
@@ -60,7 +60,7 @@ namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
     [ComInterface(IID = "70ae66f2-c809-4e4f-8915-bdcb406b7993", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 12, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IMFSourceReader
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Queries whether a stream is selected.

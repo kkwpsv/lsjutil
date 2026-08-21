@@ -85,7 +85,7 @@ namespace Lsj.Util.Win32.Extensions.NativeUI
                 var code = GetLastError();
                 if (code == 0)
                 {
-                    var sb = new StringBuffer(length);
+                    var sb = new LPWSTR(length);
                     GetWindowText(handle, sb, 20);
                     code = GetLastError();
                     if (code == 0)

@@ -28,7 +28,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(ID3D12Object), typeof(ID3D12DeviceChild), typeof(ID3D12Pageable)])]
     public unsafe struct ID3D12CommandAllocator
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Indicates to re-use the memory that is associated with the command allocator.

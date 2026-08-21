@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Callbacks
     [StructLayout(LayoutKind.Sequential)]
     public struct TIMEFMT_ENUMPROC
     {
-        private IntPtr _ptr;
+        private nint _ptr;
 
         /// <summary>
         /// 
@@ -33,12 +33,12 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator IntPtr(TIMEFMT_ENUMPROC val) => val._ptr;
+        public static explicit operator nint(TIMEFMT_ENUMPROC val) => val._ptr;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator TIMEFMT_ENUMPROC(IntPtr val) => new TIMEFMT_ENUMPROC { _ptr = val };
+        public static explicit operator TIMEFMT_ENUMPROC(nint val) => new TIMEFMT_ENUMPROC { _ptr = val };
     }
 }

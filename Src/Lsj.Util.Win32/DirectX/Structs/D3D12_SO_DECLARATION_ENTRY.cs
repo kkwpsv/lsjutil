@@ -31,7 +31,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// then <see cref="ComponentCount"/> can be greater than 4
         /// and the described entry will be a gap in the stream out where no data will be written.
         /// </summary>
-        public IntPtr SemanticName;
+        public nint SemanticName;
 
         /// <summary>
         /// Output element's zero-based index.

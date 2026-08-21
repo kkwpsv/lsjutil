@@ -26,6 +26,6 @@ namespace Lsj.Util.Win32.ComInterfaces
     [ComInterface(IID = "00000120-a8f2-4877-ba0a-fd2b6645fb94", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 7, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IWICBitmapSource
     {
-        IntPtr* _vTable;
+        nint* _vTable;
     }
 }

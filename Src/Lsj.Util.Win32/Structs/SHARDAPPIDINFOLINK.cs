@@ -63,6 +63,6 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The application-defined AppUserModelID associated with the item.
         /// </summary>
-        public IntPtr pszAppID;
+        public nint pszAppID;
     }
 }

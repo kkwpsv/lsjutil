@@ -17,16 +17,19 @@ namespace Lsj.Util.Win32.BaseTypes
         /// <inheritdoc/>
         public IntPtr ToIntPtr() => _value;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="val"></param>
-        public static implicit operator IntPtr(HMETAFILEPICT val) => val._value;
+        /// <inheritdoc/>
+        public nint ToNint() => _value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator HMETAFILEPICT(IntPtr val) => new HMETAFILEPICT { _value = val };
+        public static implicit operator nint(HMETAFILEPICT val) => val._value;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static implicit operator HMETAFILEPICT(nint val) => new HMETAFILEPICT { _value = val };
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
-using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Structs.SEC_WINNT_AUTH_IDENTITY;
 
 namespace Lsj.Util.Win32.Structs
 {

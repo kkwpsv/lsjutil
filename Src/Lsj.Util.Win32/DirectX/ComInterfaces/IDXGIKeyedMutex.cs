@@ -37,7 +37,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IDXGIObject), typeof(IDXGIDeviceSubObject)])]
     public unsafe struct IDXGIKeyedMutex
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Using a key, acquires exclusive rendering access to a shared resource.

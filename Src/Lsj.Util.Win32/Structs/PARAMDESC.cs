@@ -19,7 +19,7 @@ namespace Lsj.Util.Win32.Structs
         /// The default value for the parameter,
         /// if <see cref="PARAMFLAG_FHASDEFAULT"/> is specified in <see cref="wParamFlags"/>.
         /// </summary>
-        public IntPtr pparamdescex;
+        public nint pparamdescex;
 
         /// <summary>
         /// The parameter flags.

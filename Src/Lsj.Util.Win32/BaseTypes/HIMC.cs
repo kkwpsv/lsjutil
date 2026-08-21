@@ -17,16 +17,19 @@ namespace Lsj.Util.Win32.BaseTypes
         /// <inheritdoc/>
         public IntPtr ToIntPtr() => _value;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="val"></param>
-        public static implicit operator IntPtr(HIMC val) => val._value;
+        /// <inheritdoc/>
+        public nint ToNint() => _value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator HIMC(IntPtr val) => new HIMC { _value = val };
+        public static implicit operator nint(HIMC val) => val._value;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static implicit operator HIMC(nint val) => new HIMC { _value = val };
     }
 }

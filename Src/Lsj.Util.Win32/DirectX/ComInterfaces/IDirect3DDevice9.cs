@@ -65,7 +65,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     [ComInterface(IID = "D0223B96-BF7A-43fd-92BD-A43B0D82B9EB", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 118, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IDirect3DDevice9
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Reports the current cooperative-level status of the Direct3D device for a windowed or full-screen application.
@@ -1325,12 +1325,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For more information about texture coordinates, see Texture Coordinates (Direct3D 9).
         /// </para>
         /// </remarks>
-        public HRESULT CreateVertexBuffer([In] UINT Length, [In] DWORD Usage, [In] D3DFVF FVF, [In] D3DPOOL Pool,
+        public HRESULT CreateVertexBuffer([In] UINT Length, [In] D3DUSAGE Usage, [In] D3DFVF FVF, [In] D3DPOOL Pool,
             [Out] out P<IDirect3DVertexBuffer9> ppVertexBuffer, [In][Out] ref HANDLE pSharedHandle)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, DWORD, D3DFVF, D3DPOOL, out P<IDirect3DVertexBuffer9>, ref HANDLE, HRESULT>)_vTable[26])
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, D3DUSAGE, D3DFVF, D3DPOOL, out P<IDirect3DVertexBuffer9>, ref HANDLE, HRESULT>)_vTable[26])
                     (thisPtr, Length, Usage, FVF, Pool, out ppVertexBuffer, ref pSharedHandle);
             }
         }
@@ -1415,12 +1415,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// indicates the types of index buffers that are valid for rendering.
         /// </para>
         /// </remarks>
-        public HRESULT CreateIndexBuffer([In] UINT Length, [In] DWORD Usage, [In] D3DFORMAT Format, [In] D3DPOOL Pool,
+        public HRESULT CreateIndexBuffer([In] UINT Length, [In] D3DUSAGE Usage, [In] D3DFORMAT Format, [In] D3DPOOL Pool,
             [Out] out P<IDirect3DIndexBuffer9> ppIndexBuffer, [In][Out] ref HANDLE pSharedHandle)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, DWORD, D3DFORMAT, D3DPOOL, out P<IDirect3DIndexBuffer9>, ref HANDLE, HRESULT>)_vTable[27])
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, D3DUSAGE, D3DFORMAT, D3DPOOL, out P<IDirect3DIndexBuffer9>, ref HANDLE, HRESULT>)_vTable[27])
                     (thisPtr, Length, Usage, Format, Pool, out ppIndexBuffer, ref pSharedHandle);
             }
         }
@@ -4929,11 +4929,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </para>
         /// </remarks>
         public HRESULT DrawPrimitiveUP([In] D3DPRIMITIVETYPE PrimitiveType, [In] UINT PrimitiveCount,
-            [In] IntPtr pVertexStreamZeroData, [In] UINT VertexStreamZeroStride)
+            [In] nint pVertexStreamZeroData, [In] UINT VertexStreamZeroStride)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, D3DPRIMITIVETYPE, UINT, IntPtr, UINT, HRESULT>)_vTable[83])
+                return ((delegate* unmanaged[Stdcall]<void*, D3DPRIMITIVETYPE, UINT, nint, UINT, HRESULT>)_vTable[83])
                     (thisPtr, PrimitiveType, PrimitiveCount, pVertexStreamZeroData, VertexStreamZeroStride);
             }
         }
@@ -5014,13 +5014,13 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </para>
         /// </remarks>
         public HRESULT DrawIndexedPrimitiveUP([In] D3DPRIMITIVETYPE PrimitiveType, [In] UINT MinVertexIndex, [In] UINT NumVertices,
-            [In] UINT PrimitiveCount, [In] IntPtr pIndexData, [In] D3DFORMAT IndexDataFormat,
-            [In] IntPtr pVertexStreamZeroData, [In] UINT VertexStreamZeroStride)
+            [In] UINT PrimitiveCount, [In] nint pIndexData, [In] D3DFORMAT IndexDataFormat,
+            [In] nint pVertexStreamZeroData, [In] UINT VertexStreamZeroStride)
         {
             fixed (void* thisPtr = &this)
             {
                 return ((delegate* unmanaged[Stdcall]<void*, D3DPRIMITIVETYPE, UINT, UINT,
-                    UINT, IntPtr, D3DFORMAT, IntPtr, UINT, HRESULT>)_vTable[84])
+                    UINT, nint, D3DFORMAT, nint, UINT, HRESULT>)_vTable[84])
                     (thisPtr, PrimitiveType, MinVertexIndex, NumVertices, PrimitiveCount,
                     pIndexData, IndexDataFormat, pVertexStreamZeroData, VertexStreamZeroStride);
             }
@@ -5438,11 +5438,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For an example using <see cref="D3DXCompileShader"/>, see HLSLwithoutEffects Sample.
         /// </para>
         /// </remarks>
-        public HRESULT CreateVertexShader([In] IntPtr pFunction, [Out] out P<IDirect3DVertexShader9> ppShader)
+        public HRESULT CreateVertexShader([In] P<DWORD> pFunction, [Out] out P<IDirect3DVertexShader9> ppShader)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, out P<IDirect3DVertexShader9>, HRESULT>)_vTable[91])(thisPtr, pFunction, out ppShader);
+                return ((delegate* unmanaged[Stdcall]<void*, P<DWORD>, out P<IDirect3DVertexShader9>, HRESULT>)_vTable[91])(thisPtr, pFunction, out ppShader);
             }
         }
 
@@ -5859,11 +5859,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If the method fails, the return value can be one of the following:
         /// <see cref="D3DERR_INVALIDCALL"/>, <see cref="D3DERR_OUTOFVIDEOMEMORY"/>, <see cref="E_OUTOFMEMORY"/>.
         /// </returns>
-        public HRESULT CreatePixelShader([In] IntPtr pFunction, [Out] out P<IDirect3DPixelShader9> ppShader)
+        public HRESULT CreatePixelShader([In] P<DWORD> pFunction, [Out] out P<IDirect3DPixelShader9> ppShader)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, out P<IDirect3DPixelShader9>, HRESULT>)_vTable[106])
+                return ((delegate* unmanaged[Stdcall]<void*, P<DWORD>, out P<IDirect3DPixelShader9>, HRESULT>)_vTable[106])
                     (thisPtr, pFunction, out ppShader);
             }
         }

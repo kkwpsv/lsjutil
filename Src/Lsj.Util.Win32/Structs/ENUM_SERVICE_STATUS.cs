@@ -23,7 +23,7 @@ namespace Lsj.Util.Win32.Structs
         /// but service name comparisons are always case insensitive.
         /// A slash (/), backslash (\), comma, and space are invalid service name characters.
         /// </summary>
-        public IntPtr lpServiceName;
+        public nint lpServiceName;
 
         /// <summary>
         /// A display name that can be used by service control programs,
@@ -32,7 +32,7 @@ namespace Lsj.Util.Win32.Structs
         /// The name is case-preserved in the service control manager.
         /// Display name comparisons are always case-insensitive.
         /// </summary>
-        public IntPtr lpDisplayName;
+        public nint lpDisplayName;
 
         /// <summary>
         /// A <see cref="SERVICE_STATUS"/> structure that contains status information for the <see cref="lpServiceName"/> service.

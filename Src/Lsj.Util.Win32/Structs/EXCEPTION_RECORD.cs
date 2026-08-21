@@ -253,7 +253,7 @@ namespace Lsj.Util.Win32.Structs
         /// A pointer to an associated <see cref="EXCEPTION_RECORD"/> structure.
         /// Exception records can be chained together to provide additional information when nested exceptions occur.
         /// </summary>
-        public IntPtr ExceptionRecord;
+        public nint ExceptionRecord;
 
         /// <summary>
         /// The address where the exception occurred.

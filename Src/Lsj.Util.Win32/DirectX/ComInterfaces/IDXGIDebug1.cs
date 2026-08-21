@@ -30,7 +30,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IDXGIDebug)])]
     public unsafe struct IDXGIDebug1
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Starts tracking leaks for the current thread.

@@ -33,7 +33,7 @@ namespace Lsj.Util.Win32.Structs
         /// pointed to by the <see cref="lpServiceProc"/> member.
         /// </para>
         /// </summary>
-        public IntPtr lpServiceName;
+        public nint lpServiceName;
 
         /// <summary>
         /// A pointer to a <c>ServiceMain</c> function.

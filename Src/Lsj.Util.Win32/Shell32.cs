@@ -34,6 +34,7 @@ using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.SystemMetricIndexes;
 using static Lsj.Util.Win32.Enums.TokenAccessRights;
 using static Lsj.Util.Win32.Enums.VARENUM;
+using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Ole32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
@@ -325,7 +326,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "CommandLineToArgvW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CommandLineToArgvW(LPCWSTR lpCmdLine, [Out] out int pNumArgs);
+        public static extern nint CommandLineToArgvW([In] LPCWSTR lpCmdLine, [Out] out int pNumArgs);
 
         /// <summary>
         /// <para>
@@ -372,7 +373,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "DragQueryFileW", ExactSpelling = true)]
-        public static extern UINT DragQueryFile([In] HDROP hDrop, [In] UINT iFile, [In] StringBuffer lpszFile, [In] UINT cch);
+        public static extern UINT DragQueryFile([In] HDROP hDrop, [In] UINT iFile, [In] LPWSTR lpszFile, [In] UINT cch);
 
         /// <summary>
         /// <para>

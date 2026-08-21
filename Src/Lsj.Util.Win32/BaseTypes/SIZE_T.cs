@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.BaseTypes
     [StructLayout(LayoutKind.Sequential)]
     public struct SIZE_T
     {
-        private UIntPtr _value;
+        private nuint _value;
 
         /// <inheritdoc/>
         public override string ToString() => _value.ToString();
@@ -24,36 +24,48 @@ namespace Lsj.Util.Win32.BaseTypes
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator UIntPtr(SIZE_T val) => val._value;
+        public static implicit operator nuint(SIZE_T val) => val._value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator SIZE_T(UIntPtr val) => new SIZE_T { _value = val };
+        public static implicit operator SIZE_T(nuint val) => new SIZE_T { _value = val };
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator IntPtr(SIZE_T val) => val._value.SafeToIntPtr();
+        public static implicit operator nint(SIZE_T val) => (nint)val._value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator SIZE_T(IntPtr val) => new SIZE_T { _value = val.SafeToUIntPtr() };
+        public static implicit operator SIZE_T(nint val) => new SIZE_T { _value = (nuint)val };
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator int(SIZE_T val) => val._value.SafeToInt32();
+        public static explicit operator int(SIZE_T val) => val._value.SafeToInt32();
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator SIZE_T(int val) => new SIZE_T { _value = (UIntPtr)unchecked((uint)val) };
+        public static explicit operator uint(SIZE_T val) => val._value.SafeToUInt32();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static implicit operator SIZE_T(int val) => new SIZE_T { _value = (nuint)val };
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static implicit operator SIZE_T(long val) => new SIZE_T { _value = (nuint)val };
     }
 }

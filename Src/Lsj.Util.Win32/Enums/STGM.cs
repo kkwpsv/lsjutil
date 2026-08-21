@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Win32.ComInterfaces;
 using System;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.Enums.PROPSETFLAG;
 using static Lsj.Util.Win32.Ole32;
 
 namespace Lsj.Util.Win32.Enums

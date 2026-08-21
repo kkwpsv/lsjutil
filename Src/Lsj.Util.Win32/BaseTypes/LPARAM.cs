@@ -14,7 +14,7 @@ namespace Lsj.Util.Win32.BaseTypes
     [StructLayout(LayoutKind.Sequential)]
     public struct LPARAM
     {
-        private IntPtr _value;
+        private nint _value;
 
         /// <inheritdoc/>
         public override string ToString() => _value.ToString();
@@ -23,19 +23,19 @@ namespace Lsj.Util.Win32.BaseTypes
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator IntPtr(LPARAM val) => val._value;
+        public static implicit operator nint(LPARAM val) => val._value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator LPARAM(IntPtr val) => new LPARAM { _value = val };
+        public static implicit operator LPARAM(nint val) => new LPARAM { _value = val };
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator LPARAM(int val) => new LPARAM { _value = (IntPtr)val };
+        public static implicit operator LPARAM(int val) => new LPARAM { _value = val };
 
         /// <summary>
         /// 

@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.BaseTypes
     [StructLayout(LayoutKind.Sequential)]
     public struct PPRIVILEGE_SET
     {
-        private IntPtr _value;
+        private nint _value;
 
         /// <inheritdoc/>
         public override string ToString() => _value.ToString("X");
@@ -18,12 +18,12 @@ namespace Lsj.Util.Win32.BaseTypes
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator IntPtr(PPRIVILEGE_SET val) => val._value;
+        public static implicit operator nint(PPRIVILEGE_SET val) => val._value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator PPRIVILEGE_SET(IntPtr val) => new PPRIVILEGE_SET { _value = val };
+        public static implicit operator PPRIVILEGE_SET(nint val) => new PPRIVILEGE_SET { _value = val };
     }
 }

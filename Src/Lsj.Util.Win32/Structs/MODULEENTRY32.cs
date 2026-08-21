@@ -51,7 +51,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The base address of the module in the context of the owning process.
         /// </summary>
-        public IntPtr modBaseAddr;
+        public nint modBaseAddr;
 
         /// <summary>
         /// The size of the module, in bytes.

@@ -27,7 +27,7 @@ namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
     [ComInterface(IID = "439a42a8-0d2c-4505-be83-f79b2a05d5c4", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 16, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IMFCaptureSource
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Gets the current capture device's <see cref="IMFMediaSource"/> object pointer.

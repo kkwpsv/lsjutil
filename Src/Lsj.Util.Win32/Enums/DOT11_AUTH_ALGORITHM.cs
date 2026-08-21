@@ -1,4 +1,6 @@
-﻿namespace Lsj.Util.Win32.Enums
+﻿using static Lsj.Util.Win32.Enums.DOT11_BSS_TYPE;
+
+namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>

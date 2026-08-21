@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Callbacks
     [StructLayout(LayoutKind.Sequential)]
     public struct LPPAGESETUPHOOK
     {
-        private IntPtr _ptr;
+        private nint _ptr;
 
         /// <summary>
         /// 
@@ -33,12 +33,12 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator IntPtr(LPPAGESETUPHOOK val) => val._ptr;
+        public static explicit operator nint(LPPAGESETUPHOOK val) => val._ptr;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator LPPAGESETUPHOOK(IntPtr val) => new LPPAGESETUPHOOK { _ptr = val };
+        public static explicit operator LPPAGESETUPHOOK(nint val) => new LPPAGESETUPHOOK { _ptr = val };
     }
 }

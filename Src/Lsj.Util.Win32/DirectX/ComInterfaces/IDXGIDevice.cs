@@ -43,7 +43,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IDXGIObject)])]
     public unsafe struct IDXGIDevice
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Returns the adapter for the specified device.

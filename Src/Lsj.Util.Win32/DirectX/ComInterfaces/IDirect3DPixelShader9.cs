@@ -30,7 +30,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     [ComInterface(IID = "6D3BDBDC-5B02-4415-B852-CE5E8BCCB289", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 5, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IDirect3DPixelShader9
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Gets the device.
@@ -67,11 +67,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If the method succeeds, the return value is <see cref="D3D_OK"/>.
         /// If the method fails, the return value can be: <see cref="D3DERR_INVALIDCALL"/>.
         /// </returns>
-        public HRESULT GetFunction([In] IntPtr pData, [In][Out] ref UINT pSizeOfData)
+        public HRESULT GetFunction([In] nint pData, [In][Out] ref UINT pSizeOfData)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, ref UINT, HRESULT>)_vTable[4])(thisPtr, pData, ref pSizeOfData);
+                return ((delegate* unmanaged[Stdcall]<void*, nint, ref UINT, HRESULT>)_vTable[4])(thisPtr, pData, ref pSizeOfData);
             }
         }
     }

@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Callbacks
     [StructLayout(LayoutKind.Sequential)]
     public struct ABORTPROC
     {
-        private IntPtr _ptr;
+        private nint _ptr;
 
         /// <summary>
         /// 
@@ -33,12 +33,12 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator IntPtr(ABORTPROC val) => val._ptr;
+        public static explicit operator nint(ABORTPROC val) => val._ptr;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator ABORTPROC(IntPtr val) => new ABORTPROC { _ptr = val };
+        public static explicit operator ABORTPROC(nint val) => new ABORTPROC { _ptr = val };
     }
 }

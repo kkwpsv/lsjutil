@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.BaseTypes
     public struct PVOID64
     {
         [FieldOffset(0)]
-        private IntPtr _value;
+        private nint _value;
 
         /// <inheritdoc/>
         public override string ToString() => _value.ToString("X");
@@ -19,12 +19,12 @@ namespace Lsj.Util.Win32.BaseTypes
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator IntPtr(PVOID64 val) => val._value;
+        public static implicit operator nint(PVOID64 val) => val._value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator PVOID64(IntPtr val) => new PVOID64 { _value = val };
+        public static implicit operator PVOID64(nint val) => new PVOID64 { _value = val };
     }
 }

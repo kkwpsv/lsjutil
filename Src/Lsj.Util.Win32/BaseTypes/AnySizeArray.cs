@@ -37,7 +37,7 @@ namespace Lsj.Util.Win32.BaseTypes
         {
             fixed (T* ptr = &_val)
             {
-                return (P<T>)(IntPtr)(void*)ptr;
+                return (P<T>)(nint)ptr;
             }
         }
     }

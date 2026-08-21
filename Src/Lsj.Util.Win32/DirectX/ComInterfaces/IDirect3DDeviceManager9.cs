@@ -40,7 +40,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     [ComInterface(IID = "a0cade0f-06d5-4cf4-a1c7-f3cdd725aa75", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 9, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IDirect3DDeviceManager9
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Sets the Direct3D device or notifies the device manager that the Direct3D device was reset.
@@ -545,11 +545,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// and then call <see cref="OpenDeviceHandle"/> again to get a new handle.
         /// The <see cref="ResetDevice"/> method invalidates all open device handles.
         /// </remarks>
-        public HRESULT GetVideoService([In] HANDLE hDevice, [In] in IID riid, out IntPtr ppService)
+        public HRESULT GetVideoService([In] HANDLE hDevice, [In] in IID riid, out nint ppService)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, HANDLE, in IID, out IntPtr, HRESULT>)_vTable[9])
+                return ((delegate* unmanaged[Stdcall]<void*, HANDLE, in IID, out nint, HRESULT>)_vTable[9])
                     (thisPtr, hDevice, riid, out ppService);
             }
         }

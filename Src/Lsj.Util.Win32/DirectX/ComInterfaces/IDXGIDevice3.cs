@@ -39,7 +39,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IDXGIObject), typeof(IDXGIDevice), typeof(IDXGIDevice1), typeof(IDXGIDevice2)])]
     public unsafe struct IDXGIDevice3
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// <para>

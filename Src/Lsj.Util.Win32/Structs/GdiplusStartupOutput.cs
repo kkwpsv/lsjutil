@@ -35,11 +35,11 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Receives a pointer to a hook function.
         /// </summary>
-        public IntPtr NotificationHook;
+        public nint NotificationHook;
 
         /// <summary>
         /// Receives a pointer to an unhook function.
         /// </summary>
-        public IntPtr NotificationUnhook;
+        public nint NotificationUnhook;
     }
 }

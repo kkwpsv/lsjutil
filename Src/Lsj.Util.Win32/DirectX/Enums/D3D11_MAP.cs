@@ -4,6 +4,7 @@ using static Lsj.Util.Win32.DirectX.Enums.D3D11_BIND_FLAG;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_CPU_ACCESS_FLAG;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_USAGE;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_FEATURE;
+using Lsj.Util.Win32.DirectX.Structs;
 
 namespace Lsj.Util.Win32.DirectX.Enums
 {
@@ -105,7 +106,8 @@ namespace Lsj.Util.Win32.DirectX.Enums
         /// call <see cref="ID3D11Device.CheckFeatureSupport"/> with <see cref="D3D11_FEATURE_D3D11_OPTIONS"/>.
         /// <see cref="ID3D11Device.CheckFeatureSupport"/> fills members
         /// of a <see cref="D3D11_FEATURE_DATA_D3D11_OPTIONS"/> structure with the device's features.
-        /// The relevant members here are <see cref="MapNoOverwriteOnDynamicConstantBuffer"/> and <see cref="MapNoOverwriteOnDynamicBufferSRV"/>.
+        /// The relevant members here are <see cref="D3D11_FEATURE_DATA_D3D11_OPTIONS.MapNoOverwriteOnDynamicConstantBuffer"/>
+        /// and <see cref="D3D11_FEATURE_DATA_D3D11_OPTIONS.MapNoOverwriteOnDynamicBufferSRV"/>.
         /// </para>
         /// </summary>
         D3D11_MAP_WRITE_NO_OVERWRITE = 5,

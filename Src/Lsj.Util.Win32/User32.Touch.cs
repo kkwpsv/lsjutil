@@ -332,7 +332,13 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetGestureExtraArgs", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetGestureExtraArgs([In] HGESTUREINFO hGestureInfo, [In] UINT cbExtraArgs, [In] IntPtr pExtraArgs);
+        public static extern BOOL GetGestureExtraArgs([In] HGESTUREINFO hGestureInfo, [In] UINT cbExtraArgs,
+#if NETFRAMEWORK
+            [In] nint pExtraArgs
+#else
+            [In] P<BYTE> pExtraArgs
+#endif
+            );
 
         /// <summary>
         /// <para>

@@ -560,7 +560,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DlgDirSelectComboBoxExW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DlgDirSelectComboBoxEx([In] HWND hwndDlg, [In] IntPtr lpString, [In] int cchOut, [In] int idComboBox);
+        public static extern BOOL DlgDirSelectComboBoxEx([In] HWND hwndDlg, [In] LPWSTR lpString, [In] int cchOut, [In] int idComboBox);
 
         /// <summary>
         /// <para>
@@ -611,7 +611,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DlgDirSelectExW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DlgDirSelectEx([In] HWND hwndDlg, [In] IntPtr lpString, [In] int chCount, [In] int idListBox);
+        public static extern BOOL DlgDirSelectEx([In] HWND hwndDlg, [In] LPWSTR lpString, [In] int chCount, [In] int idListBox);
 
         /// <summary>
         /// <para>

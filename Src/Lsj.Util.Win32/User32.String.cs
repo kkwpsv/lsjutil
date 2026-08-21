@@ -215,7 +215,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharNextExA", ExactSpelling = true)]
-        public static extern IntPtr CharNextExA([In] WORD CodePage, [In] LPCSTR lpCurrentChar, [In] DWORD dwFlags);
+        public static extern nint CharNextExA([In] WORD CodePage, [In] LPCSTR lpCurrentChar, [In] DWORD dwFlags);
 
         /// <summary>
         /// <para>
@@ -251,7 +251,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharPrevW", ExactSpelling = true)]
-        public static extern IntPtr CharPrev([In] IntPtr lpszStart, [In] IntPtr lpszCurrent);
+        public static extern nint CharPrev([In] LPCWSTR lpszStart, [In] LPCWSTR lpszCurrent);
 
         /// <summary>
         /// <para>
@@ -338,7 +338,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharPrevExA", ExactSpelling = true)]
-        public static extern IntPtr CharPrevExA([In] WORD CodePage, [In] IntPtr lpStart, [In] IntPtr lpCurrentChar, [In] DWORD dwFlags);
+        public static extern nint CharPrevExA([In] WORD CodePage, [In] LPCSTR lpStart, [In] LPCSTR lpCurrentChar, [In] DWORD dwFlags);
 
         /// <summary>
         /// <para>
@@ -376,7 +376,7 @@ namespace Lsj.Util.Win32
         [Obsolete("Do not use. See Security Considerations.")]
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharToOemW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL CharToOem([In] LPCWSTR pSrc, [In] IntPtr pDst);
+        public static extern BOOL CharToOem([In] LPCWSTR pSrc, [In] nint pDst);
 
         /// <summary>
         /// <para>
@@ -410,7 +410,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharToOemBuffW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL CharToOemBuff([In] LPCWSTR lpszSrc, [In] IntPtr lpszDst, [In] DWORD cchDstLength);
+        public static extern BOOL CharToOemBuff([In] LPCWSTR lpszSrc, [In] nint lpszDst, [In] DWORD cchDstLength);
 
         /// <summary>
         /// <para>

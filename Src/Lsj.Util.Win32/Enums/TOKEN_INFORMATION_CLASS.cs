@@ -1,5 +1,5 @@
-﻿using System;
-using static Lsj.Util.Win32.Advapi32;
+﻿using static Lsj.Util.Win32.Advapi32;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Secur32;
 
 namespace Lsj.Util.Win32.Enums
@@ -209,7 +209,7 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// The buffer receives a <see cref="TOKEN_APPCONTAINER_INFORMATION"/> structure that contains the AppContainerSid associated with the token.
         /// If the token is not associated with an app container, the <see cref="TOKEN_APPCONTAINER_INFORMATION.TokenAppContainer"/> member of
-        /// the <see cref="TOKEN_APPCONTAINER_INFORMATION"/> structure points to <see cref="IntPtr.Zero"/>.
+        /// the <see cref="TOKEN_APPCONTAINER_INFORMATION"/> structure points to <see cref="NULL"/>.
         /// </summary>
         TokenAppContainerSid,
 

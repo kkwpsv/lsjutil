@@ -9,13 +9,13 @@ namespace Lsj.Util.Win32.BaseTypes
     [StructLayout(LayoutKind.Sequential)]
     public struct AUTHZ_CLIENT_CONTEXT_HANDLE : IPointer
     {
-        private IntPtr _value;
+        private nint _value;
 
         /// <inheritdoc/>
         public override string ToString() => _value.ToString("X");
 
         /// <inheritdoc/>
-        public override bool Equals(object? obj) => obj is IPointer p && p.ToIntPtr() == _value || obj is IntPtr ptr && ptr == _value;
+        public override bool Equals(object? obj) => obj is IPointer p && p.ToNint() == _value || obj is nint ptr && ptr == _value;
 
         /// <inheritdoc/>
         public override int GetHashCode() => _value.GetHashCode();
@@ -23,16 +23,19 @@ namespace Lsj.Util.Win32.BaseTypes
         /// <inheritdoc/>
         public IntPtr ToIntPtr() => _value;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="val"></param>
-        public static implicit operator IntPtr(AUTHZ_CLIENT_CONTEXT_HANDLE val) => val._value;
+        /// <inheritdoc/>
+        public nint ToNint() => _value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator AUTHZ_CLIENT_CONTEXT_HANDLE(IntPtr val) => new AUTHZ_CLIENT_CONTEXT_HANDLE { _value = val };
+        public static implicit operator nint(AUTHZ_CLIENT_CONTEXT_HANDLE val) => val._value;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static implicit operator AUTHZ_CLIENT_CONTEXT_HANDLE(nint val) => new AUTHZ_CLIENT_CONTEXT_HANDLE { _value = val };
     }
 }

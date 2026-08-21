@@ -52,7 +52,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// <summary>
         /// The message string.
         /// </summary>
-        public IntPtr pDescription;
+        public nint pDescription;
 
         /// <summary>
         /// The length of the message string at <see cref="pDescription"/>, in bytes.

@@ -31,6 +31,6 @@ namespace Lsj.Util.Win32.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IWICBitmapSource)])]
     public unsafe struct IWICBitmap
     {
-        IntPtr* _vTable;
+        nint* _vTable;
     }
 }

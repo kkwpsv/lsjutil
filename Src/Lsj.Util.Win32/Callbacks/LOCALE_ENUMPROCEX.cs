@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Callbacks
     [StructLayout(LayoutKind.Sequential)]
     public struct LOCALE_ENUMPROCEX
     {
-        private IntPtr _ptr;
+        private nint _ptr;
 
         /// <summary>
         /// 
@@ -28,12 +28,12 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator IntPtr(LOCALE_ENUMPROCEX val) => val._ptr;
+        public static explicit operator nint(LOCALE_ENUMPROCEX val) => val._ptr;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator LOCALE_ENUMPROCEX(IntPtr val) => new LOCALE_ENUMPROCEX { _ptr = val };
+        public static explicit operator LOCALE_ENUMPROCEX(nint val) => new LOCALE_ENUMPROCEX { _ptr = val };
     }
 }

@@ -46,7 +46,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </remarks>
     public unsafe struct IPersistStream
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Determines whether an object has changed since it was last saved to its stream.

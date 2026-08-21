@@ -20,7 +20,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(ID3D12Object), typeof(ID3D12DeviceChild), typeof(ID3D12Pageable)])]
     public unsafe struct ID3D12Fence
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Gets the current value of the fence.
@@ -64,11 +64,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// This method can be safely called from multiple threads at one time.
         /// </para>
         /// </remarks>
-        public HRESULT SetEventOnCompletion([In] UINT64 Value, [In] IntPtr hEvent)
+        public HRESULT SetEventOnCompletion([In] UINT64 Value, [In] HANDLE hEvent)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT64, IntPtr, HRESULT>)_vTable[9])(thisPtr, Value, hEvent);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT64, HANDLE, HRESULT>)_vTable[9])(thisPtr, Value, hEvent);
             }
         }
 

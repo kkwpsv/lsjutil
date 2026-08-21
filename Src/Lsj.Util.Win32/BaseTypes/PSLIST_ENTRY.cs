@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.BaseTypes
     [StructLayout(LayoutKind.Sequential)]
     public struct PSLIST_ENTRY
     {
-        private IntPtr _value;
+        private nint _value;
 
         /// <inheritdoc/>
         public override string ToString() => _value.ToString("X");
@@ -18,12 +18,12 @@ namespace Lsj.Util.Win32.BaseTypes
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator IntPtr(PSLIST_ENTRY val) => val._value;
+        public static implicit operator nint(PSLIST_ENTRY val) => val._value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator PSLIST_ENTRY(IntPtr val) => new PSLIST_ENTRY { _value = val };
+        public static implicit operator PSLIST_ENTRY(nint val) => new PSLIST_ENTRY { _value = val };
     }
 }

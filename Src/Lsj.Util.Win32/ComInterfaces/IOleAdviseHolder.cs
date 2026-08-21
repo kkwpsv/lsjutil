@@ -23,7 +23,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IOleAdviseHolder
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Establishes an advisory connection between an OLE object and the calling object's advise sink.
@@ -114,11 +114,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// When you call the enumeration methods, and while an enumeration is in progress,
         /// the effect of registering or revoking advisory connections on what is to be enumerated is undefined.
         /// </remarks>
-        public HRESULT EnumAdvise([Out] out IntPtr ppenumAdvise)
+        public HRESULT EnumAdvise([Out] out P<IEnumSTATDATA> ppenumAdvise)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[5])(thisPtr, out ppenumAdvise);
+                return ((delegate* unmanaged[Stdcall]<void*, out P<IEnumSTATDATA>, HRESULT>)_vTable[5])(thisPtr, out ppenumAdvise);
             }
         }
 

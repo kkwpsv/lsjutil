@@ -47,7 +47,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Reserved.
         /// </summary>
-        public IntPtr lpstrSchema;
+        public nint lpstrSchema;
 
         /// <summary>
         /// The size of an instance of this type.

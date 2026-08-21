@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Lsj.Util.Win32.BaseTypes;
 using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.Structs
@@ -12,31 +12,31 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// DebugInfo
         /// </summary>
-        public IntPtr DebugInfo;
+        public nint DebugInfo;
 
         /// <summary>
         /// LockCount
         /// </summary>
-        public int LockCount;
+        public LONG LockCount;
 
         /// <summary>
         /// RecursionCount
         /// </summary>
-        public int RecursionCount;
+        public LONG RecursionCount;
 
         /// <summary>
         /// OwningThread
         /// </summary>
-        public IntPtr OwningThread;
+        public HANDLE OwningThread;
 
         /// <summary>
         /// LockSemaphore
         /// </summary>
-        public IntPtr LockSemaphore;
+        public HANDLE LockSemaphore;
 
         /// <summary>
         /// SpinCount
         /// </summary>
-        public UIntPtr SpinCount;
+        public ULONG_PTR SpinCount;
     }
 }

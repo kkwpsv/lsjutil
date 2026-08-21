@@ -24,6 +24,6 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// A pointer to the data buffer.
         /// </summary>
-        public IntPtr pbData;
+        public nint pbData;
     }
 }

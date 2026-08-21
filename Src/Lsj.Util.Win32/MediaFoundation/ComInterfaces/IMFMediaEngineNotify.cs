@@ -25,7 +25,7 @@ namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
     [ComInterface(IID = "fee7c112-e776-42b5-9bbf-0048524e2bd5", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 3, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IMFMediaEngineNotify
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Notifies the application when a playback event occurs.

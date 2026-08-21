@@ -17,16 +17,19 @@ namespace Lsj.Util.Win32.BaseTypes
         /// <inheritdoc/>
         public IntPtr ToIntPtr() => _value;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="val"></param>
-        public static implicit operator IntPtr(HPOWERNOTIFY val) => val._value;
+        /// <inheritdoc/>
+        public nint ToNint() => _value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator HPOWERNOTIFY(IntPtr val) => new HPOWERNOTIFY { _value = val };
+        public static implicit operator nint(HPOWERNOTIFY val) => val._value;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static implicit operator HPOWERNOTIFY(nint val) => new HPOWERNOTIFY { _value = val };
     }
 }

@@ -20,7 +20,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             typeof(IDXGISwapChain1), typeof(IDXGISwapChain2), typeof(IDXGISwapChain3)])]
     public unsafe struct IDXGISwapChain4
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// This method sets High Dynamic Range (HDR) and Wide Color Gamut (WCG) header metadata.
@@ -65,11 +65,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             "Therefore it's recommended that apps always tone-map content into the range reported by the monitor. " +
             "For more details on how to write apps that react dynamically to monitor capabilities, see Using DirectX with high dynamic range displays and Advanced Color." +
             "See Remarks for more details.")]
-        public HRESULT SetHDRMetaData([In] DXGI_HDR_METADATA_TYPE Type, [In] UINT Size, [In] IntPtr pMetaData)
+        public HRESULT SetHDRMetaData([In] DXGI_HDR_METADATA_TYPE Type, [In] UINT Size, [In] nint pMetaData)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DXGI_HDR_METADATA_TYPE, UINT, IntPtr, HRESULT>)_vTable[39])(thisPtr, Type, Size, pMetaData);
+                return ((delegate* unmanaged[Stdcall]<void*, DXGI_HDR_METADATA_TYPE, UINT, nint, HRESULT>)_vTable[39])(thisPtr, Type, Size, pMetaData);
             }
         }
     }

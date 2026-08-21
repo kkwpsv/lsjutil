@@ -33,6 +33,6 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IParseDisplayName
     {
-        IntPtr* _vTable;
+        nint* _vTable;
     }
 }

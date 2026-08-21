@@ -1,5 +1,4 @@
-﻿using System;
-using static Lsj.Util.Win32.Enums.BrowseForFolderDialogOptionFlags;
+﻿using static Lsj.Util.Win32.Enums.BrowseForFolderMessages;
 using static Lsj.Util.Win32.Shell32;
 
 namespace Lsj.Util.Win32.ComInterfaces
@@ -42,6 +41,6 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </remarks>
     public unsafe struct IFolderFilterSite
     {
-        IntPtr* _vTable;
+        nint* _vTable;
     }
 }

@@ -305,7 +305,7 @@ namespace Lsj.Util.Win32.Structs
         /// These arguments are passed to the service entry point (typically the <c>main</c> function).
         /// </para>
         /// </summary>
-        public IntPtr lpBinaryPathName;
+        public nint lpBinaryPathName;
 
         /// <summary>
         /// <para>
@@ -320,7 +320,7 @@ namespace Lsj.Util.Win32.Structs
         /// <c>HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\ServiceGroupOrder</c>
         /// </para>
         /// </summary>
-        public IntPtr lpLoadOrderGroup;
+        public nint lpLoadOrderGroup;
 
         /// <summary>
         /// <para>
@@ -349,7 +349,7 @@ namespace Lsj.Util.Win32.Structs
         /// Dependency on a group means that this service can run if at least one member of the group is running
         /// after an attempt to start all members of the group.
         /// </summary>
-        public IntPtr lpDependencies;
+        public nint lpDependencies;
 
         /// <summary>
         /// <para>
@@ -367,7 +367,7 @@ namespace Lsj.Util.Win32.Structs
         /// created by the I/O system, based on the service name.
         /// </para>
         /// </summary>
-        public IntPtr lpServiceStartName;
+        public nint lpServiceStartName;
 
         /// <summary>
         /// <para>
@@ -392,6 +392,6 @@ namespace Lsj.Util.Win32.Structs
         /// Localized strings are not supported until Windows Vista.
         /// </para>
         /// </summary>
-        public IntPtr lpDisplayName;
+        public nint lpDisplayName;
     }
 }

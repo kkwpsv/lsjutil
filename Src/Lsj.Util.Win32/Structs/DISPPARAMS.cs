@@ -23,12 +23,12 @@ namespace Lsj.Util.Win32.Structs
         /// Note: these arguments appear in reverse order
         /// </para>
         /// </summary>
-        public IntPtr rgvarg;
+        public nint rgvarg;
 
         /// <summary>
         /// The dispatch IDs of the named arguments.
         /// </summary>
-        public IntPtr rgdispidNamedArgs;
+        public nint rgdispidNamedArgs;
 
         /// <summary>
         /// The number of arguments.

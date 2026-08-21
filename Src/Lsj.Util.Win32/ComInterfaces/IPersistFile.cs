@@ -20,7 +20,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IPersistFile
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Determines whether an object has changed since it was last saved to its current file.
@@ -215,11 +215,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// to ask the end user to provide a file name.
         /// Then, you can call <see cref="Save"/> with the file name that the user entered to perform a Save As operation.
         /// </remarks>
-        public HRESULT GetCurFile([Out] out IntPtr ppszFileName)
+        public HRESULT GetCurFile([Out] out nint ppszFileName)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[8])(thisPtr, out ppszFileName);
+                return ((delegate* unmanaged[Stdcall]<void*, out nint, HRESULT>)_vTable[8])(thisPtr, out ppszFileName);
             }
         }
     }

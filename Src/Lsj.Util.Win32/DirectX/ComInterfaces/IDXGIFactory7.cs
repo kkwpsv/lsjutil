@@ -21,7 +21,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             typeof(IDXGIFactory3),typeof(IDXGIFactory4), typeof(IDXGIFactory5), typeof(IDXGIFactory6)])]
     public unsafe struct IDXGIFactory7
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Registers to receive notification of changes whenever the adapter enumeration state changes.

@@ -17,6 +17,6 @@ namespace Lsj.Util.Win32.ComInterfaces
 
     public unsafe struct IAsyncMoniker
     {
-        IntPtr* _vTable;
+        nint* _vTable;
     }
 }

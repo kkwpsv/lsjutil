@@ -34,7 +34,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     [ComInterface(IID = "81BDCBCA-64D4-426d-AE8D-AD0147F4275C", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 16, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IDirect3D9
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Registers a pluggable software device.
@@ -72,11 +72,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// The Direct3D Driver Development Kit (DDK) provides the documentation and headers for developing pluggable software devices.
         /// </para>
         /// </remarks>
-        public HRESULT RegisterSoftwareDevice([In] IntPtr pInitializeFunction)
+        public HRESULT RegisterSoftwareDevice([In] nint pInitializeFunction)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, HRESULT>)_vTable[3])(thisPtr, pInitializeFunction);
+                return ((delegate* unmanaged[Stdcall]<void*, nint, HRESULT>)_vTable[3])(thisPtr, pInitializeFunction);
             }
         }
 

@@ -37,7 +37,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IDirect3DResource9)])]
     public unsafe struct IDirect3DSurface9
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Provides access to the parent cube texture or texture (mipmap) object,
@@ -79,11 +79,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// }
         /// </code>
         /// </remarks>
-        public HRESULT GetContainer([In] in IID riid, [Out] out IntPtr ppContainer)
+        public HRESULT GetContainer([In] in IID riid, [Out] out nint ppContainer)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IID, out IntPtr, HRESULT>)_vTable[11])(thisPtr, riid, out ppContainer);
+                return ((delegate* unmanaged[Stdcall]<void*, in IID, out nint, HRESULT>)_vTable[11])(thisPtr, riid, out ppContainer);
             }
         }
 

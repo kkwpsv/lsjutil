@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Callbacks
     [StructLayout(LayoutKind.Sequential)]
     public struct GEO_ENUMNAMEPROC
     {
-        private IntPtr _ptr;
+        private nint _ptr;
 
         /// <summary>
         /// 
@@ -28,12 +28,12 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator IntPtr(GEO_ENUMNAMEPROC val) => val._ptr;
+        public static explicit operator nint(GEO_ENUMNAMEPROC val) => val._ptr;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator GEO_ENUMNAMEPROC(IntPtr val) => new GEO_ENUMNAMEPROC { _ptr = val };
+        public static explicit operator GEO_ENUMNAMEPROC(nint val) => new GEO_ENUMNAMEPROC { _ptr = val };
     }
 }

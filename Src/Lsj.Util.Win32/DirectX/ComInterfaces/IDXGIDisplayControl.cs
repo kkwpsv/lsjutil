@@ -59,7 +59,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     [ComInterface(IID = "ea9dbf1a-c88e-4486-854a-98aa0138f30c", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 3, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IDXGIDisplayControl
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Retrieves a Boolean value that indicates whether the operating system's stereoscopic 3D display behavior is enabled.

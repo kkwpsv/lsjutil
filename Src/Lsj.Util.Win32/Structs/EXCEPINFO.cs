@@ -49,19 +49,19 @@ namespace Lsj.Util.Win32.Structs
         /// Typically, this is an application name.
         /// This field should be filled in by the implementer of <see cref="IDispatch"/>.
         /// </summary>
-        public IntPtr bstrSource;
+        public nint bstrSource;
 
         /// <summary>
         /// The exception description to display.
         /// If no description is available, use <see cref="NULL"/>.
         /// </summary>
-        public IntPtr bstrDescription;
+        public nint bstrDescription;
 
         /// <summary>
         /// The fully qualified help file path.
         /// If no Help is available, use <see cref="NULL"/>.
         /// </summary>
-        public IntPtr bstrHelpFile;
+        public nint bstrHelpFile;
 
         /// <summary>
         /// The help context ID.

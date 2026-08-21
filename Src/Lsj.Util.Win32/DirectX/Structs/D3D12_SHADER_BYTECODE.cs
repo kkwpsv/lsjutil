@@ -27,7 +27,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// <summary>
         /// A pointer to a memory block that contains the shader data.
         /// </summary>
-        public IntPtr pShaderBytecode;
+        public nint pShaderBytecode;
 
         /// <summary>
         /// The size, in bytes, of the shader data that the <see cref="pShaderBytecode"/> member points to.

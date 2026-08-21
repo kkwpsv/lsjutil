@@ -40,7 +40,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     [ComInterface(IID = "D67441C7-672A-476f-9E82-CD55B44949CE", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 38, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IDXGIInfoQueue
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Sets the maximum number of messages that can be added to the message queue.
@@ -829,8 +829,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             fixed (void* thisPtr = &this)
             {
                 return ((delegate* unmanaged[Stdcall]<void*, DXGI_DEBUG_ID, DXGI_INFO_QUEUE_MESSAGE_CATEGORY,
-                    DXGI_INFO_QUEUE_MESSAGE_SEVERITY, DXGI_INFO_QUEUE_MESSAGE_ID, IntPtr, HRESULT>)_vTable[29])
-                    (thisPtr, Producer, Category, Severity, ID, pDescription.ToIntPtr());
+                    DXGI_INFO_QUEUE_MESSAGE_SEVERITY, DXGI_INFO_QUEUE_MESSAGE_ID, nint, HRESULT>)_vTable[29])
+                    (thisPtr, Producer, Category, Severity, ID, pDescription.ToNint());
             }
         }
 
@@ -859,8 +859,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DXGI_INFO_QUEUE_MESSAGE_SEVERITY, IntPtr, HRESULT>)_vTable[30])
-                    (thisPtr, Severity, pDescription.ToIntPtr());
+                return ((delegate* unmanaged[Stdcall]<void*, DXGI_INFO_QUEUE_MESSAGE_SEVERITY, nint, HRESULT>)_vTable[30])
+                    (thisPtr, Severity, pDescription.ToNint());
             }
         }
 

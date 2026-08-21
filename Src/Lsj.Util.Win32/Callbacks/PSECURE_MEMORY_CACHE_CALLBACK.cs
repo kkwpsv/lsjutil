@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Callbacks
     [StructLayout(LayoutKind.Sequential)]
     public struct PSECURE_MEMORY_CACHE_CALLBACK
     {
-        private IntPtr _ptr;
+        private nint _ptr;
 
         /// <summary>
         /// 
@@ -33,12 +33,12 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator IntPtr(PSECURE_MEMORY_CACHE_CALLBACK val) => val._ptr;
+        public static explicit operator nint(PSECURE_MEMORY_CACHE_CALLBACK val) => val._ptr;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator PSECURE_MEMORY_CACHE_CALLBACK(IntPtr val) => new PSECURE_MEMORY_CACHE_CALLBACK { _ptr = val };
+        public static explicit operator PSECURE_MEMORY_CACHE_CALLBACK(nint val) => new PSECURE_MEMORY_CACHE_CALLBACK { _ptr = val };
     }
 }

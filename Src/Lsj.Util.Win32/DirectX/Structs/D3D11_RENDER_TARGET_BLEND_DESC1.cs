@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_BLEND;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_BLEND_OP;
+using static Lsj.Util.Win32.DirectX.Enums.D3D11_LOGIC_OP;
 
 namespace Lsj.Util.Win32.DirectX.Structs
 {

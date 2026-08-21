@@ -14,25 +14,28 @@ namespace Lsj.Util.Win32.BaseTypes
     [StructLayout(LayoutKind.Sequential)]
     public struct LPVOID : IPointer
     {
-        private IntPtr _value;
+        private nint _value;
 
         /// <inheritdoc/>
         public override string ToString() => _value.ToString("X");
 
         /// <inheritdoc/>
-        public nint ToIntPtr() => _value;
+        public IntPtr ToIntPtr() => _value;
+
+        /// <inheritdoc/>
+        public nint ToNint() => _value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator IntPtr(LPVOID val) => val._value;
+        public static implicit operator nint(LPVOID val) => val._value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator LPVOID(IntPtr val) => new LPVOID { _value = val };
+        public static implicit operator LPVOID(nint val) => new LPVOID { _value = val };
 
         /// <summary>
         /// 
@@ -44,6 +47,6 @@ namespace Lsj.Util.Win32.BaseTypes
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static unsafe implicit operator LPVOID(void* val) => new LPVOID { _value = (IntPtr)val };
+        public static unsafe implicit operator LPVOID(void* val) => new LPVOID { _value = (nint)val };
     }
 }

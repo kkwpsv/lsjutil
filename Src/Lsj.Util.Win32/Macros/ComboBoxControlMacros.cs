@@ -36,10 +36,10 @@ namespace Lsj.Util.Win32.Macros
         public static bool ComboBox_GetCueBannerText(HWND hwnd, out string? lpwText, int cchText)
         {
             var lparam = Marshal.AllocHGlobal(cchText * 2);
-            var result = SendMessage(hwnd, (WindowMessages)CB_GETCUEBANNER, lparam.SafeToUIntPtr(), (IntPtr)cchText);
+            var result = SendMessage(hwnd, (WindowMessages)CB_GETCUEBANNER, lparam, cchText);
             lpwText = Marshal.PtrToStringUni(lparam);
             Marshal.FreeHGlobal(lparam);
-            return result != IntPtr.Zero;
+            return result != 0;
         }
     }
 }

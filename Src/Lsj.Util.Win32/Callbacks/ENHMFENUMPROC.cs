@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Callbacks
     [StructLayout(LayoutKind.Sequential)]
     public struct ENHMFENUMPROC
     {
-        private IntPtr _ptr;
+        private nint _ptr;
 
         /// <summary>
         /// 
@@ -33,12 +33,12 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator IntPtr(ENHMFENUMPROC val) => val._ptr;
+        public static explicit operator nint(ENHMFENUMPROC val) => val._ptr;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator ENHMFENUMPROC(IntPtr val) => new ENHMFENUMPROC { _ptr = val };
+        public static explicit operator ENHMFENUMPROC(nint val) => new ENHMFENUMPROC { _ptr = val };
     }
 }

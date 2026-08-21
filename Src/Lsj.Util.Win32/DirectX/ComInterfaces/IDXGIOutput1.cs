@@ -35,7 +35,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IDXGIObject), typeof(IDXGIOutput)])]
     public unsafe struct IDXGIOutput1
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Gets the display modes that match the requested format and other input options.

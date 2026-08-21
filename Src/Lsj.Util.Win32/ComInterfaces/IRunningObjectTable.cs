@@ -38,7 +38,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </remarks>
     public unsafe struct IRunningObjectTable
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Registers an object and its identifying moniker in the running object table (ROT).
@@ -228,11 +228,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Instead, your moniker should request services from the object identified by the prefix
         /// (for example, the container of the object identified by your moniker).
         /// </remarks>
-        public HRESULT GetObject([In] P<IMoniker> pmkObjectName, [Out] out IntPtr ppunkObject)
+        public HRESULT GetObject([In] P<IMoniker> pmkObjectName, [Out] out P<IUnknown> ppunkObject)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, P<IMoniker>, out IntPtr, HRESULT>)_vTable[6])(thisPtr, pmkObjectName, out ppunkObject);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IMoniker>, out P<IUnknown>, HRESULT>)_vTable[6])(thisPtr, pmkObjectName, out ppunkObject);
             }
         }
 

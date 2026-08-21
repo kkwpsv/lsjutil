@@ -24,6 +24,6 @@ namespace Lsj.Util.Win32.Structs
         /// A pointer to an <see cref="ACL"/> structure assigned by default to any objects created by the user.
         /// The user is represented by the access token.
         /// </summary>
-        public IntPtr DefaultDacl;
+        public nint DefaultDacl;
     }
 }

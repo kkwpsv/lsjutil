@@ -13,6 +13,6 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IEnumFORMATETC
     {
-        IntPtr* _vTable;
+        nint* _vTable;
     }
 }

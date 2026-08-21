@@ -11,6 +11,13 @@ namespace Lsj.Util.Win32.BaseTypes
         /// To <see cref="IntPtr"/>
         /// </summary>
         /// <returns></returns>
+        [Obsolete]
         IntPtr ToIntPtr();
+
+        /// <summary>
+        /// To <see cref="nint"/>
+        /// </summary>
+        /// <returns></returns>
+        nint ToNint();
     }
 }

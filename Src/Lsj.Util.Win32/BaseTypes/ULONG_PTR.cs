@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.BaseTypes
     [StructLayout(LayoutKind.Sequential)]
     public struct ULONG_PTR
     {
-        private UIntPtr _value;
+        private nuint _value;
 
         /// <inheritdoc/>
         public override string ToString() => _value.ToString();
@@ -24,25 +24,25 @@ namespace Lsj.Util.Win32.BaseTypes
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator UIntPtr(ULONG_PTR val) => val._value;
+        public static implicit operator nuint(ULONG_PTR val) => val._value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator ULONG_PTR(UIntPtr val) => new ULONG_PTR { _value = val };
+        public static implicit operator ULONG_PTR(nuint val) => new ULONG_PTR { _value = val };
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator IntPtr(ULONG_PTR val) => val._value.SafeToIntPtr();
+        public static implicit operator nint(ULONG_PTR val) => (nint)val._value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator ULONG_PTR(IntPtr val) => new ULONG_PTR { _value = val.SafeToUIntPtr() };
+        public static implicit operator ULONG_PTR(nint val) => new ULONG_PTR { _value = (nuint)val };
 
         /// <summary>
         /// 

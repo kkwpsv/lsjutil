@@ -71,6 +71,6 @@ namespace Lsj.Util.Win32.Structs
         /// The <see cref="pwcsTemplateFile"/> member is only valid if version 2 or later is specified in the <see cref="usVersion"/> member.
         /// </para>
         /// </summary>
-        public IntPtr pwcsTemplateFile;
+        public nint pwcsTemplateFile;
     }
 }

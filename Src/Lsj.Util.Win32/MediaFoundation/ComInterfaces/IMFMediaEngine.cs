@@ -36,7 +36,7 @@ namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
     [ComInterface(IID = "98a1b0bb-03eb-4935-ae7c-93c1fa0e1c93", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 44, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IMFMediaEngine
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Gets the most recent error status.
@@ -210,7 +210,7 @@ namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, HRESULT>)_vTable[6])(thisPtr, pUrl);
+                return ((delegate* unmanaged[Stdcall]<void*, nint, HRESULT>)_vTable[6])(thisPtr, pUrl);
             }
         }
 

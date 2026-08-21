@@ -50,7 +50,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [Obsolete(" The MagImageScalingCallback function is deprecated in Windows 7 and later, and should not be used in new applications." +
             " There is no alternate functionality.")]
-        public delegate BOOL Magimagescalingcallback([In] HWND hwnd, [In] IntPtr srcdata, [In] MAGIMAGEHEADER srcheader, [In] IntPtr destdata,
+        public delegate BOOL Magimagescalingcallback([In] HWND hwnd, [In] nint srcdata, [In] MAGIMAGEHEADER srcheader, [In] nint destdata,
             [In] MAGIMAGEHEADER destheader, [In] RECT unclipped, [In] RECT clipped, [In] HRGN dirty);
 
 

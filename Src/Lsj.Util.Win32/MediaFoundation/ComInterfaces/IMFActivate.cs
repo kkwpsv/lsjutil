@@ -29,7 +29,7 @@ namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IMFAttributes)])]
     public unsafe struct IMFActivate
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Creates the object associated with this activation object.
@@ -100,11 +100,11 @@ namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
         /// until the client calls either <see cref="ShutdownObject"/> or <see cref="DetachObject"/>.
         /// </para>
         /// </remarks>
-        public HRESULT ActivateObject([In] in GUID riid, [Out] out IntPtr ppv)
+        public HRESULT ActivateObject([In] in GUID riid, [Out] out nint ppv)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in GUID, out IntPtr, HRESULT>)_vTable[33])(thisPtr, riid, out ppv);
+                return ((delegate* unmanaged[Stdcall]<void*, in GUID, out nint, HRESULT>)_vTable[33])(thisPtr, riid, out ppv);
             }
         }
 

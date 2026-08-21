@@ -30,7 +30,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             typeof(ID3D11Device2), typeof(ID3D11Device3), typeof(ID3D11Device4)])]
     public unsafe struct ID3D11Device5
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// <para>
@@ -59,11 +59,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <returns>
         /// This method returns one of the Direct3D 11 Return Codes.
         /// </returns>
-        public HRESULT OpenSharedFence([In] HANDLE hFence, [In] in IID ReturnedInterface, [Out] out IntPtr ppFence)
+        public HRESULT OpenSharedFence([In] HANDLE hFence, [In] in IID ReturnedInterface, [Out] out nint ppFence)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, HANDLE, in IID, out IntPtr, HRESULT>)_vTable[67])
+                return ((delegate* unmanaged[Stdcall]<void*, HANDLE, in IID, out nint, HRESULT>)_vTable[67])
                     (thisPtr, hFence, ReturnedInterface, out ppFence);
             }
         }
@@ -96,11 +96,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <returns>
         /// Returns <see cref="S_OK"/> if successful; otherwise, returns one of the Direct3D 11 Return Codes.
         /// </returns>
-        public HRESULT CreateFence([In] UINT64 InitialValue, [In] D3D11_FENCE_FLAG Flags, [In] in IID ReturnedInterface, [Out] out IntPtr ppFence)
+        public HRESULT CreateFence([In] UINT64 InitialValue, [In] D3D11_FENCE_FLAG Flags, [In] in IID ReturnedInterface, [Out] out nint ppFence)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT64, D3D11_FENCE_FLAG, in IID, out IntPtr, HRESULT>)_vTable[68])
+                return ((delegate* unmanaged[Stdcall]<void*, UINT64, D3D11_FENCE_FLAG, in IID, out nint, HRESULT>)_vTable[68])
                     (thisPtr, InitialValue, Flags, ReturnedInterface, out ppFence);
             }
         }

@@ -27,7 +27,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(ID3D11Device), typeof(ID3D11Device1)])]
     public unsafe struct ID3D11Device2
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Gets an immediate context, which can play back command lists.

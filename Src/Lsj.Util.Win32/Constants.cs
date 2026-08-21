@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Attributes;
+﻿using Lsj.Util.IL;
+using Lsj.Util.Win32.Attributes;
 using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
@@ -102,12 +103,12 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// COLE_DEFAULT_AUTHINFO
         /// </summary>
-        public static readonly IntPtr COLE_DEFAULT_AUTHINFO = (IntPtr)(-1);
+        public static readonly nint COLE_DEFAULT_AUTHINFO = -1;
 
         /// <summary>
         /// COLE_DEFAULT_PRINCIPAL
         /// </summary>
-        public static readonly IntPtr COLE_DEFAULT_PRINCIPAL = (IntPtr)(-1);
+        public static readonly nint COLE_DEFAULT_PRINCIPAL = -1;
 
         /// <summary>
         /// CONDITION_VARIABLE_LOCKMODE_SHARED
@@ -172,7 +173,7 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// DWLP_DLGPROC
         /// </summary>
-        public static readonly GetWindowLongIndexes DWLP_DLGPROC = DWLP_MSGRESULT + IntPtr.Size;
+        public static readonly GetWindowLongIndexes DWLP_DLGPROC = DWLP_MSGRESULT + Unsafe.SizeOf<nint>();
 
         /// <summary>
         /// DWLP_MSGRESULT
@@ -182,7 +183,7 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// DWLP_USER
         /// </summary>
-        public static readonly GetWindowLongIndexes DWLP_USER = DWLP_DLGPROC + IntPtr.Size;
+        public static readonly GetWindowLongIndexes DWLP_USER = DWLP_DLGPROC + Unsafe.SizeOf<nint>();
 
         /// <summary>
         /// DWM_SIT_DISPLAYFRAME
@@ -436,57 +437,57 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// HBMMENU_CALLBACK
         /// </summary>
-        public static readonly HBITMAP HBMMENU_CALLBACK = (IntPtr)(-1);
+        public static readonly HBITMAP HBMMENU_CALLBACK = -1;
 
         /// <summary>
         /// HBMMENU_MBAR_CLOSE
         /// </summary>
-        public static readonly HBITMAP HBMMENU_MBAR_CLOSE = (IntPtr)5;
+        public static readonly HBITMAP HBMMENU_MBAR_CLOSE = 5;
 
         /// <summary>
         /// HBMMENU_MBAR_CLOSE_D
         /// </summary>
-        public static readonly HBITMAP HBMMENU_MBAR_CLOSE_D = (IntPtr)6;
+        public static readonly HBITMAP HBMMENU_MBAR_CLOSE_D = 6;
 
         /// <summary>
         /// HBMMENU_MBAR_MINIMIZE
         /// </summary>
-        public static readonly HBITMAP HBMMENU_MBAR_MINIMIZE = (IntPtr)3;
+        public static readonly HBITMAP HBMMENU_MBAR_MINIMIZE = 3;
 
         /// <summary>
         /// HBMMENU_MBAR_MINIMIZE_D
         /// </summary>
-        public static readonly HBITMAP HBMMENU_MBAR_MINIMIZE_D = (IntPtr)7;
+        public static readonly HBITMAP HBMMENU_MBAR_MINIMIZE_D = 7;
 
         /// <summary>
         /// HBMMENU_MBAR_RESTORE
         /// </summary>
-        public static readonly HBITMAP HBMMENU_MBAR_RESTORE = (IntPtr)2;
+        public static readonly HBITMAP HBMMENU_MBAR_RESTORE = 2;
 
         /// <summary>
         /// HBMMENU_POPUP_CLOSE
         /// </summary>
-        public static readonly HBITMAP HBMMENU_POPUP_CLOSE = (IntPtr)8;
+        public static readonly HBITMAP HBMMENU_POPUP_CLOSE = 8;
 
         /// <summary>
         /// HBMMENU_POPUP_MAXIMIZE
         /// </summary>
-        public static readonly HBITMAP HBMMENU_POPUP_MAXIMIZE = (IntPtr)10;
+        public static readonly HBITMAP HBMMENU_POPUP_MAXIMIZE = 10;
 
         /// <summary>
         /// HBMMENU_POPUP_MINIMIZE
         /// </summary>
-        public static readonly HBITMAP HBMMENU_POPUP_MINIMIZE = (IntPtr)11;
+        public static readonly HBITMAP HBMMENU_POPUP_MINIMIZE = 11;
 
         /// <summary>
         /// HBMMENU_POPUP_RESTORE
         /// </summary>
-        public static readonly HBITMAP HBMMENU_POPUP_RESTORE = (IntPtr)9;
+        public static readonly HBITMAP HBMMENU_POPUP_RESTORE = 9;
 
         /// <summary>
         /// HBMMENU_SYSTEM
         /// </summary>
-        public static readonly HBITMAP HBMMENU_SYSTEM = (IntPtr)1;
+        public static readonly HBITMAP HBMMENU_SYSTEM = 1;
 
         /// <summary>
         /// <para>
@@ -536,7 +537,7 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// HGDI_ERROR
         /// </summary>
-        public static readonly IntPtr HGDI_ERROR = new IntPtr(-1);
+        public static readonly nint HGDI_ERROR = -1;
 
         /// <summary>
         /// HOVER_DEFAULT
@@ -546,32 +547,32 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// HWND_BROADCAST
         /// </summary>
-        public static readonly HWND HWND_BROADCAST = new IntPtr(0xFFFF);
+        public static readonly HWND HWND_BROADCAST = 0xFFFF;
 
         /// <summary>
         /// HWND_BOTTOM
         /// </summary>
-        public static readonly HWND HWND_BOTTOM = new IntPtr(1);
+        public static readonly HWND HWND_BOTTOM = 1;
 
         /// <summary>
         /// HWND_MESSAGE
         /// </summary>
-        public static readonly IntPtr HWND_MESSAGE = new IntPtr(-3);
+        public static readonly HWND HWND_MESSAGE = -3;
 
         /// <summary>
         /// HWND_NOTOPMOST
         /// </summary>
-        public static readonly HWND HWND_NOTOPMOST = new IntPtr(-2);
+        public static readonly HWND HWND_NOTOPMOST = -2;
 
         /// <summary>
         /// HWND_TOP
         /// </summary>
-        public static readonly HWND HWND_TOP = new IntPtr(0);
+        public static readonly HWND HWND_TOP = 0;
 
         /// <summary>
         /// HWND_TOPMOST
         /// </summary>
-        public static readonly HWND HWND_TOPMOST = new IntPtr(-1);
+        public static readonly HWND HWND_TOPMOST = -1;
 
         /// <summary>
         /// I_IMAGECALLBACK
@@ -606,7 +607,7 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// INVALID_HANDLE_VALUE
         /// </summary>
-        public readonly static IntPtr INVALID_HANDLE_VALUE = (IntPtr)(-1);
+        public readonly static nint INVALID_HANDLE_VALUE = -1;
 
         /// <summary>
         /// INVALID_SET_FILE_POINTER
@@ -778,7 +779,7 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// LPSTR_TEXTCALLBACK
         /// </summary>
-        public static readonly IntPtr LPSTR_TEXTCALLBACK = (IntPtr)(-1);
+        public const nint LPSTR_TEXTCALLBACK = -1;
 
         /// <summary>
         /// MAILSLOT_WAIT_FOREVER
@@ -853,7 +854,7 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// NULL
         /// </summary>
-        public readonly static IntPtr NULL = IntPtr.Zero;
+        public readonly static nint NULL = 0;
 
         /// <summary>
         /// NUMA_NO_PREFERRED_NODE
@@ -883,57 +884,57 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// PROC_THREAD_ATTRIBUTE_GROUP_AFFINITY
         /// </summary>
-        public static readonly UIntPtr PROC_THREAD_ATTRIBUTE_GROUP_AFFINITY = (UIntPtr)0x30003;
+        public static readonly nuint PROC_THREAD_ATTRIBUTE_GROUP_AFFINITY = 0x30003;
 
         /// <summary>
         /// PROC_THREAD_ATTRIBUTE_HANDLE_LIST
         /// </summary>
-        public static readonly UIntPtr PROC_THREAD_ATTRIBUTE_HANDLE_LIST = (UIntPtr)0x20002;
+        public static readonly nuint PROC_THREAD_ATTRIBUTE_HANDLE_LIST = 0x20002;
 
         /// <summary>
         /// PROC_THREAD_ATTRIBUTE_IDEAL_PROCESSOR
         /// </summary>
-        public static readonly UIntPtr PROC_THREAD_ATTRIBUTE_IDEAL_PROCESSOR = (UIntPtr)0x30005;
+        public static readonly nuint PROC_THREAD_ATTRIBUTE_IDEAL_PROCESSOR = 0x30005;
 
         /// <summary>
         /// PROC_THREAD_ATTRIBUTE_MITIGATION_POLICY
         /// </summary>
-        public static readonly UIntPtr PROC_THREAD_ATTRIBUTE_MITIGATION_POLICY = (UIntPtr)0x20007;
+        public static readonly nuint PROC_THREAD_ATTRIBUTE_MITIGATION_POLICY = 0x20007;
 
         /// <summary>
         /// PROC_THREAD_ATTRIBUTE_PARENT_PROCESS
         /// </summary>
-        public static readonly UIntPtr PROC_THREAD_ATTRIBUTE_PARENT_PROCESS = (UIntPtr)0x20000;
+        public static readonly nuint PROC_THREAD_ATTRIBUTE_PARENT_PROCESS = 0x20000;
 
         /// <summary>
         /// PROC_THREAD_ATTRIBUTE_PREFERRED_NODE
         /// </summary>
-        public static readonly UIntPtr PROC_THREAD_ATTRIBUTE_PREFERRED_NODE = (UIntPtr)0x20004;
+        public static readonly nuint PROC_THREAD_ATTRIBUTE_PREFERRED_NODE = 0x20004;
 
         /// <summary>
         /// PROC_THREAD_ATTRIBUTE_UMS_THREAD
         /// </summary>
-        public static readonly UIntPtr PROC_THREAD_ATTRIBUTE_UMS_THREAD = (UIntPtr)0x30006;
+        public static readonly nuint PROC_THREAD_ATTRIBUTE_UMS_THREAD = 0x30006;
 
         /// <summary>
         /// PROC_THREAD_ATTRIBUTE_SECURITY_CAPABILITIES
         /// </summary>
-        public static readonly UIntPtr PROC_THREAD_ATTRIBUTE_SECURITY_CAPABILITIES = (UIntPtr)0x20009;
+        public static readonly nuint PROC_THREAD_ATTRIBUTE_SECURITY_CAPABILITIES = 0x20009;
 
         /// <summary>
         /// PROC_THREAD_ATTRIBUTE_PROTECTION_LEVEL
         /// </summary>
-        public static readonly UIntPtr PROC_THREAD_ATTRIBUTE_PROTECTION_LEVEL = (UIntPtr)0x2000B;
+        public static readonly nuint PROC_THREAD_ATTRIBUTE_PROTECTION_LEVEL = 0x2000B;
 
         /// <summary>
         /// PROC_THREAD_ATTRIBUTE_CHILD_PROCESS_POLICY
         /// </summary>
-        public static readonly UIntPtr PROC_THREAD_ATTRIBUTE_CHILD_PROCESS_POLICY = (UIntPtr)0x2000E;
+        public static readonly nuint PROC_THREAD_ATTRIBUTE_CHILD_PROCESS_POLICY = 0x2000E;
 
         /// <summary>
         /// PROC_THREAD_ATTRIBUTE_DESKTOP_APP_POLICY
         /// </summary>
-        public static readonly UIntPtr PROC_THREAD_ATTRIBUTE_DESKTOP_APP_POLICY = (UIntPtr)0x20012;
+        public static readonly nuint PROC_THREAD_ATTRIBUTE_DESKTOP_APP_POLICY = 0x20012;
 
         /// <summary>
         /// PROCESS_NAME_NATIVE

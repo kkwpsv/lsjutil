@@ -29,6 +29,6 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IViewObjectEx
     {
-        IntPtr* _vTable;
+        nint* _vTable;
     }
 }

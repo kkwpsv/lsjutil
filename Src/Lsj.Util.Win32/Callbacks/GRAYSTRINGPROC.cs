@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Callbacks
     [StructLayout(LayoutKind.Sequential)]
     public struct GRAYSTRINGPROC
     {
-        private IntPtr _ptr;
+        private nint _ptr;
 
         /// <summary>
         /// 
@@ -33,12 +33,12 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator IntPtr(GRAYSTRINGPROC val) => val._ptr;
+        public static explicit operator nint(GRAYSTRINGPROC val) => val._ptr;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator GRAYSTRINGPROC(IntPtr val) => new GRAYSTRINGPROC { _ptr = val };
+        public static explicit operator GRAYSTRINGPROC(nint val) => new GRAYSTRINGPROC { _ptr = val };
     }
 }

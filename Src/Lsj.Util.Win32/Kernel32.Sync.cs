@@ -3,8 +3,8 @@ using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
-using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Advapi32;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Constants;
@@ -2776,7 +2776,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForMultipleObjectsEx", ExactSpelling = true, SetLastError = true)]
-        public static extern WaitResult WaitForMultipleObjectsEx([In] DWORD nCount, [In] IntPtr[] lpHandles, [In] BOOL bWaitAll, [In] DWORD dwMilliseconds, [In] BOOL bAlertable);
+        public static extern WaitResult WaitForMultipleObjectsEx([In] DWORD nCount, [In] HANDLE[] lpHandles, [In] BOOL bWaitAll, [In] DWORD dwMilliseconds, [In] BOOL bAlertable);
 
         /// <summary>
         /// <para>

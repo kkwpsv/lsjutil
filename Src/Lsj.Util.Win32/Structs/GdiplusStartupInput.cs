@@ -1,7 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
-using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Gdiplus;
 
 namespace Lsj.Util.Win32.Structs
@@ -38,9 +38,9 @@ namespace Lsj.Util.Win32.Structs
 
         /// <summary>
         /// Pointer to a callback function that GDI+ can call, on debug builds, for assertions and warnings.
-        /// The default value is <see cref="IntPtr.Zero"/>.
+        /// The default value is <see cref="NULL"/>.
         /// </summary>
-        public IntPtr DebugEventCallback;
+        public nint DebugEventCallback;
 
         /// <summary>
         /// Boolean value that specifies whether to suppress the GDI+ background thread.

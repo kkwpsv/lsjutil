@@ -1,8 +1,8 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.Enums;
-using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.DVASPECT;
 using static Lsj.Util.Win32.Enums.StandardClipboardFormats;
 
@@ -55,16 +55,16 @@ namespace Lsj.Util.Win32.Structs
 
         /// <summary>
         /// A pointer to a <see cref="DVTARGETDEVICE"/> structure containing information about the target device for which the data is being composed.
-        /// A <see cref="IntPtr.Zero"/> value is used whenever the specified data format is independent of the target device or
+        /// A <see cref="NULL"/> value is used whenever the specified data format is independent of the target device or
         /// when the caller doesn't care what device is used.
         /// In the latter case, if the data requires a target device, the object should pick an appropriate default device
         /// (often the display for visual components).
-        /// Data obtained from an object with a <see cref="IntPtr.Zero"/> target device, such as most metafiles,
+        /// Data obtained from an object with a <see cref="NULL"/> target device, such as most metafiles,
         /// is independent of the target device.
         /// The resulting data is usually the same as it would be if the user chose the Save As command from the File menu
         /// and selected an interchange format.
         /// </summary>
-        public IntPtr ptd;
+        public nint ptd;
 
         /// <summary>
         /// Indicates how much detail should be contained in the rendering.

@@ -37,7 +37,7 @@ namespace Lsj.Util.Win32.Structs
         /// Pointer to a string of text to be drawn by the <see cref="PolyTextOut"/> function.
         /// This string need not be null-terminated, since n specifies the length of the string.
         /// </summary>
-        public IntPtr lpstr;
+        public nint lpstr;
 
         /// <summary>
         /// <para>

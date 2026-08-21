@@ -424,7 +424,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("SetupAPI.dll", CharSet = CharSet.Unicode, EntryPoint = "SetupDiGetDeviceInstanceIdW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetupDiGetDeviceInstanceId([In] HDEVINFO DeviceInfoSet, [In] in SP_DEVINFO_DATA DeviceInfoData, [In] IntPtr DeviceInstanceId,
+        public static extern BOOL SetupDiGetDeviceInstanceId([In] HDEVINFO DeviceInfoSet, [In] in SP_DEVINFO_DATA DeviceInfoData, [In] LPWSTR DeviceInstanceId,
             [In] DWORD DeviceInstanceIdSize, [Out] out DWORD RequiredSize);
 
         /// <summary>
@@ -883,7 +883,12 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("SetupAPI.dll", CharSet = CharSet.Unicode, EntryPoint = "SetupDiGetDeviceRegistryPropertyW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetupDiGetDeviceRegistryProperty([In] HDEVINFO DeviceInfoSet, [In] in SP_DEVINFO_DATA DeviceInfoData,
-            [In] SetupDeviceRegistryProperties Property, [Out] out RegistryValueTypes PropertyRegDataType, [In] IntPtr PropertyBuffer,
+            [In] SetupDeviceRegistryProperties Property, [Out] out RegistryValueTypes PropertyRegDataType,
+#if NETFRAMEWORK
+            [In] nint PropertyBuffer,
+#else
+            [In] P<BYTE> PropertyBuffer,
+#endif
             [In] DWORD PropertyBufferSize, [Out] out DWORD RequiredSize);
 
         /// <summary>

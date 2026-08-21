@@ -1,12 +1,12 @@
 ﻿using Lsj.Util.Win32.Attributes;
 using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Structs;
-using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
+using static Lsj.Util.Win32.Ws2_32;
 
 namespace Lsj.Util.Win32
 {
@@ -272,7 +272,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Mswsock.dll", CharSet = CharSet.Unicode, EntryPoint = "AcceptEx", ExactSpelling = true)]
-        public static extern BOOL AcceptEx([In] UIntPtr sListenSocket, [In] UIntPtr sAcceptSocket, [In] PVOID lpOutputBuffer, [In] DWORD dwReceiveDataLength,
+        public static extern BOOL AcceptEx([In] SOCKET sListenSocket, [In] SOCKET sAcceptSocket, [In] PVOID lpOutputBuffer, [In] DWORD dwReceiveDataLength,
                 [In] DWORD dwLocalAddressLength, [In] DWORD dwRemoteAddressLength, [Out] out DWORD lpdwBytesReceived, [In] in OVERLAPPED lpOverlapped);
     }
 }

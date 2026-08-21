@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Callbacks
     [StructLayout(LayoutKind.Sequential)]
     public struct PINIT_ONCE_FN
     {
-        private IntPtr _ptr;
+        private nint _ptr;
 
         /// <summary>
         /// 
@@ -33,12 +33,12 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator IntPtr(PINIT_ONCE_FN val) => val._ptr;
+        public static explicit operator nint(PINIT_ONCE_FN val) => val._ptr;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator PINIT_ONCE_FN(IntPtr val) => new PINIT_ONCE_FN { _ptr = val };
+        public static explicit operator PINIT_ONCE_FN(nint val) => new PINIT_ONCE_FN { _ptr = val };
     }
 }

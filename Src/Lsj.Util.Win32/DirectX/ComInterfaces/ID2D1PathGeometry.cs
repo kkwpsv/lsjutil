@@ -36,6 +36,6 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
        InheritedFromTypes = [typeof(IUnknown), typeof(ID2D1Resource), typeof(ID2D1Geometry)])]
     public unsafe struct ID2D1PathGeometry
     {
-        IntPtr* _vTable;
+        nint* _vTable;
     }
 }

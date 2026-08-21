@@ -3,17 +3,16 @@ using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
-using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.COLORREF;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.BackgroundModes;
 using static Lsj.Util.Win32.Enums.BitmapCompressions;
 using static Lsj.Util.Win32.Enums.BoundsRectAccumulationFlags;
 using static Lsj.Util.Win32.Enums.CombineRgnModes;
 using static Lsj.Util.Win32.Enums.DeviceCapIndexes;
 using static Lsj.Util.Win32.Enums.DeviceTechnologies;
-using static Lsj.Util.Win32.Enums.BackgroundModes;
 using static Lsj.Util.Win32.Enums.DIBColorTableUsages;
 using static Lsj.Util.Win32.Enums.EditControlStyles;
 using static Lsj.Util.Win32.Enums.EscapeFunctions;
@@ -29,6 +28,7 @@ using static Lsj.Util.Win32.Enums.RegionFlags;
 using static Lsj.Util.Win32.Enums.StockObjectIndexes;
 using static Lsj.Util.Win32.Enums.StretchBltModes;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Enums.TextCapabilities;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Msimg32;
@@ -4999,7 +4999,7 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDIBitsToDevice", ExactSpelling = true, SetLastError = true)]
         public static extern int SetDIBitsToDevice([In] HDC hdc, [In] int xDest, [In] int yDest, [In] DWORD w, [In] DWORD h, [In] int xSrc, [In] int ySrc,
-            [In] UINT StartScan, [In] UINT cLines, [In] IntPtr lpvBits, [In] in BITMAPINFO lpbmi, [In] UINT ColorUse);
+            [In] UINT StartScan, [In] UINT cLines, [In] nint lpvBits, [In] in BITMAPINFO lpbmi, [In] UINT ColorUse);
 
         /// <summary>
         /// <para>
@@ -6627,7 +6627,7 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "StretchDIBits", ExactSpelling = true, SetLastError = true)]
         public static extern int StretchDIBits([In] HDC hdc, [In] int xDest, [In] int yDest, [In] int DestWidth, [In] int DestHeight, [In] int xSrc,
-            [In] int ySrc, [In] int SrcWidth, [In] int SrcHeight, [In] IntPtr lpBits, [In] in BITMAPINFO lpbmi,
+            [In] int ySrc, [In] int SrcWidth, [In] int SrcHeight, [In] nint lpBits, [In] in BITMAPINFO lpbmi,
             [In] UINT iUsage, [In] RasterCodes rop);
     }
 }

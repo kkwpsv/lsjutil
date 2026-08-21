@@ -64,7 +64,7 @@ namespace Lsj.Util.Win32.Structs
         /// if the string needs reordering and the <see cref="GCP_REORDER"/> flag is set
         /// or if the original string exceeds the maximum extent and the <see cref="GCP_MAXEXTENT"/> flag is set.
         /// </summary>
-        public IntPtr lpOutString;
+        public nint lpOutString;
 
         /// <summary>
         /// <para>
@@ -285,7 +285,7 @@ namespace Lsj.Util.Win32.Structs
         /// only the <see cref="GCPCLASS_LATIN"/> value is meaningful.
         /// </para>
         /// </summary>
-        public IntPtr lpClass;
+        public nint lpClass;
 
         /// <summary>
         /// <para>
@@ -322,7 +322,7 @@ namespace Lsj.Util.Win32.Structs
         /// and the first character in the string should be treated as if it is in the middle of a word.
         /// </para>
         /// </summary>
-        public IntPtr lpGlyphs;
+        public nint lpGlyphs;
 
         /// <summary>
         /// On input, this member must be set to the size of the arrays pointed to by the array pointer members.

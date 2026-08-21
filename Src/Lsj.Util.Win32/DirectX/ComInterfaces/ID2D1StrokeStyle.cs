@@ -29,6 +29,6 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(ID2D1Resource)])]
     public unsafe struct ID2D1StrokeStyle
     {
-        IntPtr* _vTable;
+        nint* _vTable;
     }
 }

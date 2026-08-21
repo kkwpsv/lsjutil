@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.BaseTypes
     public struct UINT_PTR
     {
         [FieldOffset(0)]
-        private UIntPtr _value;
+        private nuint _value;
 
         /// <inheritdoc/>
         public override string ToString() => _value.ToString();
@@ -24,12 +24,12 @@ namespace Lsj.Util.Win32.BaseTypes
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator UIntPtr(UINT_PTR val) => val._value;
+        public static implicit operator nuint(UINT_PTR val) => val._value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator UINT_PTR(UIntPtr val) => new UINT_PTR { _value = val };
+        public static implicit operator UINT_PTR(nuint val) => new UINT_PTR { _value = val };
     }
 }

@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Callbacks
     [StructLayout(LayoutKind.Sequential)]
     public struct LPHANDLER_FUNCTION_EX
     {
-        private IntPtr _ptr;
+        private nint _ptr;
 
         /// <summary>
         /// 
@@ -33,12 +33,12 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator IntPtr(LPHANDLER_FUNCTION_EX val) => val._ptr;
+        public static explicit operator nint(LPHANDLER_FUNCTION_EX val) => val._ptr;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator LPHANDLER_FUNCTION_EX(IntPtr val) => new LPHANDLER_FUNCTION_EX { _ptr = val };
+        public static explicit operator LPHANDLER_FUNCTION_EX(nint val) => new LPHANDLER_FUNCTION_EX { _ptr = val };
     }
 }

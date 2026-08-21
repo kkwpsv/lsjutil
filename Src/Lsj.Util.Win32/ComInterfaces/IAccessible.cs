@@ -21,7 +21,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IAccessible
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
 #pragma warning disable IDE1006
 

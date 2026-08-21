@@ -6,6 +6,8 @@ using Lsj.Util.Win32.DirectX.Enums;
 using Lsj.Util.Win32.MediaFoundation.ComInterfaces;
 using Lsj.Util.Win32.Structs;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.MediaFoundation.GUIDs.DeviceSourceTypeGUIDs;
+using static Lsj.Util.Win32.MediaFoundation.Mf;
 using static Lsj.Util.Win32.MediaFoundation.Mfapi;
 using static Lsj.Util.Win32.MediaFoundation.Mfreadwrite;
 

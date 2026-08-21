@@ -28,7 +28,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IOleLink
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Specifies how often a linked object should update its cached data.
@@ -172,11 +172,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// In addition, the linked object automatically updates the monikers whenever it successfully binds to the link source,
         /// or when it is bound to the link source and it receives a rename notification through the <see cref="IAdviseSink.OnRename"/> method.
         /// </returns>
-        public HRESULT GetSourceMoniker([Out] out IntPtr ppmk)
+        public HRESULT GetSourceMoniker([Out] out P<IMoniker> ppmk)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[6])(thisPtr, out ppmk);
+                return ((delegate* unmanaged[Stdcall]<void*, out P<IMoniker>, HRESULT>)_vTable[6])(thisPtr, out ppmk);
             }
         }
 
@@ -257,11 +257,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Instead of making repeated calls to <see cref="GetSourceDisplayName"/>, your container application can cache the name
         /// and update it whenever the link source is bound.
         /// </remarks>
-        public HRESULT GetSourceDisplayName([Out] out IntPtr ppszDisplayName)
+        public HRESULT GetSourceDisplayName([Out] out nint ppszDisplayName)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[8])(thisPtr, out ppszDisplayName);
+                return ((delegate* unmanaged[Stdcall]<void*, out nint, HRESULT>)_vTable[8])(thisPtr, out ppszDisplayName);
             }
         }
 
@@ -372,11 +372,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <remarks>
         /// You typically do not need to call <see cref="GetBoundSource"/>.
         /// </remarks>
-        public HRESULT GetBoundSource([Out] out IntPtr ppunk)
+        public HRESULT GetBoundSource([Out] out P<IUnknown> ppunk)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[11])(thisPtr, out ppunk);
+                return ((delegate* unmanaged[Stdcall]<void*, out P<IUnknown>, HRESULT>)_vTable[11])(thisPtr, out ppunk);
             }
         }
 

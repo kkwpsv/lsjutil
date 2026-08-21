@@ -2,6 +2,7 @@
 using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Structs
@@ -75,7 +76,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// A handle to the parent window, if the window is a child window.
         /// If the window is owned, this member identifies the owner window.
-        /// If the window is not a child or owned window, this member is <see cref="IntPtr.Zero"/>.
+        /// If the window is not a child or owned window, this member is <see cref="NULL"/>.
         /// </summary>
         public HWND hwndParent;
 
@@ -111,12 +112,12 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The name of the new window.
         /// </summary>
-        public IntPtr lpszName;
+        public nint lpszName;
 
         /// <summary>
         /// A pointer to a null-terminated string or an atom that specifies the class name of the new window.
         /// </summary>
-        public IntPtr lpszClass;
+        public nint lpszClass;
 
         /// <summary>
         /// The extended window style for the new window. For a list of possible values, see Extended Window Styles.

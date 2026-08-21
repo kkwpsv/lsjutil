@@ -42,7 +42,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     [ComInterface(IID = "dd95b90b-f05f-4f6a-bd65-25bfb264bd84", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 5, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IDXGISwapChainMedia
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Queries the system for a <see cref="DXGI_FRAME_STATISTICS_MEDIA"/> structure

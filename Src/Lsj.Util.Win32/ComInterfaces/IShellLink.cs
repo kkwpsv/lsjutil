@@ -11,6 +11,7 @@ using static Lsj.Util.Win32.Enums.ShellLinkGetPathFlags;
 using static Lsj.Util.Win32.Enums.ShellLinkResolveFlags;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.User32;
+using Lsj.Util.Win32.Marshals;
 
 namespace Lsj.Util.Win32.ComInterfaces
 {
@@ -32,7 +33,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </remarks>
     public unsafe struct IShellLink
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Gets the path and file name of the target of a Shell link object.
@@ -65,11 +66,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If the operation is successful but no path is retrieved, it returns <see cref="S_FALSE"/> and <paramref name="pszFile"/> will be empty.
         /// Otherwise, it returns one of the standard <see cref="HRESULT"/> error values.
         /// </returns>
-        public HRESULT GetPath([In] IntPtr pszFile, [In] int cch, [In][Out] ref WIN32_FIND_DATA pfd, [In] ShellLinkGetPathFlags fFlags)
+        public HRESULT GetPath([In] LPWSTR pszFile, [In] int cch, [In][Out] ref WIN32_FIND_DATA pfd, [In] ShellLinkGetPathFlags fFlags)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, int, ref WIN32_FIND_DATA, ShellLinkGetPathFlags, HRESULT>)_vTable[3])(thisPtr, pszFile, cch, ref pfd, fFlags);
+                return ((delegate* unmanaged[Stdcall]<void*, nint, int, ref WIN32_FIND_DATA, ShellLinkGetPathFlags, HRESULT>)_vTable[3])
+                (thisPtr, pszFile.Handle, cch, ref pfd, fFlags);
             }
         }
 
@@ -132,11 +134,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// For Windows 2000 or later, the string returned to <paramref name="pszName"/> has a maximum length of <see cref="INFOTIPSIZE"/>.
         /// For systems prior to Windows 2000, the size of the string is limited by <see cref="MAX_PATH"/>.
         /// </remarks>
-        public HRESULT GetDescription([In] IntPtr pszName, [In] int cch)
+        public HRESULT GetDescription([In] LPWSTR pszName, [In] int cch)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, int, HRESULT>)_vTable[6])(thisPtr, pszName, cch);
+                return ((delegate* unmanaged[Stdcall]<void*, nint, int, HRESULT>)_vTable[6])(thisPtr, pszName.Handle, cch);
             }
         }
 
@@ -178,11 +180,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If this method succeeds, it returns <see cref="S_OK"/>.
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
-        public HRESULT GetWorkingDirectory([In] IntPtr pszDir, [In] int cch)
+        public HRESULT GetWorkingDirectory([In] LPWSTR pszDir, [In] int cch)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, int, HRESULT>)_vTable[8])(thisPtr, pszDir, cch);
+                return ((delegate* unmanaged[Stdcall]<void*, nint, int, HRESULT>)_vTable[8])(thisPtr, pszDir.Handle, cch);
             }
         }
 
@@ -232,11 +234,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// which can silently truncate the string if the provided buffer is not large enough.
         /// <see cref="IPropertyStore"/> allocates a string of the correct size.
         /// </remarks>
-        public HRESULT GetArguments([In] IntPtr pszArgs, [In] int cch)
+        public HRESULT GetArguments([In] LPWSTR pszArgs, [In] int cch)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, int, HRESULT>)_vTable[10])(thisPtr, pszArgs, cch);
+                    return ((delegate* unmanaged[Stdcall]<void*, nint, int, HRESULT>)_vTable[10])(thisPtr, pszArgs.Handle, cch);
             }
         }
 
@@ -386,11 +388,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If this method succeeds, it returns <see cref="S_OK"/>.
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
-        public HRESULT GetIconLocation([In] IntPtr pszIconPath, [In] int cch, [Out] out int piIcon)
+        public HRESULT GetIconLocation([In] LPWSTR pszIconPath, [In] int cch, [Out] out int piIcon)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, int, out int, HRESULT>)_vTable[16])(thisPtr, pszIconPath, cch, out piIcon);
+                return ((delegate* unmanaged[Stdcall]<void*, nint, int, out int, HRESULT>)_vTable[16])(thisPtr, pszIconPath.Handle, cch, out piIcon);
             }
         }
 

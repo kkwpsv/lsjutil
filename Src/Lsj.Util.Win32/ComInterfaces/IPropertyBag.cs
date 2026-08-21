@@ -12,6 +12,6 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IPropertyBag
     {
-        IntPtr* _vTable;
+        nint* _vTable;
     }
 }

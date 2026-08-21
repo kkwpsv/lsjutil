@@ -1,8 +1,8 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
-using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.Enums.PROPSETFLAG;
 using static Lsj.Util.Win32.Enums.STGM;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
@@ -63,7 +63,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </remarks>
     public unsafe struct IPropertySetStorage
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// The <see cref="Create"/> method creates and opens a new property set in the property set storage object.

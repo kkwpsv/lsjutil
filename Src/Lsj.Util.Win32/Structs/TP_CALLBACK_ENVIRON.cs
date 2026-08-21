@@ -40,7 +40,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// ActivationContext
         /// </summary>
-        public IntPtr ActivationContext;
+        public nint ActivationContext;
 
         /// <summary>
         /// FinalizationCallback

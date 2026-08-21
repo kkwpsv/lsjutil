@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Callbacks
     [StructLayout(LayoutKind.Sequential)]
     public struct PROPENUMPROCEX
     {
-        private IntPtr _ptr;
+        private nint _ptr;
 
         /// <summary>
         /// 
@@ -33,12 +33,12 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator IntPtr(PROPENUMPROCEX val) => val._ptr;
+        public static explicit operator nint(PROPENUMPROCEX val) => val._ptr;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator PROPENUMPROCEX(IntPtr val) => new PROPENUMPROCEX { _ptr = val };
+        public static explicit operator PROPENUMPROCEX(nint val) => new PROPENUMPROCEX { _ptr = val };
     }
 }

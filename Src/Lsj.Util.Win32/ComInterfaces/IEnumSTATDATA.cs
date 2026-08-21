@@ -12,6 +12,6 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IEnumSTATDATA
     {
-        IntPtr* _vTable;
+        nint* _vTable;
     }
 }

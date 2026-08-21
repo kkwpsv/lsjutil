@@ -25,7 +25,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Receives the address of the <see cref="OVERLAPPED"/> structure that was specified when the completed I/O operation was started.
         /// </summary>
-        public IntPtr lpOverlapped;
+        public nint lpOverlapped;
 
         /// <summary>
         /// Reserved.

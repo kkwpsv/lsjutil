@@ -34,7 +34,7 @@ namespace Lsj.Util.Win32.Structs
         /// For information about what type of value you should pass a pointer to in the <see cref="pvData"/> member,
         /// see <see cref="WINDOWCOMPOSITIONATTRIB"/>.
         /// </summary>
-        public IntPtr pvData;
+        public nint pvData;
 
         /// <summary>
         /// The size of the object pointed to by the <see cref="pvData"/> member, in bytes.

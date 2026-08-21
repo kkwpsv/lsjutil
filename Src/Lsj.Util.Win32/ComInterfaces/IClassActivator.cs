@@ -16,7 +16,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IClassActivator
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Retrieves a class object.
@@ -42,11 +42,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If the method succeeds, the return value is <see cref="S_OK"/>.
         /// Otherwise, it is <see cref="E_FAIL"/>.
         /// </returns>
-        public HRESULT GetClassObject([In] in CLSID rclsid, [In] CLSCTX dwClassContext, [In] LCID locale, [In] in IID riid, [Out] out IntPtr ppv)
+        public HRESULT GetClassObject([In] in CLSID rclsid, [In] CLSCTX dwClassContext, [In] LCID locale, [In] in IID riid, [Out] out nint ppv)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in CLSID, CLSCTX, LCID, in IID, out IntPtr, HRESULT>)_vTable[3])(thisPtr, rclsid, dwClassContext, locale, riid, out ppv);
+                return ((delegate* unmanaged[Stdcall]<void*, in CLSID, CLSCTX, LCID, in IID, out nint, HRESULT>)_vTable[3])(thisPtr, rclsid, dwClassContext, locale, riid, out ppv);
             }
         }
     }

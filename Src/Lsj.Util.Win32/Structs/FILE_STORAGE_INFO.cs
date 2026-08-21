@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.FILE_INFO_BY_HANDLE_CLASS;
 using static Lsj.Util.Win32.Enums.FileStorageInfoFlags;
 using static Lsj.Util.Win32.Kernel32;
+using static Lsj.Util.Win32.Constants;
 
 namespace Lsj.Util.Win32.Structs
 {

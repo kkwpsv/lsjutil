@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Marshals
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public LPCSTR(IntPtr val) : base(IntPtr.Zero)
+        public LPCSTR(nint val) : this()
         {
             SetHandle(val);
         }
@@ -24,7 +24,7 @@ namespace Lsj.Util.Win32.Marshals
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public LPCSTR(string? val) : base(IntPtr.Zero)
+        public LPCSTR(string? val) : this()
         {
             _str = val;
             if (_str != null)
@@ -33,18 +33,23 @@ namespace Lsj.Util.Win32.Marshals
             }
         }
 
+        private LPCSTR() : base((nint)0)
+        {
+        }
+
         /// <inheritdoc/>
         public override bool IsInvalid => IsClosed;
 
         /// <inheritdoc/>
         public IntPtr ToIntPtr() => handle;
 
+        /// <inheritdoc/>
+        public nint ToNint() => handle;
+
         /// <summary>
         /// The <see cref="string"/> val
         /// </summary>
-        public string? StringVal => _str ?? (handle != IntPtr.Zero ? Marshal.PtrToStringAnsi(handle) : null);
-
-        internal IntPtr InternalGetHandle() => handle;
+        public string? StringVal => _str ?? (handle != (nint)0 ? Marshal.PtrToStringAnsi(handle) : null);
 
         /// <inheritdoc/>
         protected override bool ReleaseHandle()
@@ -69,6 +74,6 @@ namespace Lsj.Util.Win32.Marshals
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator LPCSTR(IntPtr val) => new LPCSTR(val);
+        public static implicit operator LPCSTR(nint val) => new LPCSTR(val);
     }
 }

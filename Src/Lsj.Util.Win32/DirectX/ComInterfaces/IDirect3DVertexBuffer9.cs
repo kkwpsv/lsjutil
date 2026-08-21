@@ -46,7 +46,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IDirect3DResource9)])]
     public unsafe struct IDirect3DVertexBuffer9
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Locks a range of vertex data and obtains a pointer to the vertex buffer memory.
@@ -121,11 +121,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// with <see cref="Lock"/>, see Using Dynamic Vertex and Index Buffers.
         /// </para>
         /// </remarks>
-        public HRESULT Lock([In] UINT OffsetToLock, [In] UINT SizeToLock, [Out] out IntPtr ppbData, [In] D3DLOCK Flags)
+        public HRESULT Lock([In] UINT OffsetToLock, [In] UINT SizeToLock, [Out] out nint ppbData, [In] D3DLOCK Flags)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, out IntPtr, D3DLOCK, HRESULT>)_vTable[11])
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, out nint, D3DLOCK, HRESULT>)_vTable[11])
                     (thisPtr, OffsetToLock, SizeToLock, out ppbData, Flags);
 
             }

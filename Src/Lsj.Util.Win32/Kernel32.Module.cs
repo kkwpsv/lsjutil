@@ -544,7 +544,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetModuleFileNameW", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD GetModuleFileName([In] HMODULE hModule, [In] IntPtr lpFilename, [In] DWORD nSize);
+        public static extern DWORD GetModuleFileName([In] HMODULE hModule, [In] LPWSTR lpFilename, [In] DWORD nSize);
 
         /// <summary>
         /// <para>
@@ -615,7 +615,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "K32GetModuleFileNameExW", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD GetModuleFileNameEx([In] HANDLE hProcess, [In] HMODULE hModule, [In] IntPtr lpFilename, [In] DWORD nSize);
+        public static extern DWORD GetModuleFileNameEx([In] HANDLE hProcess, [In] HMODULE hModule, [In] LPWSTR lpFilename, [In] DWORD nSize);
 
         /// <summary>
         /// <para>

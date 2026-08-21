@@ -34,6 +34,6 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// If a <see cref="D3DBOX"/> was provided to the <see cref="IDirect3DVolume9.LockBox"/> call,
         /// <see cref="pBits"/> will be appropriately offset from the start of the volume.
         /// </summary>
-        public IntPtr pBits;
+        public nint pBits;
     }
 }

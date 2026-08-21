@@ -18,7 +18,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IShellDispatch3
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Adds a file to the most recently used (MRU) list.

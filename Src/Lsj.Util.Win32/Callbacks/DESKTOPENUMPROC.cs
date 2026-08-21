@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Callbacks
     [StructLayout(LayoutKind.Sequential)]
     public struct DESKTOPENUMPROC
     {
-        private IntPtr _ptr;
+        private nint _ptr;
 
         /// <summary>
         /// 
@@ -33,12 +33,12 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator IntPtr(DESKTOPENUMPROC val) => val._ptr;
+        public static explicit operator nint(DESKTOPENUMPROC val) => val._ptr;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator DESKTOPENUMPROC(IntPtr val) => new DESKTOPENUMPROC { _ptr = val };
+        public static explicit operator DESKTOPENUMPROC(nint val) => new DESKTOPENUMPROC { _ptr = val };
     }
 }

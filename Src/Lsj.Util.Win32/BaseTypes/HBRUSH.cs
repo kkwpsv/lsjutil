@@ -23,6 +23,9 @@ namespace Lsj.Util.Win32.BaseTypes
         /// <inheritdoc/>
         public IntPtr ToIntPtr() => _value;
 
+        /// <inheritdoc/>
+        public nint ToNint() => _value;
+
         /// <summary>
         /// 
         /// </summary>
@@ -51,18 +54,18 @@ namespace Lsj.Util.Win32.BaseTypes
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator IntPtr(HBRUSH val) => val._value;
+        public static implicit operator nint(HBRUSH val) => val._value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator HBRUSH(IntPtr val) => new HBRUSH { _value = val };
+        public static implicit operator HBRUSH(nint val) => new HBRUSH { _value = val };
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator HBRUSH(SystemColors val) => new HBRUSH { _value = (IntPtr)(val + 1) };
+        public static implicit operator HBRUSH(SystemColors val) => new HBRUSH { _value = (nint)(val + 1) };
     }
 }

@@ -17,11 +17,11 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// A pointer to a buffer that contains the friendly name of the filter.
         /// </summary>
-        public IntPtr pszName;
+        public nint pszName;
 
         /// <summary>
         /// A pointer to a buffer that contains the filter pattern.
         /// </summary>
-        public IntPtr pszSpec;
+        public nint pszSpec;
     }
 }

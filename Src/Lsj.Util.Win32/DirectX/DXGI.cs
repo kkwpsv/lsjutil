@@ -331,6 +331,6 @@ namespace Lsj.Util.Win32.DirectX
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows8_1)]
         [DllImport("DXGI.dll", CharSet = CharSet.Unicode, EntryPoint = "DXGIGetDebugInterface1", ExactSpelling = true)]
-        public static extern HRESULT DXGIGetDebugInterface1([In] UINT Flags, [In] in IID riid, [Out] out IntPtr pDebug);
+        public static extern HRESULT DXGIGetDebugInterface1([In] UINT Flags, [In] in IID riid, [Out] out nint pDebug);
     }
 }

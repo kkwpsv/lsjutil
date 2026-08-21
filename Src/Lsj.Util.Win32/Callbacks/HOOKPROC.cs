@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Callbacks
     [StructLayout(LayoutKind.Sequential)]
     public struct HOOKPROC
     {
-        private IntPtr _ptr;
+        private nint _ptr;
 
         /// <summary>
         /// 
@@ -33,12 +33,12 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator IntPtr(HOOKPROC val) => val._ptr;
+        public static explicit operator nint(HOOKPROC val) => val._ptr;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator HOOKPROC(IntPtr val) => new HOOKPROC { _ptr = val };
+        public static explicit operator HOOKPROC(nint val) => new HOOKPROC { _ptr = val };
     }
 }

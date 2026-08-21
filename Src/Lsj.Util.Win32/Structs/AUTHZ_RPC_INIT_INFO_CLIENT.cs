@@ -43,36 +43,36 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public IntPtr ObjectUuid;
+        public nint ObjectUuid;
 
         /// <summary>
         /// Null-terminated string representation of a protocol sequence.
         /// This can be the following value.
         /// “ncacn_ip_tcp”.
         /// </summary>
-        public IntPtr ProtSeq;
+        public nint ProtSeq;
 
         /// <summary>
         /// Null-terminated string representation of a network address. The network-address format is associated with the protocol sequence.
         /// </summary>
-        public IntPtr NetworkAddr;
+        public nint NetworkAddr;
 
         /// <summary>
         /// Null-terminated string representation of an endpoint. The endpoint format and content are associated with the protocol sequence.
         /// For example, the endpoint associated with the protocol sequence ncacn_np is a pipe name in the format \Pipe\PipeName.
         /// </summary>
-        public IntPtr Endpoint;
+        public nint Endpoint;
 
         /// <summary>
         /// Null-terminated string representation of network options.
         /// The option string is associated with the protocol sequence.
         /// </summary>
-        public IntPtr Options;
+        public nint Options;
 
         /// <summary>
         /// Server Principal Name (SPN) of the server.
         /// If this member is missing, it is constructed from NetworkAddr assuming "host" service class.
         /// </summary>
-        public IntPtr ServerSpn;
+        public nint ServerSpn;
     }
 }

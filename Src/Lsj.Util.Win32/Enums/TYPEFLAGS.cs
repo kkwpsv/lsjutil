@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.ComInterfaces;
+using Lsj.Util.Win32.Structs;
 using System;
 using static Lsj.Util.Win32.Enums.TYPEKIND;
 using static Lsj.Util.Win32.Ole32;

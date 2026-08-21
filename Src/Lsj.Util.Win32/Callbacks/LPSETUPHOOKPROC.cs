@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Callbacks
     [StructLayout(LayoutKind.Sequential)]
     public struct LPSETUPHOOKPROC
     {
-        private IntPtr _ptr;
+        private nint _ptr;
 
         /// <summary>
         /// 
@@ -33,12 +33,12 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator IntPtr(LPSETUPHOOKPROC val) => val._ptr;
+        public static explicit operator nint(LPSETUPHOOKPROC val) => val._ptr;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator LPSETUPHOOKPROC(IntPtr val) => new LPSETUPHOOKPROC { _ptr = val };
+        public static explicit operator LPSETUPHOOKPROC(nint val) => new LPSETUPHOOKPROC { _ptr = val };
     }
 }

@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Callbacks
     [StructLayout(LayoutKind.Sequential)]
     public struct ENUMRESLANGPROC
     {
-        private IntPtr _ptr;
+        private nint _ptr;
 
         /// <summary>
         /// 
@@ -28,12 +28,12 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator IntPtr(ENUMRESLANGPROC val) => val._ptr;
+        public static explicit operator nint(ENUMRESLANGPROC val) => val._ptr;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator ENUMRESLANGPROC(IntPtr val) => new ENUMRESLANGPROC { _ptr = val };
+        public static explicit operator ENUMRESLANGPROC(nint val) => new ENUMRESLANGPROC { _ptr = val };
     }
 }

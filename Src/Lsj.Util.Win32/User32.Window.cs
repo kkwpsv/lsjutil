@@ -14,6 +14,7 @@ using static Lsj.Util.Win32.Enums.AnimateWindowFlags;
 using static Lsj.Util.Win32.Enums.ChildWindowFromPointExFlags;
 using static Lsj.Util.Win32.Enums.ComboBoxControlMessages;
 using static Lsj.Util.Win32.Enums.DWMWINDOWATTRIBUTE;
+using static Lsj.Util.Win32.Enums.EditControlStyles;
 using static Lsj.Util.Win32.Enums.ExtendedWindowStyles;
 using static Lsj.Util.Win32.Enums.GetAncestorFlags;
 using static Lsj.Util.Win32.Enums.GetClassLongIndexes;
@@ -1763,7 +1764,7 @@ namespace Lsj.Util.Win32
         /// <param name="hMenu">
         /// A handle to a menu, or specifies a child-window identifier depending on the window style.
         /// For an overlapped or pop-up window, <paramref name="hMenu"/> identifies the menu to be used with the window;
-        /// it can be <see cref="IntPtr.Zero"/> if the class menu is to be used.
+        /// it can be <see cref="NULL"/> if the class menu is to be used.
         /// For a child window, <paramref name="hMenu"/> specifies the child-window identifier,
         /// an integer value used by a dialog box control to notify its parent about events.
         /// The application determines the child-window identifier; it must be unique for all child windows with the same parent window.
@@ -2097,7 +2098,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="hMenu">
         /// A handle to a menu, or specifies a child-window identifier, depending on the window style. For an overlapped or pop-up window,
-        /// <paramref name="hMenu"/> identifies the menu to be used with the window; it can be <see cref="IntPtr.Zero"/> if the class menu is to be used.
+        /// <paramref name="hMenu"/> identifies the menu to be used with the window; it can be <see cref="NULL"/> if the class menu is to be used.
         /// For a child window, <paramref name="hMenu"/>  specifies the child-window identifier, an integer value used by a dialog box control
         /// to notify its parent about events.
         /// The application determines the child-window identifier; it must be unique for all child windows with the same parent window.
@@ -3278,7 +3279,7 @@ namespace Lsj.Util.Win32
         /// <param name="lParam"></param>
         /// <returns></returns>
         [Obsolete]
-        public static BOOL EnumTaskWindows(HANDLE hTask, WNDENUMPROC lpfn, LPARAM lParam) => EnumThreadWindows(((IntPtr)hTask).SafeToUInt32(), lpfn, lParam);
+        public static BOOL EnumTaskWindows(HANDLE hTask, WNDENUMPROC lpfn, LPARAM lParam) => EnumThreadWindows(hTask.SafeToUInt32(), lpfn, lParam);
 
         /// <summary>
         /// <para>
@@ -4209,7 +4210,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClassNameW", ExactSpelling = true, SetLastError = true)]
-        public static extern int GetClassName([In] HWND hWnd, [In] IntPtr lpClassName, [In] int nMaxCount);
+        public static extern int GetClassName([In] HWND hWnd, [In] LPWSTR lpClassName, [In] int nMaxCount);
 
         /// <summary>
         /// <para>
@@ -5401,7 +5402,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         public static LONG_PTR GetWindowLongPtr([In] HWND hWnd, [In] GetWindowLongIndexes nIndex) =>
-            IntPtr.Size > 4 ? GetWindowLongPtrImp(hWnd, nIndex) : (LONG_PTR)(IntPtr)(int)GetWindowLong(hWnd, nIndex);
+            IntPtr.Size > 4 ? GetWindowLongPtrImp(hWnd, nIndex) : (LONG_PTR)(nint)GetWindowLong(hWnd, nIndex);
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowLongPtrW", ExactSpelling = true, SetLastError = true)]
         private static extern LONG_PTR GetWindowLongPtrImp(HWND hWnd, GetWindowLongIndexes nIndex);
@@ -5728,7 +5729,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowTextW", ExactSpelling = true, SetLastError = true)]
-        public static extern int GetWindowText([In] HWND hWnd, [In] IntPtr lpString, [In] int nMaxCount);
+        public static extern int GetWindowText([In] HWND hWnd, [In] LPWSTR lpString, [In] int nMaxCount);
 
         /// <summary>
         /// <para>
@@ -7318,7 +7319,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetForegroundWindow", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetForegroundWindow([In] IntPtr hWnd);
+        public static extern BOOL SetForegroundWindow([In] HWND hWnd);
 
         /// <summary>
         /// <para>

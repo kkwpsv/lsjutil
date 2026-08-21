@@ -28,7 +28,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             typeof(IDXGIOutput2), typeof(IDXGIOutput3), typeof(IDXGIOutput4)])]
     public unsafe struct IDXGIOutput5
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Allows specifying a list of supported formats for fullscreen surfaces

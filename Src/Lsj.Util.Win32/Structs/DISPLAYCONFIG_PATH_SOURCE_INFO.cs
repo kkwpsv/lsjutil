@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.DisplayConfigPathInfoFlags;
+using static Lsj.Util.Win32.Enums.SetDisplayConfigFlags;
 
 namespace Lsj.Util.Win32.Structs
 {

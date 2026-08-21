@@ -1,6 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
-using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Advapi32;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -24,7 +24,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The name of the user who acquired the lock.
         /// </summary>
-        public IntPtr lpLockOwner;
+        public nint lpLockOwner;
 
         /// <summary>
         /// The time since the lock was first acquired, in seconds.

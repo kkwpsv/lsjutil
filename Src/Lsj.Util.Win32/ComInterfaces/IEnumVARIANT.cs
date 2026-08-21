@@ -16,6 +16,6 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </remarks>
     public unsafe struct IEnumVARIANT
     {
-        IntPtr* _vTable;
+        nint* _vTable;
     }
 }

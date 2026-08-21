@@ -93,7 +93,7 @@ namespace Lsj.Util.Win32.Structs
         /// To retrieve a shortcut's target without filtering, use the string <code>"All Files\0*.*\0\0"</code>.
         /// </para>
         /// </summary>
-        public IntPtr lpstrFilter;
+        public nint lpstrFilter;
 
         /// <summary>
         /// <para>
@@ -115,7 +115,7 @@ namespace Lsj.Util.Win32.Structs
         /// in characters, of the <see cref="lpstrCustomFilter"/> buffer.
         /// </para>
         /// </summary>
-        public IntPtr lpstrCustomFilter;
+        public nint lpstrCustomFilter;
 
         /// <summary>
         /// The size, in characters, of the buffer identified by <see cref="lpstrCustomFilter"/>.
@@ -160,7 +160,7 @@ namespace Lsj.Util.Win32.Structs
         /// In this case, the first two bytes of the <see cref="lpstrFile"/> buffer contain the required size, in bytes or characters.
         /// </para>
         /// </summary>
-        public IntPtr lpstrFile;
+        public nint lpstrFile;
 
         /// <summary>
         /// The size, in characters, of the buffer pointed to by <see cref="lpstrFile"/>.
@@ -175,7 +175,7 @@ namespace Lsj.Util.Win32.Structs
         /// The file name and extension (without path information) of the selected file.
         /// This member can be <see cref="NULL"/>.
         /// </summary>
-        public IntPtr lpstrFileTitle;
+        public nint lpstrFileTitle;
 
         /// <summary>
         /// The size, in characters, of the buffer pointed to by <see cref="lpstrFileTitle"/>.
@@ -263,13 +263,13 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public IntPtr lpstrInitialDir;
+        public nint lpstrInitialDir;
 
         /// <summary>
         /// A string to be placed in the title bar of the dialog box.
         /// If this member is <see cref="NULL"/>, the system uses the default title (that is, Save As or Open).
         /// </summary>
-        public IntPtr lpstrTitle;
+        public nint lpstrTitle;
 
         /// <summary>
         /// <para>
@@ -755,7 +755,7 @@ namespace Lsj.Util.Win32.Structs
         /// The string should not contain a period (.).
         /// If this member is <see cref="NULL"/> and the user fails to type an extension, no extension is appended.
         /// </summary>
-        public IntPtr lpstrDefExt;
+        public nint lpstrDefExt;
 
         /// <summary>
         /// Application-defined data that the system passes to the hook procedure identified by the <see cref="lpfnHook"/> member.
@@ -792,12 +792,12 @@ namespace Lsj.Util.Win32.Structs
         /// If the <see cref="OFN_EXPLORER"/> flag is not set, the system uses the template to create an old-style dialog box
         /// that replaces the default dialog box.
         /// </summary>
-        public IntPtr lpTemplateName;
+        public nint lpTemplateName;
 
         /// <summary>
         /// This member is reserved.
         /// </summary>
-        public IntPtr pvReserved;
+        public nint pvReserved;
 
         /// <summary>
         /// This member is reserved.

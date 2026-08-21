@@ -1,9 +1,9 @@
 ﻿using Lsj.Util.Win32.Attributes;
 using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
-using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.Combase;
 using static Lsj.Util.Win32.Ole32;
 
 namespace Lsj.Util.Win32.ComInterfaces
@@ -23,7 +23,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     [ComInterface(BeginVTableSlotIndex = 3, EndVTableSlotIndex = 5, IID = "AF86E2E0-B12D-4c6a-9C5A-D7AA65101E90", InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IInspectable
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Gets the interfaces that are implemented by the current Windows Runtime class.

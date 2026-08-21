@@ -17,7 +17,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct ITfTextInputProcessor
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Activates a text service when a user session starts.

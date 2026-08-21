@@ -84,7 +84,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IDirect3DDevice9)])]
     public unsafe struct IDirect3DDevice9Ex
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Prepare the texture sampler for monochrome convolution filtering on a single-color texture.

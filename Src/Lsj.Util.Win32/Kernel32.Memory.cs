@@ -21,6 +21,7 @@ using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.ProcessHeapFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.VirtualFreeTypes;
+using static Lsj.Util.Win32.Kernelbase;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32
@@ -3794,7 +3795,7 @@ namespace Lsj.Util.Win32
         /// 
         /// </summary>
         [Obsolete]
-        public static void LockSegment(UINT w) => GlobalFix((HANDLE)(IntPtr)(int)w);
+        public static void LockSegment(UINT w) => GlobalFix((HANDLE)(nint)w);
 
         /// <summary>
         /// <para>
@@ -4178,7 +4179,7 @@ namespace Lsj.Util.Win32
         /// 
         /// </summary>
         [Obsolete]
-        public static void UnlockSegment(UINT w) => GlobalUnfix((HANDLE)(IntPtr)(int)w);
+        public static void UnlockSegment(UINT w) => GlobalUnfix((HANDLE)(nint)w);
 
         /// <summary>
         /// <para>

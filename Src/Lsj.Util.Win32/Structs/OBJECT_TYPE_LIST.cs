@@ -76,6 +76,6 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// A pointer to the GUID for the object or subobject.
         /// </summary>
-        public IntPtr ObjectType;
+        public nint ObjectType;
     }
 }

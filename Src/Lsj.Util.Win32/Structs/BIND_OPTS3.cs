@@ -124,7 +124,7 @@ namespace Lsj.Util.Win32.Structs
         /// Callers may not free any of these pointers until the bind context is released.
         /// COM's new class moniker does not currently honor the <see cref="pServerInfo"/> flag.
         /// </summary>
-        public IntPtr pServerInfo;
+        public nint pServerInfo;
 
         /// <summary>
         /// A handle to the window that becomes the owner of the elevation UI, if applicable.

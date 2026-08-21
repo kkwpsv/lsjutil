@@ -53,11 +53,11 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// <summary>
         /// The macro name.
         /// </summary>
-        public IntPtr Name;
+        public nint Name;
 
         /// <summary>
         /// The macro definition.
         /// </summary>
-        public IntPtr Definition;
+        public nint Definition;
     }
 }

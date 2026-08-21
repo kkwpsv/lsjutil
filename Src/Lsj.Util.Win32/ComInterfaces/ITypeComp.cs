@@ -25,7 +25,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct ITypeComp
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Maps a name to a member of a type, or binds global variables and functions contained in a type library.
@@ -96,7 +96,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, ULONG, WORD, out P<ITypeInfo>, out DESCKIND, out BINDPTR, HRESULT>)_vTable[3])
+                return ((delegate* unmanaged[Stdcall]<void*, nint, ULONG, WORD, out P<ITypeInfo>, out DESCKIND, out BINDPTR, HRESULT>)_vTable[3])
                     (thisPtr, szName.Handle, lHashVal, wFlags, out ppTInfo, out pDescKind, out pBindPtr);
             }
         }

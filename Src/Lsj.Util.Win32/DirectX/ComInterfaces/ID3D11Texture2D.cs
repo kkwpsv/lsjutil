@@ -32,7 +32,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(ID3D11DeviceChild), typeof(ID3D11Resource)])]
     public unsafe struct ID3D11Texture2D
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Get the properties of the texture resource.

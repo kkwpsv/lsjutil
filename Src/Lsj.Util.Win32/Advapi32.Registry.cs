@@ -22,6 +22,7 @@ using static Lsj.Util.Win32.Enums.RegSaveKeyExFlags;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.TokenAccessRights;
+using static Lsj.Util.Win32.Enums.WorkThreadFlags;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Ktmw32;
 using static Lsj.Util.Win32.Shlwapi;
@@ -1428,7 +1429,7 @@ namespace Lsj.Util.Win32
             "Applications should use the RegEnumKeyEx function.")]
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegEnumKeyW", ExactSpelling = true)]
-        public static extern LSTATUS RegEnumKey([In] HKEY hKey, [In] DWORD dwIndex, [In] IntPtr lpName, [In] DWORD cchName);
+        public static extern LSTATUS RegEnumKey([In] HKEY hKey, [In] DWORD dwIndex, [In] LPSTR lpName, [In] DWORD cchName);
 
         /// <summary>
         /// <para>
@@ -1560,7 +1561,7 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegEnumKeyExW", ExactSpelling = true)]
         public static extern LSTATUS RegEnumKeyEx([In] HKEY hKey, [In] DWORD dwIndex, [In] LPWSTR lpName, [In][Out] ref DWORD lpcchName,
-            [In] IntPtr lpReserved, [In] LPWSTR lpClass, [In][Out] ref DWORD lpcchClass, [Out] out FILETIME lpftLastWriteTime);
+            [In] nint lpReserved, [In] LPWSTR lpClass, [In][Out] ref DWORD lpcchClass, [Out] out FILETIME lpftLastWriteTime);
 
         /// <summary>
         /// <para>
@@ -1721,7 +1722,13 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegEnumValueW", ExactSpelling = true)]
         public static extern LSTATUS RegEnumValue([In] HKEY hKey, [In] DWORD dwIndex, [In] LPWSTR lpValueName, [In][Out] ref DWORD lpcchValueName,
-            [In] IntPtr lpReserved, [Out] out RegistryValueTypes lpType, [In] IntPtr lpData, [In][Out] ref DWORD lpcbData);
+            [In] nint lpReserved, [Out] out RegistryValueTypes lpType,
+#if NETFRAMEWORK
+            [In] nint lpData,
+#else
+            [In] P<BYTE> lpData,
+#endif
+            [In][Out] ref DWORD lpcbData);
 
         /// <summary>
         /// <para>
@@ -3264,7 +3271,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegQueryInfoKeyW", ExactSpelling = true)]
-        public static extern LSTATUS RegQueryInfoKey([In] HKEY hKey, [In] LPWSTR lpClass, [In][Out] ref DWORD lpcchClass, [In] IntPtr lpReserved,
+        public static extern LSTATUS RegQueryInfoKey([In] HKEY hKey, [In] LPWSTR lpClass, [In][Out] ref DWORD lpcchClass, [In] nint lpReserved,
             [Out] out DWORD lpcSubKeys, [Out] out DWORD lpcbMaxSubKeyLen, [Out] out DWORD lpcbMaxClassLen, [Out] out DWORD lpcValues,
             [Out] out DWORD lpcbMaxValueNameLen, [Out] out DWORD lpcbMaxValueLen, [Out] out DWORD lpcbSecurityDescriptor,
             [Out] out FILETIME lpftLastWriteTime);
@@ -3527,7 +3534,7 @@ namespace Lsj.Util.Win32
             " Applications should use the RegQueryValueEx function.")]
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegQueryValueW", ExactSpelling = true)]
-        public static extern LSTATUS RegQueryValue([In] HKEY hKey, [In] LPCWSTR lpSubKey, [In] IntPtr lpData, [Out] out LONG lpcbData);
+        public static extern LSTATUS RegQueryValue([In] HKEY hKey, [In] LPCWSTR lpSubKey, [In] LPWSTR lpData, [Out] out LONG lpcbData);
 
         /// <summary>
         /// <para>
@@ -3706,8 +3713,14 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegQueryValueExW", ExactSpelling = true)]
-        public static extern LSTATUS RegQueryValueEx([In] HKEY hKey, [In] LPCWSTR lpValueName, [In] IntPtr lpReserved,
-            [Out] out RegistryValueTypes lpType, [In] IntPtr lpData, [In][Out] ref DWORD lpcbData);
+        public static extern LSTATUS RegQueryValueEx([In] HKEY hKey, [In] LPCWSTR lpValueName, [In] nint lpReserved,
+            [Out] out RegistryValueTypes lpType,
+#if NETFRAMEWORK
+            [In] nint lpData,
+#else
+            [In] P<BYTE> lpData,
+#endif
+            [In][Out] ref DWORD lpcbData);
 
         /// <summary>
         /// <para>
@@ -4477,7 +4490,13 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegSetValueExW", ExactSpelling = true)]
         public static extern LSTATUS RegSetValueEx([In] HKEY hKey, [In] LPWSTR lpValueName,
-            [In] DWORD Reserved, [In] RegistryValueTypes dwType, [In] IntPtr lpData, [In] DWORD cbData);
+            [In] DWORD Reserved, [In] RegistryValueTypes dwType,
+#if NETFRAMEWORK
+            [In] nint lpData,
+#else
+            [In] P<BYTE> lpData,
+#endif
+            [In] DWORD cbData);
 
         /// <summary>
         /// <para>

@@ -42,7 +42,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     [ComInterface(IID = "8BA5FB08-5195-40e2-AC58-0D989C3A0102", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 4, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct ID3DBlob
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Retrieves a pointer to the blob's data.

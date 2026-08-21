@@ -64,7 +64,7 @@ namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
     [ComInterface(IID = "2cd2d921-c447-44a7-a13c-4adabfc247e3", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 32, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IMFAttributes
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Retrieves the value associated with a key.
@@ -1453,11 +1453,11 @@ namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
         /// </list>
         /// </para>
         /// </remarks>
-        public HRESULT GetUnknown([In] in GUID guidKey, [In] in IID riid, [Out] out IntPtr ppv)
+        public HRESULT GetUnknown([In] in GUID guidKey, [In] in IID riid, [Out] out LPVOID ppv)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in GUID, in IID, out IntPtr, HRESULT>)_vTable[17])
+                return ((delegate* unmanaged[Stdcall]<void*, in GUID, in IID, out LPVOID, HRESULT>)_vTable[17])
                     (thisPtr, guidKey, riid, out ppv);
             }
         }

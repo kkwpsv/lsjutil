@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.DirectX.Structs;
+﻿using Lsj.Util.Win32.DirectX.ComInterfaces;
+using Lsj.Util.Win32.DirectX.Structs;
 using static Lsj.Util.Win32.DirectX.Enums.D2D1_TEXT_ANTIALIAS_MODE;
 
 namespace Lsj.Util.Win32.DirectX.Enums

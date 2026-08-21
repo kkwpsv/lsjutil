@@ -46,7 +46,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IDirect3DSwapChain9)])]
     public unsafe struct IDirect3DSwapChain9Ex
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Returns the number of times the swapchain has been processed.

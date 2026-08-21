@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Callbacks
     [StructLayout(LayoutKind.Sequential)]
     public struct WAITORTIMERCALLBACK
     {
-        private IntPtr _ptr;
+        private nint _ptr;
 
         /// <summary>
         /// 
@@ -33,12 +33,12 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator IntPtr(WAITORTIMERCALLBACK val) => val._ptr;
+        public static explicit operator nint(WAITORTIMERCALLBACK val) => val._ptr;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator WAITORTIMERCALLBACK(IntPtr val) => new WAITORTIMERCALLBACK { _ptr = val };
+        public static explicit operator WAITORTIMERCALLBACK(nint val) => new WAITORTIMERCALLBACK { _ptr = val };
     }
 }

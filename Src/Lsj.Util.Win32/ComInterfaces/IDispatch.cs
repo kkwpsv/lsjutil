@@ -26,7 +26,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IDispatch
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Retrieves the number of type information interfaces that an object provides (either 0 or 1).
@@ -145,17 +145,17 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// </remarks>
         public HRESULT GetIDsOfNames([In] in IID riid, [In] LPOLESTR[] rgszNames, [In] UINT cNames, [In] LCID lcid, [Out] DISPID[] rgDispId)
         {
-            var rgszNamesArray = new IntPtr[rgszNames.Length];
+            var rgszNamesArray = new nint[rgszNames.Length];
             for (var i = 0; i < rgszNames.Length; i++)
             {
                 rgszNamesArray[i] = rgszNames[i].Handle;
             }
 
-            fixed (IntPtr* rgszNamesPtr = rgszNamesArray)
+            fixed (nint* rgszNamesPtr = rgszNamesArray)
             fixed (DISPID* rgDispIdPtr = rgDispId)
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IID, IntPtr*, UINT, LCID, DISPID*, HRESULT>)_vTable[5])(thisPtr, in riid, rgszNamesPtr, cNames, lcid, rgDispIdPtr);
+                return ((delegate* unmanaged[Stdcall]<void*, in IID, nint*, UINT, LCID, DISPID*, HRESULT>)_vTable[5])(thisPtr, in riid, rgszNamesPtr, cNames, lcid, rgDispIdPtr);
             }
         }
 

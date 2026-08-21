@@ -14,7 +14,10 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.DEP_SYSTEM_POLICY_TYPE;
 using static Lsj.Util.Win32.Enums.GetDateFormatFlags;
 using static Lsj.Util.Win32.Enums.NTSTATUS;
+using static Lsj.Util.Win32.Enums.POWER_REQUEST_TYPE;
 using static Lsj.Util.Win32.Enums.PrivilegeConstants;
+using static Lsj.Util.Win32.Enums.ProcessAccessRights;
+using static Lsj.Util.Win32.Enums.ShellGetFileInfoFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Shell32;
@@ -2207,7 +2210,7 @@ namespace Lsj.Util.Win32
         [Obsolete]
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadHugeReadPtr", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL IsBadHugeReadPtr([In] IntPtr lp, [In] UINT_PTR ucb);
+        public static extern BOOL IsBadHugeReadPtr([In] nint lp, [In] UINT_PTR ucb);
 
         /// <summary>
         /// 
@@ -2218,7 +2221,7 @@ namespace Lsj.Util.Win32
         [Obsolete]
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadHugeWritePtr", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL IsBadHugeWritePtr([In] IntPtr lp, [In] UINT_PTR ucb);
+        public static extern BOOL IsBadHugeWritePtr([In] nint lp, [In] UINT_PTR ucb);
 
         /// <summary>
         /// <para>
@@ -2280,7 +2283,7 @@ namespace Lsj.Util.Win32
             "For more information, see Remarks on this page.")]
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadReadPtr", ExactSpelling = true)]
-        public static extern BOOL IsBadReadPtr([In] IntPtr lp, [In] UINT_PTR ucb);
+        public static extern BOOL IsBadReadPtr([In] nint lp, [In] UINT_PTR ucb);
 
         /// <summary>
         /// <para>
@@ -2967,6 +2970,6 @@ namespace Lsj.Util.Win32
         /// For more information, see WinBase.h and WinNT.h.
         /// </para>
         /// </remarks>
-        public static unsafe void ZeroMemory([In] PVOID Destination, [In] SIZE_T Length) => Unsafe.InitBlock(Destination, 0, (uint)(IntPtr)Length);
+        public static unsafe void ZeroMemory([In] PVOID Destination, [In] SIZE_T Length) => Unsafe.InitBlock(Destination, 0, (uint)Length);
     }
 }

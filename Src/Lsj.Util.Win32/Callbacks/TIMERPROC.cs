@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Callbacks
     [StructLayout(LayoutKind.Sequential)]
     public struct TIMERPROC
     {
-        private IntPtr _ptr;
+        private nint _ptr;
 
         /// <summary>
         /// 
@@ -33,12 +33,12 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator IntPtr(TIMERPROC val) => val._ptr;
+        public static explicit operator nint(TIMERPROC val) => val._ptr;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator TIMERPROC(IntPtr val) => new TIMERPROC { _ptr = val };
+        public static explicit operator TIMERPROC(nint val) => new TIMERPROC { _ptr = val };
     }
 }

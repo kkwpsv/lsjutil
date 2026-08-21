@@ -11,6 +11,6 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// </summary>
     public unsafe struct ID3D11SamplerState
     {
-        IntPtr* _vTable;
+        nint* _vTable;
     }
 }

@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.BaseTypes
     [StructLayout(LayoutKind.Sequential)]
     public struct LONG_PTR
     {
-        private IntPtr _value;
+        private nint _value;
 
         /// <inheritdoc/>
         public override string ToString() => _value.ToString();
@@ -24,24 +24,24 @@ namespace Lsj.Util.Win32.BaseTypes
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator IntPtr(LONG_PTR val) => val._value;
+        public static implicit operator nint(LONG_PTR val) => val._value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator LONG_PTR(IntPtr val) => new LONG_PTR { _value = val };
+        public static implicit operator LONG_PTR(nint val) => new LONG_PTR { _value = val };
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator LONG_PTR(int val) => new LONG_PTR { _value = (IntPtr)val };
+        public static implicit operator LONG_PTR(int val) => new LONG_PTR { _value = (nint)val };
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator LONG_PTR(uint val) => new LONG_PTR { _value = (IntPtr)val };
+        public static implicit operator LONG_PTR(uint val) => new LONG_PTR { _value = (nint)val };
     }
 }

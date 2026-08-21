@@ -2,9 +2,7 @@
 using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
-using System;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.ExceptionCodes;
 using static Lsj.Util.Win32.Enums.FileMapAccessRights;
@@ -14,6 +12,7 @@ using static Lsj.Util.Win32.Enums.MemoryProtectionConstants;
 using static Lsj.Util.Win32.Enums.SectionAttributes;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.VirtualFreeTypes;
+using static Lsj.Util.Win32.Kernelbase;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32

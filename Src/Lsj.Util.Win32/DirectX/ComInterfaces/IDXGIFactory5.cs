@@ -21,7 +21,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             typeof(IDXGIFactory3),typeof(IDXGIFactory4)])]
     public unsafe struct IDXGIFactory5
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Used to check for hardware feature support.
@@ -41,11 +41,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <remarks>
         /// Refer to the description of <see cref="DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING"/>.
         /// </remarks>
-        public HRESULT CheckFeatureSupport([In] DXGI_FEATURE Feature, [In] IntPtr pFeatureSupportData, [In] UINT FeatureSupportDataSize)
+        public HRESULT CheckFeatureSupport([In] DXGI_FEATURE Feature, [In] nint pFeatureSupportData, [In] UINT FeatureSupportDataSize)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DXGI_FEATURE, IntPtr, UINT, HRESULT>)_vTable[28])
+                return ((delegate* unmanaged[Stdcall]<void*, DXGI_FEATURE, nint, UINT, HRESULT>)_vTable[28])
                     (thisPtr, Feature, pFeatureSupportData, FeatureSupportDataSize);
             }
         }

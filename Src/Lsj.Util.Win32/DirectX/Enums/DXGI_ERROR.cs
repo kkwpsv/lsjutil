@@ -1,6 +1,8 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.DirectX.ComInterfaces;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.DirectX.DXGI;
+using static Lsj.Util.Win32.Ole32;
 
 namespace Lsj.Util.Win32.DirectX.Enums
 {

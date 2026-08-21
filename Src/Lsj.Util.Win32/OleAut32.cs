@@ -206,7 +206,7 @@ namespace Lsj.Util.Win32
 #else
             [In] P<IUnknown> punkOuter,
 #endif
-            [In] IntPtr pvThis, [In] in ITypeInfo ptinfo,
+            [In] nint pvThis, [In] in ITypeInfo ptinfo,
 #if NETFRAMEWORK
             [Out] out nint ppunkStdDisp
 #else
@@ -496,7 +496,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("OleAut32.dll", CharSet = CharSet.Unicode, EntryPoint = "DispInvoke", ExactSpelling = true)]
-        public static extern HRESULT DispInvoke([In] IntPtr _this, [In] in ITypeInfo ptinfo, [In] DISPID dispidMember, [In] WORD wFlags,
+        public static extern HRESULT DispInvoke([In] nint _this, [In] in ITypeInfo ptinfo, [In] DISPID dispidMember, [In] WORD wFlags,
             [In] in DISPPARAMS pparams, [Out] out VARIANT pvarResult, [Out] out EXCEPINFO pexcepinfo, [Out] out UINT puArgErr);
 
         /// <summary>
@@ -638,7 +638,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("OleAut32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetActiveObject", ExactSpelling = true)]
-        public static extern HRESULT GetActiveObject([In] in CLSID rclsid, [In] IntPtr pvReserved, [Out] out LPVOID ppunk);
+        public static extern HRESULT GetActiveObject([In] in CLSID rclsid, [In] nint pvReserved, [Out] out LPVOID ppunk);
 
         /// <summary>
         /// <para>

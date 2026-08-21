@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Callbacks
     [StructLayout(LayoutKind.Sequential)]
     public struct PCOPYFILE2_PROGRESS_ROUTINE
     {
-        private IntPtr _ptr;
+        private nint _ptr;
 
         /// <summary>
         /// 
@@ -33,12 +33,12 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator IntPtr(PCOPYFILE2_PROGRESS_ROUTINE val) => val._ptr;
+        public static explicit operator nint(PCOPYFILE2_PROGRESS_ROUTINE val) => val._ptr;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator PCOPYFILE2_PROGRESS_ROUTINE(IntPtr val) => new PCOPYFILE2_PROGRESS_ROUTINE { _ptr = val };
+        public static explicit operator PCOPYFILE2_PROGRESS_ROUTINE(nint val) => new PCOPYFILE2_PROGRESS_ROUTINE { _ptr = val };
     }
 }

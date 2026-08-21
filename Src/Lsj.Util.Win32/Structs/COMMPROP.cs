@@ -2,11 +2,12 @@
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.BaudRates;
-using static Lsj.Util.Win32.Enums.DATABITS;
 using static Lsj.Util.Win32.Enums.CommunicationProviderCapabilitiesFlags;
-using static Lsj.Util.Win32.Enums.CommunicationProviderTypes;
 using static Lsj.Util.Win32.Enums.CommunicationProviderSettableParams;
 using static Lsj.Util.Win32.Enums.CommunicationProviderSettableStopBitAndParitySettings;
+using static Lsj.Util.Win32.Enums.CommunicationProviderTypes;
+using static Lsj.Util.Win32.Enums.DATABITS;
+using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Structs
 {

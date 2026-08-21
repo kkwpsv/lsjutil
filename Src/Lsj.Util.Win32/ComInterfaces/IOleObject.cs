@@ -25,7 +25,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IOleObject
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Informs an embedded object of its display location, called a "client site," within its container.
@@ -91,11 +91,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// This will be the case with a newly loaded or created object when a container has passed a <see langword="null"/> client-site pointer
         /// to one of the object-creation helper functions but has not yet called <see cref="SetClientSite"/> as part of initializing the object.
         /// </remarks>
-        public HRESULT GetClientSite([Out] out IntPtr ppClientSite)
+        public HRESULT GetClientSite([Out] out P<IOleClientSite> ppClientSite)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[4])(thisPtr, out ppClientSite);
+                return ((delegate* unmanaged[Stdcall]<void*, out P<IOleClientSite>, HRESULT>)_vTable[4])(thisPtr, out ppClientSite);
             }
         }
 
@@ -269,11 +269,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The default implementation of <see cref="GetMoniker"/> calls the <see cref="IOleClientSite.GetMoniker"/>,
         /// returning <see cref="E_UNEXPECTED"/> if the object is not running or does not have a valid pointer to a client site.
         /// </remarks>
-        public HRESULT GetMoniker([In] OLEGETMONIKER dwAssign, [In] OLEWHICHMK dwWhichMoniker, [Out] out IntPtr ppmk)
+        public HRESULT GetMoniker([In] OLEGETMONIKER dwAssign, [In] OLEWHICHMK dwWhichMoniker, [Out] out P<IMoniker> ppmk)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, OLEGETMONIKER, OLEWHICHMK, out IntPtr, HRESULT>)_vTable[8])(thisPtr, dwAssign, dwWhichMoniker, out ppmk);
+                return ((delegate* unmanaged[Stdcall]<void*, OLEGETMONIKER, OLEWHICHMK, out P<IMoniker>, HRESULT>)_vTable[8])(thisPtr, dwAssign, dwWhichMoniker, out ppmk);
             }
         }
 
@@ -369,11 +369,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Notes to Implementers
         /// If you implement this function, you must return an <see cref="IDataObject"/> pointer for an object whose data will not change.
         /// </remarks>
-        public HRESULT GetClipboardData([In] DWORD dwReserved, [Out] out IntPtr ppDataObject)
+        public HRESULT GetClipboardData([In] DWORD dwReserved, [Out] out P<IDataObject> ppDataObject)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DWORD, out IntPtr, HRESULT>)_vTable[10])(thisPtr, dwReserved, out ppDataObject);
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, out P<IDataObject>, HRESULT>)_vTable[10])(thisPtr, dwReserved, out ppDataObject);
             }
         }
 
@@ -544,11 +544,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <see cref="OLE_S_USEREG"/>: Delegate to the default handler to use the entries in the registry to provide the enumeration.
         /// <see cref="OLEOBJ_E_NOVERBS"/>: Object does not support any verbs.
         /// </returns>
-        public HRESULT EnumVerbs([Out] out IntPtr ppEnumOleVerb)
+        public HRESULT EnumVerbs([Out] out P<IEnumOLEVERB> ppEnumOleVerb)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[12])(thisPtr, out ppEnumOleVerb);
+                return ((delegate* unmanaged[Stdcall]<void*, out P<IEnumOLEVERB>, HRESULT>)_vTable[12])(thisPtr, out ppEnumOleVerb);
             }
         }
 
@@ -674,11 +674,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If the user type name is an empty string, the message "Unknown Object" is returned.
         /// You can call the OLE helper function OleRegGetUserType to return the appropriate user type.
         /// </remarks>
-        public HRESULT GetUserType([In] USERCLASSTYPE dwFormOfType, [Out] out IntPtr pszUserType)
+        public HRESULT GetUserType([In] USERCLASSTYPE dwFormOfType, [Out] out nint pszUserType)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, USERCLASSTYPE, out IntPtr, HRESULT>)_vTable[16])(thisPtr, dwFormOfType, out pszUserType);
+                return ((delegate* unmanaged[Stdcall]<void*, USERCLASSTYPE, out nint, HRESULT>)_vTable[16])(thisPtr, dwFormOfType, out pszUserType);
             }
         }
 
@@ -868,11 +868,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The usual way to implement this function is to delegate the call to the <see cref="IOleAdviseHolder"/> interface.
         /// Only the pAdvise and <see cref="STATDATA.dwConnection"/> members of <see cref="STATDATA"/> are relevant for <see cref="EnumAdvise"/>.
         /// </remarks>
-        public HRESULT EnumAdvise([Out] out IntPtr ppenumAdvise)
+        public HRESULT EnumAdvise([Out] out P<IEnumSTATDATA> ppenumAdvise)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[21])(thisPtr, out ppenumAdvise);
+                return ((delegate* unmanaged[Stdcall]<void*, out P<IEnumSTATDATA>, HRESULT>)_vTable[21])(thisPtr, out ppenumAdvise);
             }
         }
 

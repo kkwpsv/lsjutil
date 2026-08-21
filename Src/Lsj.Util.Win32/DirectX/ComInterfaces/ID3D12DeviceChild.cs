@@ -21,7 +21,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(ID3D12Object)])]
     public unsafe struct ID3D12DeviceChild
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Gets a pointer to the device that created this interface.
@@ -42,11 +42,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// so be sure to call <see cref="IUnknown.Release"/> on the returned pointers
         /// before they are freed or else you will have a memory leak.
         /// </remarks>
-        public HRESULT GetDevice([In] in GUID riid, [Out] out IntPtr ppvDevice)
+        public HRESULT GetDevice([In] in GUID riid, [Out] out nint ppvDevice)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in GUID, out IntPtr, HRESULT>)_vTable[7])(thisPtr, riid, out ppvDevice);
+                return ((delegate* unmanaged[Stdcall]<void*, in GUID, out nint, HRESULT>)_vTable[7])(thisPtr, riid, out ppvDevice);
             }
         }
     }

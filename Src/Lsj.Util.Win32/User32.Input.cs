@@ -7,7 +7,11 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.INPUT_MESSAGE_DEVICE_TYPE;
+using static Lsj.Util.Win32.Enums.KEYEVENTF;
 using static Lsj.Util.Win32.Enums.MapVirtualKeyTypes;
+using static Lsj.Util.Win32.Enums.MouseEventFlags;
+using static Lsj.Util.Win32.Enums.QueueStatus;
 using static Lsj.Util.Win32.Enums.RawInputDeviceFlags;
 using static Lsj.Util.Win32.Enums.ShellHookCodes;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
@@ -341,7 +345,7 @@ namespace Lsj.Util.Win32
         /// Unlike <c>DefWindowProcA</c> and <see cref="DefWindowProc"/>, this function doesn't do any processing.
         /// </para>
         /// <para>
-        /// <see cref="DefRawInputProc"/> only checks whether <see cref="RAWINPUTHEADER.cbSizeHeader"/>'s value
+        /// <see cref="DefRawInputProc"/> only checks whether <paramref name="cbSizeHeader"/>'s value
         /// corresponds to the expected size of <see cref="RAWINPUTHEADER"/>.
         /// </para>
         /// <para>
@@ -1172,7 +1176,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKeyNameTextW", ExactSpelling = true, SetLastError = true)]
-        public static extern int GetKeyNameText([In] LONG lParam, [In] IntPtr lpString, [In] int cchSize);
+        public static extern int GetKeyNameText([In] LONG lParam, [In] LPWSTR lpString, [In] int cchSize);
 
         /// <summary>
         /// <para>

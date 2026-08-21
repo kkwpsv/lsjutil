@@ -93,7 +93,7 @@ namespace Lsj.Util.Win32.Structs
             /// A non-localized string that describes the reason for the power request.
             /// </summary>
             [FieldOffset(0)]
-            public IntPtr SimpleReasonString;
+            public nint SimpleReasonString;
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace Lsj.Util.Win32.Structs
             /// <summary>
             /// An array of strings to be substituted in the string resource at run time.
             /// </summary>
-            public IntPtr ReasonStrings;
+            public nint ReasonStrings;
         }
     }
 }

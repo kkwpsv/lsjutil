@@ -51,17 +51,17 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// A pointer to a buffer that contains the encoded certificate.
         /// </summary>
-        public IntPtr pbCertEncoded;
+        public nint pbCertEncoded;
 
         /// <summary>
         /// The size, in bytes, of the encoded certificate.
         /// </summary>
-        public DWORD cbCertEncoded;
+        public nint cbCertEncoded;
 
         /// <summary>
         /// The address of a <see cref="CERT_INFO"/> structure that contains the certificate information.
         /// </summary>
-        public IntPtr pCertInfo;
+        public nint pCertInfo;
 
         /// <summary>
         /// A handle to the certificate store that contains the certificate context.

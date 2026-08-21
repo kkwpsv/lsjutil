@@ -1,5 +1,7 @@
-﻿using Lsj.Util.Win32.DirectX.Structs;
+﻿using Lsj.Util.Win32.DirectX.ComInterfaces;
+using Lsj.Util.Win32.DirectX.Structs;
 using System;
+using static Lsj.Util.Win32.DirectX.Enums.D3D12_FENCE_FLAGS;
 
 namespace Lsj.Util.Win32.DirectX.Enums
 {

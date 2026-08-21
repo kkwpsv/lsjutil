@@ -24,7 +24,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             typeof(IDXGIFactory3),typeof(IDXGIFactory4), typeof(IDXGIFactory5)])]
     public unsafe struct IDXGIFactory6
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Enumerates graphics adapters based on a given GPU preference.
@@ -48,7 +48,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// The address of an <see cref="IDXGIAdapter"/> interface pointer to the adapter.
         /// </para>
         /// <para>
-        /// This parameter must not be <see cref="NullRef{IntPtr}"/>.
+        /// This parameter must not be <see cref="NullRef{nint}"/>.
         /// </para>
         /// </param>
         /// <returns>
@@ -97,11 +97,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// 3. iGPUs
         /// </para>
         /// </remarks>
-        public HRESULT EnumAdapterByGpuPreference([In] UINT Adapter, [In] DXGI_GPU_PREFERENCE GpuPreference, [In] in IID riid, [Out] out IntPtr ppvAdapter)
+        public HRESULT EnumAdapterByGpuPreference([In] UINT Adapter, [In] DXGI_GPU_PREFERENCE GpuPreference, [In] in IID riid, [Out] out nint ppvAdapter)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, DXGI_GPU_PREFERENCE, in IID, out IntPtr, HRESULT>)_vTable[29])
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, DXGI_GPU_PREFERENCE, in IID, out nint, HRESULT>)_vTable[29])
                     (thisPtr, Adapter, GpuPreference, riid, out ppvAdapter);
             }
         }

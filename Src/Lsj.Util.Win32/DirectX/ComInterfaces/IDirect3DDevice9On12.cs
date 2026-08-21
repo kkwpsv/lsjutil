@@ -20,7 +20,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     [ComInterface(IID = "e7fda234-b589-4049-940d-8878977531c8", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 5, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IDirect3DDevice9On12
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// GetD3D12Device
@@ -33,11 +33,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// On return, the underlying D3D12 device pointer.
         /// </param>
         /// <returns></returns>
-        public HRESULT GetD3D12Device([In] in IID riid, [Out] out IntPtr ppvDevice)
+        public HRESULT GetD3D12Device([In] in IID riid, [Out] out nint ppvDevice)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IID, out IntPtr, HRESULT>)_vTable[3])(thisPtr, riid, out ppvDevice);
+                return ((delegate* unmanaged[Stdcall]<void*, in IID, out nint, HRESULT>)_vTable[3])(thisPtr, riid, out ppvDevice);
             }
         }
 
@@ -58,11 +58,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </param>
         /// <returns></returns>
         public HRESULT UnwrapUnderlyingResource([In] P<IDirect3DResource9> pResource9, [In] P<ID3D12CommandQueue> pCommandQueue,
-            [In] in IID riid, [Out] out IntPtr ppvResource12)
+            [In] in IID riid, [Out] out nint ppvResource12)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, P<IDirect3DResource9>, P<ID3D12CommandQueue>, in IID, out IntPtr, HRESULT>)_vTable[4])
+                return ((delegate* unmanaged[Stdcall]<void*, P<IDirect3DResource9>, P<ID3D12CommandQueue>, in IID, out nint, HRESULT>)_vTable[4])
                     (thisPtr, pResource9, pCommandQueue, riid, out ppvResource12);
             }
         }

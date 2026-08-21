@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Callbacks
     [StructLayout(LayoutKind.Sequential)]
     public struct DATEFMT_ENUMPROCEXEX
     {
-        private IntPtr _ptr;
+        private nint _ptr;
 
         /// <summary>
         /// 
@@ -33,12 +33,12 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator IntPtr(DATEFMT_ENUMPROCEXEX val) => val._ptr;
+        public static explicit operator nint(DATEFMT_ENUMPROCEXEX val) => val._ptr;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator DATEFMT_ENUMPROCEXEX(IntPtr val) => new DATEFMT_ENUMPROCEXEX { _ptr = val };
+        public static explicit operator DATEFMT_ENUMPROCEXEX(nint val) => new DATEFMT_ENUMPROCEXEX { _ptr = val };
     }
 }

@@ -22,7 +22,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IDXGIObject)])]
     public unsafe struct IDXGIDeviceSubObject
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Retrieves the device.
@@ -41,11 +41,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For example, it could be an IDXGIDevice * called pDevice,
         /// and therefore the REFIID would be obtained by calling __uuidof(pDevice).
         /// </remarks>
-        public HRESULT GetDevice([In] in IID riid, [Out] out IntPtr ppDevice)
+        public HRESULT GetDevice([In] in IID riid, [Out] out nint ppDevice)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IID, out IntPtr, HRESULT>)_vTable[7])(thisPtr, riid, out ppDevice);
+                return ((delegate* unmanaged[Stdcall]<void*, in IID, out nint, HRESULT>)_vTable[7])(thisPtr, riid, out ppDevice);
             }
         }
     }

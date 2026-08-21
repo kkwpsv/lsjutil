@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.BaseTypes
     public struct SOCKET
     {
         [FieldOffset(0)]
-        private UIntPtr _value;
+        private nuint _value;
 
         /// <inheritdoc/>
         public override string ToString() => _value.ToString();

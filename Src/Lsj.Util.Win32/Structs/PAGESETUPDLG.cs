@@ -419,7 +419,7 @@ namespace Lsj.Util.Win32.Structs
         /// For numbered dialog box resources, <see cref="lpPageSetupTemplateName"/> can be a value returned by the <see cref="MAKEINTRESOURCE"/> macro.
         /// This member is ignored unless the <see cref="PSD_ENABLEPAGESETUPTEMPLATE"/> flag is set in the <see cref="Flags"/> member.
         /// </summary>
-        public IntPtr lpPageSetupTemplateName;
+        public nint lpPageSetupTemplateName;
 
         /// <summary>
         /// If the <see cref="PSD_ENABLEPAGESETUPTEMPLATEHANDLE"/> flag is set in the <see cref="Flags"/> member,

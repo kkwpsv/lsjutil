@@ -375,7 +375,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public IntPtr lpVerb;
+        public nint lpVerb;
 
         /// <summary>
         /// <para>
@@ -402,22 +402,22 @@ namespace Lsj.Util.Win32.Structs
         /// If the path is not included with the name, the current directory is assumed.
         /// </para>
         /// </summary>
-        public IntPtr lpFile;
+        public nint lpFile;
 
         /// <summary>
         /// Optional.
         /// The address of a null-terminated string that contains the application parameters.
         /// The parameters must be separated by spaces.
-        /// If the <see cref="lpFile"/> member specifies a document file, <see cref="lpParameters"/> should be <see cref="IntPtr.Zero"/>.
+        /// If the <see cref="lpFile"/> member specifies a document file, <see cref="lpParameters"/> should be <see cref="NULL"/>.
         /// </summary>
-        public IntPtr lpParameters;
+        public nint lpParameters;
 
         /// <summary>
         /// Optional.
         /// The address of a null-terminated string that specifies the name of the working directory.
-        /// If this member is <see cref="IntPtr.Zero"/>, the current directory is used as the working directory.
+        /// If this member is <see cref="NULL"/>, the current directory is used as the working directory.
         /// </summary>
-        public IntPtr lpDirectory;
+        public nint lpDirectory;
 
         /// <summary>
         /// Required.
@@ -542,7 +542,7 @@ namespace Lsj.Util.Win32.Structs
         /// that uniquely identifies the file to execute.
         /// This member is ignored if the <see cref="fMask"/> member does not include <see cref="SEE_MASK_IDLIST"/> or <see cref="SEE_MASK_INVOKEIDLIST"/>.
         /// </summary>
-        public IntPtr lpIDList;
+        public nint lpIDList;
 
         /// <summary>
         /// <para>
@@ -575,7 +575,7 @@ namespace Lsj.Util.Win32.Structs
         /// This member is ignored if <see cref="fMask"/> does not include <see cref="SEE_MASK_CLASSNAME"/>.
         /// </para>
         /// </summary>
-        public IntPtr lpClass;
+        public nint lpClass;
 
         /// <summary>
         /// A handle to the registry key for the file type.

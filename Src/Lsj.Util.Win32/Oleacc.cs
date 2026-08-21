@@ -106,7 +106,7 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Oleacc.dll", CharSet = CharSet.Unicode, EntryPoint = "AccessibleObjectFromEvent", ExactSpelling = true)]
         public static extern HRESULT AccessibleObjectFromEvent([In] HWND hwnd, [In] DWORD dwId, [In] DWORD dwChildId,
-            [Out] out IntPtr ppacc, [Out] out VARIANT pvarChild);
+            [Out] out P<IAccessible> ppacc, [Out] out VARIANT pvarChild);
 
         /// <summary>
         /// <para>
@@ -177,7 +177,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Oleacc.dll", CharSet = CharSet.Unicode, EntryPoint = "AccessibleObjectFromPoint", ExactSpelling = true)]
-        public static extern HRESULT AccessibleObjectFromPoint([In] POINT ptScreen, [Out] out IntPtr ppacc, [Out] out VARIANT pvarChild);
+        public static extern HRESULT AccessibleObjectFromPoint([In] POINT ptScreen, [Out] out P<IAccessible> ppacc, [Out] out VARIANT pvarChild);
 
         /// <summary>
         /// <para>
@@ -328,6 +328,6 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Oleacc.dll", CharSet = CharSet.Unicode, EntryPoint = "AccessibleObjectFromWindow", ExactSpelling = true)]
-        public static extern HRESULT AccessibleObjectFromWindow([In] HWND hwnd, [In] DWORD dwId, [In] in IID riid, [Out] out IntPtr ppvObject);
+        public static extern HRESULT AccessibleObjectFromWindow([In] HWND hwnd, [In] DWORD dwId, [In] in IID riid, [Out] out nint ppvObject);
     }
 }

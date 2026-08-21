@@ -59,7 +59,7 @@ namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IMFAttributes)])]
     public unsafe struct IMFSample
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// <para>

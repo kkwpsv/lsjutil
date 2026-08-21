@@ -222,7 +222,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </remarks>
     public unsafe struct INetwork
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// The <see cref="GetName"/> method returns the name of a network.

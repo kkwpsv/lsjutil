@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Callbacks
     [StructLayout(LayoutKind.Sequential)]
     public struct LPTOP_LEVEL_EXCEPTION_FILTER
     {
-        private IntPtr _ptr;
+        private nint _ptr;
 
         /// <summary>
         /// 
@@ -28,12 +28,12 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator IntPtr(LPTOP_LEVEL_EXCEPTION_FILTER val) => val._ptr;
+        public static explicit operator nint(LPTOP_LEVEL_EXCEPTION_FILTER val) => val._ptr;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator LPTOP_LEVEL_EXCEPTION_FILTER(IntPtr val) => new LPTOP_LEVEL_EXCEPTION_FILTER { _ptr = val };
+        public static explicit operator LPTOP_LEVEL_EXCEPTION_FILTER(nint val) => new LPTOP_LEVEL_EXCEPTION_FILTER { _ptr = val };
     }
 }

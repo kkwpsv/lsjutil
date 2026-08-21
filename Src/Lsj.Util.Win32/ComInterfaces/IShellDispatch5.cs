@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IShellDispatch5
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Displays your open windows in a 3D stack that you can flip through.

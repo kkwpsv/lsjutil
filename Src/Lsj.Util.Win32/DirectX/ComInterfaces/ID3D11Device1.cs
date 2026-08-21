@@ -30,7 +30,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(ID3D11Device)])]
     public unsafe struct ID3D11Device1
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Gets an immediate context, which can play back command lists.
@@ -1419,11 +1419,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </list>
         /// </para>
         /// </remarks>
-        public HRESULT OpenSharedResource1([In] HANDLE hResource, [In] in IID ReturnedInterface, [Out] out IntPtr ppResource)
+        public HRESULT OpenSharedResource1([In] HANDLE hResource, [In] in IID ReturnedInterface, [Out] out nint ppResource)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, HANDLE, in IID, out IntPtr, HRESULT>)_vTable[48])
+                return ((delegate* unmanaged[Stdcall]<void*, HANDLE, in IID, out nint, HRESULT>)_vTable[48])
                     (thisPtr, hResource, in ReturnedInterface, out ppResource);
             }
         }
@@ -1520,12 +1520,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </list>
         /// </para>
         /// </remarks>
-        public HRESULT OpenSharedResourceByName([In] LPCWSTR lpName, [In] DWORD dwDesiredAccess, [In] in IID ReturnedInterface, [Out] out IntPtr ppResource)
+        public HRESULT OpenSharedResourceByName([In] LPCWSTR lpName, [In] DWORD dwDesiredAccess, [In] in IID ReturnedInterface, [Out] out nint ppResource)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, DWORD, in IID, out IntPtr, HRESULT>)_vTable[49])
-                    (thisPtr, lpName.ToIntPtr(), dwDesiredAccess, in ReturnedInterface, out ppResource);
+                return ((delegate* unmanaged[Stdcall]<void*, nint, DWORD, in IID, out nint, HRESULT>)_vTable[49])
+                    (thisPtr, lpName.ToNint(), dwDesiredAccess, in ReturnedInterface, out ppResource);
             }
         }
     }

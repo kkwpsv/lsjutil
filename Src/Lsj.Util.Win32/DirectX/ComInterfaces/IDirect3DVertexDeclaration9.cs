@@ -32,7 +32,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     [ComInterface(IID = "DD13C59C-36FA-4098-A8FB-C7ED39DC8546", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 4, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IDirect3DVertexDeclaration9
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Gets the current device.

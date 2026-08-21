@@ -28,7 +28,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IOleClientSite
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Saves the embedded object associated with the client site.
@@ -98,11 +98,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// assigned to it and may wish to have it removed as an optimization.
         /// In such cases, the object can call GetMoniker with <see cref="OLEGETMONIKER_UNASSIGN"/> to have the moniker removed.
         /// </remarks>
-        public HRESULT GetMoniker([In] OLEGETMONIKER dwAssign, [In] OLEWHICHMK dwWhichMoniker, [Out] out IntPtr ppmk)
+        public HRESULT GetMoniker([In] OLEGETMONIKER dwAssign, [In] OLEWHICHMK dwWhichMoniker, [Out] out P<IMoniker> ppmk)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, OLEGETMONIKER, OLEWHICHMK, out IntPtr, HRESULT>)_vTable[4])(thisPtr, dwAssign, dwWhichMoniker, out ppmk);
+                return ((delegate* unmanaged[Stdcall]<void*, OLEGETMONIKER, OLEWHICHMK, out P<IMoniker>, HRESULT>)_vTable[4])(thisPtr, dwAssign, dwWhichMoniker, out ppmk);
             }
         }
 
@@ -131,11 +131,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Simple containers that do not support links to their embedded objects probably do not need to implement this method.
         /// Instead, they can return <see cref="E_NOINTERFACE"/> and set <paramref name="ppContainer"/> to <see langword="null"/>.
         /// </remarks>
-        public HRESULT GetContainer([Out] out IntPtr ppContainer)
+        public HRESULT GetContainer([Out] out P<IOleContainer> ppContainer)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[5])(thisPtr, out ppContainer);
+                return ((delegate* unmanaged[Stdcall]<void*, out P<IOleContainer>, HRESULT>)_vTable[5])(thisPtr, out ppContainer);
             }
         }
 

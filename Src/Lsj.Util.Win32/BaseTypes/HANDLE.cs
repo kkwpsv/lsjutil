@@ -14,13 +14,13 @@ namespace Lsj.Util.Win32.BaseTypes
     [StructLayout(LayoutKind.Sequential)]
     public struct HANDLE : IPointer
     {
-        private IntPtr _value;
+        private nint _value;
 
         /// <inheritdoc/>
         public override string ToString() => _value.ToString("X");
 
         /// <inheritdoc/>
-        public override bool Equals(object? obj) => obj is IPointer p && p.ToIntPtr() == _value || obj is IntPtr ptr && ptr == _value;
+        public override bool Equals(object? obj) => obj is IPointer p && p.ToNint() == _value || obj is nint ptr && ptr == _value;
 
         /// <inheritdoc/>
         public override int GetHashCode() => _value.GetHashCode();
@@ -28,13 +28,8 @@ namespace Lsj.Util.Win32.BaseTypes
         /// <inheritdoc/>
         public IntPtr ToIntPtr() => _value;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
-        public static bool operator ==(HANDLE a, IntPtr b) => a._value == b;
+        /// <inheritdoc/>
+        public nint ToNint() => _value;
 
         /// <summary>
         /// 
@@ -42,24 +37,32 @@ namespace Lsj.Util.Win32.BaseTypes
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static bool operator !=(HANDLE a, IntPtr b) => a._value != b;
+        public static bool operator ==(HANDLE a, nint b) => a._value == b;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static bool operator !=(HANDLE a, nint b) => a._value != b;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator IntPtr(HANDLE val) => val._value;
+        public static implicit operator nint(HANDLE val) => val._value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator HANDLE(IntPtr val) => new HANDLE { _value = val };
+        public static implicit operator HANDLE(nint val) => new HANDLE { _value = val };
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator HANDLE(int val) => new HANDLE { _value = (IntPtr)val };
+        public static explicit operator HANDLE(int val) => new HANDLE { _value = (nint)val };
     }
 }

@@ -19,7 +19,7 @@ namespace Lsj.Util.Win32.WindowsRuntimeInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IInspectable)])]
     public unsafe struct IInputPane2
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// TryShow

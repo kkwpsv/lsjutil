@@ -42,7 +42,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </remarks>
     public unsafe struct IClientSecurity
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Retrieves authentication information the client uses to make calls on the specified proxy.
@@ -82,7 +82,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <param name="pAuthInfo">
         /// A pointer to a handle indicating the identity of the client that was passed to the last <see cref="SetBlanket"/> call (or the default value).
         /// Default values are only valid until the proxy is released.
-        /// If the caller specifies <see cref="NullRef{IntPtr}"/>, the client identity is not retrieved.
+        /// If the caller specifies <see cref="NullRef{nint}"/>, the client identity is not retrieved.
         /// The format of the structure that the returned handle refers to depends on the authentication service.
         /// For NTLMSSP and Kerberos, if the client specified a structure in the <paramref name="pAuthInfo"/> parameter
         /// to <see cref="CoInitializeSecurity"/>, that value is returned.
@@ -112,13 +112,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// since no proxy is created for such an interface.
         /// <see cref="IUnknown"/> is the exception to this rule.
         /// </remarks>
-        public HRESULT QueryBlanket([In] P<IUnknown> pProxy, [In] in DWORD pAuthnSvc, [In] in DWORD pAuthzSvc, [Out] out IntPtr pServerPrincName,
-            [In] in DWORD pAuthnLevel, [In] in DWORD pImpLevel, [In] in IntPtr pAuthInfo, [In] in EOLE_AUTHENTICATION_CAPABILITIES pCapabilites)
+        public HRESULT QueryBlanket([In] P<IUnknown> pProxy, [In] in DWORD pAuthnSvc, [In] in DWORD pAuthzSvc, [Out] out P<OLECHAR> pServerPrincName,
+            [In] in DWORD pAuthnLevel, [In] in DWORD pImpLevel, [In] in nint pAuthInfo, [In] in EOLE_AUTHENTICATION_CAPABILITIES pCapabilites)
 
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, P<IUnknown>, in DWORD, in DWORD, out IntPtr, in DWORD, in DWORD, in IntPtr, in EOLE_AUTHENTICATION_CAPABILITIES, HRESULT>)_vTable[3])
+                return ((delegate* unmanaged[Stdcall]<void*, P<IUnknown>, in DWORD, in DWORD, out P<OLECHAR>, in DWORD, in DWORD, in nint, in EOLE_AUTHENTICATION_CAPABILITIES, HRESULT>)_vTable[3])
                     (thisPtr, pProxy, pAuthnSvc, pAuthzSvc, out pServerPrincName, pAuthnLevel, pImpLevel, pAuthInfo, pCapabilites);
             }
         }
@@ -266,11 +266,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// you might get a security setting that will not work.
         /// </remarks>
         public HRESULT SetBlanket([In] P<IUnknown> pProxy, [In] DWORD pAuthnSvc, [In] DWORD pAuthzSvc, [In] LPOLESTR pServerPrincName,
-            [In] DWORD dwAuthnLevel, [In] DWORD dwImpLevel, [In] IntPtr pAuthInfo, [In] EOLE_AUTHENTICATION_CAPABILITIES dwCapabilities)
+            [In] DWORD dwAuthnLevel, [In] DWORD dwImpLevel, [In] nint pAuthInfo, [In] EOLE_AUTHENTICATION_CAPABILITIES dwCapabilities)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, P<IUnknown>, in DWORD, in DWORD, LPOLESTR, DWORD, DWORD, in IntPtr, in EOLE_AUTHENTICATION_CAPABILITIES, HRESULT>)_vTable[4])
+                return ((delegate* unmanaged[Stdcall]<void*, P<IUnknown>, in DWORD, in DWORD, LPOLESTR, DWORD, DWORD, nint, in EOLE_AUTHENTICATION_CAPABILITIES, HRESULT>)_vTable[4])
                     (thisPtr, pProxy, pAuthnSvc, pAuthzSvc, pServerPrincName, dwAuthnLevel, dwImpLevel, pAuthInfo, dwCapabilities);
             }
         }
@@ -310,11 +310,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The helper function <see cref="CoCopyProxy"/> encapsulates a QueryInterface call for a pointer to <see cref="IClientSecurity"/>,
         /// a call to <see cref="CopyProxy"/> with the <see cref="IClientSecurity"/> pointer, and the release of the <see cref="IClientSecurity"/> pointer.
         /// </remarks>
-        public HRESULT CopyProxy([In] P<IUnknown> pProxy, [Out] out IntPtr ppCopy)
+        public HRESULT CopyProxy([In] P<IUnknown> pProxy, [Out] out P<IUnknown> ppCopy)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, P<IUnknown>, out IntPtr, HRESULT>)_vTable[5])(thisPtr, pProxy, out ppCopy);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IUnknown>, out P<IUnknown>, HRESULT>)_vTable[5])(thisPtr, pProxy, out ppCopy);
             }
         }
     }

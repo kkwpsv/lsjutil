@@ -199,7 +199,7 @@ namespace Lsj.Util.Win32.Structs
         /// The last file name is terminated with a double <see cref="NULL"/> character ("\0\0") to indicate the end of the buffer.
         /// </para>
         /// </summary>
-        public IntPtr pFrom;
+        public nint pFrom;
 
         /// <summary>
         /// <para>
@@ -252,7 +252,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public IntPtr pTo;
+        public nint pTo;
 
         /// <summary>
         /// <para>
@@ -402,6 +402,6 @@ namespace Lsj.Util.Win32.Structs
         /// This is a null-terminated string.
         /// This member is used only if <see cref="fFlags"/> includes the <see cref="FOF_SIMPLEPROGRESS"/> flag.
         /// </summary>
-        public IntPtr lpszProgressTitle;
+        public nint lpszProgressTitle;
     }
 }

@@ -21,7 +21,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     [ComInterface(IID = "c4fec28f-7966-4e95-9f94-f431cb56c3b8", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 6, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct ID3D12Object
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Gets application-defined data from a device object.
@@ -46,11 +46,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// which was previously set by <see cref="SetPrivateDataInterface"/>,
         /// that interface will have its reference count incremented before the private data is returned.
         /// </remarks>
-        public HRESULT GetPrivateData([In] in GUID guid, [In][Out] ref UINT pDataSize, [Out] IntPtr pData)
+        public HRESULT GetPrivateData([In] in GUID guid, [In][Out] ref UINT pDataSize, [Out] nint pData)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in GUID, ref UINT, IntPtr, HRESULT>)_vTable[3])
+                return ((delegate* unmanaged[Stdcall]<void*, in GUID, ref UINT, nint, HRESULT>)_vTable[3])
                     (thisPtr, guid, ref pDataSize, pData);
             }
         }
@@ -77,11 +77,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Rather than using the Direct3D 11 debug object naming scheme of calling <see cref="SetPrivateData"/>
         /// using <see cref="WKPDID_D3DDebugObjectName"/> with an ASCII name, call <see cref="SetName"/> with a UNICODE name.
         /// </remarks>
-        public HRESULT SetPrivateData([In] in GUID guid, [In] UINT DataSize, [In] IntPtr pData)
+        public HRESULT SetPrivateData([In] in GUID guid, [In] UINT DataSize, [In] nint pData)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in GUID, UINT, IntPtr, HRESULT>)_vTable[4])(thisPtr, guid, DataSize, pData);
+                return ((delegate* unmanaged[Stdcall]<void*, in GUID, UINT, nint, HRESULT>)_vTable[4])(thisPtr, guid, DataSize, pData);
             }
         }
 
@@ -138,7 +138,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, HRESULT>)_vTable[6])(thisPtr, Name.Handle);
+                return ((delegate* unmanaged[Stdcall]<void*, nint, HRESULT>)_vTable[6])(thisPtr, Name.Handle);
             }
         }
     }

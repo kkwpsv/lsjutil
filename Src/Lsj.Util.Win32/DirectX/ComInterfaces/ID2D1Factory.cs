@@ -87,7 +87,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     [ComInterface(IID = "06152247-6f50-465a-9245-118bfd3b6007", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 16, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct ID2D1Factory
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Forces the factory to refresh any system defaults that it might have changed since factory creation.

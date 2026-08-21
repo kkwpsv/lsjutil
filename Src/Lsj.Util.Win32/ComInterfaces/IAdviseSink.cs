@@ -38,7 +38,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IAdviseSink
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Called by the server to notify a data object's currently registered advise sinks that data in the object has changed.

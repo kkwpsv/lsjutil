@@ -94,7 +94,7 @@ namespace Lsj.Util.Win32.Structs
         /// Pointer to a string to be used as the title of the dialog box.
         /// If <see cref="NULL"/>, then the library uses Links.
         /// </summary>
-        public IntPtr lpszCaption;
+        public nint lpszCaption;
 
         /// <summary>
         /// Pointer to a hook function that processes messages intended for the dialog box.
@@ -119,7 +119,7 @@ namespace Lsj.Util.Win32.Structs
         /// Pointer to a null-terminated string that specifies the name of the resource file for the dialog box template
         /// that is to be substituted for the library's Edit Links dialog box template.
         /// </summary>
-        public IntPtr lpszTemplate;
+        public nint lpszTemplate;
 
         /// <summary>
         /// Customized template handle.

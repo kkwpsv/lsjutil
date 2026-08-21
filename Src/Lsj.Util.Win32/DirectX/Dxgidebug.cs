@@ -57,6 +57,6 @@ namespace Lsj.Util.Win32.DirectX
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows8, Note = "This API requires the Windows Software Development Kit (SDK) for Windows 8.")]
         [DllImport("Dxgidebug.dll", CharSet = CharSet.Unicode, EntryPoint = "DXGIGetDebugInterface", ExactSpelling = true)]
-        public static extern HRESULT DXGIGetDebugInterface([In] in IID riid, [Out] out IntPtr pDebug);
+        public static extern HRESULT DXGIGetDebugInterface([In] in IID riid, [Out] out nint pDebug);
     }
 }

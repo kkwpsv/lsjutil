@@ -62,7 +62,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IDXGIObject), typeof(IDXGIFactory), typeof(IDXGIFactory1)])]
     public unsafe struct IDXGIFactory2
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Determines whether to use stereo mode.

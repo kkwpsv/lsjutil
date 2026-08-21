@@ -1879,8 +1879,8 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoInitializeSecurity", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CoInitializeSecurity([In] PSECURITY_DESCRIPTOR pSecDesc, [In] LONG cAuthSvc, [In] SOLE_AUTHENTICATION_SERVICE[] asAuthSvc,
-            [In] IntPtr pReserved1, [In] AuthenticationLevelConstants dwAuthnLevel, [In] ImpersonationLevelConstants dwImpLevel,
-            [In] IntPtr pAuthList, [In] EOLE_AUTHENTICATION_CAPABILITIES dwCapabilities, [In] IntPtr pReserved3);
+            [In] nint pReserved1, [In] AuthenticationLevelConstants dwAuthnLevel, [In] ImpersonationLevelConstants dwImpLevel,
+            [In] nint pAuthList, [In] EOLE_AUTHENTICATION_CAPABILITIES dwCapabilities, [In] nint pReserved3);
 
         /// <summary>
         /// <para>
@@ -2836,7 +2836,7 @@ namespace Lsj.Util.Win32
         /// </summary>
         /// <param name="pv">
         /// A pointer to the memory block to be reallocated.
-        /// This parameter can be <see cref="IntPtr.Zero"/>, as discussed in Remarks.
+        /// This parameter can be <see cref="NULL"/>, as discussed in Remarks.
         /// </param>
         /// <param name="cb">
         /// The size of the memory block to be reallocated, in bytes.
@@ -2844,7 +2844,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <returns>
         /// If the function succeeds, it returns the reallocated memory block.
-        /// Otherwise, it returns <see cref="IntPtr.Zero"/>.
+        /// Otherwise, it returns <see cref="NULL"/>.
         /// </returns>
         /// <remarks>
         /// <para>
@@ -5172,7 +5172,7 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "StgCreateStorageEx", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT StgCreateStorageEx([In] LPWSTR pwcsName, [In] STGM grfMode, [In] STGFMT stgfmt, [In] DWORD grfAttrs,
-            [In] in STGOPTIONS pStgOptions, [In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] in IID riid, [Out] out IntPtr ppObjectOpen);
+            [In] in STGOPTIONS pStgOptions, [In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] in IID riid, [Out] out nint ppObjectOpen);
 
         /// <summary>
         /// <para>
@@ -5518,7 +5518,7 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.Windows2000)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "StgOpenStorageEx", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT StgOpenStorageEx([In] LPCWSTR pwcsName, [In] STGM grfMode, [In] STGFMT stgfmt, [In] DWORD grfAttrs,
-            [In] in STGOPTIONS pStgOptions, [In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] in IID riid, [Out] out IntPtr ppObjectOpen);
+            [In] in STGOPTIONS pStgOptions, [In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] in IID riid, [Out] out nint ppObjectOpen);
 
         /// <summary>
         /// <para>
@@ -5550,7 +5550,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "StringFromCLSID", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT StringFromCLSID([In] in CLSID rclsid, [Out] out IntPtr lplpsz);
+        public static extern HRESULT StringFromCLSID([In] in CLSID rclsid, [Out] out nint lplpsz);
 
         /// <summary>
         /// <para>

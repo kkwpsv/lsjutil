@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Attributes;
+﻿using Lsj.Util.IL;
+using Lsj.Util.Win32.Attributes;
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Structs;
 using System;
@@ -19,7 +20,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(ID3D12Object), typeof(ID3D12DeviceChild), typeof(ID3D12Pageable)])]
     public unsafe struct ID3D12DescriptorHeap
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Gets the descriptor heap description.
@@ -31,7 +32,30 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, D3D12_DESCRIPTOR_HEAP_DESC>)_vTable[8])(thisPtr);
+                D3D12_DESCRIPTOR_HEAP_DESC ret;
+                return *((delegate* unmanaged[Stdcall]<void*, D3D12_DESCRIPTOR_HEAP_DESC*, D3D12_DESCRIPTOR_HEAP_DESC*>)_vTable[8])(thisPtr, &ret);
+            }
+        }
+
+        /// <summary>
+        /// Gets the CPU descriptor handle that represents the start of the heap.
+        /// </summary>
+        /// <returns>
+        /// Returns the CPU descriptor handle that represents the start of the heap.
+        /// </returns>
+        public D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHandleForHeapStart()
+        {
+            fixed (void* thisPtr = &this)
+            {
+                if (Unsafe.SizeOf<D3D12_CPU_DESCRIPTOR_HANDLE>() >= 8)
+                {
+                    D3D12_CPU_DESCRIPTOR_HANDLE ret;
+                    return *((delegate* unmanaged[Stdcall]<void*, D3D12_CPU_DESCRIPTOR_HANDLE*, D3D12_CPU_DESCRIPTOR_HANDLE*>)_vTable[9])(thisPtr, &ret);
+                }
+                else
+                {
+                    return ((delegate* unmanaged[Stdcall]<void*, D3D12_CPU_DESCRIPTOR_HANDLE>)_vTable[9])(thisPtr);
+                }
             }
         }
 
@@ -42,25 +66,19 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Returns the GPU descriptor handle that represents the start of the heap.
         /// If the descriptor heap is not shader-visible, a null handle is returned.
         /// </returns>
-        public D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHandleForHeapStart()
-        {
-            fixed (void* thisPtr = &this)
-            {
-                return ((delegate* unmanaged[Stdcall]<void*, D3D12_CPU_DESCRIPTOR_HANDLE>)_vTable[9])(thisPtr);
-            }
-        }
-
-        /// <summary>
-        /// Gets the CPU descriptor handle that represents the start of the heap.
-        /// </summary>
-        /// <returns>
-        /// Returns the CPU descriptor handle that represents the start of the heap.
-        /// </returns>
         public D3D12_GPU_DESCRIPTOR_HANDLE GetGPUDescriptorHandleForHeapStart()
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, D3D12_GPU_DESCRIPTOR_HANDLE>)_vTable[10])(thisPtr);
+                if (Unsafe.SizeOf<D3D12_CPU_DESCRIPTOR_HANDLE>() >= 8)
+                {
+                    D3D12_GPU_DESCRIPTOR_HANDLE ret;
+                    return *((delegate* unmanaged[Stdcall]<void*, D3D12_GPU_DESCRIPTOR_HANDLE*, D3D12_GPU_DESCRIPTOR_HANDLE*>)_vTable[10])(thisPtr, &ret);
+                }
+                else
+                {
+                    return ((delegate* unmanaged[Stdcall]<void*, D3D12_GPU_DESCRIPTOR_HANDLE>)_vTable[10])(thisPtr);
+                }
             }
         }
     }

@@ -55,7 +55,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IDXGIObject), typeof(IDXGIDeviceSubObject), typeof(IDXGISurface)])]
     public unsafe struct IDXGISurface1
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Returns a device context (DC) that allows you to render

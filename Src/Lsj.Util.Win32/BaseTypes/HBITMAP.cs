@@ -27,6 +27,9 @@ namespace Lsj.Util.Win32.BaseTypes
         /// <inheritdoc/>
         public IntPtr ToIntPtr() => _value;
 
+        /// <inheritdoc/>
+        public nint ToNint() => _value;
+
         /// <summary>
         /// 
         /// </summary>
@@ -55,12 +58,12 @@ namespace Lsj.Util.Win32.BaseTypes
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator IntPtr(HBITMAP val) => val._value;
+        public static implicit operator nint(HBITMAP val) => val._value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator HBITMAP(IntPtr val) => new HBITMAP { _value = val };
+        public static implicit operator HBITMAP(nint val) => new HBITMAP { _value = val };
     }
 }

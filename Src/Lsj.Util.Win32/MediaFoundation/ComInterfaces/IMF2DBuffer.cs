@@ -1,11 +1,11 @@
 ﻿using Lsj.Util.Win32.Attributes;
 using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
-using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.DirectX.Enums.D3DERR;
+using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 
 namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
 {
@@ -84,7 +84,7 @@ namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
     [ComInterface(IID = "7DC9D5F9-9ED9-44ec-9BBF-0600BB589FBB", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 9, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IMF2DBuffer
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Gives the caller access to the memory in the buffer.

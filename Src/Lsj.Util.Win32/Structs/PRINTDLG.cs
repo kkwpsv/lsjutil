@@ -618,14 +618,14 @@ namespace Lsj.Util.Win32.Structs
         /// This template replaces the default Print dialog box template.
         /// This member is ignored unless the <see cref="PD_ENABLEPRINTTEMPLATE"/> flag is set in the <see cref="Flags"/> member.
         /// </summary>
-        public IntPtr lpPrintTemplateName;
+        public nint lpPrintTemplateName;
 
         /// <summary>
         /// The name of the dialog box template resource in the module identified by the <see cref="hInstance"/> member.
         /// This template replaces the default Print Setup dialog box template.
         /// This member is ignored unless the <see cref="PD_ENABLESETUPTEMPLATE"/> flag is set in the <see cref="Flags"/> member.
         /// </summary>
-        public IntPtr lpSetupTemplateName;
+        public nint lpSetupTemplateName;
 
         /// <summary>
         /// If the <see cref="PD_ENABLEPRINTTEMPLATEHANDLE"/> flag is set in the <see cref="Flags"/> member,

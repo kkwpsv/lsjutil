@@ -70,7 +70,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Reserved; must be <see cref="NULL"/>.
         /// </summary>
-        public IntPtr lpReserved;
+        public nint lpReserved;
 
         /// <summary>
         /// <para>
@@ -81,14 +81,14 @@ namespace Lsj.Util.Win32.Structs
         /// For more information, see Thread Connection to a Desktop.
         /// </para>
         /// </summary>
-        public IntPtr lpDesktop;
+        public nint lpDesktop;
 
         /// <summary>
         /// For console processes, this is the title displayed in the title bar if a new console window is created.
         /// If <see cref="NULL"/>, the name of the executable file is used as the window title instead.
         /// This parameter must be <see cref="NULL"/> for GUI or console processes that do not create a new console window.
         /// </summary>
-        public IntPtr lpTitle;
+        public nint lpTitle;
 
         /// <summary>
         /// <para>
@@ -471,7 +471,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Reserved for use by the C Run-time; must be <see cref="NULL"/>.
         /// </summary>
-        public IntPtr lpReserved2;
+        public nint lpReserved2;
 
         /// <summary>
         /// <para>

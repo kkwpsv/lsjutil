@@ -125,122 +125,122 @@ namespace Lsj.Util.Win32.Structs
         /// A string value.
         /// </summary>
         [FieldOffset(8)]
-        public IntPtr bstrVal;
+        public nint bstrVal;
 
         /// <summary>
         /// A pointer to an object that implements the <see cref="IUnknown"/> interface.
         /// </summary>
         [FieldOffset(8)]
-        public IntPtr punkVal;
+        public nint punkVal;
 
         /// <summary>
         /// A pointer to an object was specified.
         /// </summary>
         [FieldOffset(8)]
-        public IntPtr pdispVal;
+        public nint pdispVal;
 
         /// <summary>
         /// A safe array descriptor, which describes the dimensions, size, and in-memory location of the array.
         /// </summary>
         [FieldOffset(8)]
-        public IntPtr parray;
+        public nint parray;
 
         /// <summary>
         /// A reference to an unsigned 1-byte character.
         /// </summary>
         [FieldOffset(8)]
-        public IntPtr pbVal;
+        public nint pbVal;
 
         /// <summary>
         /// A reference to a 2-byte integer value.
         /// </summary>
         [FieldOffset(8)]
-        public IntPtr piVal;
+        public nint piVal;
 
         /// <summary>
         ///  A reference to a 4-byte integer value.
         /// </summary>
         [FieldOffset(8)]
-        public IntPtr plVal;
+        public nint plVal;
 
         /// <summary>
         /// A reference to an 8-byte integer value.
         /// </summary>
         [FieldOffset(8)]
-        public IntPtr pllVal;
+        public nint pllVal;
 
         /// <summary>
         /// A reference to a 4-byte real value.
         /// </summary>
         [FieldOffset(8)]
-        public IntPtr pfltVal;
+        public nint pfltVal;
 
         /// <summary>
         /// A reference to an 8-byte real value.
         /// </summary>
         [FieldOffset(8)]
-        public IntPtr pdblVal;
+        public nint pdblVal;
 
         /// <summary>
         /// A reference to a 16-bit Boolean value.
         /// </summary>
         [FieldOffset(8)]
-        public IntPtr pboolVal;
+        public nint pboolVal;
 
         /// <summary>
         /// 
         /// </summary>
         [FieldOffset(8)]
-        public IntPtr __OBSOLETE__VARIANT_PBOOL;
+        public nint __OBSOLETE__VARIANT_PBOOL;
 
         /// <summary>
         /// A reference to an SCODE value.
         /// </summary>
         [FieldOffset(8)]
-        public IntPtr pscode;
+        public nint pscode;
 
         /// <summary>
         /// A reference to a currency value.
         /// </summary>
         [FieldOffset(8)]
-        public IntPtr pcyVal;
+        public nint pcyVal;
 
         /// <summary>
         /// A reference to a date and time value.
         /// Dates are represented as double-precision numbers, where midnight, January 1, 1900 is 2.0, January 2, 1900 is 3.0, and so on.
         /// </summary>
         [FieldOffset(8)]
-        public IntPtr pdate;
+        public nint pdate;
 
         /// <summary>
         /// A reference to a string value.
         /// </summary>
         [FieldOffset(8)]
-        public IntPtr pbstrVal;
+        public nint pbstrVal;
 
         /// <summary>
         /// A reference to an <see cref="IUnknown"/> interface pointer.
         /// </summary>
         [FieldOffset(8)]
-        public IntPtr ppunkVal;
+        public nint ppunkVal;
 
         /// <summary>
         /// A reference to an object pointer.
         /// </summary>
         [FieldOffset(8)]
-        public IntPtr ppdispVal;
+        public nint ppdispVal;
 
         /// <summary>
         /// 
         /// </summary>
         [FieldOffset(8)]
-        public IntPtr pparray;
+        public nint pparray;
 
         /// <summary>
         /// 
         /// </summary>
         [FieldOffset(8)]
-        public IntPtr pvarVal;
+        public nint pvarVal;
 
         /// <summary>
         /// A generic value
@@ -288,43 +288,43 @@ namespace Lsj.Util.Win32.Structs
         /// A decimal value, which is stored as 96-bit (12-byte) unsigned integers scaled by a variable power of 10.
         /// </summary>
         [FieldOffset(8)]
-        public IntPtr pdecVal;
+        public nint pdecVal;
 
         /// <summary>
         /// A reference to a 1-byte character value.
         /// </summary>
         [FieldOffset(8)]
-        public IntPtr pcVal;
+        public nint pcVal;
 
         /// <summary>
         /// A reference to an unsigned 2-byte integer value.
         /// </summary>
         [FieldOffset(8)]
-        public IntPtr puiVal;
+        public nint puiVal;
 
         /// <summary>
         /// A reference to an unsigned 4-byte integer value.
         /// </summary>
         [FieldOffset(8)]
-        public IntPtr pulVal;
+        public nint pulVal;
 
         /// <summary>
         /// A reference to an unsigned 8-byte integer value.
         /// </summary>
         [FieldOffset(8)]
-        public IntPtr pullVal;
+        public nint pullVal;
 
         /// <summary>
         /// A reference to an integer value.
         /// </summary>
         [FieldOffset(8)]
-        public IntPtr pintVal;
+        public nint pintVal;
 
         /// <summary>
         /// A reference to an unsigned integer value.
         /// </summary>
         [FieldOffset(8)]
-        public UIntPtr puintVal;
+        public nint puintVal;
 
         [FieldOffset(8)]
 #pragma warning disable IDE1006 
@@ -346,7 +346,7 @@ namespace Lsj.Util.Win32.Structs
         /// A reference to a UDT.
         /// </summary>
 #pragma warning disable IDE1006 
-        public IntPtr pRecInfo
+        public nint pRecInfo
 #pragma warning restore IDE1006 
         {
             get => _VARIANT__VARIANT_NAME_4.pRecInfo;
@@ -363,7 +363,7 @@ namespace Lsj.Util.Win32.Structs
         private struct VARIANT__VARIANT_NAME_4
         {
             public PVOID pvRecord;
-            public IntPtr pRecInfo;
+            public nint pRecInfo;
         }
     }
 }

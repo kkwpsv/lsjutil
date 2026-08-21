@@ -41,7 +41,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     [ComInterface(IID = "24F416E6-1F67-4aa7-B88E-D33F6F3128A1", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 10, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IDirect3DVolume9
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Retrieves the device associated with a volume.
@@ -136,11 +136,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Data is passed by value, and multiple sets of data can be associated with a single volume.
         /// </para>
         /// </remarks>
-        public HRESULT SetPrivateData([In] in GUID refguid, [In] IntPtr pData, [In] DWORD SizeOfData, [In] DWORD Flags)
+        public HRESULT SetPrivateData([In] in GUID refguid, [In] nint pData, [In] DWORD SizeOfData, [In] DWORD Flags)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in GUID, IntPtr, DWORD, DWORD, HRESULT>)_vTable[4])(thisPtr, refguid, pData, SizeOfData, Flags);
+                return ((delegate* unmanaged[Stdcall]<void*, in GUID, nint, DWORD, DWORD, HRESULT>)_vTable[4])(thisPtr, refguid, pData, SizeOfData, Flags);
             }
         }
 
@@ -170,11 +170,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// which was previously set by <see cref="SetPrivateData"/> with a <c>D3DSPD_IUNKNOWN</c> flag,
         /// that interface will have its reference count incremented before the private data is returned.
         /// </remarks>
-        public HRESULT GetPrivateData([In] in GUID refguid, [In] IntPtr pData, [In][Out] ref DWORD pSizeOfData)
+        public HRESULT GetPrivateData([In] in GUID refguid, [In] nint pData, [In][Out] ref DWORD pSizeOfData)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in GUID, IntPtr, ref DWORD, HRESULT>)_vTable[5])(thisPtr, refguid, pData, ref pSizeOfData);
+                return ((delegate* unmanaged[Stdcall]<void*, in GUID, nint, ref DWORD, HRESULT>)_vTable[5])(thisPtr, refguid, pData, ref pSizeOfData);
             }
         }
 
@@ -230,11 +230,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         ///     pVolumeTexture = (IDirect3DVolumeTexture9 *)pContainer;
         /// </code>
         /// </remarks>
-        public HRESULT GetContainer([In] in IID riid, [Out] out IntPtr ppContainer)
+        public HRESULT GetContainer([In] in IID riid, [Out] out nint ppContainer)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IID, out IntPtr, HRESULT>)_vTable[7])(thisPtr, riid, out ppContainer);
+                return ((delegate* unmanaged[Stdcall]<void*, in IID, out nint, HRESULT>)_vTable[7])(thisPtr, riid, out ppContainer);
             }
         }
 

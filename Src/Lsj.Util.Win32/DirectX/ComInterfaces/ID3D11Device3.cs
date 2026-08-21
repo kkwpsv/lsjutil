@@ -20,13 +20,16 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     /// The device interface represents a virtual adapter; it is used to create resources.
     /// <see cref="ID3D11Device3"/> adds new methods to those in <see cref="ID3D11Device2"/>.
     /// </para>
+    /// <para>
+    /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/d3d11_3/nn-d3d11_3-id3d11device3"/>
+    /// </para>
     /// </summary>
     [WindowsVersionRequirement(WindowsVersion.Windows10)]
     [ComInterface(IID = "A05C8C37-D2C6-4732-B3A0-9CE0B0DC9AE6", BeginVTableSlotIndex = 54, EndVTableSlotIndex = 64,
         InheritedFromTypes = [typeof(IUnknown), typeof(ID3D11Device), typeof(ID3D11Device1), typeof(ID3D11Device2)])]
     public unsafe struct ID3D11Device3
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Creates a 2D texture.
@@ -537,11 +540,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </para>
         /// </remarks>
         public void WriteToSubresource([In] P<ID3D11Resource> pDstResource, [In] UINT DstSubresource, [In] in D3D11_BOX pDstBox,
-            [In] IntPtr pSrcData, [In] UINT SrcRowPitch, [In] UINT SrcDepthPitch)
+            [In] nint pSrcData, [In] UINT SrcRowPitch, [In] UINT SrcDepthPitch)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11Resource>, UINT, in D3D11_BOX, IntPtr, UINT, UINT, void>)_vTable[63])
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11Resource>, UINT, in D3D11_BOX, nint, UINT, UINT, void>)_vTable[63])
                     (thisPtr, pDstResource, DstSubresource, pDstBox, pSrcData, SrcRowPitch, SrcDepthPitch);
             }
         }
@@ -607,12 +610,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// with an opaque amount of offsetting which can interfere with alignment to cache lines.
         /// </para>
         /// </remarks>
-        public void ReadFromSubresource([In] IntPtr pDstData, [In] UINT DstRowPitch, [In] UINT DstDepthPitch,
+        public void ReadFromSubresource([In] nint pDstData, [In] UINT DstRowPitch, [In] UINT DstDepthPitch,
             [In] P<ID3D11Resource> pSrcResource, [In] UINT SrcSubresource, [In] in D3D11_BOX pSrcBox)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, IntPtr, UINT, UINT, P<ID3D11Resource>, UINT, in D3D11_BOX, void>)_vTable[64])
+                ((delegate* unmanaged[Stdcall]<void*, nint, UINT, UINT, P<ID3D11Resource>, UINT, in D3D11_BOX, void>)_vTable[64])
                     (thisPtr, pDstData, DstRowPitch, DstDepthPitch, pSrcResource, SrcSubresource, pSrcBox);
             }
         }

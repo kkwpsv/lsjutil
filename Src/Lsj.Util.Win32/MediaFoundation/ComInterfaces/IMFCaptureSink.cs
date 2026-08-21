@@ -1,11 +1,11 @@
 ﻿using Lsj.Util.Win32.Attributes;
 using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
-using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.MediaFoundation.Constants;
+using static Lsj.Util.Win32.MediaFoundation.GUIDs.MediaCaptureEventExtendedTypeGuids;
 
 namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
 {
@@ -111,7 +111,7 @@ namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
     [ComInterface(IID = "72d6135b-35e9-412c-b926-fd5265f2a885", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 7, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IMFCaptureSink
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Gets the output format for a stream on this capture sink.

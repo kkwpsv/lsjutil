@@ -4,6 +4,7 @@ using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Comdlg32;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CharacterSets;
 using static Lsj.Util.Win32.Enums.FontDialogFlags;
 using static Lsj.Util.Win32.Enums.FontTypes;
@@ -33,7 +34,7 @@ namespace Lsj.Util.Win32.Structs
 
         /// <summary>
         /// A handle to the window that owns the dialog box.
-        /// This member can be any valid window handle, or it can be <see cref="IntPtr.Zero"/> if the dialog box has no owner.
+        /// This member can be any valid window handle, or it can be <see cref="NULL"/> if the dialog box has no owner.
         /// </summary>
         public HWND hwndOwner;
 
@@ -56,7 +57,7 @@ namespace Lsj.Util.Win32.Structs
         /// the <see cref="ChooseFont"/> function initializes the dialog box with a font that matches the <see cref="LOGFONT"/> members.
         /// If the user clicks the OK button, <see cref="ChooseFont"/> sets the members of the <see cref="LOGFONT"/> structure based on the user's selections.
         /// </summary>
-        public IntPtr lpLogFont;
+        public nint lpLogFont;
 
         /// <summary>
         /// The size of the selected font, in units of 1/10 of a point.
@@ -412,7 +413,7 @@ namespace Lsj.Util.Win32.Structs
         /// For numbered dialog box resources, <see cref="lpTemplateName"/> can be a value returned by the <see cref="MAKEINTRESOURCE"/> macro.
         /// This member is ignored unless the <see cref="CF_ENABLETEMPLATE"/> flag is set in the Flags member.
         /// </summary>
-        public IntPtr lpTemplateName;
+        public nint lpTemplateName;
 
         /// <summary>
         /// If the <see cref="CF_ENABLETEMPLATEHANDLE"/> flag is set in the <see cref="Flags"/> member,
@@ -428,7 +429,7 @@ namespace Lsj.Util.Win32.Structs
         /// If the <see cref="CF_USESTYLE"/> flag is specified, <see cref="ChooseFont"/> uses the data in this buffer to initialize the Font Style combo box.
         /// When the user closes the dialog box, <see cref="ChooseFont"/> copies the string in the Font Style combo box into this buffer.
         /// </summary>
-        public IntPtr lpszStyle;
+        public nint lpszStyle;
 
         /// <summary>
         /// <para>

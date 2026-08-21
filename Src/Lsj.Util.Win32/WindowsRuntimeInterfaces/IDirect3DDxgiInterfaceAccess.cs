@@ -22,7 +22,7 @@ namespace Lsj.Util.Win32.WindowsRuntimeInterfaces
         InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IDirect3DDxgiInterfaceAccess
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Retrieves the DXGI interface that is wrapped by the <see cref="IDirect3DDxgiInterfaceAccess"/> object.
@@ -37,11 +37,11 @@ namespace Lsj.Util.Win32.WindowsRuntimeInterfaces
         /// If the function succeeds, it returns <see cref="S_OK"/>.
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
-        public HRESULT GetInterface([In] in IID iid, out IntPtr p)
+        public HRESULT GetInterface([In] in IID iid, out nint p)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IID, out IntPtr, HRESULT>)_vTable[3])(thisPtr, iid, out p);
+                return ((delegate* unmanaged[Stdcall]<void*, in IID, out nint, HRESULT>)_vTable[3])(thisPtr, iid, out p);
             }
         }
     }

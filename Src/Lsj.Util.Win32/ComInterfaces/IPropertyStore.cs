@@ -14,7 +14,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IPropertyStore
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// After a change has been made, this method saves the changes.

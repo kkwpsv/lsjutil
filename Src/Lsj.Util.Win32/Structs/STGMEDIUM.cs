@@ -75,7 +75,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Pointer to the path of a disk file that contains the data. The tymed member is <see cref="TYMED_FILE"/>.
         /// </summary>
-        public IntPtr lpszFileName
+        public nint lpszFileName
         {
             get => _STGMEDIUM_DUMMYUNIONNAME.lpszFileName;
             set => _STGMEDIUM_DUMMYUNIONNAME.lpszFileName = value;
@@ -84,7 +84,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Pointer to an <see cref="IStream"/> interface. The tymed member is <see cref="TYMED_ISTREAM"/>.
         /// </summary>
-        public IntPtr pstm
+        public nint pstm
         {
             get => _STGMEDIUM_DUMMYUNIONNAME.pstm;
             set => _STGMEDIUM_DUMMYUNIONNAME.pstm = value;
@@ -93,7 +93,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Pointer to an IStorage interface. The tymed member is TYMED_ISTORAGE.
         /// </summary>
-        public IntPtr pstg
+        public nint pstg
         {
             get => _STGMEDIUM_DUMMYUNIONNAME.pstg;
             set => _STGMEDIUM_DUMMYUNIONNAME.pstg = value;
@@ -105,7 +105,7 @@ namespace Lsj.Util.Win32.Structs
         /// If <see cref="pUnkForRelease"/> is <see cref="NULL"/>, <see cref="ReleaseStgMedium"/> uses default procedures to release the storage;
         /// otherwise, <see cref="ReleaseStgMedium"/> uses the specified <see cref="IUnknown"/> interface.
         /// </summary>
-        public IntPtr pUnkForRelease;
+        public nint pUnkForRelease;
 #pragma warning restore IDE1006
 
         [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
@@ -139,19 +139,19 @@ namespace Lsj.Util.Win32.Structs
             /// 
             /// </summary>
             [FieldOffset(0)]
-            public IntPtr lpszFileName;
+            public nint lpszFileName;
 
             /// <summary>
             /// 
             /// </summary>
             [FieldOffset(0)]
-            public IntPtr pstm;
+            public nint pstm;
 
             /// <summary>
             /// 
             /// </summary>
             [FieldOffset(0)]
-            public IntPtr pstg;
+            public nint pstg;
         }
     }
 }

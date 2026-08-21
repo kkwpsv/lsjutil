@@ -18,12 +18,12 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// A pointer to an <see cref="EXCEPTION_RECORD"/> structure that contains a machine-independent description of the exception.
         /// </summary>
-        public IntPtr ExceptionRecord;
+        public nint ExceptionRecord;
 
         /// <summary>
         /// A pointer to a <see cref="CONTEXT"/> structure that contains a processor-specific description
         /// of the state of the processor at the time of the exception.
         /// </summary>
-        public IntPtr ContextRecord;
+        public nint ContextRecord;
     }
 }

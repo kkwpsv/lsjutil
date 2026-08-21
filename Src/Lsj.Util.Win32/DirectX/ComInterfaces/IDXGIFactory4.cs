@@ -23,7 +23,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IDXGIObject), typeof(IDXGIFactory), typeof(IDXGIFactory1), typeof(IDXGIFactory2), typeof(IDXGIFactory3)])]
     public unsafe struct IDXGIFactory4
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Outputs the <see cref="IDXGIAdapter"/> for the specified LUID.
@@ -38,7 +38,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </param>
         /// <param name="ppAdapter">
         /// The address of an <see cref="IDXGIAdapter"/> interface pointer to the adapter.
-        /// This parameter must not be <see cref="NullRef{IntPtr}"/>.
+        /// This parameter must not be <see cref="NullRef{nint}"/>.
         /// </param>
         /// <returns>
         /// Returns <see cref="S_OK"/> if successful; an error code otherwise.
@@ -52,11 +52,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <see cref="EnumAdapterByLuid"/> is designed to be paired with <see cref="ID3D12Device.GetAdapterLuid"/>.
         /// For more information, see DXGI 1.4 Improvements.
         /// </remarks>
-        public HRESULT EnumAdapterByLuid([In] LUID AdapterLuid, [In] in IID riid, [Out] out IntPtr ppAdapter)
+        public HRESULT EnumAdapterByLuid([In] LUID AdapterLuid, [In] in IID riid, [Out] out nint ppAdapter)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, LUID, in IID, out IntPtr, HRESULT>)_vTable[26])(thisPtr, AdapterLuid, riid, out ppAdapter);
+                return ((delegate* unmanaged[Stdcall]<void*, LUID, in IID, out nint, HRESULT>)_vTable[26])(thisPtr, AdapterLuid, riid, out ppAdapter);
             }
         }
 
@@ -69,7 +69,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </param>
         /// <param name="ppAdapter">
         /// The address of an <see cref="IDXGIAdapter"/> interface pointer to the adapter.
-        /// This parameter must not be <see cref="NullRef{IntPtr}"/>.
+        /// This parameter must not be <see cref="NullRef{nint}"/>.
         /// </param>
         /// <returns>
         /// Returns <see cref="S_OK"/> if successful; an error code otherwise.
@@ -78,11 +78,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <remarks>
         /// For more information, see DXGI 1.4 Improvements.
         /// </remarks>
-        public HRESULT EnumWarpAdapter([In] in IID riid, [Out] out IntPtr ppAdapter)
+        public HRESULT EnumWarpAdapter([In] in IID riid, [Out] out nint ppAdapter)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IID, out IntPtr, HRESULT>)_vTable[27])(thisPtr, riid, out ppAdapter);
+                return ((delegate* unmanaged[Stdcall]<void*, in IID, out nint, HRESULT>)_vTable[27])(thisPtr, riid, out ppAdapter);
             }
         }
     }

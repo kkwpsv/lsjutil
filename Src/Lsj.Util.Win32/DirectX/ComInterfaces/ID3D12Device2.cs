@@ -34,7 +34,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
        InheritedFromTypes = [typeof(IUnknown), typeof(ID3D12Object), typeof(ID3D12Device), typeof(ID3D12Device1)])]
     public unsafe struct ID3D12Device2
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Creates a pipeline state object from a pipeline state stream description.
@@ -71,11 +71,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// which take their pipeline description as the less-flexible <see cref="D3D12_GRAPHICS_PIPELINE_STATE_DESC"/>
         /// and <see cref="D3D12_COMPUTE_PIPELINE_STATE_DESC"/> structs, respectively.
         /// </remarks>
-        public HRESULT CreatePipelineState([In] in D3D12_PIPELINE_STATE_STREAM_DESC pDesc, [In] in IID riid, [Out] out IntPtr ppPipelineState)
+        public HRESULT CreatePipelineState([In] in D3D12_PIPELINE_STATE_STREAM_DESC pDesc, [In] in IID riid, [Out] out nint ppPipelineState)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in D3D12_PIPELINE_STATE_STREAM_DESC, in IID, out IntPtr, HRESULT>)_vTable[47])
+                return ((delegate* unmanaged[Stdcall]<void*, in D3D12_PIPELINE_STATE_STREAM_DESC, in IID, out nint, HRESULT>)_vTable[47])
                     (thisPtr, pDesc, riid, out ppPipelineState);
             }
         }

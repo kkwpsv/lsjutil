@@ -98,7 +98,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
     /// </list>
     /// </para>
     /// <para>
-    /// To get the handle increment size use ID3D12Device.GetDescriptorHandleIncrementSize
+    /// To get the handle increment size use <see cref="ID3D12Device.GetDescriptorHandleIncrementSize"/>
     /// </para>
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

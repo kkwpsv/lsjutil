@@ -15,13 +15,13 @@ namespace Lsj.Util.Win32.Marshals
     /// </summary>
     public class BSTR : CriticalHandle
     {
-        IntPtr _value;
+        nint _value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="str"></param>
-        public BSTR(string str) : base(IntPtr.Zero)
+        public BSTR(string str) : this()
         {
             if (str != null)
             {
@@ -39,7 +39,7 @@ namespace Lsj.Util.Win32.Marshals
         /// </summary>
         /// <param name="handle"></param>
         /// <param name="needFinalize"></param>
-        public BSTR(IntPtr handle, bool needFinalize = false) : base(IntPtr.Zero)
+        public BSTR(nint handle, bool needFinalize = false) : this()
         {
             SetHandle(handle);
             if (!needFinalize)
@@ -48,9 +48,8 @@ namespace Lsj.Util.Win32.Marshals
             }
         }
 
-        private BSTR() : base(IntPtr.Zero)
+        private BSTR() : base((nint)0)
         {
-
         }
 
         /// <inheritdoc/>
@@ -76,12 +75,12 @@ namespace Lsj.Util.Win32.Marshals
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator BSTR(IntPtr val) => new BSTR(val);
+        public static implicit operator BSTR(nint val) => new BSTR(val);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator IntPtr(BSTR val) => val.handle;
+        public static implicit operator nint(BSTR val) => val.handle;
     }
 }

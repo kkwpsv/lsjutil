@@ -2,9 +2,10 @@
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.Enums.DISPLAYCONFIG_SCANLINE_ORDERING;
+using static Lsj.Util.Win32.Enums.DisplayConfigPathInfoFlags;
 using static Lsj.Util.Win32.Enums.DisplayConfigPathTargetInfoFlags;
 using static Lsj.Util.Win32.Enums.QueryDisplayConfigFlags;
-using static Lsj.Util.Win32.Enums.DisplayConfigPathInfoFlags;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Structs

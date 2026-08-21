@@ -57,7 +57,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IDXGIObject), typeof(IDXGIDeviceSubObject), typeof(IDXGISwapChain)])]
     public unsafe struct IDXGISwapChain1
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Gets a description of the swap chain.
@@ -200,11 +200,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// 
         /// to create a swap chain that is associated with an CoreWindow object.
         /// </remarks>
-        public HRESULT GetCoreWindow([In] in IID refiid, [Out] out IntPtr ppUnk)
+        public HRESULT GetCoreWindow([In] in IID refiid, [Out] out nint ppUnk)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IID, out IntPtr, HRESULT>)_vTable[21])(thisPtr, refiid, out ppUnk);
+                return ((delegate* unmanaged[Stdcall]<void*, in IID, out nint, HRESULT>)_vTable[21])(thisPtr, refiid, out ppUnk);
             }
         }
 

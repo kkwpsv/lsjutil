@@ -16,7 +16,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct ITaskbarList
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Initializes the taskbar list object.

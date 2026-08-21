@@ -21,7 +21,7 @@ namespace Lsj.Util.Win32
         /// <typeparam name="T"></typeparam>
         /// <param name="o"></param>
         /// <returns></returns>
-        public static IntPtr AsPointer<T>(ref T o) => (IntPtr)Unsafe.AsPointer(ref o);
+        public static nint AsPointer<T>(ref T o) => (nint)Unsafe.AsPointer(ref o);
 
         /// <summary>
         /// As Struct Ref
@@ -37,7 +37,7 @@ namespace Lsj.Util.Win32
         /// <typeparam name="T"></typeparam>
         /// <param name="p"></param>
         /// <returns></returns>
-        public static ref T AsStructRef<T>(this IntPtr p) where T : struct => ref Unsafe.AsRef<T>(p.ToPointer());
+        public static ref T AsStructRef<T>(this nint p) where T : struct => ref Unsafe.AsRef<T>((void*)p);
 
         /// <summary>
         /// As
@@ -60,6 +60,6 @@ namespace Lsj.Util.Win32
         /// </summary>
         /// <param name="p"></param>
         /// <param name="count"></param>
-        public static void ZeroMemory(IntPtr p, int count) => Unsafe.InitBlock((void*)p, 0, (uint)count);
+        public static void ZeroMemory(nint p, int count) => Unsafe.InitBlock((void*)p, 0, (uint)count);
     }
 }

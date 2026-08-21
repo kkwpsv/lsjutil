@@ -22,6 +22,9 @@ namespace Lsj.Util.Win32.BaseTypes
         /// <inheritdoc/>
         public IntPtr ToIntPtr() => _value;
 
+        /// <inheritdoc/>
+        public nint ToNint() => _value;
+
         /// <summary>
         /// 
         /// </summary>
@@ -38,12 +41,12 @@ namespace Lsj.Util.Win32.BaseTypes
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator IntPtr(HDROP val) => val._value;
+        public static implicit operator nint(HDROP val) => val._value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator HDROP(IntPtr val) => new HDROP { _value = val };
+        public static implicit operator HDROP(nint val) => new HDROP { _value = val };
     }
 }

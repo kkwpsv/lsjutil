@@ -91,7 +91,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public IntPtr pData;
+        public nint pData;
 
         /// <summary>
         /// The row pitch, or width, or physical size (in bytes) of the data.

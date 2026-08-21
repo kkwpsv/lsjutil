@@ -44,7 +44,7 @@ namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
     [ComInterface(IID = "52150b82-ab39-4467-980f-e48bf0822ecd", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 3, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IMFCaptureEngineOnSampleCallback
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Called when the capture sink receives a sample.

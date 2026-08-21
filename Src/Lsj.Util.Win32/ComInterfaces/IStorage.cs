@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.CLSID;
@@ -48,7 +49,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IStorage
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// The <see cref="CreateStream"/> method creates and opens a stream object with the specified name contained in this storage object.
@@ -74,7 +75,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <param name="ppstm">
         /// On return, pointer to the location of the new <see cref="IStream"/> interface pointer.
         /// This is only valid if the operation is successful.
-        /// When an error occurs, this parameter is set to <see langword="null"/>.
+        /// When an error occurs, this parameter is set to <see cref="NULL"/>.
         /// </param>
         /// <returns>
         /// This method can return one of these values.
@@ -92,12 +93,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If the stream already exists and grfMode is set to <see cref="STGM_FAILIFTHERE"/>,
         /// this method fails with the return value <see cref="STG_E_FILEALREADYEXISTS"/>. 
         /// </remarks>
-        public HRESULT CreateStream([In] string pwcsName, [In] STGM grfMode, [In] DWORD reserved1, [In] DWORD reserved2, [Out] out IntPtr ppstm)
+        public HRESULT CreateStream([In] string pwcsName, [In] STGM grfMode, [In] DWORD reserved1, [In] DWORD reserved2, [Out] out P<IStream> ppstm)
         {
             fixed (void* thisPtr = &this)
             fixed (char* pwcsNamePtr = pwcsName)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, char*, STGM, DWORD, DWORD, out IntPtr, HRESULT>)_vTable[3])(thisPtr, pwcsNamePtr, grfMode, reserved1, reserved2, out ppstm);
+                return ((delegate* unmanaged[Stdcall]<void*, char*, STGM, DWORD, DWORD, out P<IStream>, HRESULT>)_vTable[3])(thisPtr, pwcsNamePtr, grfMode, reserved1, reserved2, out ppstm);
             }
         }
 
@@ -136,12 +137,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// In general, access restrictions on streams need to be stricter than those on their parent storages.
         /// Compound-file streams must be opened with <see cref="STGM_SHARE_EXCLUSIVE"/>.
         /// </remarks>
-        public HRESULT OpenStream([In] string pwcsName, [In] IntPtr reserved1, [In] STGM grfMode, [In] DWORD reserved2, [Out] out IntPtr ppstm)
+        public HRESULT OpenStream([In] LPCWSTR pwcsName, [In] nint reserved1, [In] STGM grfMode, [In] DWORD reserved2, [Out] out P<IStream> ppstm)
         {
             fixed (void* thisPtr = &this)
-            fixed (char* pwcsNamePtr = pwcsName)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, char*, IntPtr, STGM, DWORD, out IntPtr, HRESULT>)_vTable[4])(thisPtr, pwcsNamePtr, reserved1, grfMode, reserved2, out ppstm);
+                return ((delegate* unmanaged[Stdcall]<void*, nint, nint, STGM, DWORD, out P<IStream>, HRESULT>)_vTable[4])
+                    (thisPtr, pwcsName.ToNint(), reserved1, grfMode, reserved2, out ppstm);
             }
         }
 
@@ -168,7 +169,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// </param>
         /// <param name="ppstm">
         /// A pointer, when successful, to the location of the <see cref="IStorage"/> pointer to the newly created storage object.
-        /// This parameter is set to <see langword="null"/> if an error occurs.
+        /// This parameter is set to <see cref="NULL"/> if an error occurs.
         /// </param>
         /// <returns>
         /// This method can return one of these values.
@@ -191,12 +192,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If a storage object with the same name already exists and <paramref name="grfMode"/> is set to <see cref="STGM_FAILIFTHERE"/>,
         /// this method fails with the return value <see cref="STG_E_FILEALREADYEXISTS"/>. 
         /// </remarks>
-        public HRESULT CreateStorage([In] string pwcsName, [In] STGM grfMode, [In] DWORD reserved1, [In] DWORD reserved2, [Out] out IntPtr ppstm)
+        public HRESULT CreateStorage([In] string pwcsName, [In] STGM grfMode, [In] DWORD reserved1, [In] DWORD reserved2, [Out] out P<IStorage> ppstm)
         {
             fixed (void* thisPtr = &this)
             fixed (char* pwcsNamePtr = pwcsName)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, char*, STGM, DWORD, DWORD, out IntPtr, HRESULT>)_vTable[5])
+                return ((delegate* unmanaged[Stdcall]<void*, char*, STGM, DWORD, DWORD, out P<IStorage>, HRESULT>)_vTable[5])
                     (thisPtr, pwcsNamePtr, grfMode, reserved1, reserved2, out ppstm);
             }
         }
@@ -220,7 +221,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Other modes you choose must at least specify <see cref="STGM_SHARE_EXCLUSIVE"/> when calling this method.
         /// </param>
         /// <param name="snbExclude">
-        /// Must be <see langword="null"/>.
+        /// Must be <see cref="NULL"/>.
         /// A non-NULL value will return <see cref="STG_E_INVALIDPARAMETER"/>.
         /// </param>
         /// <param name="reserved">
@@ -228,14 +229,14 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// </param>
         /// <param name="ppstg">
         /// When successful, pointer to the location of an <see cref="IStorage"/> pointer to the opened storage object.
-        /// This parameter is set to <see langword="null"/> if an error occurs.
+        /// This parameter is set to <see cref="NULL"/> if an error occurs.
         /// </param>
         /// <returns>
         /// This method can return one of these values.
         /// </returns>
         /// <remarks>
-        /// If the <paramref name="pstgPriority"/> parameter is <see langword="null"/>, it is ignored.
-        /// If the <paramref name="pstgPriority"/> parameter is not <see langword="null"/>,
+        /// If the <paramref name="pstgPriority"/> parameter is <see cref="NULL"/>, it is ignored.
+        /// If the <paramref name="pstgPriority"/> parameter is not <see cref="NULL"/>,
         /// it is an <see cref="IStorage"/> pointer to a previous opening of an element of the storage object,
         /// usually one that was opened in priority mode.
         /// The storage object should be closed and reopened according to <paramref name="grfMode"/>.
@@ -245,14 +246,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// in which case the object is destroyed when it receives its final release.
         /// This is useful for creating temporary storage objects.
         /// </remarks>
-        public HRESULT OpenStorage([In] string pwcsName, [In] P<IStorage> pstgPriority, [In] STGM grfMode,
-            [In] in IntPtr snbExclude, [In] DWORD reserved, [Out] out IntPtr ppstg)
+        public HRESULT OpenStorage([In] LPCWSTR pwcsName, [In] P<IStorage> pstgPriority, [In] STGM grfMode,
+            [In] nint snbExclude, [In] DWORD reserved, [Out] out P<IStorage> ppstg)
         {
             fixed (void* thisPtr = &this)
-            fixed (char* pwcsNamePtr = pwcsName)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, char*, P<IStorage>, STGM, in IntPtr, DWORD, out IntPtr, HRESULT>)_vTable[6])
-                    (thisPtr, pwcsNamePtr, pstgPriority, grfMode, snbExclude, reserved, out ppstg);
+                return ((delegate* unmanaged[Stdcall]<void*, nint, P<IStorage>, STGM, nint, DWORD, out P<IStorage>, HRESULT>)_vTable[6])
+                    (thisPtr, pwcsName.ToNint(), pstgPriority, grfMode, snbExclude, reserved, out ppstg);
             }
         }
 
@@ -312,12 +312,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// </code>
         /// Note To compact a document file, call <see cref="CopyTo"/> on the root storage object and copy to a new storage object.
         /// </remarks>
-        public HRESULT CopyTo([In] DWORD ciidExclude, [In] IID[] rgiidExclude, [In] IntPtr snbExclude, [In] P<IStorage> pstgDest)
+        public HRESULT CopyTo([In] DWORD ciidExclude, [In] IID[] rgiidExclude, [In] LPCWSTR snbExclude, [In] P<IStorage> pstgDest)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DWORD, IID[], IntPtr, P<IStorage>, HRESULT>)_vTable[7])
-                    (thisPtr, ciidExclude, rgiidExclude, snbExclude, pstgDest);
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, IID[], nint, P<IStorage>, HRESULT>)_vTable[7])
+                    (thisPtr, ciidExclude, rgiidExclude, snbExclude.ToNint(), pstgDest);
             }
         }
 
@@ -351,14 +351,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Also, the destination object and element cannot be the same storage object/element name as the source of the move.
         /// That is, you cannot move an element to itself.
         /// </remarks>
-        public HRESULT MoveElementTo([In] string pwcsName, [In] P<IStorage> pstgDest, [In] string pwcsNewName, [In] STGMOVE grfFlags)
+        public HRESULT MoveElementTo([In] LPCWSTR pwcsName, [In] P<IStorage> pstgDest, [In] LPCWSTR pwcsNewName, [In] STGMOVE grfFlags)
         {
             fixed (void* thisPtr = &this)
-            fixed (char* pwcsNamePtr = pwcsName)
-            fixed (char* pwcsNewNamePtr = pwcsNewName)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, char*, P<IStorage>, char*, STGMOVE, HRESULT>)_vTable[8])
-                    (thisPtr, pwcsNamePtr, pstgDest, pwcsNewNamePtr, grfFlags);
+                return ((delegate* unmanaged[Stdcall]<void*, nint, P<IStorage>, nint, STGMOVE, HRESULT>)_vTable[8])
+                    (thisPtr, pwcsName.ToNint(), pstgDest, pwcsNewName.ToNint(), grfFlags);
             }
         }
 
@@ -464,11 +462,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The order in which the elements are enumerated and whether the enumerator is a snapshot
         /// or always reflects the current state of the storage object, and depends on the <see cref="IStorage"/> implementation.
         /// </remarks>
-        public HRESULT EnumElements([In] DWORD reserved1, [In] IntPtr reserved2, [In] DWORD reserved3, [Out] out IntPtr ppenum)
+        public HRESULT EnumElements([In] DWORD reserved1, [In] nint reserved2, [In] DWORD reserved3, [Out] out P<IEnumSTATSTG> ppenum)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DWORD, IntPtr, DWORD, out IntPtr, HRESULT>)_vTable[11])
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, nint, DWORD, out P<IEnumSTATSTG>, HRESULT>)_vTable[11])
                     (thisPtr, reserved1, reserved2, reserved3, out ppenum);
             }
         }

@@ -19,7 +19,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct ISequentialStream
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// The <see cref="Read"/> method reads a specified number of bytes from the stream object into memory, starting at the current seek pointer.
@@ -50,11 +50,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// it usually means the Read method attempted to read past the end of the stream.
         /// The application should handle both a returned error and <see cref="S_OK"/> return values on end-of-stream read operations.
         /// </remarks>
-        public HRESULT Read([In] IntPtr pv, [In] ULONG cb, [Out] out ULONG pcbRead)
+        public HRESULT Read([In] nint pv, [In] ULONG cb, [Out] out ULONG pcbRead)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, ULONG, out ULONG, HRESULT>)_vTable[3])(thisPtr, pv, cb, out pcbRead);
+                return ((delegate* unmanaged[Stdcall]<void*, nint, ULONG, out ULONG, HRESULT>)_vTable[3])(thisPtr, pv, cb, out pcbRead);
             }
         }
 
@@ -92,11 +92,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// In the COM-provided implementation, stream objects are not sparse.
         /// Any fill bytes are eventually allocated on the disk and assigned to the stream.
         /// </remarks>
-        public HRESULT Write([In] IntPtr pv, [In] ULONG cb, [Out] out ULONG pcbWritten)
+        public HRESULT Write([In] nint pv, [In] ULONG cb, [Out] out ULONG pcbWritten)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, ULONG, out ULONG, HRESULT>)_vTable[3])(thisPtr, pv, cb, out pcbWritten);
+                return ((delegate* unmanaged[Stdcall]<void*, nint, ULONG, out ULONG, HRESULT>)_vTable[3])(thisPtr, pv, cb, out pcbWritten);
             }
         }
     }

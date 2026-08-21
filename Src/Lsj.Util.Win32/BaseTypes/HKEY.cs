@@ -17,52 +17,52 @@ namespace Lsj.Util.Win32.BaseTypes
         /// <summary>
         /// HKEY_CLASSES_ROOT
         /// </summary>
-        public static readonly HKEY HKEY_CLASSES_ROOT = new HKEY { _value = new IntPtr(unchecked((int)0x80000000)) };
+        public static readonly HKEY HKEY_CLASSES_ROOT = new HKEY { _value = unchecked((int)0x80000000) };
 
         /// <summary>
         /// HKEY_CURRENT_USER
         /// </summary>
-        public static readonly HKEY HKEY_CURRENT_USER = new HKEY { _value = new IntPtr(unchecked((int)0x80000001)) };
+        public static readonly HKEY HKEY_CURRENT_USER = new HKEY { _value = unchecked((int)0x80000001) };
 
         /// <summary>
         /// HKEY_LOCAL_MACHINE
         /// </summary>
-        public static readonly HKEY HKEY_LOCAL_MACHINE = new HKEY { _value = new IntPtr(unchecked((int)0x80000002)) };
+        public static readonly HKEY HKEY_LOCAL_MACHINE = new HKEY { _value = unchecked((int)0x80000002) };
 
         /// <summary>
         /// HKEY_USERS
         /// </summary>
-        public static readonly HKEY HKEY_USERS = new HKEY { _value = new IntPtr(unchecked((int)0x80000003)) };
+        public static readonly HKEY HKEY_USERS = new HKEY { _value = unchecked((int)0x80000003) };
 
         /// <summary>
         /// HKEY_PERFORMANCE_DATA
         /// </summary>
-        public static readonly HKEY HKEY_PERFORMANCE_DATA = new HKEY { _value = new IntPtr(unchecked((int)0x80000004)) };
+        public static readonly HKEY HKEY_PERFORMANCE_DATA = new HKEY { _value = unchecked((int)0x80000004) };
 
         /// <summary>
         /// HKEY_PERFORMANCE_TEXT
         /// </summary>
-        public static readonly HKEY HKEY_PERFORMANCE_TEXT = new HKEY { _value = new IntPtr(unchecked((int)0x80000050)) };
+        public static readonly HKEY HKEY_PERFORMANCE_TEXT = new HKEY { _value = unchecked((int)0x80000050) };
 
         /// <summary>
         /// HKEY_PERFORMANCE_NLSTEXT
         /// </summary>
-        public static readonly HKEY HKEY_PERFORMANCE_NLSTEXT = new HKEY { _value = new IntPtr(unchecked((int)0x80000060)) };
+        public static readonly HKEY HKEY_PERFORMANCE_NLSTEXT = new HKEY { _value = unchecked((int)0x80000060) };
 
         /// <summary>
         /// HKEY_CURRENT_CONFIG
         /// </summary>
-        public static readonly HKEY HKEY_CURRENT_CONFIG = new HKEY { _value = new IntPtr(unchecked((int)0x80000005)) };
+        public static readonly HKEY HKEY_CURRENT_CONFIG = new HKEY { _value = unchecked((int)0x80000005) };
 
         /// <summary>
         /// HKEY_DYN_DATA
         /// </summary>
-        public static readonly HKEY HKEY_DYN_DATA = new HKEY { _value = new IntPtr(unchecked((int)0x80000006)) };
+        public static readonly HKEY HKEY_DYN_DATA = new HKEY { _value = unchecked((int)0x80000006) };
 
         /// <summary>
         /// HKEY_CURRENT_USER_LOCAL_SETTINGS
         /// </summary>
-        public static readonly HKEY HKEY_CURRENT_USER_LOCAL_SETTINGS = new HKEY { _value = new IntPtr(unchecked((int)0x80000007)) };
+        public static readonly HKEY HKEY_CURRENT_USER_LOCAL_SETTINGS = new HKEY { _value = unchecked((int)0x80000007) };
 
         private HANDLE _value;
 
@@ -71,6 +71,9 @@ namespace Lsj.Util.Win32.BaseTypes
 
         /// <inheritdoc/>
         public IntPtr ToIntPtr() => _value;
+
+        /// <inheritdoc/>
+        public nint ToNint() => _value;
 
         /// <summary>
         /// 
@@ -88,12 +91,12 @@ namespace Lsj.Util.Win32.BaseTypes
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator IntPtr(HKEY val) => val._value;
+        public static implicit operator nint(HKEY val) => val._value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator HKEY(IntPtr val) => new HKEY { _value = val };
+        public static implicit operator HKEY(nint val) => new HKEY { _value = val };
     }
 }

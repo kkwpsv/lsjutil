@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Callbacks
     [StructLayout(LayoutKind.Sequential)]
     public struct MagImageScalingCallback
     {
-        private IntPtr _ptr;
+        private nint _ptr;
 
         /// <summary>
         /// 
@@ -33,12 +33,12 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator IntPtr(MagImageScalingCallback val) => val._ptr;
+        public static explicit operator nint(MagImageScalingCallback val) => val._ptr;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator MagImageScalingCallback(IntPtr val) => new MagImageScalingCallback { _ptr = val };
+        public static explicit operator MagImageScalingCallback(nint val) => new MagImageScalingCallback { _ptr = val };
     }
 }

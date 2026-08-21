@@ -85,7 +85,7 @@ namespace Lsj.Util.Win32.Structs
         /// The server principal name to use with the authentication service.
         /// If you are using <see cref="RPC_C_AUTHN_WINNT"/>, the principal name must be <see langword="null"/>.
         /// </summary>
-        public IntPtr pwszServerPrincName;
+        public nint pwszServerPrincName;
 
         /// <summary>
         /// <para>
@@ -113,7 +113,7 @@ namespace Lsj.Util.Win32.Structs
         /// This value must be <see cref="NULL"/> if <see cref="dwAuthnSvc"/> does not specify
         /// either the NTLMSSP or Kerberos network authentication protocol is used as the authorization service.
         /// </summary>
-        public IntPtr pAuthIdentityData;
+        public nint pAuthIdentityData;
 
         /// <summary>
         /// Indicates additional capabilities of this proxy.

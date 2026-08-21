@@ -75,7 +75,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// A pointer to a buffer that contains an initialization vector (IV) for encrypted data.
         /// If the decode buffer does not contain encrypted data, set this member to <see cref="NULL"/>.
         /// </summary>
-        public IntPtr pIV;
+        public nint pIV;
 
         /// <summary>
         /// The size of the buffer specified in the <see cref="pIV"/> parameter.

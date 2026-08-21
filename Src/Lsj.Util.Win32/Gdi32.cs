@@ -294,7 +294,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Escape", ExactSpelling = true, SetLastError = true)]
-        public static extern int Escape([In] HDC hdc, [In] EscapeFunctions iEscape, [In] int cjIn, [In] IntPtr pvIn, [In] LPVOID pvOut);
+        public static extern int Escape([In] HDC hdc, [In] EscapeFunctions iEscape, [In] int cjIn, [In] LPCSTR pvIn, [In] LPVOID pvOut);
 
         /// <summary>
         /// <para>

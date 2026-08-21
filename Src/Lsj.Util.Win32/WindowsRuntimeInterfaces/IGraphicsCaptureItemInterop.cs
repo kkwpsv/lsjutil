@@ -19,7 +19,7 @@ namespace Lsj.Util.Win32.WindowsRuntimeInterfaces
         InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IGraphicsCaptureItemInterop
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Targets a single window for the creation of a graphics capture item.
@@ -37,11 +37,11 @@ namespace Lsj.Util.Win32.WindowsRuntimeInterfaces
         /// <returns>
         /// The return error code.
         /// </returns>
-        public HRESULT CreateForWindow([In] HWND appWindow, [In] in IID riid, [Out] out IntPtr result)
+        public HRESULT CreateForWindow([In] HWND appWindow, [In] in IID riid, [Out] out nint result)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, HWND, in IID, out IntPtr, HRESULT>)_vTable[3])(thisPtr, appWindow, riid, out result);
+                return ((delegate* unmanaged[Stdcall]<void*, HWND, in IID, out nint, HRESULT>)_vTable[3])(thisPtr, appWindow, riid, out result);
             }
         }
 
@@ -61,11 +61,11 @@ namespace Lsj.Util.Win32.WindowsRuntimeInterfaces
         /// <returns>
         /// The return error code.
         /// </returns>
-        public HRESULT CreateForMonitor([In] HMONITOR monitor, [In] in IID riid, [Out] out IntPtr result)
+        public HRESULT CreateForMonitor([In] HMONITOR monitor, [In] in IID riid, [Out] out nint result)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, HMONITOR, in IID, out IntPtr, HRESULT>)_vTable[4])(thisPtr, monitor, riid, out result);
+                return ((delegate* unmanaged[Stdcall]<void*, HMONITOR, in IID, out nint, HRESULT>)_vTable[4])(thisPtr, monitor, riid, out result);
             }
         }
     }

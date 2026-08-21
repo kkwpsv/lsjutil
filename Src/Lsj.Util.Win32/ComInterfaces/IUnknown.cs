@@ -1,7 +1,5 @@
-﻿using Lsj.Util.IL;
-using Lsj.Util.Win32.Attributes;
+﻿using Lsj.Util.Win32.Attributes;
 using Lsj.Util.Win32.BaseTypes;
-using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.ComInterfaces.IIDs;
@@ -23,7 +21,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     [ComInterface(IID = "00000000-0000-0000-C000-000000000046", BeginVTableSlotIndex = 0, EndVTableSlotIndex = 2, InheritedFromTypes = [])]
     public unsafe struct IUnknown
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// <para>
@@ -72,11 +70,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// because any client who has access to a particular interface can hand it directly to another client without any calls back to the server.
         /// Also, because COM caches interface pointers, it does not call <see cref="QueryInterface"/> on the server every time a client does a query.
         /// </remarks>
-        public HRESULT QueryInterface([In] in IID riid, out IntPtr ppvObject)
+        public HRESULT QueryInterface([In] in IID riid, out nint ppvObject)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IID, out IntPtr, HRESULT>)_vTable[0])(thisPtr, riid, out ppvObject);
+                return ((delegate* unmanaged[Stdcall]<void*, in IID, out nint, HRESULT>)_vTable[0])(thisPtr, riid, out ppvObject);
             }
         }
 

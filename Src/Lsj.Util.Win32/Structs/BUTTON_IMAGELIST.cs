@@ -18,14 +18,14 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// BCCL_NOGLYPH
         /// </summary>
-        public static readonly IntPtr BCCL_NOGLYPH = (IntPtr)(-1);
+        public static readonly nint BCCL_NOGLYPH = -1;
 
         /// <summary>
         /// A handle to the image list.
         /// The provider retains ownership of the image list and is ultimately responsible for its disposal.
         /// Under Windows Vista, you can pass <see cref="BCCL_NOGLYPH"/> in this parameter to indicate that no glyph should be displayed.
         /// </summary>
-        public IntPtr himl;
+        public nint himl;
 
         /// <summary>
         /// A RECT that specifies the margin around the icon.

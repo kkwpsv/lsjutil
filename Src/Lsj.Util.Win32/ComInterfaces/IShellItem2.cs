@@ -13,6 +13,6 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IShellItem2
     {
-        IntPtr* _vTable;
+        nint* _vTable;
     }
 }

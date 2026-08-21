@@ -40,7 +40,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     [ComInterface(IID = "10EC4D5B-975A-4689-B9E4-D0AAC30FE333", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 19, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct ID3D11VideoDevice
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Creates a video decoder device for Microsoft Direct3D 11.
@@ -742,11 +742,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If this method succeeds, it returns <see cref="S_OK"/>.
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
-        public HRESULT SetPrivateData([In] in GUID guid, [In] UINT DataSize, [In] IntPtr pData)
+        public HRESULT SetPrivateData([In] in GUID guid, [In] UINT DataSize, [In] nint pData)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in GUID, UINT, IntPtr, HRESULT>)_vTable[18])(thisPtr, guid, DataSize, pData);
+                return ((delegate* unmanaged[Stdcall]<void*, in GUID, UINT, nint, HRESULT>)_vTable[18])(thisPtr, guid, DataSize, pData);
             }
         }
 

@@ -39,7 +39,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
        InheritedFromTypes = [typeof(IUnknown), typeof(ID3D12Object), typeof(ID3D12Device)])]
     public unsafe struct ID3D12Device1
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// <para>
@@ -140,12 +140,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// should synchronize themselves, as this act may modify the state of that pipeline within the library in a non-thread-safe manner.
         /// </para>
         /// </remarks>
-        public HRESULT CreatePipelineLibrary([In] IntPtr pLibraryBlob, [In] SIZE_T BlobLength,
-            [In] in IID riid, [Out] out IntPtr ppPipelineLibrary)
+        public HRESULT CreatePipelineLibrary([In] nint pLibraryBlob, [In] SIZE_T BlobLength,
+            [In] in IID riid, [Out] out nint ppPipelineLibrary)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, SIZE_T, in IID, out IntPtr, HRESULT>)_vTable[44])
+                return ((delegate* unmanaged[Stdcall]<void*, nint, SIZE_T, in IID, out nint, HRESULT>)_vTable[44])
                     (thisPtr, pLibraryBlob, BlobLength, riid, out ppPipelineLibrary);
             }
         }

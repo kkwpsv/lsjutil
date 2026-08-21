@@ -26,7 +26,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(ID3D12Object), typeof(ID3D12DeviceChild), typeof(ID3D12Pageable)])]
     public unsafe struct ID3D12CommandQueue
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Updates mappings of tile locations in reserved resources to memory locations in a resource heap.

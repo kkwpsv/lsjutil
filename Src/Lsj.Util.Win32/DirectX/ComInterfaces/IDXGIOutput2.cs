@@ -29,7 +29,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IDXGIObject), typeof(IDXGIOutput), typeof(IDXGIOutput1)])]
     public unsafe struct IDXGIOutput2
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Queries an adapter output for multiplane overlay support.

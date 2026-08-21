@@ -147,7 +147,7 @@ namespace Lsj.Util.Win32
         /// Unwanted messages are processed internally by the dialog box window procedure.
         /// </para>
         /// </remarks>
-        public delegate IntPtr Dlgproc([In] IntPtr unnamedParam1, [In] WindowMessages unnamedParam2, [In] WPARAM unnamedParam3, [In] LPARAM unnamedParam4);
+        public delegate INT_PTR Dlgproc([In] HWND unnamedParam1, [In] WindowMessages unnamedParam2, [In] WPARAM unnamedParam3, [In] LPARAM unnamedParam4);
 
 
         /// <summary>
@@ -196,7 +196,7 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </remarks>
         public static HWND CreateDialog(HINSTANCE hInstance, LPCWSTR lpName, HWND hWndParent, DLGPROC lpDialogFunc) =>
-            CreateDialogParam(hInstance, lpName, hWndParent, lpDialogFunc, IntPtr.Zero);
+            CreateDialogParam(hInstance, lpName, hWndParent, lpDialogFunc, 0);
 
         /// <summary>
         /// <para>
@@ -1017,7 +1017,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDlgItemTextW", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT GetDlgItemText([In] HWND hDlg, [In] int nIDDlgItem, [In] IntPtr lpString, [In] int cchMax);
+        public static extern UINT GetDlgItemText([In] HWND hDlg, [In] int nIDDlgItem, [In] LPWSTR lpString, [In] int cchMax);
 
         /// <summary>
         /// <para>
@@ -1233,7 +1233,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MB_GetString", ExactSpelling = true)]
-        public static extern IntPtr MB_GetString([In] UINT wBtn);
+        public static extern nint MB_GetString([In] UINT wBtn);
 
         /// <summary>
         /// <para>

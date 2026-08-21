@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.BaseTypes
     [StructLayout(LayoutKind.Sequential)]
     public struct LPITEMIDLIST
     {
-        private IntPtr _value;
+        private nint _value;
 
         /// <inheritdoc/>
         public override string ToString() => _value.ToString();
@@ -18,12 +18,12 @@ namespace Lsj.Util.Win32.BaseTypes
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator IntPtr(LPITEMIDLIST val) => val._value;
+        public static implicit operator nint(LPITEMIDLIST val) => val._value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator LPITEMIDLIST(IntPtr val) => new LPITEMIDLIST { _value = val };
+        public static implicit operator LPITEMIDLIST(nint val) => new LPITEMIDLIST { _value = val };
     }
 }

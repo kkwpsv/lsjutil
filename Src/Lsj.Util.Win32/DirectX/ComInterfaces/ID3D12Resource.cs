@@ -29,7 +29,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(ID3D12Object), typeof(ID3D12DeviceChild), typeof(ID3D12Pageable)])]
     public unsafe struct ID3D12Resource
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Gets a CPU pointer to the specified subresource in the resource,
@@ -57,7 +57,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </para>
         /// <para>
         /// A null pointer is valid and is useful to cache a CPU virtual address range for methods like <see cref="WriteToSubresource"/>.
-        /// When <paramref name="ppData"/> is not <see cref="NullRef{IntPtr}"/>,
+        /// When <paramref name="ppData"/> is not <see cref="NullRef{nint}"/>,
         /// the pointer returned is never offset by any values in <paramref name="pReadRange"/>.
         /// </para>
         /// </param>
@@ -166,11 +166,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// provided the application does not access the pointer after the resource has been disposed.
         /// </para>
         /// </remarks>
-        public HRESULT Map([In] UINT Subresource, [In] in D3D12_RANGE pReadRange, [Out] out IntPtr ppData)
+        public HRESULT Map([In] UINT Subresource, [In] in D3D12_RANGE pReadRange, [Out] out nint ppData)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, in D3D12_RANGE, out IntPtr, HRESULT>)_vTable[8])
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, in D3D12_RANGE, out nint, HRESULT>)_vTable[8])
                     (thisPtr, Subresource, pReadRange, out ppData);
             }
         }
@@ -313,12 +313,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// the effective bandwidth between the CPU and main memory more closely achieves theoretical maximums.
         /// </para>
         /// </remarks>
-        public HRESULT WriteToSubresource([In] UINT DstSubresource, [In] in D3D12_BOX pDstBox, [In] IntPtr pSrcData,
+        public HRESULT WriteToSubresource([In] UINT DstSubresource, [In] in D3D12_BOX pDstBox, [In] nint pSrcData,
             [In] UINT SrcRowPitch, [In] UINT SrcDepthPitch)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, in D3D12_BOX, IntPtr, UINT, UINT, HRESULT>)_vTable[12])
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, in D3D12_BOX, nint, UINT, UINT, HRESULT>)_vTable[12])
                    (thisPtr, DstSubresource, pDstBox, pSrcData, SrcRowPitch, SrcDepthPitch);
             }
         }
@@ -358,12 +358,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <remarks>
         /// See the Remarks section for <see cref="WriteToSubresource"/>.
         /// </remarks>
-        public HRESULT ReadFromSubresource([In] IntPtr pDstData, [In] UINT DstRowPitch, [In] UINT DstDepthPitch,
+        public HRESULT ReadFromSubresource([In] nint pDstData, [In] UINT DstRowPitch, [In] UINT DstDepthPitch,
             [In] UINT SrcSubresource, [In] in D3D12_BOX pSrcBox)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, UINT, UINT, UINT, in D3D12_BOX, HRESULT>)_vTable[13])
+                return ((delegate* unmanaged[Stdcall]<void*, nint, UINT, UINT, UINT, in D3D12_BOX, HRESULT>)_vTable[13])
                     (thisPtr, pDstData, DstRowPitch, DstDepthPitch, SrcSubresource, pSrcBox);
 
             }

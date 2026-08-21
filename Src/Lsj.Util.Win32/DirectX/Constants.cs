@@ -224,6 +224,16 @@ namespace Lsj.Util.Win32.DirectX
         public const byte D3D12_DEFAULT_STENCIL_WRITE_MASK = 0xFF;
 
         /// <summary>
+        /// D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND
+        /// </summary>
+        public const uint D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND = 0xFFFFFFFF;
+
+        /// <summary>
+        /// D3D12_FLOAT32_MAX
+        /// </summary>
+        public const float D3D12_FLOAT32_MAX = float.MaxValue;
+
+        /// <summary>
         /// D3D12_PACKED_TILE
         /// </summary>
         public const uint D3D12_PACKED_TILE = 0xFFFFFFFF;

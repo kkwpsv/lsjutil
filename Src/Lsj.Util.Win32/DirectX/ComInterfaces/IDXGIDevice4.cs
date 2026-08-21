@@ -2,9 +2,9 @@
 using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
-using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_OFFER_RESOURCE_FLAGS;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
 {
@@ -32,7 +32,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IDXGIObject), typeof(IDXGIDevice), typeof(IDXGIDevice1), typeof(IDXGIDevice2), typeof(IDXGIDevice3)])]
     public unsafe struct IDXGIDevice4
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Allows the operating system to free the video memory of resources,

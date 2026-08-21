@@ -39,6 +39,6 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IOleInPlaceSiteWindowless
     {
-        IntPtr* _vTable;
+        nint* _vTable;
     }
 }

@@ -35,7 +35,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     [ComInterface(IID = "9B7E4E00-342C-4106-A19F-4F2704F689F0", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 6, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct ID3D11Multithread
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Enter a device's critical section.

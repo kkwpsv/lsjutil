@@ -562,7 +562,7 @@ namespace Lsj.Util.Win32.Structs
         /// If the <see cref="PD_NOPAGENUMS"/> flag is specified, this value is not valid.
         /// If the <see cref="PD_NOPAGENUMS"/> flag is not specified, <see cref="lpPageRanges"/> must be non-NULL.
         /// </summary>
-        public IntPtr lpPageRanges;
+        public nint lpPageRanges;
 
         /// <summary>
         /// The minimum value for the page ranges specified in the Pages edit control.
@@ -604,7 +604,7 @@ namespace Lsj.Util.Win32.Structs
         /// The default template contains controls similar to those of the Print dialog box.
         /// This member is ignored unless the <see cref="PD_ENABLEPRINTTEMPLATE"/> flag is set in the <see cref="Flags"/> member.
         /// </summary>
-        public IntPtr lpPrintTemplateName;
+        public nint lpPrintTemplateName;
 
         /// <summary>
         /// <para>
@@ -639,7 +639,7 @@ namespace Lsj.Util.Win32.Structs
         /// in the <see cref="lphPropertyPages"/> array have been destroyed.
         /// If <see cref="nPropertyPages"/> is zero, <see cref="lphPropertyPages"/> should be <see cref="NULL"/>.
         /// </summary>
-        public IntPtr lphPropertyPages;
+        public nint lphPropertyPages;
 
         /// <summary>
         /// The property page that is initially displayed.

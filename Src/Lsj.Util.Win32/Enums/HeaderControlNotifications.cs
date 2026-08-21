@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Enums.HeaderControlItemFormats;
+using static Lsj.Util.Win32.Enums.HeaderControlItemMasks;
 using static Lsj.Util.Win32.Enums.HeaderControlMessages;
 using static Lsj.Util.Win32.Enums.HeaderControlStyles;
 using static Lsj.Util.Win32.Enums.WindowMessages;

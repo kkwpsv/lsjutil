@@ -4,7 +4,6 @@ using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
 using Lsj.Util.Win32.DirectX.Structs;
 using Lsj.Util.Win32.Marshals;
-using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.Constants;
@@ -13,6 +12,7 @@ using static Lsj.Util.Win32.DirectX.D3D11;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_BIND_FLAG;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_CREATE_DEVICE_FLAG;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_FEATURE;
+using static Lsj.Util.Win32.DirectX.Enums.D3D11_QUERY;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_RESOURCE_MISC_FLAG;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_RTV_DIMENSION;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_SRV_DIMENSION;
@@ -48,7 +48,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     [ComInterface(IID = "db6f6ddb-ac77-4e88-8253-819df9bbf140", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 42, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct ID3D11Device
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Creates a buffer (vertex buffer, index buffer, or shader-constant buffer).
@@ -686,13 +686,13 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </para>
         /// </remarks>
         public HRESULT CreateInputLayout([In] D3D11_INPUT_ELEMENT_DESC[] pInputElementDescs, [In] UINT NumElements,
-            [In] IntPtr pShaderBytecodeWithInputSignature, [In] SIZE_T BytecodeLength, [Out] out P<ID3D11InputLayout> ppInputLayout)
+            [In] nint pShaderBytecodeWithInputSignature, [In] SIZE_T BytecodeLength, [Out] out P<ID3D11InputLayout> ppInputLayout)
         {
             fixed (void* thisPtr = &this)
             {
                 fixed (D3D11_INPUT_ELEMENT_DESC* pInputElementDescsPtr = pInputElementDescs)
                 {
-                    return ((delegate* unmanaged[Stdcall]<void*, D3D11_INPUT_ELEMENT_DESC*, UINT, IntPtr, SIZE_T, out P<ID3D11InputLayout>, HRESULT>)_vTable[11])
+                    return ((delegate* unmanaged[Stdcall]<void*, D3D11_INPUT_ELEMENT_DESC*, UINT, nint, SIZE_T, out P<ID3D11InputLayout>, HRESULT>)_vTable[11])
                     (thisPtr, pInputElementDescsPtr, NumElements, pShaderBytecodeWithInputSignature, BytecodeLength, out ppInputLayout);
                 }
             }
@@ -798,12 +798,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </item>
         /// </list>
         /// </remarks>
-        public HRESULT CreateVertexShader([In] IntPtr pShaderBytecode, [In] SIZE_T BytecodeLength,
+        public HRESULT CreateVertexShader([In] nint pShaderBytecode, [In] SIZE_T BytecodeLength,
             [In] P<ID3D11ClassLinkage> pClassLinkage, [Out] out P<ID3D11VertexShader> ppVertexShader)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, SIZE_T, P<ID3D11ClassLinkage>, out P<ID3D11VertexShader>, HRESULT>)_vTable[12])
+                return ((delegate* unmanaged[Stdcall]<void*, nint, SIZE_T, P<ID3D11ClassLinkage>, out P<ID3D11VertexShader>, HRESULT>)_vTable[12])
                     (thisPtr, pShaderBytecode, BytecodeLength, pClassLinkage, out ppVertexShader);
             }
         }
@@ -911,12 +911,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </item>
         /// </list>
         /// </remarks>
-        public HRESULT CreateGeometryShader([In] IntPtr pShaderBytecode, [In] SIZE_T BytecodeLength,
+        public HRESULT CreateGeometryShader([In] nint pShaderBytecode, [In] SIZE_T BytecodeLength,
             [In] P<ID3D11ClassLinkage> pClassLinkage, [Out] out P<ID3D11GeometryShader> ppGeometryShader)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, SIZE_T, P<ID3D11ClassLinkage>, out P<ID3D11GeometryShader>, HRESULT>)_vTable[13])
+                return ((delegate* unmanaged[Stdcall]<void*, nint, SIZE_T, P<ID3D11ClassLinkage>, out P<ID3D11GeometryShader>, HRESULT>)_vTable[13])
                     (thisPtr, pShaderBytecode, BytecodeLength, pClassLinkage, out ppGeometryShader);
             }
         }
@@ -1056,7 +1056,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Windows Phone 8: This API is supported.
         /// </para>
         /// </remarks>
-        public HRESULT CreateGeometryShaderWithStreamOutput([In] IntPtr pShaderBytecode, [In] SIZE_T BytecodeLength,
+        public HRESULT CreateGeometryShaderWithStreamOutput([In] nint pShaderBytecode, [In] SIZE_T BytecodeLength,
             [In] D3D11_SO_DECLARATION_ENTRY[] pSODeclaration, [In] UINT NumEntries, [In] UINT[] pBufferStrides, [In] UINT NumStrides,
             [In] UINT RasterizedStream, [In] P<ID3D11ClassLinkage> pClassLinkage, [Out] out P<ID3D11GeometryShader> ppGeometryShader)
         {
@@ -1066,7 +1066,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
                 {
                     fixed (UINT* pBufferStridesPtr = pBufferStrides)
                     {
-                        return ((delegate* unmanaged[Stdcall]<void*, IntPtr, SIZE_T, D3D11_SO_DECLARATION_ENTRY*, UINT, UINT*,
+                        return ((delegate* unmanaged[Stdcall]<void*, nint, SIZE_T, D3D11_SO_DECLARATION_ENTRY*, UINT, UINT*,
                             UINT, UINT, P<ID3D11ClassLinkage>, out P<ID3D11GeometryShader>, HRESULT>)_vTable[14])
                             (thisPtr, pShaderBytecode, BytecodeLength, pSODeclarationPtr, NumEntries, pBufferStridesPtr,
                             NumStrides, RasterizedStream, pClassLinkage, out ppGeometryShader);
@@ -1099,12 +1099,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <remarks>
         /// After creating the pixel shader, you can set it to the device using <see cref="ID3D11DeviceContext.PSSetShader"/>.
         /// </remarks>
-        public HRESULT CreatePixelShader([In] IntPtr pShaderBytecode, [In] SIZE_T BytecodeLength,
+        public HRESULT CreatePixelShader([In] nint pShaderBytecode, [In] SIZE_T BytecodeLength,
             [In] P<ID3D11ClassLinkage> pClassLinkage, [Out] out P<ID3D11PixelShader> ppPixelShader)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, SIZE_T, P<ID3D11ClassLinkage>, out P<ID3D11PixelShader>, HRESULT>)_vTable[15])
+                return ((delegate* unmanaged[Stdcall]<void*, nint, SIZE_T, P<ID3D11ClassLinkage>, out P<ID3D11PixelShader>, HRESULT>)_vTable[15])
                     (thisPtr, pShaderBytecode, BytecodeLength, pClassLinkage, out ppPixelShader);
             }
         }
@@ -1207,12 +1207,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </item>
         /// </list>
         /// </remarks>
-        public HRESULT CreateHullShader([In] IntPtr pShaderBytecode, [In] SIZE_T BytecodeLength,
+        public HRESULT CreateHullShader([In] nint pShaderBytecode, [In] SIZE_T BytecodeLength,
             [In] P<ID3D11ClassLinkage> pClassLinkage, [Out] out P<ID3D11HullShader> ppHullShader)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, SIZE_T, P<ID3D11ClassLinkage>, out P<ID3D11HullShader>, HRESULT>)_vTable[16])
+                return ((delegate* unmanaged[Stdcall]<void*, nint, SIZE_T, P<ID3D11ClassLinkage>, out P<ID3D11HullShader>, HRESULT>)_vTable[16])
                     (thisPtr, pShaderBytecode, BytecodeLength, pClassLinkage, out ppHullShader);
             }
         }
@@ -1317,12 +1317,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </item>
         /// </list>
         /// </remarks>
-        public HRESULT CreateDomainShader([In] IntPtr pShaderBytecode, [In] SIZE_T BytecodeLength,
+        public HRESULT CreateDomainShader([In] nint pShaderBytecode, [In] SIZE_T BytecodeLength,
             [In] P<ID3D11ClassLinkage> pClassLinkage, [Out] out P<ID3D11DomainShader> ppDomainShader)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, SIZE_T, P<ID3D11ClassLinkage>, out P<ID3D11DomainShader>, HRESULT>)_vTable[17])
+                return ((delegate* unmanaged[Stdcall]<void*, nint, SIZE_T, P<ID3D11ClassLinkage>, out P<ID3D11DomainShader>, HRESULT>)_vTable[17])
                     (thisPtr, pShaderBytecode, BytecodeLength, pClassLinkage, out ppDomainShader);
             }
         }
@@ -1352,12 +1352,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <remarks>
         /// For an example, see How To: Create a Compute Shader and HDRToneMappingCS11 Sample.
         /// </remarks>
-        public HRESULT CreateComputeShader([In] IntPtr pShaderBytecode, [In] SIZE_T BytecodeLength,
+        public HRESULT CreateComputeShader([In] nint pShaderBytecode, [In] SIZE_T BytecodeLength,
             [In] P<ID3D11ClassLinkage> pClassLinkage, [Out] out P<ID3D11ComputeShader> ppComputeShader)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, SIZE_T, P<ID3D11ClassLinkage>, out P<ID3D11ComputeShader>, HRESULT>)_vTable[18])
+                return ((delegate* unmanaged[Stdcall]<void*, nint, SIZE_T, P<ID3D11ClassLinkage>, out P<ID3D11ComputeShader>, HRESULT>)_vTable[18])
                     (thisPtr, pShaderBytecode, BytecodeLength, pClassLinkage, out ppComputeShader);
             }
         }
@@ -1775,11 +1775,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If a shared texture is updated on one device <see cref="ID3D11DeviceContext.Flush"/> must be called on that device.
         /// </para>
         /// </remarks>
-        public HRESULT OpenSharedResource([In] HANDLE hResource, [In] in IID ReturnedInterface, [Out] out IntPtr ppResource)
+        public HRESULT OpenSharedResource([In] HANDLE hResource, [In] in IID ReturnedInterface, [Out] out nint ppResource)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, HANDLE, in IID, out IntPtr, HRESULT>)_vTable[28])
+                return ((delegate* unmanaged[Stdcall]<void*, HANDLE, in IID, out nint, HRESULT>)_vTable[28])
                     (thisPtr, hResource, in ReturnedInterface, out ppResource);
             }
         }
@@ -1934,7 +1934,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             fixed (void* thisPtr = &this)
             {
                 return ((delegate* unmanaged[Stdcall]<void*, in D3D11_COUNTER_DESC, out D3D11_COUNTER_TYPE, out UINT,
-                    IntPtr, ref UINT, IntPtr, ref UINT, IntPtr, ref UINT, HRESULT>)_vTable[32])
+                    nint, ref UINT, nint, ref UINT, nint, ref UINT, HRESULT>)_vTable[32])
                     (thisPtr, pDesc, out pType, out pActiveCounters, szName.Handle, ref pNameLength,
                     szUnits.Handle, ref pUnitsLength, szDescription.Handle, ref pDescriptionLength);
             }
@@ -1968,11 +1968,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// causes the method to return the same information that would be returned by <see cref="CheckFormatSupport"/>.
         /// </para>
         /// </remarks>
-        public HRESULT CheckFeatureSupport([In] D3D11_FEATURE Feature, [In] IntPtr pFeatureSupportData, [In] UINT FeatureSupportDataSize)
+        public HRESULT CheckFeatureSupport([In] D3D11_FEATURE Feature, [In] nint pFeatureSupportData, [In] UINT FeatureSupportDataSize)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, D3D11_FEATURE, IntPtr, UINT, HRESULT>)_vTable[33])
+                return ((delegate* unmanaged[Stdcall]<void*, D3D11_FEATURE, nint, UINT, HRESULT>)_vTable[33])
                     (thisPtr, Feature, pFeatureSupportData, FeatureSupportDataSize);
             }
         }
@@ -1999,11 +1999,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// which was previously set by <see cref="SetPrivateDataInterface"/>,
         /// that interface will have its reference count incremented before the private data is returned.
         /// </remarks>
-        public HRESULT GetPrivateData([In] in GUID guid, [In][Out] ref UINT pDataSize, [In] IntPtr pData)
+        public HRESULT GetPrivateData([In] in GUID guid, [In][Out] ref UINT pDataSize, [In] nint pData)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in GUID, ref UINT, IntPtr, HRESULT>)_vTable[34])(thisPtr, guid, ref pDataSize, pData);
+                return ((delegate* unmanaged[Stdcall]<void*, in GUID, ref UINT, nint, HRESULT>)_vTable[34])(thisPtr, guid, ref pDataSize, pData);
             }
         }
 
@@ -2044,11 +2044,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// hr = pContext->SetPrivateData( WKPDID_D3DDebugObjectName, sizeof( c_szName ) - 1, c_szName );
         /// </code>
         /// </remarks>
-        public HRESULT SetPrivateData([In] in GUID guid, [In] UINT DataSize, [In] IntPtr pData)
+        public HRESULT SetPrivateData([In] in GUID guid, [In] UINT DataSize, [In] nint pData)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in GUID, UINT, IntPtr, HRESULT>)_vTable[35])(thisPtr, guid, DataSize, pData);
+                return ((delegate* unmanaged[Stdcall]<void*, in GUID, UINT, nint, HRESULT>)_vTable[35])(thisPtr, guid, DataSize, pData);
             }
         }
 

@@ -42,14 +42,14 @@ namespace Lsj.Util.Win32.Structs
         /// The new screen position of the layered window.
         /// If the new position is unchanged from the current position, <see cref="pptDst"/> can be <see cref="NULL"/>.
         /// </summary>
-        public IntPtr pptDst;
+        public nint pptDst;
 
         /// <summary>
         /// The new size of the layered window.
         /// If the size of the window will not change, this parameter can be <see cref="NULL"/>.
         /// If <see cref="hdcSrc"/> is <see cref="NULL"/>, <see cref="psize"/> must be <see cref="NULL"/>.
         /// </summary>
-        public IntPtr psize;
+        public nint psize;
 
         /// <summary>
         /// A handle to the DC for the surface that defines the layered window.
@@ -62,7 +62,7 @@ namespace Lsj.Util.Win32.Structs
         /// The location of the layer in the device context.
         /// If <see cref="hdcSrc"/> is <see cref="NULL"/>, <see cref="pptSrc"/> should be <see cref="NULL"/>.
         /// </summary>
-        public IntPtr pptSrc;
+        public nint pptSrc;
 
         /// <summary>
         /// The color key to be used when composing the layered window.
@@ -73,7 +73,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The transparency value to be used when composing the layered window.
         /// </summary>
-        public IntPtr pblend;
+        public nint pblend;
 
         /// <summary>
         /// <para>
@@ -154,6 +154,6 @@ namespace Lsj.Util.Win32.Structs
         /// This parameter can be <see cref="NULL"/>.
         /// If it is non-<see cref="NULL"/>, only the area in this rectangle is updated from the source DC.
         /// </summary>
-        public IntPtr prcDirty;
+        public nint prcDirty;
     }
 }

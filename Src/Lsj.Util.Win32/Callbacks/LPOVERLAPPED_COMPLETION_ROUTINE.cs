@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Callbacks
     [StructLayout(LayoutKind.Sequential)]
     public struct LPOVERLAPPED_COMPLETION_ROUTINE
     {
-        private IntPtr _ptr;
+        private nint _ptr;
 
         /// <summary>
         /// 
@@ -33,12 +33,12 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator IntPtr(LPOVERLAPPED_COMPLETION_ROUTINE val) => val._ptr;
+        public static explicit operator nint(LPOVERLAPPED_COMPLETION_ROUTINE val) => val._ptr;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator LPOVERLAPPED_COMPLETION_ROUTINE(IntPtr val) => new LPOVERLAPPED_COMPLETION_ROUTINE { _ptr = val };
+        public static explicit operator LPOVERLAPPED_COMPLETION_ROUTINE(nint val) => new LPOVERLAPPED_COMPLETION_ROUTINE { _ptr = val };
     }
 }

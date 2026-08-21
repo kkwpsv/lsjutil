@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.BaseTypes
     [StructLayout(LayoutKind.Sequential)]
     public struct PTP_CALLBACK_INSTANCE
     {
-        private IntPtr _value;
+        private nint _value;
 
         /// <inheritdoc/>
         public override string ToString() => _value.ToString("X");
@@ -18,12 +18,12 @@ namespace Lsj.Util.Win32.BaseTypes
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator IntPtr(PTP_CALLBACK_INSTANCE val) => val._value;
+        public static implicit operator nint(PTP_CALLBACK_INSTANCE val) => val._value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator PTP_CALLBACK_INSTANCE(IntPtr val) => new PTP_CALLBACK_INSTANCE { _value = val };
+        public static implicit operator PTP_CALLBACK_INSTANCE(nint val) => new PTP_CALLBACK_INSTANCE { _value = val };
     }
 }

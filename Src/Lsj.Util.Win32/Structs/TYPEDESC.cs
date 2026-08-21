@@ -66,10 +66,10 @@ namespace Lsj.Util.Win32.Structs
         private struct TYPEDESC_DUMMYUNIONNAME
         {
             [FieldOffset(0)]
-            public IntPtr lptdesc;
+            public nint lptdesc;
 
             [FieldOffset(0)]
-            public IntPtr lpadesc;
+            public nint lpadesc;
 
             [FieldOffset(0)]
             public HREFTYPE hreftype;

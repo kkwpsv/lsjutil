@@ -56,7 +56,7 @@ namespace Lsj.Util.Win32.NativeUI
             }
             if (_windowClassName != null && _flags == Win32WindowFlags.RegisteredClass)
             {
-                UnregisterClass(_windowClassName.ToIntPtr(), _hInstance);
+                UnregisterClass(_windowClassName.ToNint(), _hInstance);
                 _windowClassName.Dispose();
             }
         }

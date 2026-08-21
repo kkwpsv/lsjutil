@@ -26,14 +26,14 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Pointer to a null-terminated string that specifies the name of the document.
         /// </summary>
-        public IntPtr lpszDocName;
+        public nint lpszDocName;
 
         /// <summary>
         /// Pointer to a null-terminated string that specifies the name of an output file.
         /// If this pointer is <see cref="NULL"/>, the output will be sent to the device identified by the device context handle
         /// that was passed to the <see cref="StartDoc"/> function.
         /// </summary>
-        public IntPtr lpszOutput;
+        public nint lpszOutput;
 
         /// <summary>
         /// Pointer to a null-terminated string that specifies the type of data used to record the print job.
@@ -41,7 +41,7 @@ namespace Lsj.Util.Win32.Structs
         /// can include such values as raw, emf, or <see cref="XPS_PASS"/>.
         /// This member can be <see cref="NULL"/>. Note that the requested data type might be ignored.
         /// </summary>
-        public IntPtr lpszDatatype;
+        public nint lpszDatatype;
 
         /// <summary>
         /// <para>

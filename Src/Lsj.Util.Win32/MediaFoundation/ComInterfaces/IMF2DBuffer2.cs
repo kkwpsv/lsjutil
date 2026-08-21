@@ -25,7 +25,7 @@ namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IMF2DBuffer)])]
     public unsafe struct IMF2DBuffer2
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Gives the caller access to the memory in the buffer.

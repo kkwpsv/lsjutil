@@ -24,6 +24,6 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IPointerInactive
     {
-        IntPtr* _vTable;
+        nint* _vTable;
     }
 }

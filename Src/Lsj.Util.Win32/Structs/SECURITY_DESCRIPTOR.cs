@@ -89,11 +89,11 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// 
         /// </summary>
-        public IntPtr Sacl;
+        public nint Sacl;
 
         /// <summary>
         /// 
         /// </summary>
-        public IntPtr Dacl;
+        public nint Dacl;
     }
 }

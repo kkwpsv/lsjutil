@@ -44,7 +44,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IDXGIObject), typeof(IDXGIDevice), typeof(IDXGIDevice1)])]
     public unsafe struct IDXGIDevice2
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Allows the operating system to free the video memory of resources by discarding their content.

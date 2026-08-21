@@ -3,7 +3,6 @@ using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
 using Lsj.Util.Win32.DirectX.Structs;
-using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
@@ -14,6 +13,7 @@ using static Lsj.Util.Win32.DirectX.Enums.D3D11_BIND_FLAG;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_BLEND;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_BLEND_OP;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_BUFFER_UAV_FLAG;
+using static Lsj.Util.Win32.DirectX.Enums.D3D11_FEATURE;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_INPUT_CLASSIFICATION;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_MAP;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_QUERY;
@@ -22,7 +22,9 @@ using static Lsj.Util.Win32.DirectX.Enums.D3D11_TEXTURE_LAYOUT;
 using static Lsj.Util.Win32.DirectX.Enums.D3D11_USAGE;
 using static Lsj.Util.Win32.DirectX.Enums.DXGI_ERROR;
 using static Lsj.Util.Win32.DirectX.Enums.DXGI_FORMAT;
+using static Lsj.Util.Win32.DirectX.Enums.DXGI_SWAP_EFFECT;
 using static Lsj.Util.Win32.Enums.MemoryProtectionConstants;
+using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
@@ -48,7 +50,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(ID3D11DeviceChild)])]
     public unsafe struct ID3D11DeviceContext
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Sets the constant buffers used by the vertex shader pipeline stage.
@@ -968,11 +970,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// For information about performance counter types, see <see cref="D3D11_COUNTER"/>.
         /// </para>
         /// </remarks>
-        public HRESULT GetData([In] P<ID3D11Asynchronous> pAsync, [In] IntPtr pData, [In] UINT DataSize, [In] D3D11_ASYNC_GETDATA_FLAG GetDataFlags)
+        public HRESULT GetData([In] P<ID3D11Asynchronous> pAsync, [In] nint pData, [In] UINT DataSize, [In] D3D11_ASYNC_GETDATA_FLAG GetDataFlags)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, P<ID3D11Asynchronous>, IntPtr, UINT, D3D11_ASYNC_GETDATA_FLAG, HRESULT>)_vTable[29])
+                return ((delegate* unmanaged[Stdcall]<void*, P<ID3D11Asynchronous>, nint, UINT, D3D11_ASYNC_GETDATA_FLAG, HRESULT>)_vTable[29])
                     (thisPtr, pAsync, pData, DataSize, GetDataFlags);
             }
         }
@@ -2553,11 +2555,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </code>
         /// </remarks>
         public void UpdateSubresource([In] P<ID3D11Resource> pDstResource, [In] UINT DstSubresource, [In] in D3D11_BOX pDstBox,
-            [In] IntPtr pSrcData, [In] UINT SrcRowPitch, [In] UINT SrcDepthPitch)
+            [In] nint pSrcData, [In] UINT SrcRowPitch, [In] UINT SrcDepthPitch)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11Resource>, UINT, in D3D11_BOX, IntPtr, UINT, UINT, void>)_vTable[48])
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11Resource>, UINT, in D3D11_BOX, nint, UINT, UINT, void>)_vTable[48])
                     (thisPtr, pDstResource, DstSubresource, pDstBox, pSrcData, SrcRowPitch, SrcDepthPitch);
             }
         }

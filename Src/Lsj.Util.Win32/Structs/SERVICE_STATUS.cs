@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Advapi32;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Structs
 {

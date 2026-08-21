@@ -78,7 +78,7 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </param>
         /// <param name="UOW">
-        /// Reserved. Must be <see cref="IntPtr.Zero"/>.
+        /// Reserved. Must be zero (0).
         /// </param>
         /// <param name="CreateOptions">
         /// <para>

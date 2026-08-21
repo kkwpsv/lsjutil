@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.BaseTypes
     public struct WPARAM
     {
         [FieldOffset(0)]
-        private UIntPtr _value;
+        private nuint _value;
 
         /// <inheritdoc/>
         public override string ToString() => _value.ToString();
@@ -24,42 +24,42 @@ namespace Lsj.Util.Win32.BaseTypes
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator UIntPtr(WPARAM val) => val._value;
+        public static implicit operator nuint(WPARAM val) => val._value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator WPARAM(UIntPtr val) => new WPARAM { _value = val };
+        public static implicit operator WPARAM(nuint val) => new WPARAM { _value = val };
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator IntPtr(WPARAM val) => val._value.SafeToIntPtr();
+        public static implicit operator nint(WPARAM val) => (nint)val._value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator WPARAM(IntPtr val) => new WPARAM { _value = val.SafeToUIntPtr() };
+        public static implicit operator WPARAM(nint val) => new WPARAM { _value = (nuint)val };
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator WPARAM(int val) => new WPARAM { _value = unchecked((UIntPtr)(uint)val) };
+        public static implicit operator WPARAM(int val) => new WPARAM { _value = (nuint)val };
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator uint(WPARAM val) => val._value.SafeToUInt32();
+        public static explicit operator uint(WPARAM val) => (uint)val._value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator int(WPARAM val) => val._value.SafeToInt32();
+        public static explicit operator int(WPARAM val) => (int)val._value;
     }
 }

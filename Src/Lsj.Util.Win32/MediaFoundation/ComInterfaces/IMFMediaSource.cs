@@ -69,6 +69,6 @@ namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IMFMediaEventGenerator)])]
     public unsafe struct IMFMediaSource
     {
-        IntPtr* _vTable;
+        nint* _vTable;
     }
 }

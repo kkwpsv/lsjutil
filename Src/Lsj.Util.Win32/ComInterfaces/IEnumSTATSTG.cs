@@ -19,7 +19,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IEnumSTATSTG
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// The <see cref="Next"/> method retrieves a specified number of <see cref="STATSTG"/> structures, that follow in the enumeration sequence.
@@ -98,11 +98,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <see cref="E_OUTOFMEMORY"/>: Insufficient memory.
         /// <see cref="E_UNEXPECTED"/>: An unexpected exception occurred.
         /// </returns>
-        public HRESULT Clone([Out] out IntPtr ppenum)
+        public HRESULT Clone([Out] out P<IEnumSTATSTG> ppenum)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[6])(thisPtr, out ppenum);
+                return ((delegate* unmanaged[Stdcall]<void*, out P<IEnumSTATSTG>, HRESULT>)_vTable[6])(thisPtr, out ppenum);
             }
         }
     }

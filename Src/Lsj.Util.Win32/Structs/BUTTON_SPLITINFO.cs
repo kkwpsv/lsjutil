@@ -32,7 +32,7 @@ namespace Lsj.Util.Win32.Structs
         /// A handle to the image list.
         /// The provider retains ownership of the image list and is ultimately responsible for its disposal.
         /// </summary>
-        public IntPtr himlGlyph;
+        public nint himlGlyph;
 
         /// <summary>
         /// The split button style.

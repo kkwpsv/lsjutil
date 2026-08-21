@@ -29,7 +29,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </remarks>
     public unsafe struct IShellItem
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Binds to a handler for an item as specified by the handler ID value (BHID).
@@ -89,11 +89,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If this method succeeds, it returns <see cref="S_OK"/>.
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
-        public HRESULT BindToHandler([In] P<IBindCtx> pbc, [In] in GUID bhid, [In] in IID riid, [Out] out IntPtr ppv)
+        public HRESULT BindToHandler([In] P<IBindCtx> pbc, [In] in GUID bhid, [In] in IID riid, [Out] out nint ppv)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, P<IBindCtx>, in GUID, in IID, out IntPtr, HRESULT>)_vTable[3])(thisPtr, pbc, bhid, riid, out ppv);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IBindCtx>, in GUID, in IID, out nint, HRESULT>)_vTable[3])(thisPtr, pbc, bhid, riid, out ppv);
             }
         }
 
@@ -106,11 +106,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <returns>
         /// Returns <see cref="S_OK"/> if successful, or an error value otherwise.
         /// </returns>
-        public HRESULT GetParent([Out] out IntPtr ppsi)
+        public HRESULT GetParent([Out] out P<IShellItem> ppsi)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[4])(thisPtr, out ppsi);
+                return ((delegate* unmanaged[Stdcall]<void*, out P<IShellItem>, HRESULT>)_vTable[4])(thisPtr, out ppsi);
             }
         }
 
@@ -131,11 +131,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// It is the responsibility of the caller to free the string pointed to by <paramref name="ppszName"/> when it is no longer needed.
         /// Call <see cref="CoTaskMemFree"/> on <paramref name="ppszName"/> to free the memory.
         /// </remarks>
-        public HRESULT GetDisplayName([In] SIGDN sigdnName, [Out] out IntPtr ppszName)
+        public HRESULT GetDisplayName([In] SIGDN sigdnName, [Out] out nint ppszName)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, SIGDN, out IntPtr, HRESULT>)_vTable[5])(thisPtr, sigdnName, out ppszName);
+                return ((delegate* unmanaged[Stdcall]<void*, SIGDN, out nint, HRESULT>)_vTable[5])(thisPtr, sigdnName, out ppszName);
             }
         }
 

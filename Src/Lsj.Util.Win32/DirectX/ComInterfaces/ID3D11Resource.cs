@@ -12,6 +12,6 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(ID3D11DeviceChild)])]
     public unsafe struct ID3D11Resource
     {
-        IntPtr* _vTable;
+        nint* _vTable;
     }
 }

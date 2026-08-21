@@ -1381,7 +1381,7 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetQueuedCompletionStatus", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetQueuedCompletionStatus([In] HANDLE CompletionPort, [Out] out DWORD lpNumberOfBytesTransferred,
-            [Out] out ULONG_PTR lpCompletionKey, [Out] out IntPtr lpOverlapped, [In] DWORD dwMilliseconds);
+            [Out] out ULONG_PTR lpCompletionKey, [Out] out P<OVERLAPPED> lpOverlapped, [In] DWORD dwMilliseconds);
 
         /// <summary>
         /// <para>
@@ -1578,7 +1578,7 @@ namespace Lsj.Util.Win32
         /// call the <see cref="GetOverlappedResult"/> or <see cref="GetQueuedCompletionStatus"/> function.
         /// </para>
         /// </remarks>
-        public static bool HasOverlappedIoCompleted(OVERLAPPED lpOverlapped) => ((UIntPtr)lpOverlapped.Internal).SafeToUInt32() != (uint)STATUS_PENDING;
+        public static bool HasOverlappedIoCompleted(OVERLAPPED lpOverlapped) => lpOverlapped.Internal.SafeToUInt32() != (uint)STATUS_PENDING;
 
         /// <summary>
         /// <para>

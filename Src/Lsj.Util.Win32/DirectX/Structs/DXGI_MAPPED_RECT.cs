@@ -27,6 +27,6 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// <summary>
         /// A pointer to the image buffer of the surface.
         /// </summary>
-        public IntPtr pBits;
+        public nint pBits;
     }
 }

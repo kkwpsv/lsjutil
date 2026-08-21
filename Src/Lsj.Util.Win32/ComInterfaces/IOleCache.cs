@@ -21,7 +21,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IOleCache
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Specifies the format and other data to be cached inside an embedded object.
@@ -143,11 +143,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <see cref="IEnumSTATDATA"/> enumerates the data stored in an array of <see cref="STATDATA"/> structures
         /// containing information about current cache connections.
         /// </remarks>
-        public HRESULT EnumCache([Out] out IntPtr ppenumSTATDATA)
+        public HRESULT EnumCache([Out] out P<IEnumSTATDATA> ppenumSTATDATA)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[5])(thisPtr, out ppenumSTATDATA);
+                return ((delegate* unmanaged[Stdcall]<void*, out P<IEnumSTATDATA>, HRESULT>)_vTable[5])(thisPtr, out ppenumSTATDATA);
             }
         }
 

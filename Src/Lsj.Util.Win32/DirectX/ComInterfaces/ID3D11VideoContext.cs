@@ -100,7 +100,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(ID3D11DeviceChild)])]
     public unsafe struct ID3D11VideoContext
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Gets a pointer to a decoder buffer.
@@ -127,11 +127,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// This method locks the Microsoft Direct3Dsurface that contains the buffer.
         /// When you are done using the buffer, call <see cref="ReleaseDecoderBuffer"/> to unlock the surface.
         /// </remarks>
-        public HRESULT GetDecoderBuffer([In] P<ID3D11VideoDecoder> pDecoder, [In] D3D11_VIDEO_DECODER_BUFFER_TYPE Type, [Out] out UINT pBufferSize, [Out] out IntPtr ppBuffer)
+        public HRESULT GetDecoderBuffer([In] P<ID3D11VideoDecoder> pDecoder, [In] D3D11_VIDEO_DECODER_BUFFER_TYPE Type, [Out] out UINT pBufferSize, [Out] out nint ppBuffer)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, P<ID3D11VideoDecoder>, D3D11_VIDEO_DECODER_BUFFER_TYPE, out UINT, out IntPtr, HRESULT>)_vTable[7])
+                return ((delegate* unmanaged[Stdcall]<void*, P<ID3D11VideoDecoder>, D3D11_VIDEO_DECODER_BUFFER_TYPE, out UINT, out nint, HRESULT>)_vTable[7])
                     (thisPtr, pDecoder, Type, out pBufferSize, out ppBuffer);
             }
         }
@@ -223,11 +223,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </list>
         /// </para>
         /// </remarks>
-        public HRESULT DecoderBeginFrame([In] P<ID3D11VideoDecoder> pDecoder, [In] P<ID3D11VideoDecoderOutputView> pView, [In] UINT ContentKeySize, [In] IntPtr pContentKey)
+        public HRESULT DecoderBeginFrame([In] P<ID3D11VideoDecoder> pDecoder, [In] P<ID3D11VideoDecoderOutputView> pView, [In] UINT ContentKeySize, [In] nint pContentKey)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, P<ID3D11VideoDecoder>, P<ID3D11VideoDecoderOutputView>, UINT, IntPtr, HRESULT>)_vTable[9])
+                return ((delegate* unmanaged[Stdcall]<void*, P<ID3D11VideoDecoder>, P<ID3D11VideoDecoderOutputView>, UINT, nint, HRESULT>)_vTable[9])
                     (thisPtr, pDecoder, pView, ContentKeySize, pContentKey);
             }
         }
@@ -523,11 +523,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
         public HRESULT VideoProcessorSetOutputExtension([In] P<ID3D11VideoProcessor> pVideoProcessor, [In] in GUID pExtensionGuid,
-            [In] UINT DataSize, [In] IntPtr pData)
+            [In] UINT DataSize, [In] nint pData)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, P<ID3D11VideoProcessor>, in GUID, UINT, IntPtr, HRESULT>)_vTable[19])
+                return ((delegate* unmanaged[Stdcall]<void*, P<ID3D11VideoProcessor>, in GUID, UINT, nint, HRESULT>)_vTable[19])
                     (thisPtr, pVideoProcessor, pExtensionGuid, DataSize, pData);
             }
         }
@@ -690,11 +690,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
         public HRESULT VideoProcessorGetOutputExtension([In] P<ID3D11VideoProcessor> pVideoProcessor, [In] in GUID pExtensionGuid,
-            [In] UINT DataSize, [In] IntPtr pData)
+            [In] UINT DataSize, [In] nint pData)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, P<ID3D11VideoProcessor>, in GUID, UINT, IntPtr, HRESULT>)_vTable[26])
+                return ((delegate* unmanaged[Stdcall]<void*, P<ID3D11VideoProcessor>, in GUID, UINT, nint, HRESULT>)_vTable[26])
                     (thisPtr, pVideoProcessor, pExtensionGuid, DataSize, pData);
             }
         }
@@ -1365,11 +1365,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
         public HRESULT VideoProcessorSetStreamExtension([In] P<ID3D11VideoProcessor> pVideoProcessor, [In] UINT StreamIndex,
-            [In] in GUID pExtensionGuid, [In] UINT DataSize, [In] IntPtr pData)
+            [In] in GUID pExtensionGuid, [In] UINT DataSize, [In] nint pData)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, P<ID3D11VideoProcessor>, UINT, in GUID, UINT, IntPtr, HRESULT>)_vTable[39])
+                return ((delegate* unmanaged[Stdcall]<void*, P<ID3D11VideoProcessor>, UINT, in GUID, UINT, nint, HRESULT>)_vTable[39])
                     (thisPtr, pVideoProcessor, StreamIndex, pExtensionGuid, DataSize, pData);
             }
         }
@@ -1865,11 +1865,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// If this method succeeds, it returns <see cref="S_OK"/>. Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
         public HRESULT VideoProcessorGetStreamExtension([In] P<ID3D11VideoProcessor> pVideoProcessor, [In] UINT StreamIndex,
-            [In] in GUID pExtensionGuid, [In] UINT DataSize, [In] IntPtr pData)
+            [In] in GUID pExtensionGuid, [In] UINT DataSize, [In] nint pData)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, P<ID3D11VideoProcessor>, UINT, in GUID, UINT, IntPtr, HRESULT>)_vTable[52])
+                return ((delegate* unmanaged[Stdcall]<void*, P<ID3D11VideoProcessor>, UINT, in GUID, UINT, nint, HRESULT>)_vTable[52])
                     (thisPtr, pVideoProcessor, StreamIndex, pExtensionGuid, DataSize, pData);
             }
         }
@@ -1992,11 +1992,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// The actual size of the buffer for RSAES-OAEP is 256 bytes.
         /// </para>
         /// </remarks>
-        public HRESULT NegotiateCryptoSessionKeyExchange([In] P<ID3D11CryptoSession> pCryptoSession, [In] UINT DataSize, [In] IntPtr pData)
+        public HRESULT NegotiateCryptoSessionKeyExchange([In] P<ID3D11CryptoSession> pCryptoSession, [In] UINT DataSize, [In] nint pData)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, P<ID3D11CryptoSession>, UINT, IntPtr, HRESULT>)_vTable[54])
+                return ((delegate* unmanaged[Stdcall]<void*, P<ID3D11CryptoSession>, UINT, nint, HRESULT>)_vTable[54])
                     (thisPtr, pCryptoSession, DataSize, pData);
             }
         }
@@ -2089,11 +2089,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </para>
         /// </remarks>
         public void EncryptionBlt([In] P<ID3D11CryptoSession> pCryptoSession, [In] P<ID3D11Texture2D> pSrcSurface,
-            [In] P<ID3D11Texture2D> pDstSurface, [In] UINT IVSize, [In] IntPtr pIV)
+            [In] P<ID3D11Texture2D> pDstSurface, [In] UINT IVSize, [In] nint pIV)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11CryptoSession>, P<ID3D11Texture2D>, P<ID3D11Texture2D>, UINT, IntPtr, void>)_vTable[55])
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11CryptoSession>, P<ID3D11Texture2D>, P<ID3D11Texture2D>, UINT, nint, void>)_vTable[55])
                     (thisPtr, pCryptoSession, pSrcSurface, pDstSurface, IVSize, pIV);
             }
         }
@@ -2213,12 +2213,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </remarks>
         public void DecryptionBlt([In] P<ID3D11CryptoSession> pCryptoSession, [In] P<ID3D11Texture2D> pSrcSurface,
             [In] P<ID3D11Texture2D> pDstSurface, [In] in D3D11_ENCRYPTED_BLOCK_INFO pEncryptedBlockInfo, [In] UINT ContentKeySize,
-            [In] IntPtr pContentKey, [In] UINT IVSize, [In] IntPtr pIV)
+            [In] nint pContentKey, [In] UINT IVSize, [In] nint pIV)
         {
             fixed (void* thisPtr = &this)
             {
                 ((delegate* unmanaged[Stdcall]<void*, P<ID3D11CryptoSession>, P<ID3D11Texture2D>, P<ID3D11Texture2D>,
-                    in D3D11_ENCRYPTED_BLOCK_INFO, UINT, IntPtr, UINT, IntPtr, void>)_vTable[56])
+                    in D3D11_ENCRYPTED_BLOCK_INFO, UINT, nint, UINT, nint, void>)_vTable[56])
                     (thisPtr, pCryptoSession, pSrcSurface, pDstSurface, pEncryptedBlockInfo, ContentKeySize, pContentKey, IVSize, pIV);
             }
         }
@@ -2246,11 +2246,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// and check for the <see cref="D3D11_CONTENT_PROTECTION_CAPS_FRESHEN_SESSION_KEY"/> capabilities flag.
         /// </para>
         /// </remarks>
-        public void StartSessionKeyRefresh([In] P<ID3D11CryptoSession> pCryptoSession, [In] UINT RandomNumberSize, [In] IntPtr pRandomNumber)
+        public void StartSessionKeyRefresh([In] P<ID3D11CryptoSession> pCryptoSession, [In] UINT RandomNumberSize, [In] nint pRandomNumber)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11CryptoSession>, UINT, IntPtr, void>)_vTable[57])
+                ((delegate* unmanaged[Stdcall]<void*, P<ID3D11CryptoSession>, UINT, nint, void>)_vTable[57])
                     (thisPtr, pCryptoSession, RandomNumberSize, pRandomNumber);
             }
         }
@@ -2313,11 +2313,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// The read back key is encrypted by the driver/hardware using the session key.
         /// </para>
         /// </remarks>
-        public HRESULT GetEncryptionBltKey([In] P<ID3D11CryptoSession> pCryptoSession, [In] UINT KeySize, [In] IntPtr pReadbackKey)
+        public HRESULT GetEncryptionBltKey([In] P<ID3D11CryptoSession> pCryptoSession, [In] UINT KeySize, [In] nint pReadbackKey)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, P<ID3D11CryptoSession>, UINT, IntPtr, HRESULT>)_vTable[59])
+                return ((delegate* unmanaged[Stdcall]<void*, P<ID3D11CryptoSession>, UINT, nint, HRESULT>)_vTable[59])
                     (thisPtr, pCryptoSession, KeySize, pReadbackKey);
             }
         }
@@ -2345,11 +2345,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// This method will fail if the channel type is <see cref="D3D11_AUTHENTICATED_CHANNEL_D3D11"/>,
         /// because the Direct3D11 channel does not support authentication.
         /// </remarks>
-        public HRESULT NegotiateAuthenticatedChannelKeyExchange([In] P<ID3D11AuthenticatedChannel> pChannel, [In] UINT DataSize, [In] IntPtr pData)
+        public HRESULT NegotiateAuthenticatedChannelKeyExchange([In] P<ID3D11AuthenticatedChannel> pChannel, [In] UINT DataSize, [In] nint pData)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, P<ID3D11AuthenticatedChannel>, UINT, IntPtr, HRESULT>)_vTable[60])
+                return ((delegate* unmanaged[Stdcall]<void*, P<ID3D11AuthenticatedChannel>, UINT, nint, HRESULT>)_vTable[60])
                     (thisPtr, pChannel, DataSize, pData);
             }
         }
@@ -2382,11 +2382,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
         public HRESULT QueryAuthenticatedChannel([In] P<ID3D11AuthenticatedChannel> pChannel, [In] UINT InputSize,
-            [In] IntPtr pInput, [In] UINT OutputSize, [In] IntPtr pOutput)
+            [In] nint pInput, [In] UINT OutputSize, [In] nint pOutput)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, P<ID3D11AuthenticatedChannel>, UINT, IntPtr, UINT, IntPtr, HRESULT>)_vTable[61])
+                return ((delegate* unmanaged[Stdcall]<void*, P<ID3D11AuthenticatedChannel>, UINT, nint, UINT, nint, HRESULT>)_vTable[61])
                     (thisPtr, pChannel, InputSize, pInput, OutputSize, pOutput);
             }
         }
@@ -2414,12 +2414,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
         public HRESULT ConfigureAuthenticatedChannel([In] P<ID3D11AuthenticatedChannel> pChannel, [In] UINT InputSize,
-            [In] IntPtr pInput, [Out] out D3D11_AUTHENTICATED_CONFIGURE_OUTPUT pOutput)
+            [In] nint pInput, [Out] out D3D11_AUTHENTICATED_CONFIGURE_OUTPUT pOutput)
         {
             fixed (void* thisPtr = &this)
             {
                 return ((delegate* unmanaged[Stdcall]<void*, P<ID3D11AuthenticatedChannel>, UINT,
-                    IntPtr, out D3D11_AUTHENTICATED_CONFIGURE_OUTPUT, HRESULT>)_vTable[62])
+                    nint, out D3D11_AUTHENTICATED_CONFIGURE_OUTPUT, HRESULT>)_vTable[62])
                     (thisPtr, pChannel, InputSize, pInput, out pOutput);
             }
         }

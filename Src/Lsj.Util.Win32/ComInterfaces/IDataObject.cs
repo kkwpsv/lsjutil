@@ -36,7 +36,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IDataObject
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Called by a data consumer to obtain data from a source data object.
@@ -350,11 +350,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The tymed member of <see cref="FORMATETC"/> often indicates that more than one kind of storage medium is acceptable.
         /// You should always mask and test for this by using a Boolean OR operator.
         /// </remarks>
-        public HRESULT EnumFormatEtc([In] DWORD dwDirection, [Out] out IntPtr ppenumFormatEtc)
+        public HRESULT EnumFormatEtc([In] DWORD dwDirection, [Out] out P<IEnumFORMATETC> ppenumFormatEtc)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DWORD, out IntPtr, HRESULT>)_vTable[8])(thisPtr, dwDirection, out ppenumFormatEtc);
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, out P<IEnumFORMATETC>, HRESULT>)_vTable[8])(thisPtr, dwDirection, out ppenumFormatEtc);
             }
         }
 
@@ -505,11 +505,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// This creates the enumerator and supplies the pointer to the OLE implementation of <see cref="IEnumSTATDATA"/>.
         /// At that point, you can call its methods to enumerate the current advisory connections.
         /// </remarks>
-        public HRESULT EnumDAdvise([Out] out IntPtr ppenumAdvise)
+        public HRESULT EnumDAdvise([Out] out P<IEnumSTATDATA> ppenumAdvise)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[11])(thisPtr, out ppenumAdvise);
+                return ((delegate* unmanaged[Stdcall]<void*, out P<IEnumSTATDATA>, HRESULT>)_vTable[11])(thisPtr, out ppenumAdvise);
             }
         }
     }

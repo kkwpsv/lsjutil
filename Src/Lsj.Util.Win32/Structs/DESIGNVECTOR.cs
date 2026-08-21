@@ -1,7 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Marshals.ByValStructs;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Gdi32;
+using static Lsj.Util.Win32.Constants;
 
 namespace Lsj.Util.Win32.Structs
 {

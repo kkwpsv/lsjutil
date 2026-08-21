@@ -31,7 +31,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// A pointer to an array of bytes that represents the bits.
         /// </summary>
-        public IntPtr pbData;
+        public nint pbData;
 
         /// <summary>
         /// The number of unused bits in the last byte of the array.

@@ -23,6 +23,6 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IObjectWithSite
     {
-        IntPtr* _vTable;
+        nint* _vTable;
     }
 }

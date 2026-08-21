@@ -14,7 +14,7 @@ namespace Lsj.Util.Win32.BaseTypes
     [StructLayout(LayoutKind.Sequential)]
     public struct LPCVOID
     {
-        private IntPtr _value;
+        private nint _value;
 
         /// <inheritdoc/>
         public override string ToString() => _value.ToString();
@@ -23,12 +23,12 @@ namespace Lsj.Util.Win32.BaseTypes
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator IntPtr(LPCVOID val) => val._value;
+        public static implicit operator nint(LPCVOID val) => val._value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator LPCVOID(IntPtr val) => new LPCVOID { _value = val };
+        public static implicit operator LPCVOID(nint val) => new LPCVOID { _value = val };
     }
 }

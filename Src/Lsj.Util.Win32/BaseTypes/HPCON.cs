@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.BaseTypes
     public struct HPCON
     {
         [FieldOffset(0)]
-        private IntPtr _value;
+        private nint _value;
 
         /// <inheritdoc/>
         public override string ToString() => _value.ToString();
@@ -19,12 +19,12 @@ namespace Lsj.Util.Win32.BaseTypes
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator IntPtr(HPCON val) => val._value;
+        public static implicit operator nint(HPCON val) => val._value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator HPCON(IntPtr val) => new HPCON { _value = val };
+        public static implicit operator HPCON(nint val) => new HPCON { _value = val };
     }
 }

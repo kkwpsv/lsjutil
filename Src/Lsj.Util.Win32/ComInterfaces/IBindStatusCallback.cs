@@ -18,7 +18,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IBindStatusCallback
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Provides data to the client as it becomes available during asynchronous bind operations.

@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
@@ -11,6 +12,7 @@ using static Lsj.Util.Win32.Enums.ShellCompareIDsFlags;
 using static Lsj.Util.Win32.Enums.SHGDNF;
 using static Lsj.Util.Win32.Ole32;
 using static Lsj.Util.Win32.Shell32;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using BIND_OPTS = Lsj.Util.Win32.Structs.BIND_OPTS;
 
 namespace Lsj.Util.Win32.ComInterfaces
@@ -52,7 +54,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </remarks>
     public unsafe struct IShellFolder
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Translates the display name of a file object or a folder into an item identifier list.
@@ -60,42 +62,52 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <param name="hwnd">
         /// A window handle.
         /// The client should provide a window handle if it displays a dialog or message box.
-        /// Otherwise set hwnd to <see cref="IntPtr.Zero"/>.
+        /// Otherwise set <paramref name="hwnd"/> to <see cref="NULL"/>.
         /// </param>
         /// <param name="pbc">
+        /// <para>
         /// Optional.
         /// A pointer to a bind context used to pass parameters as inputs and outputs to the parsing function.
         /// These passed parameters are often specific to the data source and are documented by the data source owners.
-        /// For example, the file system data source accepts the name being parsed (as a <see cref="WIN32_FIND_DATA"/> structure),
-        /// using the <see cref="STR_FILE_SYS_BIND_DATA"/> bind context parameter.
-        /// <see cref="STR_PARSE_PREFER_FOLDER_BROWSING"/> can be passed to indicate that URLs are parsed using the file system data source when possible.
-        /// Construct a bind context object using <see cref="CreateBindCtx"/> and populate the values using <see cref="IBindCtx.RegisterObjectParam"/>.
-        /// See Bind Context String Keys for a complete list of these.
-        /// If no data is being passed to or received from the parsing function, this value can be <see cref="IntPtr.Zero"/>.
+        /// For example, the file system data source accepts the name being parsed (as a <see cref="WIN32_FIND_DATA"/> structure),
+        /// using the <see cref="STR_FILE_SYS_BIND_DATA"/> bind context parameter.
+        /// <see cref="STR_PARSE_PREFER_FOLDER_BROWSING"/> can be passed to indicate that URLs are parsed using the file system data source when possible.
+        /// Construct a bind context object using <see cref="CreateBindCtx"/> and populate the values using <see cref="IBindCtx.RegisterObjectParam"/>.
+        /// See Bind Context String Keys for a complete list of these.
+        /// </para>
+        /// <para>
+        /// If no data is being passed to or received from the parsing function, this value can be <see cref="NULL"/>.
+        /// </para>
         /// </param>
         /// <param name="pszDisplayName">
+        /// <para>
         /// A null-terminated Unicode string with the display name.
         /// Because each Shell folder defines its own parsing syntax, the form this string can take may vary.
         /// The desktop folder, for instance, accepts paths such as "C:\My Docs\My File.txt".
         /// It also will accept references to items in the namespace that have a GUID associated with them using the "::{GUID}" syntax.
         /// For example, to retrieve a fully qualified identifier list for the control panel from the desktop folder, you can use the following:
+        /// </para>
         /// <code>
         /// ::{CLSID for Control Panel}\::{CLSID for printers folder}
         /// </code>
         /// </param>
         /// <param name="pchEaten">
-        /// A pointer to a ULONG value that receives the number of characters of the display name that was parsed.
-        /// If your application does not need this information, set pchEaten to <see langword="null"/>, and no value will be returned.
+        /// A pointer to a <see cref="ULONG"/> value that receives the number of characters of the display name that was parsed.
+        /// If your application does not need this information, set <paramref name="pchEaten"/> to <see cref="NullRef{ULONG}"/>, and no value will be returned.
         /// </param>
         /// <param name="ppidl">
+        /// <para>
         /// When this method returns, contains a pointer to the PIDL for the object.
         /// The returned item identifier list specifies the item relative to the parsing folder.
-        /// If the object associated with <paramref name="pszDisplayName"/> is within the parsing folder,
-        /// the returned item identifier list will contain only one <see cref="SHITEMID"/> structure.
+        /// If the object associated with <paramref name="pszDisplayName"/> is within the parsing folder,
+        /// the returned item identifier list will contain only one <see cref="SHITEMID"/> structure.
         /// If the object is in a subfolder of the parsing folder,
-        /// the returned item identifier list will contain multiple <see cref="SHITEMID"/> structures.
-        /// If an error occurs, <see cref="IntPtr.Zero"/> is returned in this address.
-        /// When it is no longer needed, it is the responsibility of the caller to free this resource by calling <see cref="CoTaskMemFree"/>.
+        /// the returned item identifier list will contain multiple <see cref="SHITEMID"/> structures.
+        /// If an error occurs, <see cref="NULL"/> is returned in this address.
+        /// </para>
+        /// <para>
+        /// When it is no longer needed, it is the responsibility of the caller to free this resource by calling <see cref="CoTaskMemFree"/>.
+        /// </para>
         /// </param>
         /// <param name="pdwAttributes">
         /// The value used to query for file attributes.
@@ -108,18 +120,25 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
         /// <remarks>
-        /// Some Shell folders may not implement <see cref="IShellFolder.ParseDisplayName"/>.
+        /// <para>
+        /// Some Shell folders may not implement <see cref="ParseDisplayName"/>.
         /// Each folder that does will define its own parsing syntax.
-        /// <see cref="ParseDisplayName"/> is not expected to handle the relative path or parent folder indicators ("." or "..").
+        /// </para>
+        /// <para>
+        /// <see cref="ParseDisplayName"/> is not expected to handle the relative path or parent folder indicators ("." or "..").
         /// It is up to the caller to remove these appropriately.
-        /// Do not use the <see cref="SFGAO_VALIDATE"/> flag in <paramref name="pdwAttributes"/> to verify the existence of the item
-        /// whose name is being parsed. <see cref="IShellFolder.ParseDisplayName"/> implicitly validates the existence of the item
-        /// unless that behavior is overridden by a special bind context parameter.
+        /// </para>
+        /// <para>
+        /// Do not use the <see cref="SFGAO_VALIDATE"/> flag in <paramref name="pdwAttributes"/> to verify the existence of the item whose name is being parsed.
+        /// <see cref="ParseDisplayName"/> implicitly validates the existence of the item unless that behavior is overridden by a special bind context parameter.
+        /// </para>
+        /// <para>
         /// Querying for some attributes may be relatively slow and use significant amounts of memory.
         /// For example, to determine if a file is shared, the Shell will load network components.
         /// This procedure may require the loading of several DLLs.
-        /// The purpose of pdwAttributes is to allow you to restrict the query to only that information that is needed.
+        /// The purpose of <paramref name="pdwAttributes"/> is to allow you to restrict the query to only that information that is needed.
         /// The following code fragment illustrates how to find out if a file is compressed.
+        /// </para>
         /// <code>
         /// LPITEMIDLIST pidl;
         /// ULONG cbEaten;
@@ -136,21 +155,23 @@ namespace Lsj.Util.Win32.ComInterfaces
         ///     // Do something with the compressed file
         /// }
         /// </code>
-        /// Since pdwAttributes is an in/out parameter, it should always be initialized.
-        /// If you pass in an uninitialized value, some of the bits may be inadvertantly set.
-        /// <see cref="IShellFolder.ParseDisplayName"/> will then query for the corresponding attributes,
-        /// which may lead to undesirable delays or memory demands.
-        /// If you do not wish to query for attributes, set <paramref name="pdwAttributes"/> to 0 to avoid unpredictable behavior.
-        /// This method is similar to the <see cref="IParseDisplayName.ParseDisplayName"/> method.
+        /// <para>
+        /// Since <paramref name="pdwAttributes"/> is an in/out parameter, it should always be initialized.
+        /// If you pass in an uninitialized value, some of the bits may be inadvertently set.
+        /// <see cref="ParseDisplayName"/> will then query for the corresponding attributes, which may lead to undesirable delays or memory demands.
+        /// If you do not wish to query for attributes, set <paramref name="pdwAttributes"/> to <see cref="NULL"/> to avoid unpredictable behavior.
+        /// </para>
+        /// <para>
+        /// This method is similar to the <see cref="IParseDisplayName.ParseDisplayName"/> method.
+        /// </para>
         /// </remarks>
-        public HRESULT ParseDisplayName([In] HWND hwnd, [In] P<IBindCtx> pbc, [In] string pszDisplayName, [In][Out] ref ULONG pchEaten,
-            [Out] out IntPtr ppidl, [In][Out] ref SFGAO pdwAttributes)
+        public HRESULT ParseDisplayName([In] HWND hwnd, [In] P<IBindCtx> pbc, [In] LPWSTR pszDisplayName, [In][Out] ref ULONG pchEaten,
+            [Out] out nint ppidl, [In][Out] ref SFGAO pdwAttributes)
         {
             fixed (void* thisPtr = &this)
-            fixed (char* pszDisplayNamePtr = pszDisplayName)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, HWND, P<IBindCtx>, char*, ref ULONG, out IntPtr, ref SFGAO, HRESULT>)_vTable[3])
-                    (thisPtr, hwnd, pbc, pszDisplayNamePtr, ref pchEaten, out ppidl, ref pdwAttributes);
+                return ((delegate* unmanaged[Stdcall]<void*, HWND, P<IBindCtx>, nint, ref ULONG, out nint, ref SFGAO, HRESULT>)_vTable[3])
+                    (thisPtr, hwnd, pbc, pszDisplayName.Handle, ref pchEaten, out ppidl, ref pdwAttributes);
             }
         }
 
@@ -163,40 +184,47 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If user input is required to perform the enumeration,
         /// this window handle should be used by the enumeration object as the parent window to take user input.
         /// An example would be a dialog box to ask for a password or prompt the user to insert a CD or floppy disk.
-        /// If <paramref name="hwnd"/> is set to <see cref="IntPtr.Zero"/>, the enumerator should not post any messages,
-        /// and if user input is required, it should silently fail.
+        /// If <paramref name="hwnd"/> is set to <see cref="NULL"/>,
+        /// the enumerator should not post any messages, and if user input is required, it should silently fail.
         /// </param>
         /// <param name="grfFlags">
         /// Flags indicating which items to include in the enumeration.
         /// For a list of possible values, see the <see cref="SHCONTF"/> enumerated type.
         /// </param>
         /// <param name="ppenumIDList">
-        /// The address that receives a pointer to the <see cref="IEnumIDList"/> interface of the enumeration object created by this method.
-        /// If an error occurs or no suitable subobjects are found, <paramref name="ppenumIDList"/> is set to <see langword="null"/>.
+        /// The address that receives a pointer to the <see cref="IEnumIDList"/> interface of the enumeration object created by this method.
+        /// If an error occurs or no suitable subobjects are found, <paramref name="ppenumIDList"/> is set to <see cref="NULL"/>.
         /// </param>
         /// <returns>
-        /// Returns <see cref="S_OK"/> if successful, or an error value otherwise.
-        /// Some implementations may also return <see cref="S_FALSE"/>, indicating that there are no children
-        /// matching the <paramref name="grfFlags"/> that were passed in.
-        /// If <see cref="S_FALSE"/> is returned, <paramref name="ppenumIDList"/> is set to <see langword="null"/>.
+        /// Returns <see cref="S_OK"/> if successful, or an error value otherwise.
+        /// Some implementations may also return <see cref="S_FALSE"/>,
+        /// indicating that there are no children matching the <paramref name="grfFlags"/> that were passed in.
+        /// If <see cref="S_FALSE"/> is returned, <paramref name="ppenumIDList"/> is set to <see cref="NULL"/>.
         /// </returns>
         /// <remarks>
-        /// If the method returns <see cref="S_OK"/>, then <paramref name="ppenumIDList"/> receives a pointer to an enumerator.
-        /// In this case, the calling application must free the returned <see cref="IEnumIDList"/> object
-        /// by calling its <see cref="Marshal.ReleaseComObject(object)"/> method.
-        /// If the method returns <see cref="S_FALSE"/>, then the folder contains no suitable subobjects and the pointer
-        /// specified in <paramref name="ppenumIDList"/> is set to <see langword="null"/>.
-        /// If the method fails, an error value is returned and the pointer specified in <paramref name="ppenumIDList"/> is set to <see langword="null"/>.
-        /// If the folder contains no suitable subobjects, then the <see cref="EnumObjects"/> method is permitted
-        /// either to set <paramref name="ppenumIDList"/> to <see langword="null"/> and return <see cref="S_FALSE"/>,
-        /// or to set <paramref name="ppenumIDList"/> to an enumerator that produces no objects and return <see cref="S_OK"/>.
+        /// <para>
+        /// If the method returns <see cref="S_OK"/>, then <paramref name="ppenumIDList"/> receives a pointer to an enumerator.
+        /// In this case, the calling application must free the returned <see cref="IEnumIDList"/> object by calling its <see cref="IUnknown.Release"/> method.
+        /// </para>
+        /// <para>
+        /// If the method returns <see cref="S_FALSE"/>, then the folder contains no suitable subobjects
+        /// and the pointer specified in <paramref name="ppenumIDList"/> is set to <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// If the method fails, an error value is returned and the pointer specified in <paramref name="ppenumIDList"/> is set to <see cref="NULL"/>.
+        /// </para>
+        /// <para>
+        /// If the folder contains no suitable subobjects, then the <see cref="EnumObjects"/> method is permitted
+        /// either to set *<paramref name="ppenumIDList"/> to <see cref="NULL"/> and return <see cref="S_FALSE"/>,
+        /// or to set *<paramref name="ppenumIDList"/> to an enumerator that produces no objects and return <see cref="S_OK"/>.
         /// Calling applications must be prepared for both success cases.
+        /// </para>
         /// </remarks>
-        public HRESULT EnumObjects([In] HWND hwnd, [In] SHCONTF grfFlags, [Out] out IntPtr ppenumIDList)
+        public HRESULT EnumObjects([In] HWND hwnd, [In] SHCONTF grfFlags, [Out] out P<IEnumIDList> ppenumIDList)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, HWND, SHCONTF, out IntPtr, HRESULT>)_vTable[4])(thisPtr, hwnd, grfFlags, out ppenumIDList);
+                return ((delegate* unmanaged[Stdcall]<void*, HWND, SHCONTF, out P<IEnumIDList>, HRESULT>)_vTable[4])(thisPtr, hwnd, grfFlags, out ppenumIDList);
             }
         }
 
@@ -205,17 +233,21 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Optional parameters that control the construction of the handler are passed in the bind context.
         /// </summary>
         /// <param name="pidl">
-        /// The address of an <see cref="ITEMIDLIST"/> structure (PIDL) that identifies the subfolder.
+        /// The address of an <see cref="ITEMIDLIST"/> structure (PIDL) that identifies the subfolder.
         /// This value can refer to an item at any level below the parent folder in the namespace hierarchy.
-        /// The structure contains one or more <see cref="SHITEMID"/> structures, followed by a terminating <see langword="null"/>.
+        /// The structure contains one or more <see cref="SHITEMID"/> structures, followed by a terminating <see cref="NULL"/>.
         /// </param>
         /// <param name="pbc">
-        /// A pointer to an <see cref="IBindCtx"/> interface on a bind context object that can be used to pass parameters to the construction of the handler.
-        /// If this parameter is not used, set it to <see langword="null"/>.
+        /// <para>
+        /// A pointer to an <see cref="IBindCtx"/> interface on a bind context object that can be used to pass parameters to the construction of the handler.
+        /// If this parameter is not used, set it to <see cref="NULL"/>.
         /// Because support for this parameter is optional for folder object implementations, some folders may not support the use of bind contexts.
-        /// Information that can be provided in the bind context includes a <see cref="BIND_OPTS"/> structure
-        /// that includes a <see cref="BIND_OPTS.grfMode"/> member that indicates the access mode when binding to a stream handler.
-        /// Other parameters can be set and discovered using <see cref="IBindCtx.RegisterObjectParam"/> and <see cref="IBindCtx.GetObjectParam"/>.
+        /// </para>
+        /// <para>
+        /// Information that can be provided in the bind context includes a <see cref="BIND_OPTS"/> structure 
+        /// that includes a <see cref="BIND_OPTS.grfMode"/> member that indicates the access mode when binding to a stream handler.
+        /// Other parameters can be set and discovered using <see cref="IBindCtx.RegisterObjectParam"/> and <see cref="IBindCtx.GetObjectParam"/>.
+        /// </para>
         /// </param>
         /// <param name="riid">
         /// The identifier of the interface to return.
@@ -223,29 +255,34 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// </param>
         /// <param name="ppv">
         /// When this method returns, contains the address of a pointer to the requested interface.
-        /// If an error occurs, a <see langword="null"/> pointer is returned at this address.
+        /// If an error occurs, a <see cref="NULL"/> pointer is returned at this address.
         /// </param>
         /// <returns>
         /// If this method succeeds, it returns <see cref="S_OK"/>.
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
         /// <remarks>
-        /// Applications use <see cref="BindToObject"/>(..., <see cref="IID_IShellFolder"/>, ...) to obtain the Shell folder object for a subitem.
+        /// <para>
+        /// Applications use <c>IShellFolder::BindToObject(..., IID_IShellFolder, ...)</c> to obtain the Shell folder object for a subitem.
         /// Clients should pass the canonical interface IID that is used to identify a specific handler.
-        /// For example, <see cref="IID_IShellFolder"/> identifies the folder handler and <see cref="IID_IStream"/> identifies the stream handler.
-        /// Implementations can support binding to handlers using derived interfaces as well, such as <see cref="IID_IShellFolder2"/>.
+        /// For example, <see cref="IID_IShellFolder"/> identifies the folder handler and <see cref="IID_IStream"/> identifies the stream handler.
+        /// Implementations can support binding to handlers using derived interfaces as well, such as <see cref="IID_IShellFolder2"/>.
         /// A Shell namespace extension can implement this function by creating the Shell folder object for the specified subitem
-        /// and then calling QueryInterface to communicate with the object through its interface pointer.
-        /// Implementations of <see cref="BindToObject"/> can optimize any call to it by quickly failing for IID values that it does not support.
-        /// For example, if the Shell folder object of the subitem does not support <see cref="IRemoteComputer"/>,
-        /// the implementation should return <see cref="E_NOINTERFACE"/> immediately instead of needlessly creating the Shell folder object
-        /// for the subitem and then finding that <see cref="IRemoteComputer"/> was not supported after all.
+        /// and then calling <see cref="IUnknown.QueryInterface"/> to communicate with the object through its interface pointer.
+        /// </para>
+        /// <para>
+        /// Implementations of <see cref="BindToObject"/> can optimize any call to it by quickly failing for <see cref="IID"/> values that it does not support.
+        /// For example, if the Shell folder object of the subitem does not support <see cref="IRemoteComputer"/>,
+        /// the implementation should return <see cref="E_NOINTERFACE"/> immediately
+        /// instead of needlessly creating the Shell folder object for the subitem
+        /// and then finding that <see cref="IRemoteComputer"/> was not supported after all.
+        /// </para>
         /// </remarks>
-        public HRESULT BindToObject([In] IntPtr pidl, [In] P<IBindCtx> pbc, [In] in IID riid, [Out] out IntPtr ppv)
+        public HRESULT BindToObject([In] nint pidl, [In] P<IBindCtx> pbc, [In] in IID riid, [Out] out nint ppv)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, P<IBindCtx>, in IID, out IntPtr, HRESULT>)_vTable[5])(thisPtr, pidl, pbc, riid, out ppv);
+                return ((delegate* unmanaged[Stdcall]<void*, nint, P<IBindCtx>, in IID, out nint, HRESULT>)_vTable[5])(thisPtr, pidl, pbc, riid, out ppv);
             }
         }
 
@@ -257,18 +294,18 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The structure must contain exactly one <see cref="SHITEMID"/> structure followed by a terminating zero.
         /// </param>
         /// <param name="pbc">
-        /// The optional address of an <see cref="IBindCtx"/> interface on a bind context object to be used during this operation.
-        /// If this parameter is not used, set it to <see langword="null"/>.
-        /// Because support for <paramref name="pbc"/> is optional for folder object implementations, some folders may not support the use of bind contexts.
+        /// The optional address of an <see cref="IBindCtx"/> interface on a bind context object to be used during this operation.
+        /// If this parameter is not used, set it to <see cref="NULL"/>.
+        /// Because support for <paramref name="pbc"/> is optional for folder object implementations, some folders may not support the use of bind contexts.
         /// </param>
         /// <param name="riid">
         /// The IID of the requested storage interface.
         /// To retrieve an <see cref="IStream"/>, <see cref="IStorage"/>, or <see cref="IPropertySetStorage"/> interface pointer,
-        /// set riid to <see cref="IID_IStream"/>, <see cref="IID_IStorage"/>, or <see cref="IID_IPropertySetStorage"/>, respectively.
+        /// set <paramref name="riid"/> to <see cref="IID_IStream"/>, <see cref="IID_IStorage"/>, or <see cref="IID_IPropertySetStorage"/>, respectively.
         /// </param>
         /// <param name="ppv">
-        /// The address that receives the interface pointer specified by riid.
-        /// If an error occurs, a <see langword="null"/> pointer is returned in this address.
+        /// The address that receives the interface pointer specified by <paramref name="riid"/>.
+        /// If an error occurs, a <see cref="NULL"/> pointer is returned in this address.
         /// </param>
         /// <returns>
         /// If this method succeeds, it returns <see cref="S_OK"/>.
@@ -280,11 +317,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// that can then be used to access the contents of object.
         /// See the <see cref="IMoniker.BindToStorage"/> reference for further discussion.
         /// </remarks>
-        public HRESULT BindToStorage([In] IntPtr pidl, [In] P<IBindCtx> pbc, [In] in IID riid, [Out] out IntPtr ppv)
+        public HRESULT BindToStorage([In] nint pidl, [In] P<IBindCtx> pbc, [In] in IID riid, [Out] out nint ppv)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, P<IBindCtx>, in IID, out IntPtr, HRESULT>)_vTable[6])(thisPtr, pidl, pbc, riid, out ppv);
+                return ((delegate* unmanaged[Stdcall]<void*, nint, P<IBindCtx>, in IID, out nint, HRESULT>)_vTable[6])(thisPtr, pidl, pbc, riid, out ppv);
             }
         }
 
@@ -349,11 +386,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// This operation masks off the upper sixteen bits of lParam, including the <see cref="SHCIDS_ALLFIELDS"/> value.
         /// The <see cref="MAKE_HRESULT"/> macro is useful for constructing the return value for an implementation of the <see cref="CompareIDs"/> method.
         /// </remarks>
-        public HRESULT CompareIDs([In] LPARAM lParam, [In] IntPtr pidl1, [In] IntPtr pidl2)
+        public HRESULT CompareIDs([In] LPARAM lParam, [In] nint pidl1, [In] nint pidl2)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, LPARAM, IntPtr, IntPtr, HRESULT>)_vTable[7])(thisPtr, lParam, pidl1, pidl2);
+                return ((delegate* unmanaged[Stdcall]<void*, LPARAM, nint, nint, HRESULT>)_vTable[7])(thisPtr, lParam, pidl1, pidl2);
             }
         }
 
@@ -401,11 +438,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// This macro provides the correct IID based on the interface pointed to by the value in <paramref name="ppv"/>,
         /// which eliminates the possibility of a coding error in <paramref name="riid"/> that could lead to unexpected results.
         /// </remarks>
-        public HRESULT CreateViewObject([In] HWND hwndOwner, [In] in IID riid, [Out] out IntPtr ppv)
+        public HRESULT CreateViewObject([In] HWND hwndOwner, [In] in IID riid, [Out] out nint ppv)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, HWND, in IID, out IntPtr, HRESULT>)_vTable[8])(thisPtr, hwndOwner, riid, out ppv);
+                return ((delegate* unmanaged[Stdcall]<void*, HWND, in IID, out nint, HRESULT>)_vTable[8])(thisPtr, hwndOwner, riid, out ppv);
             }
         }
 
@@ -446,11 +483,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The <see cref="SFGAO_NONENUMERATED"/> attribute indicates an item that is not returned by the enumerator created 
         /// by the <see cref="EnumObjects"/> method.
         /// </remarks>
-        public HRESULT GetAttributesOf([In] UINT cidl, [In] IntPtr apidl, [In][Out] ref SFGAO rgfInOut)
+        public HRESULT GetAttributesOf([In] UINT cidl, [In] nint apidl, [In][Out] ref SFGAO rgfInOut)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, IntPtr, ref SFGAO, HRESULT>)_vTable[9])(thisPtr, cidl, apidl, ref rgfInOut);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, nint, ref SFGAO, HRESULT>)_vTable[9])(thisPtr, cidl, apidl, ref rgfInOut);
             }
         }
 
@@ -501,13 +538,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// This macro provides the correct IID based on the interface pointed to by the value in <paramref name="ppv"/>,
         /// which eliminates the possibility of a coding error in riid that could lead to unexpected results.
         /// </remarks>
-        public HRESULT GetUIObjectOf([In] HWND hwndOwner, [In] UINT cidl, [In] IntPtr apidl, [In] in IID riid,
-            [In] IntPtr rgfReserved, [Out] out IntPtr ppv)
+        public HRESULT GetUIObjectOf([In] HWND hwndOwner, [In] UINT cidl, [In] nint apidl, [In] in IID riid,
+            [In][Out] ref UINT rgfReserved, [Out] out nint ppv)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, HWND, UINT, IntPtr, in IID, IntPtr, out IntPtr, HRESULT>)_vTable[10])
-                    (thisPtr, hwndOwner, cidl, apidl, riid, rgfReserved, out ppv);
+                return ((delegate* unmanaged[Stdcall]<void*, HWND, UINT, nint, in IID, ref UINT, out nint, HRESULT>)_vTable[10])
+                    (thisPtr, hwndOwner, cidl, apidl, riid, ref rgfReserved, out ppv);
             }
         }
 
@@ -559,11 +596,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Developers who implement <see cref="GetDisplayNameOf"/> are encouraged to return parse names that are as close to the display names as possible,
         /// because the end user often needs to type or edit these names.
         /// </remarks>
-        public HRESULT GetDisplayNameOf([In] IntPtr pidl, [In] SHGDNF uFlags, [Out] out STRRET pName)
+        public HRESULT GetDisplayNameOf([In] nint pidl, [In] SHGDNF uFlags, [Out] out STRRET pName)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, SHGDNF, out STRRET, HRESULT>)_vTable[11])(thisPtr, pidl, uFlags, out pName);
+                return ((delegate* unmanaged[Stdcall]<void*, nint, SHGDNF, out STRRET, HRESULT>)_vTable[11])(thisPtr, pidl, uFlags, out pName);
             }
         }
 
@@ -607,13 +644,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// </code>
         /// This call prevents both the old and new names being displayed in the view.
         /// </remarks>
-        public HRESULT SetNameOf([In] HWND hwnd, [In] IntPtr pidl, [In] string pszName, [In] SHGDNF uFlags, [Out] out IntPtr ppidlOut)
+        public HRESULT SetNameOf([In] HWND hwnd, [In] nint pidl, [In] LPWSTR pszName, [In] SHGDNF uFlags, [Out] out nint ppidlOut)
         {
             fixed (void* thisPtr = &this)
-            fixed (char* pszNamePtr = pszName)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, HWND, IntPtr, char*, SHGDNF, out IntPtr, HRESULT>)_vTable[12])
-                    (thisPtr, hwnd, pidl, pszNamePtr, uFlags, out ppidlOut);
+                return ((delegate* unmanaged[Stdcall]<void*, HWND, nint, nint, SHGDNF, out nint, HRESULT>)_vTable[12])
+                    (thisPtr, hwnd, pidl, pszName.Handle, uFlags, out ppidlOut);
             }
         }
     }

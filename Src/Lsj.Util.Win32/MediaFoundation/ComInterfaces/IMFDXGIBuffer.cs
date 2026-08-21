@@ -26,7 +26,7 @@ namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
     [ComInterface(IID = "e7174cfa-1c9e-48b1-8866-626226bfc258", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 6, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IMFDXGIBuffer
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Queries the Microsoft DirectX Graphics Infrastructure (DXGI)surface for an interface.
@@ -171,11 +171,11 @@ namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
         /// </list>
         /// </para>
         /// </returns>
-        public HRESULT GetUnknown([In] in GUID guid, [In] in IID riid, [Out] out IntPtr ppvObject)
+        public HRESULT GetUnknown([In] in GUID guid, [In] in IID riid, [Out] out LPVOID ppvObject)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in GUID, in IID, out IntPtr, HRESULT>)_vTable[5])
+                return ((delegate* unmanaged[Stdcall]<void*, in GUID, in IID, out LPVOID, HRESULT>)_vTable[5])
                     (thisPtr, guid, riid, out ppvObject);
             }
         }

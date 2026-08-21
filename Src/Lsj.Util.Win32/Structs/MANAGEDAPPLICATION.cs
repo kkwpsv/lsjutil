@@ -21,12 +21,12 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The user-friendly name of the application.
         /// </summary>
-        public IntPtr pszPackageName;
+        public nint pszPackageName;
 
         /// <summary>
         /// The name of the application's publisher.
         /// </summary>
-        public IntPtr pszPublisher;
+        public nint pszPublisher;
 
         /// <summary>
         /// The major version number of the application.
@@ -52,7 +52,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The user-friendly name for the GPO from which this application is deployed.
         /// </summary>
-        public IntPtr pszPolicyName;
+        public nint pszPolicyName;
 
         /// <summary>
         /// If this application is installed by Windows Installer, this member is the ProductId GUID.
@@ -68,27 +68,27 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// This member is unused.
         /// </summary>
-        public IntPtr pszOwner;
+        public nint pszOwner;
 
         /// <summary>
         /// This member is unused.
         /// </summary>
-        public IntPtr pszCompany;
+        public nint pszCompany;
 
         /// <summary>
         /// This member is unused.
         /// </summary>
-        public IntPtr pszComments;
+        public nint pszComments;
 
         /// <summary>
         /// This member is unused.
         /// </summary>
-        public IntPtr pszContact;
+        public nint pszContact;
 
         /// <summary>
         /// This member is unused.
         /// </summary>
-        public IntPtr pszSupportUrl;
+        public nint pszSupportUrl;
 
         /// <summary>
         /// <para>

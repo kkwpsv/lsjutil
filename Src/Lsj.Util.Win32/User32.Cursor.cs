@@ -225,7 +225,7 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateCursor", ExactSpelling = true, SetLastError = true)]
         public static extern HCURSOR CreateCursor([In] HINSTANCE hInst, [In] int xHotSpot, [In] int yHotSpot, [In] int nWidth, [In] int nHeight,
-            [In] IntPtr pvANDPlane, [In] IntPtr pvXORPlane);
+            [In] nint pvANDPlane, [In] nint pvXORPlane);
 
         /// <summary>
         /// <para>

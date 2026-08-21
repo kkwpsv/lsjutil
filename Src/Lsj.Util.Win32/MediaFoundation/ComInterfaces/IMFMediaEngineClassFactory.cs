@@ -2,10 +2,11 @@
 using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.MediaFoundation.Enums;
-using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.ComInterfaces.CLSIDs;
+using static Lsj.Util.Win32.MediaFoundation.Enums.MF_MEDIA_ENGINE_CREATEFLAGS;
+using static Lsj.Util.Win32.MediaFoundation.GUIDs.MediaFoundationAttributes;
 using static Lsj.Util.Win32.MediaFoundation.Mfplat;
 using static Lsj.Util.Win32.Ole32;
 
@@ -32,7 +33,7 @@ namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
     [ComInterface(IID = "4D645ACE-26AA-4688-9BE1-DF3516990B93", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 5, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IMFMediaEngineClassFactory
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Creates a new instance of the Media Engine.

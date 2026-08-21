@@ -21,7 +21,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IDXGIObject), typeof(IDXGIOutput), typeof(IDXGIOutput1), typeof(IDXGIOutput2)])]
     public unsafe struct IDXGIOutput3
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Checks for overlay support.

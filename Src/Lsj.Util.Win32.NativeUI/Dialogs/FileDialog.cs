@@ -152,7 +152,7 @@ namespace Lsj.Util.Win32.NativeUI.Dialogs
                 var result = S_OK;
                 if (result = _dialog.Value.GetResult(out var shellItemPtr))
                 {
-                    var shellItem = (IShellItem*)shellItemPtr;
+                    var shellItem = (IShellItem*)(nint)shellItemPtr;
                     try
                     {
                         if (result = shellItem->GetDisplayName(SIGDN_FILESYSPATH, out var path))

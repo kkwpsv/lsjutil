@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Callbacks
     [StructLayout(LayoutKind.Sequential)]
     public struct PTIMERAPCROUTINE
     {
-        private IntPtr _ptr;
+        private nint _ptr;
 
         /// <summary>
         /// 
@@ -33,12 +33,12 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator IntPtr(PTIMERAPCROUTINE val) => val._ptr;
+        public static explicit operator nint(PTIMERAPCROUTINE val) => val._ptr;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator PTIMERAPCROUTINE(IntPtr val) => new PTIMERAPCROUTINE { _ptr = val };
+        public static explicit operator PTIMERAPCROUTINE(nint val) => new PTIMERAPCROUTINE { _ptr = val };
     }
 }

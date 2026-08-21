@@ -20,7 +20,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IDXGIObject), typeof(IDXGIFactory), typeof(IDXGIFactory1), typeof(IDXGIFactory2)])]
     public unsafe struct IDXGIFactory3
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Gets the flags that were used when a Microsoft DirectX Graphics Infrastructure (DXGI) object was created.

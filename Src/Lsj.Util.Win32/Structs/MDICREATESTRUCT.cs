@@ -31,12 +31,12 @@ namespace Lsj.Util.Win32.Structs
         /// The name of the window class of the MDI child window.
         /// The class name must have been registered by a previous call to the <see cref="RegisterClass"/> function.
         /// </summary>
-        public IntPtr szClass;
+        public nint szClass;
 
         /// <summary>
         /// The title of the MDI child window. The system displays the title in the child window's title bar.
         /// </summary>
-        public IntPtr szTitle;
+        public nint szTitle;
 
         /// <summary>
         /// A handle to the instance of the application creating the MDI client window.

@@ -183,20 +183,20 @@ namespace Lsj.Util.Win32.Structs
         /// The Shell uses this alternative when the user chooses a menu command.
         /// </para>
         /// </summary>
-        public IntPtr lpVerb;
+        public nint lpVerb;
 
         /// <summary>
         /// An optional string containing parameters that are passed to the command.
         /// The format of this string is determined by the command that is to be invoked.
         /// This member is always <see cref="NULL"/> for menu items inserted by a Shell extension.
         /// </summary>
-        public IntPtr lpParameters;
+        public nint lpParameters;
 
         /// <summary>
         /// An optional working directory name.
         /// This member is always <see cref="NULL"/> for menu items inserted by a Shell extension.
         /// </summary>
-        public IntPtr lpDirectory;
+        public nint lpDirectory;
 
         /// <summary>
         /// A set of SW_ values to pass to the <see cref="ShowWindow"/> function if the command displays a window or starts an application.

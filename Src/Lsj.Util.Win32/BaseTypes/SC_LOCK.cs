@@ -17,6 +17,9 @@ namespace Lsj.Util.Win32.BaseTypes
         /// <inheritdoc/>
         public IntPtr ToIntPtr() => _value;
 
+        /// <inheritdoc/>
+        public nint ToNint() => _value;
+
         /// <summary>
         /// 
         /// </summary>
@@ -33,12 +36,12 @@ namespace Lsj.Util.Win32.BaseTypes
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator IntPtr(SC_LOCK val) => val._value;
+        public static implicit operator nint(SC_LOCK val) => val._value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator SC_LOCK(IntPtr val) => new SC_LOCK { _value = val };
+        public static implicit operator SC_LOCK(nint val) => new SC_LOCK { _value = val };
     }
 }

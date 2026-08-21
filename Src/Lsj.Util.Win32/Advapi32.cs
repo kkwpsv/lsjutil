@@ -1176,7 +1176,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsTextUnicode", ExactSpelling = true)]
-        public static extern BOOL IsTextUnicode([In] IntPtr lpv,  [In] int iSize, [In][Out] ref INT lpiResult);
+        public static extern BOOL IsTextUnicode([In] nint lpv, [In] int iSize, [In][Out] ref INT lpiResult);
 
         /// <summary>
         /// <para>

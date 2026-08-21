@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Callbacks
     [StructLayout(LayoutKind.Sequential)]
     public struct LPSERVICE_MAIN_FUNCTION
     {
-        private IntPtr _ptr;
+        private nint _ptr;
 
         /// <summary>
         /// 
@@ -33,12 +33,12 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator IntPtr(LPSERVICE_MAIN_FUNCTION val) => val._ptr;
+        public static explicit operator nint(LPSERVICE_MAIN_FUNCTION val) => val._ptr;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator LPSERVICE_MAIN_FUNCTION(IntPtr val) => new LPSERVICE_MAIN_FUNCTION { _ptr = val };
+        public static explicit operator LPSERVICE_MAIN_FUNCTION(nint val) => new LPSERVICE_MAIN_FUNCTION { _ptr = val };
     }
 }

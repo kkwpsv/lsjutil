@@ -42,7 +42,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IDXGIObject), typeof(IDXGIDeviceSubObject)])]
     public unsafe struct IDXGISwapChain
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Presents a rendered image to the user.
@@ -219,11 +219,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <returns>
         /// Returns one of the following <see cref="DXGI_ERROR"/>.
         /// </returns>
-        public HRESULT GetBuffer([In] UINT Buffer, [In] in IID riid, [Out] out IntPtr ppSurface)
+        public HRESULT GetBuffer([In] UINT Buffer, [In] in IID riid, [Out] out nint ppSurface)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, in IID, out IntPtr, HRESULT>)_vTable[9])(thisPtr, Buffer, riid, out ppSurface);
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, in IID, out nint, HRESULT>)_vTable[9])(thisPtr, Buffer, riid, out ppSurface);
             }
         }
 

@@ -1,9 +1,5 @@
 ﻿using Lsj.Util.Win32.DirectX.ComInterfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using static Lsj.Util.Win32.DirectX.Enums.D3D11_VIDEO_PROCESSOR_FEATURE_CAPS;
 
 namespace Lsj.Util.Win32.DirectX.Enums
 {

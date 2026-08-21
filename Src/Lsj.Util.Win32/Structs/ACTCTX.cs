@@ -159,7 +159,7 @@ namespace Lsj.Util.Win32.Structs
         /// Null-terminated string specifying the path of the manifest file or PE image to be used to create the activation context.
         /// If this path refers to an EXE or DLL file, the <see cref="lpResourceName"/> member is required.
         /// </summary>
-        public IntPtr lpSource;
+        public nint lpSource;
 
         /// <summary>
         /// Identifies the type of processor used. Specifies the system's processor architecture.
@@ -186,20 +186,20 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The base directory in which to perform private assembly probing if assemblies in the activation context are not present in the system-wide store.
         /// </summary>
-        public IntPtr lpAssemblyDirectory;
+        public nint lpAssemblyDirectory;
 
         /// <summary>
         /// Pointer to a null-terminated string that contains the resource name to be loaded from the PE specified in <see cref="hModule"/> or <see cref="lpSource"/>.
         /// If the resource name is an integer, set this member using <see cref="MAKEINTRESOURCE"/>.
         /// This member is required if <see cref="lpSource"/> refers to an EXE or DLL.
         /// </summary>
-        public IntPtr lpResourceName;
+        public nint lpResourceName;
 
         /// <summary>
         /// The name of the current application.
         /// If the value of this member is set to null, the name of the executable that launched the current process is used.
         /// </summary>
-        public IntPtr lpApplicationName;
+        public nint lpApplicationName;
 
         /// <summary>
         /// Use this member rather than <see cref="lpSource"/> if you have already loaded a DLL

@@ -45,6 +45,7 @@ namespace Lsj.Util.Tests.Win32
             "DXGIGetDebugInterface",
         };
 
+        // .NET Framework 4.5 does not support generic type parameters in P/Invoke methods.
         private static readonly List<string> _genericTypeParameterWhiteList = new List<string>
         {
             "BackupRead",
@@ -66,6 +67,9 @@ namespace Lsj.Util.Tests.Win32
             "CoReleaseMarshalData",
             "CoSetProxyBlanket",
             "CreateGenericComposite",
+            "CreateHardLinkTransacted",
+            "CreateIconFromResource",
+            "CreateIconFromResourceEx",
             "CreateStdDispatch",
             "CreateURLMoniker",
             "CreateURLMonikerEx",
@@ -73,10 +77,13 @@ namespace Lsj.Util.Tests.Win32
             "D3D11CreateDeviceAndSwapChain",
             "D3D12CreateDevice",
             "D3DCompile",
+            "GetGestureExtraArgs",
             "GetNumberOfPhysicalMonitorsFromIDirect3DDevice9",
             "GetPhysicalMonitorsFromIDirect3DDevice9",
             "GetRawInputBuffer",
             "InitializeSid",
+            "LookupIconIdFromDirectory",
+            "LookupIconIdFromDirectoryEx",
             "MFGetService",
             "MFCreateSourceReaderFromURL",
             "MFEnumDeviceSources",
@@ -88,9 +95,13 @@ namespace Lsj.Util.Tests.Win32
             "OleCreateLink",
             "OleLoad",
             "OleSave",
+            "RegEnumValue",
+            "RegQueryValueEx",
+            "RegSetValueEx",
             "SetFileIoOverlappedRange",
             "SetNamedSecurityInfo",
             "SetSecurityInfo",
+            "SetupDiGetDeviceRegistryProperty",
             "StgOpenStorage",
             "WriteClassStg",
         };

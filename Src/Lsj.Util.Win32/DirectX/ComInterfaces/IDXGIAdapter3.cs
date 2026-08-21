@@ -26,7 +26,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IDXGIObject), typeof(IDXGIAdapter), typeof(IDXGIAdapter1), typeof(IDXGIAdapter2)])]
     public unsafe struct IDXGIAdapter3
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Registers to receive notification of hardware content protection teardown events.

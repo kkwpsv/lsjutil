@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.MediaFoundation.ComInterfaces;
 using System;
+using static Lsj.Util.Win32.MediaFoundation.Enums.MediaEventType;
 
 namespace Lsj.Util.Win32.MediaFoundation.Enums
 {

@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Callbacks
     [StructLayout(LayoutKind.Sequential)]
     public struct LPTHREAD_START_ROUTINE
     {
-        private IntPtr _ptr;
+        private nint _ptr;
 
         /// <summary>
         /// 
@@ -33,12 +33,12 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator IntPtr(LPTHREAD_START_ROUTINE val) => val._ptr;
+        public static explicit operator nint(LPTHREAD_START_ROUTINE val) => val._ptr;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator LPTHREAD_START_ROUTINE(IntPtr val) => new LPTHREAD_START_ROUTINE { _ptr = val };
+        public static explicit operator LPTHREAD_START_ROUTINE(nint val) => new LPTHREAD_START_ROUTINE { _ptr = val };
     }
 }

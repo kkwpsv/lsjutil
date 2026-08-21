@@ -12,6 +12,7 @@ using static Lsj.Util.Win32.Enums.AddFontResourceExFlags;
 using static Lsj.Util.Win32.Enums.CharacterSets;
 using static Lsj.Util.Win32.Enums.ClipPrecisions;
 using static Lsj.Util.Win32.Enums.EnumFontTypes;
+using static Lsj.Util.Win32.Enums.ExtTextOutOptions;
 using static Lsj.Util.Win32.Enums.FontFamilies;
 using static Lsj.Util.Win32.Enums.FontPitches;
 using static Lsj.Util.Win32.Enums.FontQualities;
@@ -1496,7 +1497,7 @@ namespace Lsj.Util.Win32
             " Applications should use the EnumFontFamiliesEx function.")]
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumFontFamiliesW", ExactSpelling = true, SetLastError = true)]
-        public static extern int EnumFontFamilies([In] IntPtr hdc, [In] LPCWSTR lpLogfont, [In] FONTENUMPROC lpProc, [In] IntPtr lParam);
+        public static extern int EnumFontFamilies([In] HDC hdc, [In] LPCWSTR lpLogfont, [In] FONTENUMPROC lpProc, [In] LPARAM lParam);
 
         /// <summary>
         /// <para>
@@ -1708,8 +1709,8 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumFontFamiliesExW", ExactSpelling = true, SetLastError = true)]
-        public static extern int EnumFontFamiliesEx([In] IntPtr hdc, [In] ref LOGFONT lpLogfont, [In] FONTENUMPROC lpProc,
-            [In] IntPtr lParam, [In] uint dwFlags);
+        public static extern int EnumFontFamiliesEx([In] HDC hdc, [In] in LOGFONT lpLogfont, [In] FONTENUMPROC lpProc,
+            [In] LPARAM lParam, [In] DWORD dwFlags);
 
         /// <summary>
         /// <para>

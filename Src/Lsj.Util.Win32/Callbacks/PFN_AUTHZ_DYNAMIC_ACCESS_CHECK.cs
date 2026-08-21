@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Callbacks
     [StructLayout(LayoutKind.Sequential)]
     public struct PFN_AUTHZ_DYNAMIC_ACCESS_CHECK
     {
-        private IntPtr _ptr;
+        private nint _ptr;
 
         /// <summary>
         /// 
@@ -28,12 +28,12 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator IntPtr(PFN_AUTHZ_DYNAMIC_ACCESS_CHECK val) => val._ptr;
+        public static explicit operator nint(PFN_AUTHZ_DYNAMIC_ACCESS_CHECK val) => val._ptr;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator PFN_AUTHZ_DYNAMIC_ACCESS_CHECK(IntPtr val) => new PFN_AUTHZ_DYNAMIC_ACCESS_CHECK { _ptr = val };
+        public static explicit operator PFN_AUTHZ_DYNAMIC_ACCESS_CHECK(nint val) => new PFN_AUTHZ_DYNAMIC_ACCESS_CHECK { _ptr = val };
     }
 }

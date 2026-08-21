@@ -216,7 +216,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBPatternBrushPt", ExactSpelling = true, SetLastError = true)]
-        public static extern HBRUSH CreateDIBPatternBrushPt([In] IntPtr lpPackedDIB, [In] DIBColorTableUsages iUsage);
+        public static extern HBRUSH CreateDIBPatternBrushPt([In] nint lpPackedDIB, [In] DIBColorTableUsages iUsage);
 
         /// <summary>
         /// <para>

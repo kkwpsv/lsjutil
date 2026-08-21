@@ -25,7 +25,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Reserved.
         /// </summary>
-        public IntPtr lpstrSchema;
+        public nint lpstrSchema;
 
 #pragma warning disable IDE1006 
         private VARDESC_DUMMYUNIONNAME _VARDESC_DUMMYUNIONNAME;
@@ -38,7 +38,7 @@ namespace Lsj.Util.Win32.Structs
             public ULONG oInst;
 
             [FieldOffset(0)]
-            public IntPtr lpvarValue;
+            public nint lpvarValue;
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Lsj.Util.Win32.Structs
         /// With <see cref="VAR_CONST"/>, the value of the constant.
         /// </summary>
 #pragma warning disable IDE1006 
-        public IntPtr lpvarValue
+        public nint lpvarValue
 #pragma warning restore IDE1006 
         {
             get => _VARDESC_DUMMYUNIONNAME.lpvarValue;

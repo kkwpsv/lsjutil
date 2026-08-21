@@ -38,6 +38,6 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </remarks>
     public unsafe struct ITypeLib
     {
-        IntPtr* _vTable;
+        nint* _vTable;
     }
 }

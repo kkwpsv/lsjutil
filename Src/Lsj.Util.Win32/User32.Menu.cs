@@ -2282,7 +2282,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadMenuIndirectW", ExactSpelling = true, SetLastError = true)]
-        public static extern HMENU LoadMenuIndirect([In] IntPtr lpMenuTemplate);
+        public static extern HMENU LoadMenuIndirect([In] nint lpMenuTemplate);
 
         /// <summary>
         /// <para>

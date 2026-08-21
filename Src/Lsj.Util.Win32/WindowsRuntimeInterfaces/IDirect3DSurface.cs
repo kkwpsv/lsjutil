@@ -23,6 +23,6 @@ namespace Lsj.Util.Win32.WindowsRuntimeInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IInspectable)])]
     public unsafe struct IDirect3DSurface
     {
-        IntPtr* _vTable;
+        nint* _vTable;
     }
 }

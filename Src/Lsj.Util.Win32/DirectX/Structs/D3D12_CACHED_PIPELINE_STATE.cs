@@ -39,7 +39,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// <summary>
         /// Specifies pointer that references the memory location of the cache.
         /// </summary>
-        public IntPtr pCachedBlob;
+        public nint pCachedBlob;
 
         /// <summary>
         /// Specifies the size of the cache in bytes.

@@ -26,6 +26,7 @@ using static Lsj.Util.Win32.Enums.GET_FILEEX_INFO_LEVELS;
 using static Lsj.Util.Win32.Enums.IoControlCodes;
 using static Lsj.Util.Win32.Enums.MoveFileFlags;
 using static Lsj.Util.Win32.Enums.RegistryValueTypes;
+using static Lsj.Util.Win32.Enums.SECURITY_INFORMATION;
 using static Lsj.Util.Win32.Enums.SecurityQualityOfServiceFlags;
 using static Lsj.Util.Win32.Enums.STREAM_INFO_LEVELS;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
@@ -1879,9 +1880,6 @@ namespace Lsj.Util.Win32
         /// </list>
         /// </para>
         /// <para>
-        ///  
-        /// </para>
-        /// <para>
         /// Note that SMB 3.0 does not support TxF.
         /// </para>
         /// </remarks>
@@ -1892,7 +1890,12 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateHardLinkTransactedW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CreateHardLinkTransacted([In] LPCWSTR lpFileName, [In] LPCWSTR lpExistingFileName,
-            [In] IntPtr lpSecurityAttributes, [In] HANDLE hTransaction);
+#if NETFRAMEWORK
+            [In] nint lpSecurityAttributes,
+#else
+            [In] P<SECURITY_ATTRIBUTES> lpSecurityAttributes,
+#endif
+            [In] HANDLE hTransaction);
 
         /// <summary>
         /// <para>
@@ -2351,7 +2354,7 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstFileNameTransactedW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE FindFirstFileNameTransactedW([In] LPCWSTR lpFileName, [In] DWORD dwFlags, [In][Out] ref DWORD StringLength,
-            [In] IntPtr LinkName, [In] HANDLE hTransaction);
+            [In] LPWSTR LinkName, [In] HANDLE hTransaction);
 
         /// <summary>
         /// <para>
@@ -3260,8 +3263,8 @@ namespace Lsj.Util.Win32
             "For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFullPathNameTransactedW", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD GetFullPathNameTransacted([In] LPCWSTR lpFileName, [In] DWORD nBufferLength, [In] IntPtr lpBuffer,
-            [Out] out IntPtr lpFilePart, [In] HANDLE hTransaction);
+        public static extern DWORD GetFullPathNameTransacted([In] LPCWSTR lpFileName, [In] DWORD nBufferLength, [In] LPWSTR   lpBuffer,
+            [Out] out nint lpFilePart, [In] HANDLE hTransaction);
 
         /// <summary>
         /// <para>
@@ -3419,7 +3422,7 @@ namespace Lsj.Util.Win32
             "For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLongPathNameTransactedW", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD GetLongPathNameTransacted([In] LPCWSTR lpszShortPath, [In] IntPtr lpszLongPath, [In] DWORD cchBuffer, [In] HANDLE hTransaction);
+        public static extern DWORD GetLongPathNameTransacted([In] LPCWSTR lpszShortPath, [In] LPWSTR lpszLongPath, [In] DWORD cchBuffer, [In] HANDLE hTransaction);
 
         /// <summary>
         /// <para>

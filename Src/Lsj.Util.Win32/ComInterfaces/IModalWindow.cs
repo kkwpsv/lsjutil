@@ -1,8 +1,8 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
-using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.ComInterfaces.IIDs;
+using static Lsj.Util.Win32.Constants;
 
 namespace Lsj.Util.Win32.ComInterfaces
 {
@@ -19,14 +19,14 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </remarks>
     public unsafe struct IModalWindow
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Launches the modal window.
         /// </summary>
         /// <param name="parent">
         /// The handle of the owner window.
-        /// This value can be <see cref="IntPtr.Zero"/>.
+        /// This value can be <see cref="NULL"/>.
         /// </param>
         /// <returns>
         /// If the method succeeds, it returns <see cref="S_OK"/>. 

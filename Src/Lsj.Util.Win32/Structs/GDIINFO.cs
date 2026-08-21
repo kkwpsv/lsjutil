@@ -777,7 +777,7 @@ namespace Lsj.Util.Win32.Structs
         /// Each dither pattern must be a valid two-dimensional byte array of size <see cref="cxHTPat"/> by <see cref="cyHTPat"/>.
         /// See the following Remarks section for more information.
         /// </summary>
-        public IntPtr pHTPatA;
+        public nint pHTPatA;
 
         /// <summary>
         /// Point to the user-defined halftone dither patterns for primary colors A, B, and C,
@@ -785,7 +785,7 @@ namespace Lsj.Util.Win32.Structs
         /// Each dither pattern must be a valid two-dimensional byte array of size <see cref="cxHTPat"/> by <see cref="cyHTPat"/>.
         /// See the following Remarks section for more information.
         /// </summary>
-        public IntPtr pHTPatB;
+        public nint pHTPatB;
 
         /// <summary>
         /// Point to the user-defined halftone dither patterns for primary colors A, B, and C,
@@ -793,7 +793,7 @@ namespace Lsj.Util.Win32.Structs
         /// Each dither pattern must be a valid two-dimensional byte array of size <see cref="cxHTPat"/> by <see cref="cyHTPat"/>.
         /// See the following Remarks section for more information.
         /// </summary>
-        public IntPtr pHTPatC;
+        public nint pHTPatC;
 
         /// <summary>
         /// Specifies a set of flags that indicate the shading and blending capabilities of the device.

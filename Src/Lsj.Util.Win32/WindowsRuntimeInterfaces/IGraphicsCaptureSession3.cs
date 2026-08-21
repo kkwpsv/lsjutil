@@ -19,7 +19,7 @@ namespace Lsj.Util.Win32.WindowsRuntimeInterfaces
     public unsafe struct IGraphicsCaptureSession3
     {
 #pragma warning disable IDE1006
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// get_IsBorderRequired

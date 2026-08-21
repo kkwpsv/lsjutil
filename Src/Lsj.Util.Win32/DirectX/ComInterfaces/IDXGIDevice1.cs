@@ -55,7 +55,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IDXGIObject), typeof(IDXGIDevice)])]
     public unsafe struct IDXGIDevice1
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Sets the number of frames that the system is allowed to queue for rendering.

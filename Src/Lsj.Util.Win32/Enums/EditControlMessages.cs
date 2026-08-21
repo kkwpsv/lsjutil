@@ -7,6 +7,7 @@ using static Lsj.Util.Win32.Enums.EditControlStyles;
 using static Lsj.Util.Win32.Enums.GetWindowLongIndexes;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Kernel32;
+using static Lsj.Util.Win32.Macros.EditControlMacros;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Enums

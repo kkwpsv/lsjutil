@@ -49,7 +49,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(ID3D12Object), typeof(ID3D12DeviceChild), typeof(ID3D12CommandList)])]
     public unsafe struct ID3D12GraphicsCommandList
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Indicates that recording to the command list has finished.
@@ -1509,11 +1509,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// The offset, in 32-bit values, to set the first constant of the group in the root signature.
         /// </param>
         public void SetComputeRoot32BitConstants([In] UINT RootParameterIndex, [In] UINT Num32BitValuesToSet,
-            [In] IntPtr pSrcData, [In] UINT DestOffsetIn32BitValues)
+            [In] nint pSrcData, [In] UINT DestOffsetIn32BitValues)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, IntPtr, UINT, void>)_vTable[35])
+                ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, nint, UINT, void>)_vTable[35])
                     (thisPtr, RootParameterIndex, Num32BitValuesToSet, pSrcData, DestOffsetIn32BitValues);
             }
         }
@@ -1534,11 +1534,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// The offset, in 32-bit values, to set the first constant of the group in the root signature.
         /// </param>
         public void SetGraphicsRoot32BitConstants([In] UINT RootParameterIndex, [In] UINT Num32BitValuesToSet,
-            [In] IntPtr pSrcData, [In] UINT DestOffsetIn32BitValues)
+            [In] nint pSrcData, [In] UINT DestOffsetIn32BitValues)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, IntPtr, UINT, void>)_vTable[36])
+                ((delegate* unmanaged[Stdcall]<void*, UINT, UINT, nint, UINT, void>)_vTable[36])
                     (thisPtr, RootParameterIndex, Num32BitValuesToSet, pSrcData, DestOffsetIn32BitValues);
             }
         }
@@ -1877,7 +1877,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// </para>
         /// </remarks>
         public void ClearRenderTargetView([In] D3D12_CPU_DESCRIPTOR_HANDLE RenderTargetView,
-            [In] FLOAT[] ColorRGBA, [In] UINT NumRects, [In] D3D12_RECT[] pRects)
+            [In] FLOAT[] ColorRGBA, [In] UINT NumRects, [In] D3D12_RECT[]? pRects)
         {
             fixed (void* thisPtr = &this)
             {
@@ -2367,11 +2367,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// This is provided by the WinPixEventRuntime NuGet package.
         /// </para>
         /// </remarks>
-        public void SetMarker([In] UINT Metadata, [In] IntPtr pData, [In] UINT Size)
+        public void SetMarker([In] UINT Metadata, [In] nint pData, [In] UINT Size)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, UINT, IntPtr, UINT, void>)_vTable[56])(thisPtr, Metadata, pData, Size);
+                ((delegate* unmanaged[Stdcall]<void*, UINT, nint, UINT, void>)_vTable[56])(thisPtr, Metadata, pData, Size);
             }
         }
 
@@ -2399,11 +2399,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// This is provided by the WinPixEventRuntime NuGet package.
         /// </para>
         /// </remarks>
-        public void BeginEvent([In] UINT Metadata, [In] IntPtr pData, [In] UINT Size)
+        public void BeginEvent([In] UINT Metadata, [In] nint pData, [In] UINT Size)
         {
             fixed (void* thisPtr = &this)
             {
-                ((delegate* unmanaged[Stdcall]<void*, UINT, IntPtr, UINT, void>)_vTable[57])(thisPtr, Metadata, pData, Size);
+                ((delegate* unmanaged[Stdcall]<void*, UINT, nint, UINT, void>)_vTable[57])(thisPtr, Metadata, pData, Size);
             }
         }
 

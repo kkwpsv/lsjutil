@@ -112,7 +112,7 @@ namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
     [ComInterface(IID = "045FA593-8799-42b8-BC8D-8968C6453507", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 7, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IMFMediaBuffer
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Gives the caller access to the memory in the buffer, for reading or writing

@@ -38,7 +38,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IDirect3DResource9)])]
     public unsafe struct IDirect3DBaseTexture9
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Sets the most detailed level-of-detail for a managed texture.

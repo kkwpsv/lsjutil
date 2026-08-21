@@ -33,6 +33,9 @@ namespace Lsj.Util.Win32.BaseTypes
         /// <inheritdoc/>
         public IntPtr ToIntPtr() => _value;
 
+        /// <inheritdoc/>
+        public nint ToNint() => _value;
+
         /// <summary>
         /// 
         /// </summary>
@@ -49,13 +52,13 @@ namespace Lsj.Util.Win32.BaseTypes
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator IntPtr(HWND val) => val._value;
+        public static implicit operator nint(HWND val) => val._value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator HWND(IntPtr val) => new HWND { _value = val };
+        public static implicit operator HWND(nint val) => new HWND { _value = val };
 
         /// <summary>
         /// 
@@ -63,7 +66,7 @@ namespace Lsj.Util.Win32.BaseTypes
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static bool operator ==(HWND a, IntPtr b) => a._value == b;
+        public static bool operator ==(HWND a, nint b) => a._value == b;
 
         /// <summary>
         /// 
@@ -71,6 +74,6 @@ namespace Lsj.Util.Win32.BaseTypes
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static bool operator !=(HWND a, IntPtr b) => a._value != b;
+        public static bool operator !=(HWND a, nint b) => a._value != b;
     }
 }

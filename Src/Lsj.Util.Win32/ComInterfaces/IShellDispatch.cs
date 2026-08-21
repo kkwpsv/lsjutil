@@ -23,7 +23,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IShellDispatch
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Contains an object that represents an application.

@@ -24,6 +24,6 @@ namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
     [ComInterface(IID = "db71a2fc-078a-414e-9df9-8c2531b0aa6c", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 8, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IMFMediaTimeRange
     {
-        IntPtr* _vTable;
+        nint* _vTable;
     }
 }

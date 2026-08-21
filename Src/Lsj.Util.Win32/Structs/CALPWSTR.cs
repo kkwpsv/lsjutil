@@ -18,6 +18,6 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// 
         /// </summary>
-        public P<IntPtr> pElems;
+        public P<nint> pElems;
     }
 }

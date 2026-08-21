@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Marshals
         /// 
         /// </summary>
         /// <param name="str"></param>
-        public LPOLESTR(string str) : base(IntPtr.Zero)
+        public LPOLESTR(string str) : this()
         {
             if (str != null)
             {
@@ -33,7 +33,7 @@ namespace Lsj.Util.Win32.Marshals
         /// </summary>
         /// <param name="str"></param>
         /// <param name="bufferLength"></param>
-        public LPOLESTR(string str, int bufferLength) : base(IntPtr.Zero)
+        public LPOLESTR(string str, int bufferLength) : this()
         {
             if (str.Length > bufferLength)
             {
@@ -62,10 +62,14 @@ namespace Lsj.Util.Win32.Marshals
         /// 
         /// </summary>
         /// <param name="handle"></param>
-        public LPOLESTR(IntPtr handle) : base(IntPtr.Zero)
+        public LPOLESTR(nint handle) : this()
         {
             SetHandle(handle);
             GC.SuppressFinalize(this);
+        }
+
+        private LPOLESTR() : base((nint)0)
+        {
         }
 
         /// <inheritdoc/>
@@ -84,12 +88,12 @@ namespace Lsj.Util.Win32.Marshals
         /// <summary>
         /// The handle.
         /// </summary>
-        public IntPtr Handle => handle;
+        public nint Handle => handle;
 
         /// <summary>
         /// The <see cref="string"/> val
         /// </summary>
-        public string? StringVal => handle != IntPtr.Zero ? Marshal.PtrToStringUni(handle) : null;
+        public string? StringVal => handle != (nint)0 ? Marshal.PtrToStringUni(handle) : null;
 
         /// <inheritdoc/>
         public override string ToString() => StringVal ?? string.Empty;
@@ -104,6 +108,6 @@ namespace Lsj.Util.Win32.Marshals
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator LPOLESTR(IntPtr val) => new LPOLESTR(val);
+        public static implicit operator LPOLESTR(nint val) => new LPOLESTR(val);
     }
 }

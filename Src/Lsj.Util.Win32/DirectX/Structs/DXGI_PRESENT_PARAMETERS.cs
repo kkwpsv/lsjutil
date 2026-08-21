@@ -75,7 +75,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// You can set this member to <see cref="NULL"/> if <see cref="DirtyRectsCount"/> is 0.
         /// An application must not update any pixel outside of the dirty rectangles.
         /// </summary>
-        public IntPtr pDirtyRects;
+        public nint pDirtyRects;
 
         /// <summary>
         /// <para>
@@ -91,13 +91,13 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// You can set this member to <see cref="NULL"/> to indicate that no content is scrolled from the previous frame.
         /// </para>
         /// </summary>
-        public IntPtr pScrollRect;
+        public nint pScrollRect;
 
         /// <summary>
         /// A pointer to the offset of the scrolled area that goes from the source rectangle
         /// (of previous frame) to the destination rectangle (of current frame).
         /// You can set this member to <see cref="NULL"/> to indicate no offset.
         /// </summary>
-        public IntPtr pScrollOffset;
+        public nint pScrollOffset;
     }
 }

@@ -1669,7 +1669,7 @@ namespace Lsj.Util.Win32
         /// For example, the resource management functions allow the return value of <see cref="MAKEINTRESOURCE"/>
         /// to be passed as the <c>lpType</c> or <c>lpName</c> parameters.
         /// </returns>
-        public static IntPtr MAKEINTRESOURCE(WORD i) => (IntPtr)(int)i;
+        public static nint MAKEINTRESOURCE(WORD i) => (nint)i;
 
         /// <summary>
         /// <para>

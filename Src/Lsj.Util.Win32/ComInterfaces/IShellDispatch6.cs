@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IShellDispatch6
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Displays the Apps Search pane, which normally appears when you begin to type a search term from the Start screen.

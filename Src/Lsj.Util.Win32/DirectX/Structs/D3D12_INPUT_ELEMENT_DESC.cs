@@ -26,7 +26,7 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// The HLSL semantic associated with this element in a shader input-signature.
         /// See HLSL Semantics for more info.
         /// </summary>
-        public IntPtr SemanticName;
+        public nint SemanticName;
 
         /// <summary>
         /// The semantic index for the element.

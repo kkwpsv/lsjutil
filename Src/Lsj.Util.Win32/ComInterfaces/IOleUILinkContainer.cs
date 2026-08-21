@@ -29,7 +29,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IOleUILinkContainer
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Enumerates the links in a container.
@@ -214,12 +214,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Notes to Callers
         /// Call this method during dialog box initialization, after returning from the Change Source dialog box. 
         /// </remarks>
-        public HRESULT GetLinkSource([In] DWORD dwLink, [Out] out IntPtr lplpszDisplayName, [Out] out ULONG lplenFileName, [Out] out IntPtr lplpszFullLinkType,
-              [Out] out IntPtr lplpszShortLinkType, [Out] out BOOL lpfSourceAvailable, [Out] out BOOL lpfIsSelected)
+        public HRESULT GetLinkSource([In] DWORD dwLink, [Out] out nint lplpszDisplayName, [Out] out ULONG lplenFileName, [Out] out nint lplpszFullLinkType,
+              [Out] out nint lplpszShortLinkType, [Out] out BOOL lpfSourceAvailable, [Out] out BOOL lpfIsSelected)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DWORD, out IntPtr, out ULONG, out IntPtr, out IntPtr, out BOOL, out BOOL, HRESULT>)_vTable[7])
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, out nint, out ULONG, out nint, out nint, out BOOL, out BOOL, HRESULT>)_vTable[7])
                     (thisPtr, dwLink, out lplpszDisplayName, out lplenFileName, out lplpszFullLinkType, out lplpszShortLinkType, out lpfSourceAvailable, out lpfIsSelected);
             }
         }

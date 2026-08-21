@@ -22,7 +22,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct ILockBytes
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// The <see cref="ReadAt"/> method reads a specified number of bytes
@@ -53,11 +53,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// It is not an error to read less than the specified number of bytes if the operation encounters the end of the byte array.
         /// Note that this is the same end-of-file behavior as found in MS-DOS file allocation table (FAT) file system files.
         /// </remarks>
-        public HRESULT ReadAt([In] ULARGE_INTEGER ulOffset, [In] IntPtr pv, [In] ULONG cb, [Out] out ULONG pcbRead)
+        public HRESULT ReadAt([In] ULARGE_INTEGER ulOffset, [In] nint pv, [In] ULONG cb, [Out] out ULONG pcbRead)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, ULARGE_INTEGER, IntPtr, ULONG, out ULONG, HRESULT>)_vTable[3])(thisPtr, ulOffset, pv, cb, out pcbRead);
+                return ((delegate* unmanaged[Stdcall]<void*, ULARGE_INTEGER, nint, ULONG, out ULONG, HRESULT>)_vTable[3])(thisPtr, ulOffset, pv, cb, out pcbRead);
             }
         }
 
@@ -89,11 +89,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <see cref="WriteAt"/> increases the size of the byte array.
         /// The fill bytes written to the byte array are not initialized to any particular value.
         /// </remarks>
-        public HRESULT WriteAt([In] ULARGE_INTEGER ulOffset, [In] IntPtr pv, [In] ULONG cb, [Out] out ULONG pcbWritten)
+        public HRESULT WriteAt([In] ULARGE_INTEGER ulOffset, [In] nint pv, [In] ULONG cb, [Out] out ULONG pcbWritten)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, ULARGE_INTEGER, IntPtr, ULONG, out ULONG, HRESULT>)_vTable[4])(thisPtr, ulOffset, pv, cb, out pcbWritten);
+                return ((delegate* unmanaged[Stdcall]<void*, ULARGE_INTEGER, nint, ULONG, out ULONG, HRESULT>)_vTable[4])(thisPtr, ulOffset, pv, cb, out pcbWritten);
             }
         }
 

@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public ULONG cElems;
 
-        private IntPtr _val;
+        private nint _val;
 
 #pragma warning disable IDE1006
         /// <summary>

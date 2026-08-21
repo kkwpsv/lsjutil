@@ -23,6 +23,6 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </remarks>
     public unsafe struct IFileDialogEvents
     {
-        IntPtr* _vTable;
+        nint* _vTable;
     }
 }

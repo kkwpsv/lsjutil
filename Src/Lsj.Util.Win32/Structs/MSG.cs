@@ -1,7 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
-using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Constants;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -18,7 +18,7 @@ namespace Lsj.Util.Win32.Structs
     {
         /// <summary>
         /// A handle to the window whose window procedure receives the message.
-        /// This member is <see cref="IntPtr.Zero"/> when the message is a thread message.
+        /// This member is <see cref="NULL"/> when the message is a thread message.
         /// </summary>
         public HWND hwnd;
 

@@ -34,7 +34,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Pointer to the waveform buffer.
         /// </summary>
-        public IntPtr lpData;
+        public nint lpData;
 
         /// <summary>
         /// Length, in bytes, of the buffer.

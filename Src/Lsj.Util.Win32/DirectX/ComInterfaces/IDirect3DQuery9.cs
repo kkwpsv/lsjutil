@@ -30,7 +30,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     [ComInterface(IID = "d9771460-a695-4f26-bbd3-27b840b541cc", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 6, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IDirect3DQuery9
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Gets the device that is being queried.
@@ -163,11 +163,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// }
         /// </code>
         /// </remarks>
-        public HRESULT GetData([In] IntPtr pData, [In] DWORD dwSize, [In] DWORD dwGetDataFlags)
+        public HRESULT GetData([In] nint pData, [In] DWORD dwSize, [In] DWORD dwGetDataFlags)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, DWORD, DWORD, HRESULT>)_vTable[6])(thisPtr, pData, dwSize, dwGetDataFlags);
+                return ((delegate* unmanaged[Stdcall]<void*, nint, DWORD, DWORD, HRESULT>)_vTable[6])(thisPtr, pData, dwSize, dwGetDataFlags);
             }
         }
     }

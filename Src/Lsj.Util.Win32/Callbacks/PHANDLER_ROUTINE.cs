@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Callbacks
     [StructLayout(LayoutKind.Sequential)]
     public struct PHANDLER_ROUTINE
     {
-        private IntPtr _ptr;
+        private nint _ptr;
 
         /// <summary>
         /// 
@@ -33,12 +33,12 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator IntPtr(PHANDLER_ROUTINE val) => val._ptr;
+        public static explicit operator nint(PHANDLER_ROUTINE val) => val._ptr;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator PHANDLER_ROUTINE(IntPtr val) => new PHANDLER_ROUTINE { _ptr = val };
+        public static explicit operator PHANDLER_ROUTINE(nint val) => new PHANDLER_ROUTINE { _ptr = val };
     }
 }

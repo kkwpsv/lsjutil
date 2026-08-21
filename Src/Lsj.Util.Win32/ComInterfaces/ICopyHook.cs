@@ -1,9 +1,10 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
-using System;
+using Lsj.Util.Win32.Structs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.DialogBoxCommandIDs;
+using static Lsj.Util.Win32.Enums.FileOperationFlags;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.ComInterfaces
@@ -37,7 +38,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </remarks>
     public unsafe struct ICopyHook
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Determines whether the Shell will be allowed to move, copy, delete, or rename a folder or printer object.

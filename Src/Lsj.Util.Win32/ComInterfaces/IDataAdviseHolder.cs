@@ -25,7 +25,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IDataAdviseHolder
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Creates a connection between an advise sink and a data object for receiving notifications.
@@ -129,11 +129,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// and then call <see cref="EnumAdvise"/> to implement <see cref="IDataObject.EnumDAdvise"/>.
         /// Adding more advisory connections while the enumerator object is active has an undefined effect on the enumeration that results from this method.
         /// </remarks>
-        public HRESULT EnumAdvise([Out] out IntPtr ppenumAdvise)
+        public HRESULT EnumAdvise([Out] out P<IEnumSTATDATA> ppenumAdvise)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[5])(thisPtr, out ppenumAdvise);
+                return ((delegate* unmanaged[Stdcall]<void*, out P<IEnumSTATDATA>, HRESULT>)_vTable[5])(thisPtr, out ppenumAdvise);
             }
         }
 
@@ -169,7 +169,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// this method obtains the actual data by calling the <see cref="IDataObject.GetData"/> method through the pointer
         /// specified in the <paramref name="pDataObject"/> parameter.
         /// </remarks>
-        public HRESULT SendOnDataChange([In] P<IDataObject>  pDataObject, [In] DWORD dwReserved, [In] ADVF advf)
+        public HRESULT SendOnDataChange([In] P<IDataObject> pDataObject, [In] DWORD dwReserved, [In] ADVF advf)
         {
             fixed (void* thisPtr = &this)
             {

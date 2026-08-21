@@ -16,7 +16,7 @@ namespace Lsj.Util.Win32.Callbacks
     [StructLayout(LayoutKind.Sequential)]
     public struct LANGGROUPLOCALE_ENUMPROC
     {
-        private IntPtr _ptr;
+        private nint _ptr;
 
         /// <summary>
         /// 
@@ -34,12 +34,12 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator IntPtr(LANGGROUPLOCALE_ENUMPROC val) => val._ptr;
+        public static explicit operator nint(LANGGROUPLOCALE_ENUMPROC val) => val._ptr;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator LANGGROUPLOCALE_ENUMPROC(IntPtr val) => new LANGGROUPLOCALE_ENUMPROC { _ptr = val };
+        public static explicit operator LANGGROUPLOCALE_ENUMPROC(nint val) => new LANGGROUPLOCALE_ENUMPROC { _ptr = val };
     }
 }

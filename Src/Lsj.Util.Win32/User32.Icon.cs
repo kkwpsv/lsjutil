@@ -180,7 +180,7 @@ namespace Lsj.Util.Win32
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateIcon", ExactSpelling = true, SetLastError = true)]
         public static extern HICON CreateIcon([In] HINSTANCE hInstance, [In] int nWidth, [In] int nHeight, [In] BYTE cPlanes, [In] BYTE cBitsPixel,
-            [In] IntPtr lpbANDbits, [In] IntPtr lpbXORbits);
+            [In] nint lpbANDbits, [In] nint lpbXORbits);
 
         /// <summary>
         /// <para>
@@ -245,7 +245,13 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateIconFromResource", ExactSpelling = true, SetLastError = true)]
-        public static extern HICON CreateIconFromResource([In] IntPtr presbits, [In] DWORD dwResSize, [In] BOOL fIcon, [In] DWORD dwVer);
+        public static extern HICON CreateIconFromResource(
+#if NETFRAMEWORK
+            [In] nint presbits,
+#else
+            [In] P<BYTE> presbits,
+#endif
+            [In] DWORD dwResSize, [In] BOOL fIcon, [In] DWORD dwVer);
 
         /// <summary>
         /// <para>
@@ -398,7 +404,13 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateIconFromResourceEx", ExactSpelling = true, SetLastError = true)]
-        public static extern HICON CreateIconFromResourceEx([In] IntPtr presbits, [In] DWORD dwResSize, [In] BOOL fIcon, [In] DWORD dwVer,
+        public static extern HICON CreateIconFromResourceEx(
+#if NETFRAMEWORK
+            [In] nint presbits,
+#else
+            [In] P<BYTE> presbits,
+#endif
+            [In] DWORD dwResSize, [In] BOOL fIcon, [In] DWORD dwVer,
             [In] int cxDesired, [In] int cyDesired, [In] LoadResourceFlags Flags);
 
         /// <summary>
@@ -936,7 +948,13 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LookupIconIdFromDirectory", ExactSpelling = true, SetLastError = true)]
-        public static extern int LookupIconIdFromDirectory([In] IntPtr presbits, [In] BOOL fIcon);
+        public static extern int LookupIconIdFromDirectory(
+#if NETFRAMEWORK
+            [In] nint presbits,
+#else
+            [In] P<BYTE> presbits,
+#endif
+            [In] BOOL fIcon);
 
         /// <summary>
         /// <para>
@@ -1064,7 +1082,13 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LookupIconIdFromDirectoryEx", ExactSpelling = true, SetLastError = true)]
-        public static extern int LookupIconIdFromDirectoryEx([In] IntPtr presbits, [In] BOOL fIcon, [In] int cxDesired,
+        public static extern int LookupIconIdFromDirectoryEx(
+#if NETFRAMEWORK
+            [In] nint presbits,
+#else
+            [In] P<BYTE> presbits,
+#endif
+            [In] BOOL fIcon, [In] int cxDesired,
             [In] int cyDesired, [In] LoadResourceFlags Flags);
 
         /// <summary>

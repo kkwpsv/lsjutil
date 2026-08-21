@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Marshals
         /// 
         /// </summary>
         /// <param name="str"></param>
-        public LPCWSTR(string? str) : base(IntPtr.Zero)
+        public LPCWSTR(string? str) : this()
         {
             if (str != null)
             {
@@ -32,10 +32,14 @@ namespace Lsj.Util.Win32.Marshals
         /// 
         /// </summary>
         /// <param name="handle"></param>
-        public LPCWSTR(IntPtr handle) : base(IntPtr.Zero)
+        public LPCWSTR(nint handle) : this()
         {
             SetHandle(handle);
             GC.SuppressFinalize(this);
+        }
+
+        private LPCWSTR() : base((nint)0)
+        {
         }
 
         /// <inheritdoc/>
@@ -43,6 +47,9 @@ namespace Lsj.Util.Win32.Marshals
 
         /// <inheritdoc/>
         public IntPtr ToIntPtr() => handle;
+
+        /// <inheritdoc/>
+        public nint ToNint() => handle;
 
         /// <inheritdoc/>
         protected override bool ReleaseHandle()
@@ -64,6 +71,6 @@ namespace Lsj.Util.Win32.Marshals
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator LPCWSTR(IntPtr val) => new LPCWSTR(val);
+        public static implicit operator LPCWSTR(nint val) => new LPCWSTR(val);
     }
 }

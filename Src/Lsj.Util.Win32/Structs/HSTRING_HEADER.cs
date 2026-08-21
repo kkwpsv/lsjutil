@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Structs
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct HSTRING_HEADER
     {
-        private IntPtr _padding1;
+        private nint _padding1;
 
         private long _padding2;
 

@@ -41,7 +41,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IDXGIObject), typeof(IDXGIDeviceSubObject)])]
     public unsafe struct IDXGISurface
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Get a description of the surface.

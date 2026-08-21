@@ -2,6 +2,7 @@
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals.ByValStructs;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.DWORD;
 using static Lsj.Util.Win32.Enums.FileAttributes;
 using static Lsj.Util.Win32.Enums.FINDEX_INFO_LEVELS;
 using static Lsj.Util.Win32.Kernel32;

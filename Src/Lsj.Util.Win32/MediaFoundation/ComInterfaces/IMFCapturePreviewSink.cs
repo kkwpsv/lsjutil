@@ -30,7 +30,7 @@ namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IMFCaptureSink)])]
     public unsafe struct IMFCapturePreviewSink
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Specifies a window for preview.

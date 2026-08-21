@@ -55,12 +55,12 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Pointer to a null-terminated decimal separator string.
         /// </summary>
-        public IntPtr lpDecimalSep;
+        public nint lpDecimalSep;
 
         /// <summary>
         /// Pointer to a null-terminated thousand separator string.
         /// </summary>
-        public IntPtr lpThousandSep;
+        public nint lpThousandSep;
 
         /// <summary>
         /// Negative number mode.

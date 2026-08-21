@@ -46,6 +46,6 @@ namespace Lsj.Util.Win32.DirectX
         [WindowsVersionRequirement(WindowsVersion.WindowsVista, BuildNumbers.WindowsVistaSP2, Note = "Platform Update Supplement")]
         [DllImport("D2d1.dll", CharSet = CharSet.Unicode, EntryPoint = "D2D1CreateFactory", ExactSpelling = true)]
         public static extern HRESULT D2D1CreateFactory([In] D2D1_FACTORY_TYPE factoryType, [In] in IID riid,
-            [In] in D2D1_FACTORY_OPTIONS pFactoryOptions, [Out] out IntPtr ppIFactory);
+            [In] in D2D1_FACTORY_OPTIONS pFactoryOptions, [Out] out nint ppIFactory);
     }
 }

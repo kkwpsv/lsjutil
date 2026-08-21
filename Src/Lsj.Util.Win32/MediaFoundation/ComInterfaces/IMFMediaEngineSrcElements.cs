@@ -47,6 +47,6 @@ namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
     [ComInterface(IID = "7a5e5354-b114-4c72-b991-3131d75032ea", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 8, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IMFMediaEngineSrcElements
     {
-        IntPtr* _vTable;
+        nint* _vTable;
     }
 }

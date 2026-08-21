@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.BaseTypes
     [StructLayout(LayoutKind.Sequential)]
     public struct AUTHZ_RESOURCE_MANAGER_HANDLE : IPointer
     {
-        private IntPtr _value;
+        private nint _value;
 
         /// <inheritdoc/>
         public override string ToString() => _value.ToString("X");
@@ -17,16 +17,19 @@ namespace Lsj.Util.Win32.BaseTypes
         /// <inheritdoc/>
         public IntPtr ToIntPtr() => _value;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="val"></param>
-        public static implicit operator IntPtr(AUTHZ_RESOURCE_MANAGER_HANDLE val) => val._value;
+        /// <inheritdoc/>
+        public nint ToNint() => _value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator AUTHZ_RESOURCE_MANAGER_HANDLE(IntPtr val) => new AUTHZ_RESOURCE_MANAGER_HANDLE { _value = val };
+        public static implicit operator nint(AUTHZ_RESOURCE_MANAGER_HANDLE val) => val._value;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static implicit operator AUTHZ_RESOURCE_MANAGER_HANDLE(nint val) => new AUTHZ_RESOURCE_MANAGER_HANDLE { _value = val };
     }
 }

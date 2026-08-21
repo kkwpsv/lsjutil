@@ -27,7 +27,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             typeof(IDXGIOutput2), typeof(IDXGIOutput3), typeof(IDXGIOutput4), typeof(IDXGIOutput5)])]
     public unsafe struct IDXGIOutput6
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Get an extended description of the output that includes color characteristics and connection type.

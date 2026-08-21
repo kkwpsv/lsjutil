@@ -24,6 +24,6 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// A pointer to a block of data bytes.
         /// </summary>
-        public IntPtr pbData;
+        public nint pbData;
     }
 }

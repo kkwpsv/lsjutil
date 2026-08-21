@@ -20,17 +20,17 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// This is a Unicode string that gives the user friendly name of the application as it appears in the Application Deployment Editor (ADE).
         /// </summary>
-        public IntPtr pszDeploymentName;
+        public nint pszDeploymentName;
 
         /// <summary>
         /// This is the user-friendly name of the group policy object (GPO) from which the application originates.
         /// </summary>
-        public IntPtr pszPolicyName;
+        public nint pszPolicyName;
 
         /// <summary>
         /// This is a Unicode string that gives the Windows Installer product code GUID for the application.
         /// </summary>
-        public IntPtr pszProductId;
+        public nint pszProductId;
 
         /// <summary>
         /// <para>

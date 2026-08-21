@@ -45,7 +45,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IViewObject
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Draws a representation of an object onto the specified device context.
@@ -169,12 +169,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// In other words, the origin always coincides with the top-left corner of the rectangle maintained by the object's site,
         /// even for a non-rectangular object.
         /// </remarks>
-        public HRESULT Draw([In] DVASPECT dwDrawAspect, [In] LONG lindex, [In] IntPtr pvAspect, [In] in DVTARGETDEVICE ptd, [In] HDC hdcTargetDev,
-             [In] HDC hdcDraw, [In] in RECTL lprcBounds, [In] in RECTL lprcWBounds, [In] IntPtr pfnContinue, [In] ULONG_PTR dwContinue)
+        public HRESULT Draw([In] DVASPECT dwDrawAspect, [In] LONG lindex, [In] nint pvAspect, [In] in DVTARGETDEVICE ptd, [In] HDC hdcTargetDev,
+             [In] HDC hdcDraw, [In] in RECTL lprcBounds, [In] in RECTL lprcWBounds, [In] nint pfnContinue, [In] ULONG_PTR dwContinue)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DVASPECT, LONG, IntPtr, in DVTARGETDEVICE, HDC, HDC, in RECTL, in RECTL, IntPtr, ULONG_PTR, HRESULT>)_vTable[3])
+                return ((delegate* unmanaged[Stdcall]<void*, DVASPECT, LONG, nint, in DVTARGETDEVICE, HDC, HDC, in RECTL, in RECTL, nint, ULONG_PTR, HRESULT>)_vTable[3])
                     (thisPtr, dwDrawAspect, lindex, pvAspect, ptd, hdcTargetDev, hdcDraw, lprcBounds, lprcWBounds, pfnContinue, dwContinue);
             }
         }
@@ -216,7 +216,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The <see cref="LOGPALETTE"/> structure contains the set of colors that would be used if <see cref="Draw"/> were called
         /// with the same parameters for <paramref name="dwDrawAspect"/>, <paramref name="lindex"/>, <paramref name="pvAspect"/>,
         /// <paramref name="ptd"/>, and <paramref name="hicTargetDev"/>.
-        /// If <paramref name="ppColorSet"/> is <see cref="NullRef{IntPtr}"/>, the object does not use a palette.
+        /// If <paramref name="ppColorSet"/> is <see cref="NullRef{T}"/>, the object does not use a palette.
         /// </param>
         /// <returns>
         /// This method returns <see cref="S_OK"/> on success. Other possible return values include the following.
@@ -240,12 +240,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If the drawing format is a metafile, the object handler enumerates the metafile looking for a <see cref="CreatePalette"/> metafile record.
         /// If one is found, the handler uses it as the color set.
         /// </remarks>
-        public HRESULT GetColorSet([In] DVASPECT dwDrawAspect, [In] LONG lindex, [In] IntPtr pvAspect, [In] in DVTARGETDEVICE ptd,
-              [In] HDC hicTargetDev, [Out] out IntPtr ppColorSet)
+        public HRESULT GetColorSet([In] DVASPECT dwDrawAspect, [In] LONG lindex, [In] nint pvAspect, [In] in DVTARGETDEVICE ptd,
+              [In] HDC hicTargetDev, [Out] out P<LOGPALETTE> ppColorSet)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DVASPECT, LONG, IntPtr, DVTARGETDEVICE, HDC, out IntPtr, HRESULT>)_vTable[4])
+                return ((delegate* unmanaged[Stdcall]<void*, DVASPECT, LONG, nint, DVTARGETDEVICE, HDC, out P<LOGPALETTE>, HRESULT>)_vTable[4])
                     (thisPtr, dwDrawAspect, lindex, pvAspect, ptd, hicTargetDev, out ppColorSet);
             }
         }
@@ -292,11 +292,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// While in a frozen state, view notifications are not sent.
         /// Pending view notifications are deferred to the subsequent call to <see cref="Unfreeze"/>.
         /// </remarks>
-        public HRESULT Freeze([In] DVASPECT dwDrawAspect, [In] LONG lindex, [In] IntPtr pvAspect, [Out] out DWORD pdwFreeze)
+        public HRESULT Freeze([In] DVASPECT dwDrawAspect, [In] LONG lindex, [In] nint pvAspect, [Out] out DWORD pdwFreeze)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, DVASPECT, LONG, IntPtr, out DWORD, HRESULT>)_vTable[5])
+                return ((delegate* unmanaged[Stdcall]<void*, DVASPECT, LONG, nint, out DWORD, HRESULT>)_vTable[5])
                     (thisPtr, dwDrawAspect, lindex, pvAspect, out pdwFreeze);
             }
         }
@@ -390,11 +390,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <returns>
         /// This method returns <see cref="S_OK"/> on success.
         /// </returns>
-        public HRESULT GetAdvise([Out] out DVASPECT pAspects, [Out] out ADVF pAdvf, [Out] out IntPtr ppAdvSink)
+        public HRESULT GetAdvise([Out] out DVASPECT pAspects, [Out] out ADVF pAdvf, [Out] out P<IAdviseSink> ppAdvSink)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out DVASPECT, out ADVF, out IntPtr, HRESULT>)_vTable[8])(thisPtr, out pAspects, out pAdvf, out ppAdvSink);
+                return ((delegate* unmanaged[Stdcall]<void*, out DVASPECT, out ADVF, out P<IAdviseSink>, HRESULT>)_vTable[8])(thisPtr, out pAspects, out pAdvf, out ppAdvSink);
             }
         }
     }

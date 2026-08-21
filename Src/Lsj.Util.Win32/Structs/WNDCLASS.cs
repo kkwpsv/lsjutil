@@ -57,13 +57,13 @@ namespace Lsj.Util.Win32.Structs
 
         /// <summary>
         /// A handle to the class icon. This member must be a handle to an icon resource.
-        /// If this member is <see cref="IntPtr.Zero"/>, the system provides a default icon.
+        /// If this member is <see cref="NULL"/>, the system provides a default icon.
         /// </summary>
         public HICON hIcon;
 
         /// <summary>
         /// A handle to the class cursor. This member must be a handle to a cursor resource.
-        /// If this member is <see cref="IntPtr.Zero"/>,
+        /// If this member is <see cref="NULL"/>,
         /// an application must explicitly set the cursor shape whenever the mouse moves into the application's window.
         /// </summary>
         public HCURSOR hCursor;
@@ -192,7 +192,7 @@ namespace Lsj.Util.Win32.Structs
         /// If you use an integer to identify the menu, use the <see cref="MAKEINTRESOURCE"/> macro.
         /// If this member is <see cref="NULL"/>, windows belonging to this class have no default menu.
         /// </summary>
-        public IntPtr lpszMenuName;
+        public nint lpszMenuName;
 
         /// <summary>
         /// <para>
@@ -211,6 +211,6 @@ namespace Lsj.Util.Win32.Structs
         /// If <see cref="lpszClassName"/> is greater than the maximum length, the <see cref="RegisterClass"/> function will fail.
         /// </para>
         /// </summary>
-        public IntPtr lpszClassName;
+        public nint lpszClassName;
     }
 }

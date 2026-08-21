@@ -16,7 +16,7 @@ namespace Lsj.Util.Win32.Marshals
         /// Initialize from a string.
         /// </summary>
         /// <param name="str"></param>
-        public LPWSTR(string? str) : base(IntPtr.Zero)
+        public LPWSTR(string? str) : this()
         {
             if (str != null)
             {
@@ -34,7 +34,7 @@ namespace Lsj.Util.Win32.Marshals
         /// </summary>
         /// <param name="str"></param>
         /// <param name="bufferLength"></param>
-        public LPWSTR(string str, int bufferLength) : base(IntPtr.Zero)
+        public LPWSTR(string str, int bufferLength) : this()
         {
             if (str.Length > bufferLength)
             {
@@ -56,7 +56,7 @@ namespace Lsj.Util.Win32.Marshals
         /// Initialize an empty LPWSTR with specific buffer length in char.
         /// </summary>
         /// <param name="bufferLength"></param>
-        public LPWSTR(int bufferLength) : base(IntPtr.Zero)
+        public LPWSTR(int bufferLength) : this()
         {
             if (bufferLength <= 0)
             {
@@ -75,10 +75,14 @@ namespace Lsj.Util.Win32.Marshals
         /// <remarks>
         /// The memory will not be release.
         /// </remarks>
-        public LPWSTR(IntPtr handle) : base(IntPtr.Zero)
+        public LPWSTR(nint handle) : this()
         {
             SetHandle(handle);
             GC.SuppressFinalize(this);
+        }
+
+        private LPWSTR() : base((nint)0)
+        {
         }
 
         /// <inheritdoc/>
@@ -86,6 +90,9 @@ namespace Lsj.Util.Win32.Marshals
 
         /// <inheritdoc/>
         public IntPtr ToIntPtr() => handle;
+
+        /// <inheritdoc/>
+        public nint ToNint() => handle;
 
         /// <inheritdoc/>
         protected override bool ReleaseHandle()
@@ -100,12 +107,12 @@ namespace Lsj.Util.Win32.Marshals
         /// <summary>
         /// The handle.
         /// </summary>
-        public IntPtr Handle => handle;
+        public nint Handle => handle;
 
         /// <summary>
         /// The <see cref="string"/> val
         /// </summary>
-        public string? StringVal => handle != IntPtr.Zero ? Marshal.PtrToStringUni(handle) : null;
+        public string? StringVal => handle != (nint)0 ? Marshal.PtrToStringUni(handle) : null;
 
         /// <inheritdoc/>
         public override string ToString() => StringVal ?? string.Empty;
@@ -120,6 +127,6 @@ namespace Lsj.Util.Win32.Marshals
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator LPWSTR(IntPtr val) => new LPWSTR(val);
+        public static implicit operator LPWSTR(nint val) => new LPWSTR(val);
     }
 }

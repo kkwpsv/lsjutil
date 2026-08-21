@@ -54,7 +54,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IDXGIObject), typeof(IDXGIDeviceSubObject), typeof(IDXGIResource)])]
     public unsafe struct IDXGIResource1
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Creates a subresource surface object.
@@ -283,8 +283,8 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in SECURITY_ATTRIBUTES, DWORD, IntPtr, out HANDLE, HRESULT>)_vTable[13])
-                    (thisPtr, pAttributes, dwAccess, lpName.ToIntPtr(), out pHandle);
+                return ((delegate* unmanaged[Stdcall]<void*, in SECURITY_ATTRIBUTES, DWORD, nint, out HANDLE, HRESULT>)_vTable[13])
+                    (thisPtr, pAttributes, dwAccess, lpName.ToNint(), out pHandle);
             }
         }
     }

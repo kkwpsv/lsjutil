@@ -17,7 +17,7 @@ namespace Lsj.Util.Win32.BaseTypes
     [StructLayout(LayoutKind.Sequential)]
     public struct DWORD_PTR
     {
-        private UIntPtr _value;
+        private nuint _value;
 
         /// <inheritdoc/>
         public override string ToString() => _value.ToString();
@@ -26,24 +26,24 @@ namespace Lsj.Util.Win32.BaseTypes
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator UIntPtr(DWORD_PTR val) => val._value;
+        public static implicit operator nuint(DWORD_PTR val) => val._value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator DWORD_PTR(UIntPtr val) => new DWORD_PTR { _value = val };
+        public static implicit operator DWORD_PTR(nuint val) => new DWORD_PTR { _value = val };
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator IntPtr(DWORD_PTR val) => val._value.SafeToIntPtr();
+        public static implicit operator nint(DWORD_PTR val) => (nint)val._value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator DWORD_PTR(IntPtr val) => new DWORD_PTR { _value = val.SafeToUIntPtr() };
+        public static implicit operator DWORD_PTR(nint val) => new DWORD_PTR { _value = (nuint)val };
     }
 }

@@ -1486,7 +1486,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.Windows7)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "K32GetProcessImageFileNameW", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD GetProcessImageFileName([In] HANDLE hProcess, [In] IntPtr lpImageFileName, [In] DWORD nSize);
+        public static extern DWORD GetProcessImageFileName([In] HANDLE hProcess, [In] LPWSTR lpImageFileName, [In] DWORD nSize);
 
         /// <summary>
         /// <para>
@@ -2744,7 +2744,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [WindowsVersionRequirement(WindowsVersion.WindowsVista)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryFullProcessImageNameW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL QueryFullProcessImageName([In] HANDLE hProcess, [In] DWORD dwFlags, [In] IntPtr lpExeName, [In][Out] ref DWORD lpdwSize);
+        public static extern BOOL QueryFullProcessImageName([In] HANDLE hProcess, [In] DWORD dwFlags, [In] LPWSTR lpExeName, [In][Out] ref DWORD lpdwSize);
 
         /// <summary>
         /// <para>

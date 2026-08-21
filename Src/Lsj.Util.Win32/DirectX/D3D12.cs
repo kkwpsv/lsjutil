@@ -1,7 +1,9 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.DirectX.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Enums;
+using Lsj.Util.Win32.DirectX.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
@@ -88,8 +90,8 @@ namespace Lsj.Util.Win32.DirectX
         /// </param>
         /// <param name="ppDevice">
         /// A pointer to a memory block that receives a pointer to the device.
-        /// Pass <see cref="NullRef{IntPtr}"/> to test if device creation would succeed, but to not actually create the device.
-        /// If <see cref="NullRef{IntPtr}"/> is passed and device creation would succeed, <see cref="S_FALSE"/> is returned.
+        /// Pass <see cref="NullRef{nint}"/> to test if device creation would succeed, but to not actually create the device.
+        /// If <see cref="NullRef{nint}"/> is passed and device creation would succeed, <see cref="S_FALSE"/> is returned.
         /// </param>
         /// <returns>
         /// <para>
@@ -156,6 +158,6 @@ namespace Lsj.Util.Win32.DirectX
 #else
             [In] P<IUnknown> pAdapter,
 #endif
-            [In] D3D_FEATURE_LEVEL MinimumFeatureLevel, [In] in IID riid, [Out] out IntPtr ppDevice);
+            [In] D3D_FEATURE_LEVEL MinimumFeatureLevel, [In] in IID riid, [Out] out nint ppDevice);
     }
 }

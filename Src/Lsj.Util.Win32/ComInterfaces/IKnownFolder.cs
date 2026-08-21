@@ -25,7 +25,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IKnownFolder
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Retrieves the location of a known folder in the Shell namespace in the form of a Shell item (<see cref="IShellItem"/> or derived interface).
@@ -45,11 +45,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If this method succeeds, it returns <see cref="S_OK"/>.
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
-        public HRESULT GetShellItem([In] KNOWN_FOLDER_FLAG dwFlags, [In] in IID riid, [Out] out IntPtr ppv)
+        public HRESULT GetShellItem([In] KNOWN_FOLDER_FLAG dwFlags, [In] in IID riid, [Out] out nint ppv)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, KNOWN_FOLDER_FLAG, in IID, out IntPtr, HRESULT>)_vTable[5])(thisPtr, dwFlags, riid, out ppv);
+                return ((delegate* unmanaged[Stdcall]<void*, KNOWN_FOLDER_FLAG, in IID, out nint, HRESULT>)_vTable[5])(thisPtr, dwFlags, riid, out ppv);
             }
         }
 
@@ -67,11 +67,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The calling application is responsible for calling <see cref="CoTaskMemFree"/> to free this resource when it is no longer needed.
         /// </param>
         /// <returns></returns>
-        public HRESULT GetPath([In] KNOWN_FOLDER_FLAG dwFlags, [Out] out IntPtr ppszPath)
+        public HRESULT GetPath([In] KNOWN_FOLDER_FLAG dwFlags, [Out] out nint ppszPath)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, KNOWN_FOLDER_FLAG, out IntPtr, HRESULT>)_vTable[6])(thisPtr, dwFlags, out ppszPath);
+                return ((delegate* unmanaged[Stdcall]<void*, KNOWN_FOLDER_FLAG, out nint, HRESULT>)_vTable[6])(thisPtr, dwFlags, out ppszPath);
             }
         }
 

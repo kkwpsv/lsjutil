@@ -59,7 +59,7 @@ namespace Lsj.Util.Win32.Structs
         /// To preserve new custom colors between calls to the <see cref="ChooseColor"/> function, you should allocate static memory for the array.
         /// To create a <see cref="COLORREF"/> color value, use the <see cref="RGB"/> macro.
         /// </summary>
-        public IntPtr lpCustColors;
+        public nint lpCustColors;
 
         /// <summary>
         /// <para>
@@ -178,11 +178,11 @@ namespace Lsj.Util.Win32.Structs
         /// For numbered dialog box resources, <see cref="lpTemplateName"/> can be a value returned by the <see cref="MAKEINTRESOURCE"/> macro.
         /// This member is ignored unless the <see cref="CC_ENABLETEMPLATE"/> flag is set in the <see cref="Flags"/> member.
         /// </summary>
-        public IntPtr lpTemplateName;
+        public nint lpTemplateName;
 
         /// <summary>
         /// 
         /// </summary>
-        public IntPtr lpEditInfo;
+        public nint lpEditInfo;
     }
 }

@@ -82,6 +82,6 @@ namespace Lsj.Util.Win32.DirectX.Structs
         /// <summary>
         /// Specifies the address of a data structure that describes as a bytestream an arbitrary pipeline state subobject.
         /// </summary>
-        public IntPtr pPipelineStateSubobjectStream;
+        public nint pPipelineStateSubobjectStream;
     }
 }

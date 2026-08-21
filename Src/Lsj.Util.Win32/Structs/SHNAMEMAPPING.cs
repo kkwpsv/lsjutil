@@ -29,12 +29,12 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The address of a character buffer that contains the old path name.
         /// </summary>
-        public IntPtr pszOldPath;
+        public nint pszOldPath;
 
         /// <summary>
         /// The address of a character buffer that contains the new path name.
         /// </summary>
-        public IntPtr pszNewPath;
+        public nint pszNewPath;
 
         /// <summary>
         /// The number of characters in <see cref="pszOldPath"/>.

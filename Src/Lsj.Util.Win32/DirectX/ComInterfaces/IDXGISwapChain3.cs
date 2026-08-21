@@ -26,7 +26,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
             typeof(IDXGISwapChain1), typeof(IDXGISwapChain2)])]
     public unsafe struct IDXGISwapChain3
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Gets the index of the swap chain's current back buffer.

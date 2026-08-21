@@ -322,7 +322,7 @@ namespace Lsj.Util.Win32.Structs
         /// If a <see cref="FINDMSGSTRING"/> message specifies the <see cref="FR_REPLACE"/> or <see cref="FR_REPLACE"/> flags,
         /// <see cref="lpstrFindWhat"/> contains the string to be replaced.
         /// </summary>
-        public IntPtr lpstrFindWhat;
+        public nint lpstrFindWhat;
 
         /// <summary>
         /// <para>
@@ -338,7 +338,7 @@ namespace Lsj.Util.Win32.Structs
         /// The <see cref="FindText"/> function ignores this member.
         /// </para>
         /// </summary>
-        public IntPtr lpstrReplaceWith;
+        public nint lpstrReplaceWith;
 
         /// <summary>
         /// The length, in bytes, of the buffer pointed to by the <see cref="lpstrFindWhat"/> member.
@@ -373,6 +373,6 @@ namespace Lsj.Util.Win32.Structs
         /// For numbered dialog box resources, this can be a value returned by the <see cref="MAKEINTRESOURCE"/> macro.
         /// This member is ignored unless the <see cref="FR_ENABLETEMPLATE"/> flag is set in the <see cref="Flags"/> member.
         /// </summary>
-        public IntPtr lpTemplateName;
+        public nint lpTemplateName;
     }
 }

@@ -2163,7 +2163,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public IntPtr pszObjId;
+        public nint pszObjId;
 
         /// <summary>
         /// <para>

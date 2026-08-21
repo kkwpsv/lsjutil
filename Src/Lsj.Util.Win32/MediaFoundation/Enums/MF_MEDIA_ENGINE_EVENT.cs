@@ -1,6 +1,9 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.MediaFoundation.ComInterfaces;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.Kernel32;
+using static Lsj.Util.Win32.MediaFoundation.Enums.MF_MEDIA_ENGINE_CREATEFLAGS;
+using static Lsj.Util.Win32.MediaFoundation.Enums.MF_MEDIA_ENGINE_NETWORK;
 
 namespace Lsj.Util.Win32.MediaFoundation.Enums
 {

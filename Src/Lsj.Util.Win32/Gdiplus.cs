@@ -27,7 +27,7 @@ namespace Lsj.Util.Win32
         /// <returns></returns>
         [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("gdiplus.dll", CharSet = CharSet.Unicode, EntryPoint = "GdipCreateFromHDC", ExactSpelling = true)]
-        public static extern GpStatus GdipCreateFromHDC([In] HDC hdc, [Out] out IntPtr graphics);
+        public static extern GpStatus GdipCreateFromHDC([In] HDC hdc, [Out] out nint graphics);
 
         /// <summary>
         /// Releases resources used by the Image object.
@@ -36,7 +36,7 @@ namespace Lsj.Util.Win32
         /// <returns></returns>
         [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("gdiplus.dll", CharSet = CharSet.Unicode, EntryPoint = "GdipDisposeImage", ExactSpelling = true)]
-        public static extern GpStatus GdipDisposeImage([In] IntPtr image);
+        public static extern GpStatus GdipDisposeImage([In] nint image);
 
         /// <summary>
         /// Draws an image at a specified location.
@@ -48,7 +48,7 @@ namespace Lsj.Util.Win32
         /// <returns></returns>
         [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("gdiplus.dll", CharSet = CharSet.Unicode, EntryPoint = "GdipDrawImage", ExactSpelling = true)]
-        public static extern GpStatus GdipDrawImage([In] IntPtr graphics, [In] IntPtr image, [In] float x, [In] float y);
+        public static extern GpStatus GdipDrawImage([In] nint graphics, [In] nint image, [In] float x, [In] float y);
 
         /// <summary>
         /// Draws an image at a specified location.
@@ -60,7 +60,7 @@ namespace Lsj.Util.Win32
         /// <returns></returns>
         [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("gdiplus.dll", CharSet = CharSet.Unicode, EntryPoint = "GdipDrawImageI", ExactSpelling = true)]
-        public static extern GpStatus GdipDrawImageI([In] IntPtr graphics, [In] IntPtr image, [In] int x, [In] int y);
+        public static extern GpStatus GdipDrawImageI([In] nint graphics, [In] nint image, [In] int x, [In] int y);
 
         /// <summary>
         /// Draws an image.
@@ -74,7 +74,7 @@ namespace Lsj.Util.Win32
         /// <returns></returns>
         [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("gdiplus.dll", CharSet = CharSet.Unicode, EntryPoint = "GdipDrawImageRect", ExactSpelling = true)]
-        public static extern GpStatus GdipDrawImageRect([In] IntPtr graphics, [In] IntPtr image, [In] float x, [In] float y, [In] float width, [In] float height);
+        public static extern GpStatus GdipDrawImageRect([In] nint graphics, [In] nint image, [In] float x, [In] float y, [In] float width, [In] float height);
 
         /// <summary>
         /// Draws an image.
@@ -88,7 +88,7 @@ namespace Lsj.Util.Win32
         /// <returns></returns>
         [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("gdiplus.dll", CharSet = CharSet.Unicode, EntryPoint = "GdipDrawImageRectI", ExactSpelling = true)]
-        public static extern GpStatus GdipDrawImageRectI([In] IntPtr graphics, [In] IntPtr image, [In] int x, [In] int y, [In] int width, [In] int height);
+        public static extern GpStatus GdipDrawImageRectI([In] nint graphics, [In] nint image, [In] int x, [In] int y, [In] int width, [In] int height);
 
         /// <summary>
         /// Creates an Image object based on a file. This flat function does not use ICM.
@@ -99,7 +99,7 @@ namespace Lsj.Util.Win32
         /// </summary>
         [WindowsVersionRequirement(WindowsVersion.WindowsXP)]
         [DllImport("gdiplus.dll", CharSet = CharSet.Unicode, EntryPoint = "GdipLoadImageFromFile", ExactSpelling = true)]
-        public static extern GpStatus GdipLoadImageFromFile([In] LPCWSTR filename, [Out] out IntPtr image);
+        public static extern GpStatus GdipLoadImageFromFile([In] LPCWSTR filename, [Out] out nint image);
 
         /// <summary>
         /// <para>

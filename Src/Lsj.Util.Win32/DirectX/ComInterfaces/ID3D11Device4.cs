@@ -21,7 +21,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(ID3D11Device), typeof(ID3D11Device1), typeof(ID3D11Device2), typeof(ID3D11Device3)])]
     public unsafe struct ID3D11Device4
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Registers the "device removed" event and indicates when a Direct3D device has become removed for any reason,

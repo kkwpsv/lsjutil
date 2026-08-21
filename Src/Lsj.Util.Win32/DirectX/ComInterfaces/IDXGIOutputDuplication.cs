@@ -142,7 +142,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IDXGIObject)])]
     public unsafe struct IDXGIOutputDuplication
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Retrieves a description of a duplicated output.
@@ -688,12 +688,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// The <paramref name="pPointerShapeInfo"/> parameter describes the new pointer shape.
         /// </para>
         /// </remarks>
-        public HRESULT GetFramePointerShape([In] UINT PointerShapeBufferSize, [In] IntPtr pPointerShapeBuffer,
+        public HRESULT GetFramePointerShape([In] UINT PointerShapeBufferSize, [In] nint pPointerShapeBuffer,
             [Out] out UINT pPointerShapeBufferSizeRequired, [Out] out DXGI_OUTDUPL_POINTER_SHAPE_INFO pPointerShapeInfo)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, UINT, IntPtr, out UINT, out DXGI_OUTDUPL_POINTER_SHAPE_INFO, HRESULT>)_vTable[11])
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, nint, out UINT, out DXGI_OUTDUPL_POINTER_SHAPE_INFO, HRESULT>)_vTable[11])
                     (thisPtr, PointerShapeBufferSize, pPointerShapeBuffer, out pPointerShapeBufferSizeRequired, out pPointerShapeInfo);
             }
         }

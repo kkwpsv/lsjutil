@@ -19,7 +19,7 @@ namespace Lsj.Util.Win32.BaseTypes
         /// DPI unaware. This window does not scale for DPI changes and is always assumed to have a scale factor of 100% (96 DPI).
         /// It will be automatically scaled by the system on any other DPI setting.
         /// </summary>
-        public static readonly DPI_AWARENESS_CONTEXT DPI_AWARENESS_CONTEXT_UNAWARE = new DPI_AWARENESS_CONTEXT { _value = (IntPtr)(-1) };
+        public static readonly DPI_AWARENESS_CONTEXT DPI_AWARENESS_CONTEXT_UNAWARE = new DPI_AWARENESS_CONTEXT { _value = -1 };
 
         /// <summary>
         /// System DPI aware. This window does not scale for DPI changes.
@@ -27,20 +27,22 @@ namespace Lsj.Util.Win32.BaseTypes
         /// If the DPI changes, the process will not adjust to the new DPI value.
         /// It will be automatically scaled up or down by the system when the DPI changes from the system value.
         /// </summary>
-        public static readonly DPI_AWARENESS_CONTEXT DPI_AWARENESS_CONTEXT_SYSTEM_AWARE = new DPI_AWARENESS_CONTEXT { _value = (IntPtr)(-2) };
+        public static readonly DPI_AWARENESS_CONTEXT DPI_AWARENESS_CONTEXT_SYSTEM_AWARE = new DPI_AWARENESS_CONTEXT { _value = -2 };
 
         /// <summary>
         /// Per monitor DPI aware. This window checks for the DPI when it is created and adjusts the scale factor whenever the DPI changes.
         /// These processes are not automatically scaled by the system.
         /// </summary>
-        public static readonly DPI_AWARENESS_CONTEXT DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE = new DPI_AWARENESS_CONTEXT { _value = (IntPtr)(-3) };
+        public static readonly DPI_AWARENESS_CONTEXT DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE = new DPI_AWARENESS_CONTEXT { _value = -3 };
 
         /// <summary>
         /// <para>
-        /// Also known as Per Monitor v2. An advancement over the original per-monitor DPI awareness mode, which enables applications to access new DPI-related scaling behaviors on a per top-level window basis.
+        /// Also known as Per Monitor v2. An advancement over the original per-monitor DPI awareness mode,
+        /// which enables applications to access new DPI-related scaling behaviors on a per top-level window basis.
         /// </para>
         /// <para>
-        /// Per Monitor v2 was made available in the Creators Update of Windows 10 (also known as version 1703), and is not available on earlier versions of the operating system.
+        /// Per Monitor v2 was made available in the Creators Update of Windows 10 (also known as version 1703),
+        /// and is not available on earlier versions of the operating system.
         /// </para>
         /// <para>
         /// The additional behaviors introduced are as follows:
@@ -79,7 +81,7 @@ namespace Lsj.Util.Win32.BaseTypes
         /// </item>
         /// </list>
         /// </summary>
-        public static readonly DPI_AWARENESS_CONTEXT DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2 = new DPI_AWARENESS_CONTEXT { _value = (IntPtr)(-4) };
+        public static readonly DPI_AWARENESS_CONTEXT DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2 = new DPI_AWARENESS_CONTEXT { _value = -4 };
 
         /// <summary>
         /// <para>
@@ -95,7 +97,7 @@ namespace Lsj.Util.Win32.BaseTypes
         /// <see cref="DPI_AWARENESS_CONTEXT_UNAWARE_GDISCALED"/> was introduced in the October 2018 update of Windows 10 (also known as version 1809).
         /// </para>
         /// </summary>
-        public static readonly DPI_AWARENESS_CONTEXT DPI_AWARENESS_CONTEXT_UNAWARE_GDISCALED = new DPI_AWARENESS_CONTEXT { _value = (IntPtr)(-5) };
+        public static readonly DPI_AWARENESS_CONTEXT DPI_AWARENESS_CONTEXT_UNAWARE_GDISCALED = new DPI_AWARENESS_CONTEXT { _value = -5 };
 
         private HANDLE _value;
 
@@ -137,13 +139,8 @@ namespace Lsj.Util.Win32.BaseTypes
         /// <inheritdoc/>
         public IntPtr ToIntPtr() => _value;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
-        public static bool operator ==(DPI_AWARENESS_CONTEXT a, IntPtr b) => a._value == b;
+        /// <inheritdoc/>
+        public nint ToNint() => _value;
 
         /// <summary>
         /// 
@@ -151,7 +148,15 @@ namespace Lsj.Util.Win32.BaseTypes
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static bool operator !=(DPI_AWARENESS_CONTEXT a, IntPtr b) => a._value != b;
+        public static bool operator ==(DPI_AWARENESS_CONTEXT a, nint b) => a._value == b;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static bool operator !=(DPI_AWARENESS_CONTEXT a, nint b) => a._value != b;
 
         /// <summary>
         /// 
@@ -169,6 +174,6 @@ namespace Lsj.Util.Win32.BaseTypes
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator IntPtr(DPI_AWARENESS_CONTEXT val) => val._value;
+        public static implicit operator nint(DPI_AWARENESS_CONTEXT val) => val._value;
     }
 }

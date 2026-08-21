@@ -18,7 +18,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IClassFactory
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Creates an uninitialized object.
@@ -79,11 +79,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// When B is created, revoke the class object for A.
         /// This solution complicates shutdown because one of the class objects might have already been revoked (and cannot be revoked twice).
         /// </remarks>
-        public HRESULT CreateInstance([In] P<IUnknown> pUnkOuter, [In] in IID riid, [Out] out IntPtr ppvObject)
+        public HRESULT CreateInstance([In] P<IUnknown> pUnkOuter, [In] in IID riid, [Out] out nint ppvObject)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, P<IUnknown>, in IID, out IntPtr, HRESULT>)_vTable[3])(thisPtr, pUnkOuter, riid, out ppvObject);
+                return ((delegate* unmanaged[Stdcall]<void*, P<IUnknown>, in IID, out nint, HRESULT>)_vTable[3])(thisPtr, pUnkOuter, riid, out ppvObject);
             }
         }
 

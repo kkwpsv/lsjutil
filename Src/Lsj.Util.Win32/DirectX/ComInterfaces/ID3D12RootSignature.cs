@@ -18,6 +18,6 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(ID3D12Object), typeof(ID3D12DeviceChild)])]
     public unsafe struct ID3D12RootSignature
     {
-        IntPtr* _vTable;
+        nint* _vTable;
     }
 }

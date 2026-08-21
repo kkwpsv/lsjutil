@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Callbacks
     [StructLayout(LayoutKind.Sequential)]
     public struct CALINFO_ENUMPROC
     {
-        private IntPtr _ptr;
+        private nint _ptr;
 
         /// <summary>
         /// 
@@ -33,12 +33,12 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator IntPtr(CALINFO_ENUMPROC val) => val._ptr;
+        public static explicit operator nint(CALINFO_ENUMPROC val) => val._ptr;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator CALINFO_ENUMPROC(IntPtr val) => new CALINFO_ENUMPROC { _ptr = val };
+        public static explicit operator CALINFO_ENUMPROC(nint val) => new CALINFO_ENUMPROC { _ptr = val };
     }
 }

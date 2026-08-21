@@ -151,7 +151,7 @@ namespace Lsj.Util.Win32.Structs
         /// by sending an <see cref="HDN_GETDISPINFO"/> notification code.
         /// Note that although the header control allows a string of any length to be stored as item text, only the first 260 TCHARs are displayed.
         /// </summary>
-        public IntPtr pszText;
+        public nint pszText;
 
         /// <summary>
         /// A handle to the item bitmap.
@@ -426,7 +426,7 @@ namespace Lsj.Util.Win32.Structs
         /// Use the <see cref="HDFT_ISSTRING"/> flag to indicate a string and <see cref="HDFT_ISNUMBER"/> to indicate an integer.
         /// When the <see cref="HDFT_ISSTRING"/> flag is used <see cref="pvFilter"/> is a pointer to a <see cref="HDTEXTFILTER"/> structure.
         /// </summary>
-        public IntPtr pvFilter;
+        public nint pvFilter;
 
         /// <summary>
         /// <para>

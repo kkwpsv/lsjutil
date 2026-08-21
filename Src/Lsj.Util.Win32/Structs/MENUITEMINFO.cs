@@ -520,7 +520,7 @@ namespace Lsj.Util.Win32.Structs
         /// <see cref="dwTypeData"/> is used only if the <see cref="MIIM_STRING"/> flag is set in the <see cref="fMask"/> member
         /// </para>
         /// </summary>
-        public IntPtr dwTypeData;
+        public nint dwTypeData;
 
         /// <summary>
         /// <para>

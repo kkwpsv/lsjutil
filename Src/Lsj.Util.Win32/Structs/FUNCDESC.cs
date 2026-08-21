@@ -1,7 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
-using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.Enums.FUNCKIND;
 using static Lsj.Util.Win32.Enums.VARENUM;
 using CALLCONV = Lsj.Util.Win32.Enums.CALLCONV;
 using FUNCKIND = Lsj.Util.Win32.Enums.FUNCKIND;
@@ -58,12 +58,12 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The status code.
         /// </summary>
-        public IntPtr lprgscode;
+        public nint lprgscode;
 
         /// <summary>
         /// Description of the element.
         /// </summary>
-        public IntPtr lprgelemdescParam;
+        public nint lprgelemdescParam;
 
         /// <summary>
         /// Indicates the type of function (virtual, static, or dispatch-only).

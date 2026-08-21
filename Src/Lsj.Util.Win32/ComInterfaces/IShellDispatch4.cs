@@ -18,7 +18,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IShellDispatch4
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Displays the Windows Security dialog box.

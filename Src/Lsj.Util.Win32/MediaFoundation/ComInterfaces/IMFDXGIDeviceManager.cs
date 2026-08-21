@@ -47,7 +47,7 @@ namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
     [ComInterface(IID = "eb533d5d-2db6-40f8-97a9-494692014f07", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 9, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IMFDXGIDeviceManager
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Closes a Microsoft Direct3D device handle.
@@ -204,11 +204,11 @@ namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
         /// For more info see, Supporting Direct3D 11 Video Decoding in Media Foundation.
         /// </para>
         /// </remarks>
-        public HRESULT GetVideoService([In] HANDLE hDevice, [In] in IID riid, out IntPtr ppService)
+        public HRESULT GetVideoService([In] HANDLE hDevice, [In] in IID riid, out nint ppService)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, HANDLE, in IID, out IntPtr, HRESULT>)_vTable[4])
+                return ((delegate* unmanaged[Stdcall]<void*, HANDLE, in IID, out nint, HRESULT>)_vTable[4])
                     (thisPtr, hDevice, riid, out ppService);
             }
         }
@@ -331,11 +331,11 @@ namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
         /// without calling <see cref="UnlockDevice"/> in between.
         /// </para>
         /// </remarks>
-        public HRESULT LockDevice([In] HANDLE hDevice, [In] in IID riid, [Out] out IntPtr ppUnkDevice, [In] BOOL fBlock)
+        public HRESULT LockDevice([In] HANDLE hDevice, [In] in IID riid, [Out] out nint ppUnkDevice, [In] BOOL fBlock)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, HANDLE, in IID, out IntPtr, BOOL, HRESULT>)_vTable[5])
+                return ((delegate* unmanaged[Stdcall]<void*, HANDLE, in IID, out nint, BOOL, HRESULT>)_vTable[5])
                     (thisPtr, hDevice, riid, out ppUnkDevice, fBlock);
             }
         }

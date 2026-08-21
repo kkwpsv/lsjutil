@@ -1534,6 +1534,6 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWinMetaFileBits", ExactSpelling = true, SetLastError = true)]
-        public static extern HENHMETAFILE SetWinMetaFileBits([In] UINT nSize, [In] IntPtr lpMeta16Data, [In] HDC hdcRef, [In] in METAFILEPICT lpMFP);
+        public static extern HENHMETAFILE SetWinMetaFileBits([In] UINT nSize, [In] nint lpMeta16Data, [In] HDC hdcRef, [In] in METAFILEPICT lpMFP);
     }
 }

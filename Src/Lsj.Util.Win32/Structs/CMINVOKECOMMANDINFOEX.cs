@@ -244,19 +244,19 @@ namespace Lsj.Util.Win32.Structs
         /// The Shell uses this alternative when the user chooses a menu command.
         /// </para>
         /// </summary>
-        public IntPtr lpVerb;
+        public nint lpVerb;
 
         /// <summary>
         /// Optional parameters.
         /// This member is always <see cref="NULL"/> for menu items inserted by a Shell extension.
         /// </summary>
-        public IntPtr lpParameters;
+        public nint lpParameters;
 
         /// <summary>
         /// An optional working directory name.
         /// This member is always <see cref="NULL"/> for menu items inserted by a Shell extension.
         /// </summary>
-        public IntPtr lpDirectory;
+        public nint lpDirectory;
 
         /// <summary>
         /// A set of SW_ values to pass to the <see cref="ShowWindow"/> function if the command displays a window or starts an application.
@@ -278,27 +278,27 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// An ASCII title.
         /// </summary>
-        public IntPtr lpTitle;
+        public nint lpTitle;
 
         /// <summary>
         /// A Unicode verb, for those commands that can use it.
         /// </summary>
-        public IntPtr lpVerbW;
+        public nint lpVerbW;
 
         /// <summary>
         /// A Unicode parameters, for those commands that can use it.
         /// </summary>
-        public IntPtr lpParametersW;
+        public nint lpParametersW;
 
         /// <summary>
         /// A Unicode directory, for those commands that can use it.
         /// </summary>
-        public IntPtr lpDirectoryW;
+        public nint lpDirectoryW;
 
         /// <summary>
         /// A Unicode title.
         /// </summary>
-        public IntPtr lpTitleW;
+        public nint lpTitleW;
 
         /// <summary>
         /// The point where the command is invoked.

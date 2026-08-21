@@ -39,7 +39,7 @@ namespace Lsj.Util.Win32.NativeUI
             if (process != NULL)
             {
                 var length = (DWORD)MAX_PATH;
-                var path = new StringBuffer(MAX_PATH);
+                var path = new LPWSTR(MAX_PATH);
                 if (QueryFullProcessImageName(process, 0, path, ref length))
                 {
                     return Path.ChangeExtension(Path.GetFileName(path.ToString()), null);
@@ -113,7 +113,7 @@ namespace Lsj.Util.Win32.NativeUI
             var textLength = GetWindowTextLength(_handle) + 1;
             if (textLength > 0)
             {
-                var textBuffer = new StringBuffer(textLength);
+                var textBuffer = new LPWSTR(textLength);
                 if (GetWindowText(_handle, textBuffer, textLength) != 0)
                 {
                     return textBuffer.ToString();
@@ -218,10 +218,10 @@ namespace Lsj.Util.Win32.NativeUI
 
         private string GetClassName()
         {
-            var buffer = new StringBuffer(256);
+            var buffer = new LPWSTR(256);
             if (User32.GetClassName(_handle, buffer, 256) > 0)
             {
-                return buffer;
+                return buffer.ToString();
             }
             else
             {

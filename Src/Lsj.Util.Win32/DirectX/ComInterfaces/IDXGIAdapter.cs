@@ -44,7 +44,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IDXGIObject)])]
     public unsafe struct IDXGIAdapter
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Enumerate adapter (video card) outputs.

@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Callbacks
     [StructLayout(LayoutKind.Sequential)]
     public struct PTP_WORK_CALLBACK
     {
-        private IntPtr _ptr;
+        private nint _ptr;
 
         /// <summary>
         /// 
@@ -33,12 +33,12 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator IntPtr(PTP_WORK_CALLBACK val) => val._ptr;
+        public static explicit operator nint(PTP_WORK_CALLBACK val) => val._ptr;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator PTP_WORK_CALLBACK(IntPtr val) => new PTP_WORK_CALLBACK { _ptr = val };
+        public static explicit operator PTP_WORK_CALLBACK(nint val) => new PTP_WORK_CALLBACK { _ptr = val };
     }
 }

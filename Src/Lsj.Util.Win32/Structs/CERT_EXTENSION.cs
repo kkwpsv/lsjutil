@@ -21,7 +21,7 @@ namespace Lsj.Util.Win32.Structs
         /// Object identifier (OID) that specifies the structure of the extension data contained in the <see cref="Value"/> member.
         /// For specifics on extension OIDs and their related structures, see X.509 Certificate Extension Structures.
         /// </summary>
-        public IntPtr pszObjId;
+        public nint pszObjId;
 
         /// <summary>
         /// If <see cref="TRUE"/>, any limitations specified by the extension in the Value member of this structure are imperative.

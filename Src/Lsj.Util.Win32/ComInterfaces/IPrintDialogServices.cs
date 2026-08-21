@@ -17,6 +17,6 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </remarks>
     public unsafe struct IPrintDialogServices
     {
-        IntPtr* _vTable;
+        nint* _vTable;
     }
 }

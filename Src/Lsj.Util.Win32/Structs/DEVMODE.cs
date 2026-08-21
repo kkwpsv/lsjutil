@@ -2,17 +2,17 @@
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals.ByValStructs;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.DeviceModeBinFlags;
 using static Lsj.Util.Win32.Enums.DeviceModeCollateFlags;
 using static Lsj.Util.Win32.Enums.DeviceModeColorFlags;
+using static Lsj.Util.Win32.Enums.DeviceModeDisplayFixedOutputFlags;
 using static Lsj.Util.Win32.Enums.DeviceModeDisplayOrientationFlags;
 using static Lsj.Util.Win32.Enums.DeviceModeDuplexFlags;
 using static Lsj.Util.Win32.Enums.DeviceModeFieldFlags;
-using static Lsj.Util.Win32.Enums.DeviceModeDisplayFixedOutputFlags;
 using static Lsj.Util.Win32.Enums.DeviceModesNUps;
 using static Lsj.Util.Win32.Enums.DeviceModesOrientations;
 using static Lsj.Util.Win32.Enums.DeviceModesPrintQualities;
-using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Structs

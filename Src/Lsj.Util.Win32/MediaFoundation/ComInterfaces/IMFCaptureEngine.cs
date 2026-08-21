@@ -29,7 +29,7 @@ namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
     [ComInterface(IID = "a6bba433-176b-48b2-b375-53aa03473207", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 10, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IMFCaptureEngine
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Initializes the capture engine.

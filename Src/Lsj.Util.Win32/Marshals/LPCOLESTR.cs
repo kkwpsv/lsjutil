@@ -14,7 +14,7 @@ namespace Lsj.Util.Win32.Marshals
         /// 
         /// </summary>
         /// <param name="str"></param>
-        public LPCOLESTR(string str) : base(IntPtr.Zero)
+        public LPCOLESTR(string str) : this()
         {
             if (str != null)
             {
@@ -31,10 +31,14 @@ namespace Lsj.Util.Win32.Marshals
         /// 
         /// </summary>
         /// <param name="handle"></param>
-        public LPCOLESTR(IntPtr handle) : base(IntPtr.Zero)
+        public LPCOLESTR(nint handle) : this()
         {
             SetHandle(handle);
             GC.SuppressFinalize(this);
+        }
+
+        private LPCOLESTR() : base((nint)0)
+        {
         }
 
         /// <inheritdoc/>
@@ -60,6 +64,6 @@ namespace Lsj.Util.Win32.Marshals
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator LPCOLESTR(IntPtr val) => new LPCOLESTR(val);
+        public static implicit operator LPCOLESTR(nint val) => new LPCOLESTR(val);
     }
 }

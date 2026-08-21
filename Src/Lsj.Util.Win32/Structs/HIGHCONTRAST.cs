@@ -197,6 +197,6 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Points to a string that contains the name of the color scheme that will be set to the default scheme.
         /// </summary>
-        public IntPtr lpszDefaultScheme;
+        public nint lpszDefaultScheme;
     }
 }

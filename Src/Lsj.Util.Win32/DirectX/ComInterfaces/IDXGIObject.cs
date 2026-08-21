@@ -1,8 +1,8 @@
 ﻿using Lsj.Util.Win32.Attributes;
 using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.DirectX.Enums;
-using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.DirectX.Constants;
 using IUnknown = Lsj.Util.Win32.ComInterfaces.IUnknown;
 
 namespace Lsj.Util.Win32.DirectX.ComInterfaces
@@ -52,7 +52,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     [ComInterface(IID = "aec22fb8-76f3-4639-9be0-28eb43a67a2e", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 6, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IDXGIObject
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Sets application-defined data to the object and associates that data with a <see cref="GUID"/>.
@@ -100,11 +100,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// and with the event tracing for Windows events that we've added to Windows 8.
         /// </para>
         /// </remarks>
-        public HRESULT SetPrivateData([In] in GUID Name, [In] UINT DataSize, [In] IntPtr pData)
+        public HRESULT SetPrivateData([In] in GUID Name, [In] UINT DataSize, [In] nint pData)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in GUID, UINT, IntPtr, HRESULT>)_vTable[3])(thisPtr, Name, DataSize, pData);
+                return ((delegate* unmanaged[Stdcall]<void*, in GUID, UINT, nint, HRESULT>)_vTable[3])(thisPtr, Name, DataSize, pData);
             }
         }
 
@@ -193,11 +193,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// because the behavior when doing so is undefined.
         /// </para>
         /// </remarks>
-        public HRESULT GetPrivateData([In] in GUID Name, [In][Out] ref UINT pDataSize, [In] IntPtr pData)
+        public HRESULT GetPrivateData([In] in GUID Name, [In][Out] ref UINT pDataSize, [In] nint pData)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in GUID, ref UINT, IntPtr, HRESULT>)_vTable[5])(thisPtr, Name, ref pDataSize, pData);
+                return ((delegate* unmanaged[Stdcall]<void*, in GUID, ref UINT, nint, HRESULT>)_vTable[5])(thisPtr, Name, ref pDataSize, pData);
             }
         }
 
@@ -213,11 +213,11 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// <returns>
         /// Returns one of the <see cref="DXGI_ERROR"/> values.
         /// </returns>
-        public HRESULT GetParent([In] in IID riid, [Out] out IntPtr ppParent)
+        public HRESULT GetParent([In] in IID riid, [Out] out nint ppParent)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IID, out IntPtr, HRESULT>)_vTable[6])(thisPtr, riid, out ppParent);
+                return ((delegate* unmanaged[Stdcall]<void*, in IID, out nint, HRESULT>)_vTable[6])(thisPtr, riid, out ppParent);
             }
         }
     }

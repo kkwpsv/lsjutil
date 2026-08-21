@@ -25,7 +25,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </remarks>
     public unsafe struct ITaskbarList2
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Marks a window as full-screen.

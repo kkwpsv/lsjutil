@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Callbacks
     [StructLayout(LayoutKind.Sequential)]
     public struct LPPAGEPAINTHOOK
     {
-        private IntPtr _ptr;
+        private nint _ptr;
 
         /// <summary>
         /// 
@@ -33,12 +33,12 @@ namespace Lsj.Util.Win32.Callbacks
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator IntPtr(LPPAGEPAINTHOOK val) => val._ptr;
+        public static explicit operator nint(LPPAGEPAINTHOOK val) => val._ptr;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static explicit operator LPPAGEPAINTHOOK(IntPtr val) => new LPPAGEPAINTHOOK { _ptr = val };
+        public static explicit operator LPPAGEPAINTHOOK(nint val) => new LPPAGEPAINTHOOK { _ptr = val };
     }
 }

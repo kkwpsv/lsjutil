@@ -126,7 +126,7 @@ namespace Lsj.Util.Win32.Structs
         /// This member can be <see cref="NULL"/> if you do not want to disable any SIDs.
         /// </para>
         /// </summary>
-        public IntPtr SidsToDisable;
+        public nint SidsToDisable;
 
         /// <summary>
         /// <para>
@@ -137,7 +137,7 @@ namespace Lsj.Util.Win32.Structs
         /// This member can be <see cref="NULL"/> if you do not want to delete any privileges.
         /// </para>
         /// </summary>
-        public IntPtr PrivilegesToDelete;
+        public nint PrivilegesToDelete;
 
         /// <summary>
         /// <para>
@@ -148,6 +148,6 @@ namespace Lsj.Util.Win32.Structs
         /// This member can be <see cref="NULL"/> if you do not want to specify any deny-only SIDs.
         /// </para>
         /// </summary>
-        public IntPtr RestrictedSids;
+        public nint RestrictedSids;
     }
 }

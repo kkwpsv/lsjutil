@@ -13,17 +13,17 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// address of environment strings
         /// </summary>
-        public IntPtr lpEnvAddress;
+        public nint lpEnvAddress;
 
         /// <summary>
         /// address of command line
         /// </summary>
-        public IntPtr lpCmdLine;
+        public nint lpCmdLine;
 
         /// <summary>
         /// how to show new program
         /// </summary>
-        public IntPtr lpCmdShow;
+        public nint lpCmdShow;
 
         /// <summary>
         /// must be zero

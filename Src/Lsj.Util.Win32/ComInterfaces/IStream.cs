@@ -112,37 +112,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IStream
     {
-        IntPtr* _vTable;
-
-        /// <summary>
-        /// Inherit from <see cref="ISequentialStream"/>
-        /// </summary>
-        /// <param name="pv"></param>
-        /// <param name="cb"></param>
-        /// <param name="pcbRead"></param>
-        /// <returns></returns>
-        public HRESULT Read([In] IntPtr pv, [In] ULONG cb, [Out] out ULONG pcbRead)
-        {
-            fixed (void* thisPtr = &this)
-            {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, ULONG, out ULONG, HRESULT>)_vTable[3])(thisPtr, pv, cb, out pcbRead);
-            }
-        }
-
-        /// <summary>
-        /// Inherit from <see cref="ISequentialStream"/>
-        /// </summary>
-        /// <param name="pv"></param>
-        /// <param name="cb"></param>
-        /// <param name="pcbWritten"></param>
-        /// <returns></returns>
-        public HRESULT Write([In] IntPtr pv, [In] ULONG cb, [Out] out ULONG pcbWritten)
-        {
-            fixed (void* thisPtr = &this)
-            {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, ULONG, out ULONG, HRESULT>)_vTable[3])(thisPtr, pv, cb, out pcbWritten);
-            }
-        }
+        nint* _vTable;
 
         /// <summary>
         /// The Seek method changes the seek pointer to a new location.
@@ -438,11 +408,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The initial setting of the seek pointer in the cloned stream instance is the same as
         /// the current setting of the seek pointer in the original stream at the time of the clone operation.
         /// </remarks>
-        public HRESULT Clone([Out] out IntPtr ppstm)
+        public HRESULT Clone([Out] out P<IStream> ppstm)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[13])(thisPtr, out ppstm);
+                return ((delegate* unmanaged[Stdcall]<void*, out P<IStream>, HRESULT>)_vTable[13])(thisPtr, out ppstm);
             }
         }
     }

@@ -47,6 +47,6 @@ namespace Lsj.Util.Win32.ComInterfaces
 
     public unsafe struct IDropTarget
     {
-        IntPtr* _vTable;
+        nint* _vTable;
     }
 }

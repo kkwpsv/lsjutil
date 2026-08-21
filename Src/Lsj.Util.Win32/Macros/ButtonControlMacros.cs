@@ -1,8 +1,12 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
-using System;
+using System.Drawing;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Enums.ButtonCheckStates;
+using static Lsj.Util.Win32.Enums.ButtonControlMessages;
+using static Lsj.Util.Win32.Enums.ButtonStyles;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Macros
@@ -18,26 +22,81 @@ namespace Lsj.Util.Win32.Macros
     public static class ButtonControlMacros
     {
         /// <summary>
+        /// <para>
         /// Enables or disables a button.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/windowsx/nf-windowsx-button_enable"/>
+        /// </para>
         /// </summary>
         /// <param name="hwndCtl">A handle to the button control.</param>
         /// <param name="fEnable"><see langword="true"/> to enable the button, or <see langword="false"/> to disable it.</param>
         /// <returns></returns>
-        public static bool Button_Enable(IntPtr hwndCtl, bool fEnable) => EnableWindow(hwndCtl, fEnable);
+        public static BOOL Button_Enable(HWND hwndCtl, BOOL fEnable) => EnableWindow(hwndCtl, fEnable);
 
         /// <summary>
-        /// Gets the check state of a radio button or check box.
-        /// You can use this macro or send the <see cref="ButtonControlMessages.BM_GETCHECK"/> message explicitly.
+        /// <para>
+        /// Gets the check state of a radio button or check box. You can use this macro or send the <see cref="BM_GETCHECK"/> message explicitly.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/windowsx/nf-windowsx-button_getcheck"/>
+        /// </para>
         /// </summary>
-        /// <param name="hwndCtl"></param>
-        /// <returns></returns>
-        /// <remarks>If the button has a style other than those listed, the return value is zero.</remarks>
-        public static ButtonCheckStates Button_GetCheck(IntPtr hwndCtl) =>
-            (ButtonCheckStates)(IntPtr)SendMessage(hwndCtl, (WindowMessages)ButtonControlMessages.BM_GETCHECK, UIntPtr.Zero, IntPtr.Zero).SafeToInt32();
+        /// <param name="hwndCtl">
+        /// A handle to the button control.
+        /// </param>
+        /// <returns>
+        /// <para>
+        /// The return value from a button created with the <see cref="BS_AUTOCHECKBOX"/>, <see cref="BS_AUTORADIOBUTTON"/>,
+        /// <see cref="BS_AUTO3STATE"/>, <see cref="BS_CHECKBOX"/>, <see cref="BS_RADIOBUTTON"/>,
+        /// or <see cref="BS_3STATE"/> style can be one of the following:
+        /// </para>
+        /// <para>
+        /// <list type="table">
+        /// <listheader>
+        /// <term>
+        /// Return code
+        /// </term>
+        /// <term>
+        /// Description
+        /// </term>
+        /// </listheader>
+        /// <item>
+        /// <term>
+        /// <see cref="BST_CHECKED"/>
+        /// </term>
+        /// <term>
+        /// Button is checked.
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="BST_INDETERMINATE"/>
+        /// </term>
+        /// <term>
+        /// Button is grayed, indicating an indeterminate state
+        /// (applies only if the button has the <see cref="BS_3STATE"/> or <see cref="BS_AUTO3STATE"/> style).
+        /// </term>
+        /// </item>
+        /// <item>
+        /// <term>
+        /// <see cref="BST_UNCHECKED"/>
+        /// </term>
+        /// <term>
+        /// Button is cleared.
+        /// </term>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </returns>
+        /// <remarks>
+        /// If the button has a style other than those listed, the return value is zero.
+        /// </remarks>
+        public static ButtonCheckStates Button_GetCheck(HWND hwndCtl) => (ButtonCheckStates)(int)SendMessage(hwndCtl, (WindowMessages)BM_GETCHECK, 0, 0);
 
         /// <summary>
         /// Gets the size of the button that best fits the text and image, if an image list is present.
-        /// You can use this macro or send the <see cref="ButtonControlMessages.BCM_GETIDEALSIZE"/> message explicitly.
+        /// You can use this macro or send the <see cref="BCM_GETIDEALSIZE"/> message explicitly.
         /// </summary>
         /// <param name="hwnd">A handle to the button control.</param>
         /// <param name="psize">
@@ -51,19 +110,17 @@ namespace Lsj.Util.Win32.Macros
         /// To use this macro, you must provide a manifest specifying Comclt32.dll version 6.0.
         /// For more information on manifests, see Enabling Visual Styles.
         /// </returns>
-        public static bool Button_GetIdealSize(IntPtr hwnd, out SIZE psize)
+        public static unsafe BOOL Button_GetIdealSize(HWND hwnd, out SIZE psize)
         {
-            psize = new SIZE();
-            var lparam = Marshal.AllocHGlobal(MarshalExtensions.SizeOf<SIZE>());
-            var result = SendMessage(hwnd, (WindowMessages)ButtonControlMessages.BCM_GETIDEALSIZE, UIntPtr.Zero, lparam);
-            Marshal.PtrToStructure(lparam, psize);
-            Marshal.FreeHGlobal(lparam);
-            return result != IntPtr.Zero;
+            var size = new SIZE();
+            var result = SendMessage(hwnd, (WindowMessages)BCM_GETIDEALSIZE, 0, (nint)(&size));
+            psize = size;
+            return result != 0;
         }
 
         /// <summary>
         /// Gets the <see cref="BUTTON_IMAGELIST"/> structure that describes the image list that is set for a button control.
-        /// You can use this macro or send the <see cref="ButtonControlMessages.BCM_GETIMAGELIST"/> message explicitly.
+        /// You can use this macro or send the <see cref="BCM_GETIMAGELIST"/> message explicitly.
         /// </summary>
         /// <param name="hwnd">A handle to the button control.</param>
         /// <param name="pbuttonImagelist">A pointer to a <see cref="BUTTON_IMAGELIST"/> structure that contains image list information.</param>
@@ -72,35 +129,26 @@ namespace Lsj.Util.Win32.Macros
         /// To use this macro, you must provide a manifest specifying Comclt32.dll version 6.0.
         /// For more information on manifests, see Enabling Visual Styles.
         /// </remarks>
-        public static bool Button_GetImageList(IntPtr hwnd, out BUTTON_IMAGELIST pbuttonImagelist)
+        public static unsafe BOOL Button_GetImageList(HWND hwnd, out BUTTON_IMAGELIST pbuttonImagelist)
         {
-            pbuttonImagelist = new BUTTON_IMAGELIST();
-            var lparam = Marshal.AllocHGlobal(MarshalExtensions.SizeOf<BUTTON_IMAGELIST>());
-            var result = SendMessage(hwnd, (WindowMessages)ButtonControlMessages.BCM_GETIMAGELIST, UIntPtr.Zero, lparam);
-            Marshal.PtrToStructure(lparam, pbuttonImagelist);
-            Marshal.FreeHGlobal(lparam);
-            return result != IntPtr.Zero;
+            var buttonImagelist = new BUTTON_IMAGELIST();
+            var result = SendMessage(hwnd, (WindowMessages)BCM_GETIMAGELIST, 0, (nint)(&buttonImagelist));
+            pbuttonImagelist = buttonImagelist;
+            return result != 0;
         }
 
         /// <summary>
         /// Gets the text of the note associated with a command link button.
-        /// You can use this macro or send the <see cref="ButtonControlMessages.BCM_GETNOTE"/> message explicitly.
+        /// You can use this macro or send the <see cref="BCM_GETNOTE"/> message explicitly.
         /// </summary>
         /// <param name="hwnd">A handle to the button control.</param>
         /// <param name="psz">A pointer to a null-terminated, Unicode string that contains the note.</param>
         /// <param name="pcc">A pointer to the length of the note, in characters.</param>
         /// <remarks>
-        /// This macro works only with the <see cref="ButtonStyles.BS_COMMANDLINK"/> and <see cref="ButtonStyles.BS_DEFCOMMANDLINK"/> button styles.
+        /// This macro works only with the <see cref="BS_COMMANDLINK"/> and <see cref="BS_DEFCOMMANDLINK"/> button styles.
         /// </remarks>
         /// <returns></returns>
-        public static bool Button_GetNote(IntPtr hwnd, out string? psz, int pcc)
-        {
-            var lparam = Marshal.AllocHGlobal(pcc * 2);
-            var result = SendMessage(hwnd, (WindowMessages)ButtonControlMessages.BCM_GETNOTE, (UIntPtr)pcc, lparam);
-            psz = Marshal.PtrToStringUni(lparam);
-            Marshal.FreeHGlobal(lparam);
-            return result != IntPtr.Zero;
-        }
+        public static BOOL Button_GetNote(HWND hwnd, LPWSTR psz, int pcc) => SendMessage(hwnd, (WindowMessages)BCM_GETNOTE, pcc, psz.ToNint()) != 0;
 
         /// <summary>
         /// Gets the length of the note text that may be displayed in the description for a command link.
@@ -114,12 +162,11 @@ namespace Lsj.Util.Win32.Macros
         /// The <see cref="Button_GetNoteLength"/> macro works only with the <see cref="ButtonStyles.BS_COMMANDLINK"/>
         /// and <see cref="ButtonStyles.BS_DEFCOMMANDLINK"/> button styles.
         /// </remarks>
-        public static IntPtr Button_GetNoteLength(IntPtr hwnd) =>
-            SendMessage(hwnd, (WindowMessages)ButtonControlMessages.BCM_GETNOTELENGTH, UIntPtr.Zero, IntPtr.Zero);
+        public static LRESULT Button_GetNoteLength(HWND hwnd) => SendMessage(hwnd, (WindowMessages)BCM_GETNOTELENGTH, 0, 0);
 
         /// <summary>
         /// Gets information for a specified split button control.
-        /// Use this macro or send the <see cref="ButtonControlMessages.BCM_GETSPLITINFO"/> message explicitly.
+        /// Use this macro or send the <see cref="BCM_GETSPLITINFO"/> message explicitly.
         /// </summary>
         /// <param name="hwnd">A handle to the button control.</param>
         /// <param name="pInfo">
@@ -130,41 +177,46 @@ namespace Lsj.Util.Win32.Macros
         /// <returns>
         /// Use this macro only with the <see cref="ButtonStyles.BS_SPLITBUTTON"/> and <see cref="ButtonStyles.BS_DEFSPLITBUTTON"/> button styles.
         /// </returns>
-        public static bool Button_GetSplitInfo(IntPtr hwnd, out BUTTON_SPLITINFO pInfo)
+        public static bool Button_GetSplitInfo(HWND hwnd, out BUTTON_SPLITINFO pInfo)
         {
             pInfo = new BUTTON_SPLITINFO();
             var lparam = Marshal.AllocHGlobal(MarshalExtensions.SizeOf<BUTTON_SPLITINFO>());
-            var result = SendMessage(hwnd, (WindowMessages)ButtonControlMessages.BCM_GETSPLITINFO, UIntPtr.Zero, lparam);
+            var result = SendMessage(hwnd, (WindowMessages)BCM_GETSPLITINFO, 0, lparam);
             Marshal.PtrToStructure(lparam, pInfo);
             Marshal.FreeHGlobal(lparam);
-            return result != IntPtr.Zero;
+            return result != 0;
         }
 
         /// <summary>
         /// Retrieves the state of a button or check box.
-        /// You can use this macro or send the <see cref="ButtonControlMessages.BM_GETSTATE"/> message explicitly.
+        /// You can use this macro or send the <see cref="BM_GETSTATE"/> message explicitly.
         /// </summary>
         /// <param name="hwndCtl">A handle to the button control.</param>
         /// <returns></returns>
-        public static int Button_GetState(IntPtr hwndCtl) =>
-            SendMessage(hwndCtl, (WindowMessages)ButtonControlMessages.BM_GETSTATE, UIntPtr.Zero, IntPtr.Zero).SafeToInt32();
+        public static int Button_GetState(HWND hwndCtl) => (int)SendMessage(hwndCtl, (WindowMessages)BM_GETSTATE, 0, 0);
 
 
         /// <summary>
         /// Gets the text of a button.
         /// </summary>
-        /// <param name="hwndCtl">A handle to the button control.</param>
-        /// <param name="lpch">Pointer to the buffer that will receive the text.</param>
-        /// <param name="cchMax">The maximum number of characters to copy to the buffer, including the NULL terminator.</param>
+        /// <param name="hwndCtl">
+        /// A handle to the button control.
+        /// </param>
+        /// <param name="lpch">
+        /// Pointer to the buffer that will receive the text.
+        /// </param>
+        /// <param name="cchMax">
+        /// The maximum number of characters to copy to the buffer, including the NULL terminator.
+        /// </param>
         /// <returns></returns>
         /// <remarks>
         /// The macro expands to a call to <see cref="GetWindowText"/>.
         /// </remarks>
-        public static int Button_GetText(HWND hwndCtl, IntPtr lpch, int cchMax) => GetWindowText(hwndCtl, lpch, cchMax);
+        public static int Button_GetText(HWND hwndCtl, LPWSTR lpch, int cchMax) => GetWindowText(hwndCtl, lpch, cchMax);
 
         /// <summary>
         /// Gets the margins used to draw text in a button control.
-        /// You can use this macro or send the <see cref="ButtonControlMessages.BCM_GETTEXTMARGIN"/> message explicitly.
+        /// You can use this macro or send the <see cref="BCM_GETTEXTMARGIN"/> message explicitly.
         /// </summary>
         /// <param name="hwnd">A handle to the button control.</param>
         /// <param name="pInfo">
@@ -175,43 +227,43 @@ namespace Lsj.Util.Win32.Macros
         /// Note  To use this macro, you must provide a manifest specifying Comclt32.dll version 6.0.
         /// For more information on manifests, see Enabling Visual Styles.
         /// </remarks>
-        public static bool Button_GetTextMargin(IntPtr hwnd, out SIZE pInfo)
+        public static bool Button_GetTextMargin(HWND hwnd, out SIZE pInfo)
         {
             pInfo = new SIZE();
             var lparam = Marshal.AllocHGlobal(MarshalExtensions.SizeOf<SIZE>());
-            var result = SendMessage(hwnd, (WindowMessages)ButtonControlMessages.BCM_GETTEXTMARGIN, UIntPtr.Zero, lparam);
+            var result = SendMessage(hwnd, (WindowMessages)BCM_GETTEXTMARGIN, 0, lparam);
             Marshal.PtrToStructure(lparam, pInfo);
             Marshal.FreeHGlobal(lparam);
-            return result != IntPtr.Zero;
+            return result != 0;
         }
 
         /// <summary>
         /// Sets the check state of a radio button or check box.
-        /// You can use this macro or send the <see cref="ButtonControlMessages.BM_SETCHECK"/> message explicitly.
+        /// You can use this macro or send the <see cref="BM_SETCHECK"/> message explicitly.
         /// </summary>
         /// <param name="hwndCtl"> A handle to the button control.</param>
         /// <param name="check">
         /// The check state. This parameter can be one of the following values.
         /// <see cref="ButtonCheckStates.BST_CHECKED"/>, <see cref="ButtonCheckStates.BST_INDETERMINATE"/> and <see cref="ButtonCheckStates.BST_UNCHECKED"/>.
         /// </param>
-        public static void Button_SetCheck(IntPtr hwndCtl, ButtonCheckStates check) =>
-            SendMessage(hwndCtl, (WindowMessages)ButtonControlMessages.BM_SETCHECK, (UIntPtr)check, IntPtr.Zero);
+        public static void Button_SetCheck(HWND hwndCtl, ButtonCheckStates check) =>
+            SendMessage(hwndCtl, (WindowMessages)BM_SETCHECK, (nuint)check, 0);
 
         /// <summary>
         /// Sets the drop down state for a specified button with style of <see cref="ButtonStyles.BS_SPLITBUTTON"/>.
-        /// Use this macro or send the <see cref="ButtonControlMessages.BCM_SETDROPDOWNSTATE"/> message explicitly.
+        /// Use this macro or send the <see cref="BCM_SETDROPDOWNSTATE"/> message explicitly.
         /// </summary>
         /// <param name="hwnd">A handle to the button control.</param>
         /// <param name="fDropDown">
         /// <see langword="true"/> for state of <see cref="ButtonCheckStates.BST_DROPDOWNPUSHED"/>, or <see langword="false"/> otherwise.
         /// </param>
         /// <returns></returns>
-        public static bool Button_SetDropDownState(IntPtr hwnd, bool fDropDown) =>
-            SendMessage(hwnd, (WindowMessages)ButtonControlMessages.BCM_SETDROPDOWNSTATE, (UIntPtr)(fDropDown ? 1 : 0), IntPtr.Zero) != IntPtr.Zero;
+        public static bool Button_SetDropDownState(HWND hwnd, bool fDropDown) =>
+            SendMessage(hwnd, (WindowMessages)BCM_SETDROPDOWNSTATE, fDropDown ? 1 : 0, 0) != 0;
 
         /// <summary>
         /// Sets the elevation required state for a specified button or command link to display an elevated icon.
-        /// Use this macro or send the <see cref="ButtonControlMessages.BCM_SETSHIELD"/> message explicitly.
+        /// Use this macro or send the <see cref="BCM_SETSHIELD"/> message explicitly.
         /// </summary>
         /// <param name="hwnd">A handle to the button control.</param>
         /// <param name="fRequired">
@@ -221,12 +273,12 @@ namespace Lsj.Util.Win32.Macros
         /// <remarks>
         /// An application must use comctl32.dll version 6 to gain this functionality.
         /// </remarks>
-        public static IntPtr Button_SetElevationRequiredState(IntPtr hwnd, bool fRequired) =>
-            SendMessage((hwnd), (WindowMessages)ButtonControlMessages.BCM_SETSHIELD, UIntPtr.Zero, (IntPtr)(fRequired ? 1 : 0));
+        public static LRESULT Button_SetElevationRequiredState(HWND hwnd, bool fRequired) =>
+            SendMessage(hwnd, (WindowMessages)BCM_SETSHIELD, 0, fRequired ? 1 : 0);
 
         /// <summary>
         /// Assigns an image list to a button control.
-        /// You can use this macro or send the <see cref="ButtonControlMessages.BCM_SETIMAGELIST"/> message explicitly.
+        /// You can use this macro or send the <see cref="BCM_SETIMAGELIST"/> message explicitly.
         /// </summary>
         /// <param name="hwnd">
         /// A handle to the button control.
@@ -239,17 +291,17 @@ namespace Lsj.Util.Win32.Macros
         /// To use this macro, you must provide a manifest specifying Comclt32.dll version 6.0.
         /// For more information on manifests, see Enabling Visual Styles.
         /// </remarks>
-        public static bool Button_SetImageList(IntPtr hwnd, BUTTON_IMAGELIST pbuttonImagelist)
+        public static bool Button_SetImageList(HWND hwnd, BUTTON_IMAGELIST pbuttonImagelist)
         {
             var lparam = MarshalExtensions.StructureToPtr(pbuttonImagelist);
-            var result = SendMessage(hwnd, (WindowMessages)ButtonControlMessages.BCM_SETIMAGELIST, UIntPtr.Zero, lparam);
+            var result = SendMessage(hwnd, (WindowMessages)BCM_SETIMAGELIST, 0, lparam);
             Marshal.FreeHGlobal(lparam);
-            return result != IntPtr.Zero;
+            return result != 0;
         }
 
         /// <summary>
         /// Sets the text of the note associated with a specified command link button.
-        /// You can use this macro or send the <see cref="ButtonControlMessages.BCM_SETNOTE"/> message explicitly.
+        /// You can use this macro or send the <see cref="BCM_SETNOTE"/> message explicitly.
         /// </summary>
         /// <param name="hwnd">
         /// A handle to the button control.
@@ -262,17 +314,17 @@ namespace Lsj.Util.Win32.Macros
         /// Beginning with comctl32 DLL version 6.01, command link buttons may have a note.
         /// This macro works only with the <see cref="ButtonStyles.BS_COMMANDLINK"/> and <see cref="ButtonStyles.BS_DEFCOMMANDLINK"/> button styles.
         /// </remarks>
-        public static bool Button_SetNote(IntPtr hwnd, string psz)
+        public static bool Button_SetNote(HWND hwnd, string psz)
         {
             var lparam = Marshal.StringToHGlobalUni(psz);
-            var result = SendMessage(hwnd, (WindowMessages)ButtonControlMessages.BCM_SETNOTE, UIntPtr.Zero, lparam);
+            var result = SendMessage(hwnd, (WindowMessages)BCM_SETNOTE, 0, lparam);
             Marshal.FreeHGlobal(lparam);
-            return result != IntPtr.Zero;
+            return result != 0;
         }
 
         /// <summary>
         /// Sets information for a specified split button control.
-        /// Use this macro or send the <see cref="ButtonControlMessages.BCM_SETSPLITINFO"/> message explicitly.
+        /// Use this macro or send the <see cref="BCM_SETSPLITINFO"/> message explicitly.
         /// </summary>
         /// <param name="hwnd">
         /// A handle to the button control.
@@ -286,18 +338,18 @@ namespace Lsj.Util.Win32.Macros
         /// <remarks>
         /// Use this macro only with the <see cref="ButtonStyles.BS_SPLITBUTTON"/> and <see cref="ButtonStyles.BS_DEFSPLITBUTTON"/> button styles.
         /// </remarks>
-        public static bool Button_SetSplitInfo(IntPtr hwnd, BUTTON_SPLITINFO pInfo)
+        public static bool Button_SetSplitInfo(HWND hwnd, BUTTON_SPLITINFO pInfo)
         {
             var lparam = MarshalExtensions.StructureToPtr(pInfo);
-            var result = SendMessage(hwnd, (WindowMessages)ButtonControlMessages.BCM_SETSPLITINFO, UIntPtr.Zero, lparam);
+            var result = SendMessage(hwnd, (WindowMessages)BCM_SETSPLITINFO, 0, lparam);
             Marshal.FreeHGlobal(lparam);
-            return result != IntPtr.Zero;
+            return result != 0;
         }
 
         /// <summary>
         /// Sets the highlight state of a button.
         /// The highlight state indicates whether the button is highlighted as if the user had pushed it.
-        /// You can use this macro or send the <see cref="ButtonControlMessages.BM_SETSTATE"/> message explicitly.
+        /// You can use this macro or send the <see cref="BM_SETSTATE"/> message explicitly.
         /// </summary>
         /// <param name="hwndCtl">
         /// A handle to the button control.
@@ -306,12 +358,11 @@ namespace Lsj.Util.Win32.Macros
         /// <see langword="true"/> to highlight the button; otherwise <see langword="false"/>.
         /// </param>
         /// <returns></returns>
-        public static uint Button_SetState(IntPtr hwndCtl, bool state) =>
-             SendMessage(hwndCtl, (WindowMessages)ButtonControlMessages.BM_SETSTATE, (UIntPtr)(state ? 1 : 0), IntPtr.Zero).SafeToUInt32();
+        public static UINT Button_SetState(HWND hwndCtl, BOOL state) =>(uint)SendMessage(hwndCtl, (WindowMessages)BM_SETSTATE, (nuint)(state ? 1 : 0), 0);
 
         /// <summary>
         /// Sets the style of a button.
-        /// You can use this macro or send the <see cref="ButtonControlMessages.BM_SETSTYLE"/> message explicitly.
+        /// You can use this macro or send the <see cref="BM_SETSTYLE"/> message explicitly.
         /// </summary>
         /// <param name="hwndCtl">
         /// A handle to the button control.
@@ -322,8 +373,8 @@ namespace Lsj.Util.Win32.Macros
         /// <param name="fRedraw">
         /// <see langword="true"/> to redraw the button; otherwise <see langword="false"/>.
         /// </param>
-        public static void Button_SetStyle(IntPtr hwndCtl, ButtonStyles style, bool fRedraw) =>
-            SendMessage(hwndCtl, (WindowMessages)ButtonControlMessages.BM_SETSTYLE, (UIntPtr)(uint)style, (IntPtr)(fRedraw ? 1 : 0));
+        public static void Button_SetStyle(HWND hwndCtl, ButtonStyles style, bool fRedraw) =>
+            SendMessage(hwndCtl, (WindowMessages)BM_SETSTYLE, (uint)style, fRedraw ? 1 : 0);
 
         /// <summary>
         /// Sets the text of a button.
@@ -338,11 +389,11 @@ namespace Lsj.Util.Win32.Macros
         /// <remarks>
         /// The macro expands to a call to <see cref="SetWindowText"/>.
         /// </remarks>
-        public static bool Button_SetText(IntPtr hwnd, string lpsz) => SetWindowText(hwnd, lpsz);
+        public static bool Button_SetText(HWND hwnd, string lpsz) => SetWindowText(hwnd, lpsz);
 
         /// <summary>
         /// Sets the margins for drawing text in a button control.
-        /// You can use this macro or send the <see cref="ButtonControlMessages.BCM_SETTEXTMARGIN"/> message explicitly.
+        /// You can use this macro or send the <see cref="BCM_SETTEXTMARGIN"/> message explicitly.
         /// </summary>
         /// <param name="hwnd">
         /// A handle to the button control.
@@ -354,12 +405,12 @@ namespace Lsj.Util.Win32.Macros
         /// To use this macro, you must provide a manifest specifying Comclt32.dll version 6.0.
         /// For more information on manifests, see Enabling Visual Styles.
         /// </returns>
-        public static bool Button_SetTextMargin(IntPtr hwnd, SIZE pmargin)
+        public static bool Button_SetTextMargin(HWND hwnd, SIZE pmargin)
         {
             var lparam = MarshalExtensions.StructureToPtr(pmargin);
-            var result = SendMessage(hwnd, (WindowMessages)ButtonControlMessages.BCM_SETTEXTMARGIN, UIntPtr.Zero, lparam);
+            var result = SendMessage(hwnd, (WindowMessages)BCM_SETTEXTMARGIN, 0, lparam);
             Marshal.FreeHGlobal(lparam);
-            return result != IntPtr.Zero;
+            return result != 0;
         }
     }
 }

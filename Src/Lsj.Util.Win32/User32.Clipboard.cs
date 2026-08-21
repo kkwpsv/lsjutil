@@ -307,7 +307,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [WindowsVersionRequirement(WindowsVersion.WindowsNT40)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClipboardFormatNameW", ExactSpelling = true, SetLastError = true)]
-        public static extern int GetClipboardFormatName([In] StandardClipboardFormats format, [In] IntPtr lpszFormatName, [In] int cchMaxCount);
+        public static extern int GetClipboardFormatName([In] StandardClipboardFormats format, [In] LPWSTR lpszFormatName, [In] int cchMaxCount);
 
         /// <summary>
         /// <para>

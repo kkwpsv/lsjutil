@@ -212,7 +212,7 @@ namespace Lsj.Util.Win32.Structs
         /// If the <see cref="PSP_DLGINDIRECT"/> flag in the <see cref="dwFlags"/> member is set, <see cref="pszTemplate"/> is ignored.
         /// This member is declared as a union with <see cref="pResource"/>.
         /// </summary>
-        public IntPtr pszTemplate
+        public nint pszTemplate
         {
             get => _PROPSHEETPAGE_DUMMYUNIONNAME.pszTemplate;
             set => _PROPSHEETPAGE_DUMMYUNIONNAME.pszTemplate = value;
@@ -225,7 +225,7 @@ namespace Lsj.Util.Win32.Structs
         /// To use this member, you must set the <see cref="PSP_DLGINDIRECT"/> flag in the <see cref="dwFlags"/> member.
         /// This member is declared as a union with <see cref="pszTemplate"/>.
         /// </summary>
-        public IntPtr pResource
+        public nint pResource
         {
             get => _PROPSHEETPAGE_DUMMYUNIONNAME.pResource;
             set => _PROPSHEETPAGE_DUMMYUNIONNAME.pResource = value;
@@ -250,7 +250,7 @@ namespace Lsj.Util.Win32.Structs
         /// To use this member, you must set the <see cref="PSP_USEICONID"/> flag in the <see cref="dwFlags"/> member.
         /// This member is declared as a union with <see cref="hIcon"/>.
         /// </summary>
-        public IntPtr pszIcon
+        public nint pszIcon
         {
             get => _PROPSHEETPAGE_DUMMYUNIONNAME2.pszIcon;
             set => _PROPSHEETPAGE_DUMMYUNIONNAME2.pszIcon = value;
@@ -262,13 +262,13 @@ namespace Lsj.Util.Win32.Structs
         /// This member can specify either the identifier of a string resource or the address of a string that specifies the title.
         /// To use this member, you must set the <see cref="PSP_USETITLE"/> flag in the <see cref="dwFlags"/> member.
         /// </summary>
-        public IntPtr pszTitle;
+        public nint pszTitle;
 
         /// <summary>
         /// Pointer to the dialog box procedure for the page.
         /// Because the pages are created as modeless dialog boxes, the dialog box procedure must not call the <see cref="EndDialog"/> function.
         /// </summary>
-        public IntPtr pfnDlgProc;
+        public nint pfnDlgProc;
 
         /// <summary>
         /// When the page is created, a copy of the page's <see cref="PROPSHEETPAGE"/> structure is passed to the dialog box procedure with a <see cref="WM_INITDIALOG"/> message.
@@ -282,7 +282,7 @@ namespace Lsj.Util.Win32.Structs
         /// For more information about the callback function, see LPFNPSPCALLBACK callback function.
         /// To use this member, you must set the <see cref="PSP_USECALLBACK"/> flag in the <see cref="dwFlags"/> member.
         /// </summary>
-        public IntPtr pfnCallback;
+        public nint pfnCallback;
 
         /// <summary>
         /// <para>
@@ -328,7 +328,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public IntPtr pszHeaderTitle;
+        public nint pszHeaderTitle;
 
         /// <summary>
         /// <para>
@@ -360,7 +360,7 @@ namespace Lsj.Util.Win32.Structs
         /// This member is ignored when using the Aero-style wizard (<see cref="PSH_AEROWIZARD"/>)
         /// </para>
         /// </summary>
-        public IntPtr pszHeaderSubTitle;
+        public nint pszHeaderSubTitle;
 
         /// <summary>
         /// Version 6.0 or later.
@@ -385,7 +385,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// This member is declared as a union with <see cref="hbmHeader"/>.
         /// </summary>
-        public IntPtr pszbmHeader
+        public nint pszbmHeader
         {
             get => _PROPSHEETPAGE_DUMMYUNIONNAME3.pszbmHeader;
             set => _PROPSHEETPAGE_DUMMYUNIONNAME3.pszbmHeader = value;
@@ -393,20 +393,20 @@ namespace Lsj.Util.Win32.Structs
 
         struct PROPSHEETPAGE_DUMMYUNIONNAME
         {
-            public IntPtr pszTemplate;
-            public IntPtr pResource;
+            public nint pszTemplate;
+            public nint pResource;
         }
 
         struct PROPSHEETPAGE_DUMMYUNIONNAME2
         {
             public HICON hIcon;
-            public IntPtr pszIcon;
+            public nint pszIcon;
         }
 
         struct PROPSHEETPAGE_DUMMYUNIONNAME3
         {
             public HBITMAP hbmHeader;
-            public IntPtr pszbmHeader;
+            public nint pszbmHeader;
         }
     }
 #pragma warning restore IDE1006

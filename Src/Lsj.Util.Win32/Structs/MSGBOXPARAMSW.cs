@@ -43,13 +43,13 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// A null-terminated string, or the identifier of a string resource, that contains the message to be displayed.
         /// </summary>
-        public IntPtr lpszText;
+        public nint lpszText;
 
         /// <summary>
         /// A null-terminated string, or the identifier of a string resource, that contains the message box title.
         /// If this member is <see cref="NULL"/>, the default title Error is used.
         /// </summary>
-        public IntPtr lpszCaption;
+        public nint lpszCaption;
 
         /// <summary>
         /// <para>
@@ -76,7 +76,7 @@ namespace Lsj.Util.Win32.Structs
         /// This member is ignored if the <see cref="dwStyle"/> member does not specify the <see cref="MB_USERICON"/> flag.
         /// </para>
         /// </summary>
-        public IntPtr lpszIcon;
+        public nint lpszIcon;
 
         /// <summary>
         /// Identifies a help context.
@@ -93,7 +93,7 @@ namespace Lsj.Util.Win32.Structs
         /// </code>
         /// If this member is <see cref="NULL"/>, then the message box sends <see cref="WM_HELP"/> messages to the owner window when help events occur.
         /// </summary>
-        public IntPtr lpfnMsgBoxCallback;
+        public nint lpfnMsgBoxCallback;
 
         /// <summary>
         /// <para>

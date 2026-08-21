@@ -52,7 +52,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     [ComInterface(IID = "794950F2-ADFC-458a-905E-10A10B0B503B", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 9, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IDirect3DSwapChain9
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Presents the contents of the next buffer in the sequence of back buffers owned by the swap chain.

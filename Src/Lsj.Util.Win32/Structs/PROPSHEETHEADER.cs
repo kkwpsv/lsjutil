@@ -374,7 +374,7 @@ namespace Lsj.Util.Win32.Structs
         /// This member is used if the <see cref="dwFlags"/> member includes <see cref="PSH_USEHICON"/>.
         /// This member is declared as a union with <see cref="pszIcon"/>.
         /// </summary>
-        public IntPtr hIcon
+        public nint hIcon
         {
             get => _PROPSHEETHEADER_DUMMYUNIONNAME.hIcon;
             set => _PROPSHEETHEADER_DUMMYUNIONNAME.hIcon = value;
@@ -387,7 +387,7 @@ namespace Lsj.Util.Win32.Structs
         /// In both cases, the icon is loaded from the instance provided by the <see cref="hInstance"/> member.
         /// This member is declared as a union with hIcon.
         /// </summary>
-        public IntPtr pszIcon
+        public nint pszIcon
         {
             get => _PROPSHEETHEADER_DUMMYUNIONNAME.pszIcon;
             set => _PROPSHEETHEADER_DUMMYUNIONNAME.pszIcon = value;
@@ -401,7 +401,7 @@ namespace Lsj.Util.Win32.Structs
         /// This field is ignored for Wizard97 wizards.
         /// For Aero wizards, the string alone is used for the caption, regardless of whether the <see cref="PSH_PROPTITLE"/> flag is set.
         /// </summary>
-        public IntPtr pszCaption;
+        public nint pszCaption;
 
         /// <summary>
         /// Number of property sheet pages provided in either the <see cref="ppsp"/> or <see cref="phpage"/> array.
@@ -429,7 +429,7 @@ namespace Lsj.Util.Win32.Structs
         /// The start page name is matched against the captions of the pages.
         /// This member is declared as a union with <see cref="nStartPage"/>.
         /// </summary>
-        public IntPtr pStartPage
+        public nint pStartPage
         {
             get => _PROPSHEETHEADER_DUMMYUNIONNAME2.pStartPage;
             set => _PROPSHEETHEADER_DUMMYUNIONNAME2.pStartPage = value;
@@ -444,7 +444,7 @@ namespace Lsj.Util.Win32.Structs
         /// Applications that parse the array pointed to by <see cref="ppsp"/> must take the size of each page into account.
         /// This member is declared as a union with <see cref="phpage"/>.
         /// </summary>
-        public IntPtr ppsp
+        public nint ppsp
         {
             get => _PROPSHEETHEADER_DUMMYUNIONNAME3.ppsp;
             set => _PROPSHEETHEADER_DUMMYUNIONNAME3.ppsp = value;
@@ -457,7 +457,7 @@ namespace Lsj.Util.Win32.Structs
         /// When the <see cref="PropertySheet"/> function returns, any <see cref="HPROPSHEETPAGE"/> handles in the phpage array will have been destroyed.
         /// This member is declared as a union with <see cref="ppsp"/>.
         /// </summary>
-        public IntPtr phpage
+        public nint phpage
         {
             get => _PROPSHEETHEADER_DUMMYUNIONNAME3.phpage;
             set => _PROPSHEETHEADER_DUMMYUNIONNAME3.phpage = value;
@@ -490,7 +490,7 @@ namespace Lsj.Util.Win32.Structs
         /// that specifies the name of the bitmap resource.
         /// If the <see cref="dwFlags"/> member includes <see cref="PSH_USEHBMWATERMARK"/>, this member is ignored.
         /// </summary>
-        public IntPtr pszbmWatermark
+        public nint pszbmWatermark
         {
             get => _PROPSHEETHEADER_DUMMYUNIONNAME4.pszbmWatermark;
             set => _PROPSHEETHEADER_DUMMYUNIONNAME4.pszbmWatermark = value;
@@ -523,7 +523,7 @@ namespace Lsj.Util.Win32.Structs
         /// that specifies the name of the bitmap resource.
         /// If the <see cref="dwFlags"/> member includes <see cref="PSH_USEHBMHEADER"/>, this member is ignored.
         /// </summary>
-        public IntPtr pszbmHeader
+        public nint pszbmHeader
         {
             get => _PROPSHEETHEADER_DUMMYUNIONNAME5.pszbmHeader;
             set => _PROPSHEETHEADER_DUMMYUNIONNAME5.pszbmHeader = value;
@@ -532,31 +532,31 @@ namespace Lsj.Util.Win32.Structs
         struct PROPSHEETHEADER_DUMMYUNIONNAME
         {
             public HICON hIcon;
-            public IntPtr pszIcon;
+            public nint pszIcon;
         }
 
         struct PROPSHEETHEADER_DUMMYUNIONNAME2
         {
             public UINT nStartPage;
-            public IntPtr pStartPage;
+            public nint pStartPage;
         }
 
         struct PROPSHEETHEADER_DUMMYUNIONNAME3
         {
-            public IntPtr ppsp;
-            public IntPtr phpage;
+            public nint ppsp;
+            public nint phpage;
         }
 
         struct PROPSHEETHEADER_DUMMYUNIONNAME4
         {
             public HBITMAP hbmWatermark;
-            public IntPtr pszbmWatermark;
+            public nint pszbmWatermark;
         }
 
         struct PROPSHEETHEADER_DUMMYUNIONNAME5
         {
             public HBITMAP hbmHeader;
-            public IntPtr pszbmHeader;
+            public nint pszbmHeader;
         }
     }
 #pragma warning restore IDE1006

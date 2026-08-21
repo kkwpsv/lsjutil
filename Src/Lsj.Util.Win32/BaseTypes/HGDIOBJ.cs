@@ -22,6 +22,9 @@ namespace Lsj.Util.Win32.BaseTypes
         /// <inheritdoc/>
         public IntPtr ToIntPtr() => _value;
 
+        /// <inheritdoc/>
+        public nint ToNint() => _value;
+
         /// <summary>
         /// 
         /// </summary>
@@ -38,12 +41,12 @@ namespace Lsj.Util.Win32.BaseTypes
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator IntPtr(HGDIOBJ val) => val._value;
+        public static implicit operator nint(HGDIOBJ val) => val._value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator HGDIOBJ(IntPtr val) => new HGDIOBJ { _value = val };
+        public static implicit operator HGDIOBJ(nint val) => new HGDIOBJ { _value = val };
     }
 }

@@ -106,7 +106,7 @@ namespace Lsj.Util.Win32.Structs
         /// If this member is set to <see cref="LPSTR_TEXTCALLBACK"/>,
         /// the control will request the information by using the <see cref="CBEN_GETDISPINFO"/> notification codes.
         /// </summary>
-        public IntPtr pszText;
+        public nint pszText;
 
         /// <summary>
         /// The length of <see cref="pszText"/>, in TCHARs.

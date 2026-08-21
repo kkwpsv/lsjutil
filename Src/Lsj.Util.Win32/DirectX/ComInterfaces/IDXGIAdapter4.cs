@@ -25,7 +25,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(IDXGIObject), typeof(IDXGIAdapter), typeof(IDXGIAdapter1), typeof(IDXGIAdapter2), typeof(IDXGIAdapter3)])]
     public unsafe struct IDXGIAdapter4
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Gets a Microsoft DirectX Graphics Infrastructure (DXGI) 1.6 description of an adapter or video card.

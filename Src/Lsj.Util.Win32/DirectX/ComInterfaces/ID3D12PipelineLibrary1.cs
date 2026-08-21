@@ -22,7 +22,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         InheritedFromTypes = [typeof(IUnknown), typeof(ID3D12Object), typeof(ID3D12PipelineLibrary)])]
     public unsafe struct ID3D12PipelineLibrary1
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Retrieves the requested PSO from the library.
@@ -62,12 +62,12 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
         /// and <see cref="D3D12_COMPUTE_PIPELINE_STATE_DESC"/> structs, respectively.
         /// </remarks>
         public HRESULT LoadPipeline([In] LPCWSTR pName, [In] in D3D12_PIPELINE_STATE_STREAM_DESC pDesc,
-            [In] in IID riid, [Out] out IntPtr ppPipelineState)
+            [In] in IID riid, [Out] out nint ppPipelineState)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, in D3D12_PIPELINE_STATE_STREAM_DESC,
-                    in IID, out IntPtr, HRESULT>)_vTable[13])(thisPtr, pName.ToIntPtr(), pDesc, riid, out ppPipelineState);
+                return ((delegate* unmanaged[Stdcall]<void*, nint, in D3D12_PIPELINE_STATE_STREAM_DESC,
+                    in IID, out nint, HRESULT>)_vTable[13])(thisPtr, pName.ToNint(), pDesc, riid, out ppPipelineState);
             }
         }
     }

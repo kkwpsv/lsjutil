@@ -23,6 +23,6 @@ namespace Lsj.Util.Win32.MediaFoundation.ComInterfaces
     [ComInterface(IID = "2CD0BD52-BCD5-4B89-B62C-EADC0C031E7D", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 6,InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IMFMediaEventGenerator
     {
-        IntPtr* _vTable;
+        nint* _vTable;
     }
 }

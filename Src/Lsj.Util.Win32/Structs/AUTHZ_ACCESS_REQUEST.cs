@@ -31,7 +31,7 @@ namespace Lsj.Util.Win32.Structs
         /// An array of <see cref="OBJECT_TYPE_LIST"/> structures in the object tree for the object.
         /// Set to <see cref="NULL"/> unless the application checks access at the property level.
         /// </summary>
-        public IntPtr ObjectTypeList;
+        public nint ObjectTypeList;
 
         /// <summary>
         /// The number of elements in the <see cref="ObjectTypeList"/> array.

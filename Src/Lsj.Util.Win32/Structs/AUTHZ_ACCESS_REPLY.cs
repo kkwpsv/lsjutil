@@ -39,7 +39,7 @@ namespace Lsj.Util.Win32.Structs
         /// An array of granted access masks.
         /// Memory for this array is allocated by the application before calling <see cref="AccessCheck"/>.
         /// </summary>
-        public IntPtr GrantedAccessMask;
+        public nint GrantedAccessMask;
 
         /// <summary>
         ///<para>
@@ -85,7 +85,7 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public IntPtr SaclEvaluationResults;
+        public nint SaclEvaluationResults;
 
         /// <summary>
         /// <para>
@@ -137,6 +137,6 @@ namespace Lsj.Util.Win32.Structs
         /// </item>
         /// </list>
         /// </summary>
-        public IntPtr Error;
+        public nint Error;
     }
 }

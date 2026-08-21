@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// </remarks>
     public struct P<T> where T : struct
     {
-        private IntPtr _value;
+        private nint _value;
 
         /// <summary>
         /// 
@@ -46,7 +46,7 @@ namespace Lsj.Util.Win32.BaseTypes
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static P<T> FromPtr(IntPtr value) => new P<T> { _value = value };
+        public static P<T> FromPtr(nint value) => new P<T> { _value = value };
 
         /// <summary>
         /// 
@@ -68,13 +68,13 @@ namespace Lsj.Util.Win32.BaseTypes
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator IntPtr(P<T> val) => val._value;
+        public static implicit operator nint(P<T> val) => val._value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator P<T>(IntPtr val) => new P<T> { _value = val };
+        public static implicit operator P<T>(nint val) => new P<T> { _value = val };
 
         /// <summary>
         /// 

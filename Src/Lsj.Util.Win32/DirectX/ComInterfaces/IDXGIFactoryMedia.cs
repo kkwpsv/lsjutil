@@ -54,7 +54,7 @@ namespace Lsj.Util.Win32.DirectX.ComInterfaces
     [ComInterface(IID = "41e7d1f2-a591-4f7b-a2e5-fa9c843e1c12", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 4, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IDXGIFactoryMedia
     {
-        IntPtr* _vTable;
+        nint* _vTable;
 
         /// <summary>
         /// Creates a YUV swap chain for an existing DirectComposition surface handle.

@@ -20,6 +20,6 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </summary>
     public unsafe struct IOleItemContainer
     {
-        IntPtr* _vTable;
+        nint* _vTable;
     }
 }

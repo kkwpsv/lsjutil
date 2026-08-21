@@ -1052,7 +1052,7 @@ namespace Lsj.Util.Win32.Structs
             /// 
             /// </summary>
             [FieldOffset(0)]
-            public IntPtr bstrVal;
+            public nint bstrVal;
 
             /// <summary>
             /// 
@@ -1064,19 +1064,19 @@ namespace Lsj.Util.Win32.Structs
             /// 
             /// </summary>
             [FieldOffset(0)]
-            public IntPtr blob;
+            public nint blob;
 
             /// <summary>
             /// 
             /// </summary>
             [FieldOffset(0)]
-            public IntPtr pszVal;
+            public nint pszVal;
 
             /// <summary>
             /// 
             /// </summary>
             [FieldOffset(0)]
-            public IntPtr pwszVal;
+            public nint pwszVal;
 
             /// <summary>
             /// 
@@ -1106,13 +1106,13 @@ namespace Lsj.Util.Win32.Structs
             /// 
             /// </summary>
             [FieldOffset(0)]
-            public IntPtr pVersionedStream;
+            public nint pVersionedStream;
 
             /// <summary>
             /// 
             /// </summary>
             [FieldOffset(0)]
-            public IntPtr parray;
+            public nint parray;
 
             /// <summary>
             /// 
@@ -1340,7 +1340,7 @@ namespace Lsj.Util.Win32.Structs
             /// 
             /// </summary>
             [FieldOffset(0)]
-            public IntPtr pbstrVal;
+            public nint pbstrVal;
 
             /// <summary>
             /// 
@@ -1358,13 +1358,13 @@ namespace Lsj.Util.Win32.Structs
             /// 
             /// </summary>
             [FieldOffset(0)]
-            public IntPtr pparray;
+            public nint pparray;
 
             /// <summary>
             /// 
             /// </summary>
             [FieldOffset(0)]
-            public IntPtr pvarVal;
+            public nint pvarVal;
         }
 
 #pragma warning disable IDE1006
@@ -1552,7 +1552,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// 
         /// </summary>
-        public IntPtr bstrVal
+        public nint bstrVal
         {
             get => _union.bstrVal;
             set => _union.bstrVal = value;
@@ -1570,7 +1570,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// 
         /// </summary>
-        public IntPtr blob
+        public nint blob
         {
             get => _union.blob;
             set => _union.blob = value;
@@ -1579,7 +1579,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// 
         /// </summary>
-        public IntPtr pszVal
+        public nint pszVal
         {
             get => _union.pszVal;
             set => _union.pszVal = value;
@@ -1588,7 +1588,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// 
         /// </summary>
-        public IntPtr pwszVal
+        public nint pwszVal
         {
             get => _union.pwszVal;
             set => _union.pwszVal = value;
@@ -1633,7 +1633,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// 
         /// </summary>
-        public IntPtr pVersionedStream
+        public nint pVersionedStream
         {
             get => _union.pVersionedStream;
             set => _union.pVersionedStream = value;
@@ -1642,7 +1642,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// 
         /// </summary>
-        public IntPtr parray
+        public nint parray
         {
             get => _union.parray;
             set => _union.parray = value;
@@ -1984,7 +1984,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// 
         /// </summary>
-        public IntPtr pbstrVal
+        public nint pbstrVal
         {
             get => _union.pbstrVal;
             set => _union.pbstrVal = value;
@@ -2011,7 +2011,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// 
         /// </summary>
-        public IntPtr pparray
+        public nint pparray
         {
             get => _union.pparray;
             set => _union.pparray = value;
