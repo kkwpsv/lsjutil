@@ -43,6 +43,26 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly IID IID_IClientSecurity = "0000013D-0000-0000-C000-000000000046";
 
         /// <summary>
+        /// IID_ID2D1Bitmap
+        /// </summary>
+        public static readonly IID IID_ID2D1Bitmap = "a2296057-ea42-4099-983b-539fb6505426";
+
+        /// <summary>
+        /// IID_ID2D1BitmapBrush
+        /// </summary>
+        public static readonly IID IID_ID2D1BitmapBrush = "2cd906aa-12e2-11dc-9fed-001143a055f9";
+
+        /// <summary>
+        /// IID_ID2D1BitmapRenderTarget
+        /// </summary>
+        public static readonly IID IID_ID2D1BitmapRenderTarget = "2cd90695-12e2-11dc-9fed-001143a055f9";
+
+        /// <summary>
+        /// IID_ID2D1Brush
+        /// </summary>
+        public static readonly IID IID_ID2D1Brush = "2cd906a8-12e2-11dc-9fed-001143a055f9";
+
+        /// <summary>
         /// IID_ID2D1DCRenderTarget
         /// </summary>
         public static readonly IID IID_ID2D1DCRenderTarget = "1c51bc64-de61-46fd-9899-63a5d8f03950";
@@ -73,14 +93,44 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly IID IID_ID2D1GeometryGroup = "2cd906a6-12e2-11dc-9fed-001143a055f9";
 
         /// <summary>
+        /// IID_ID2D1GradientStopCollection
+        /// </summary>
+        public static readonly IID IID_ID2D1GradientStopCollection = "2cd906a7-12e2-11dc-9fed-001143a055f9";
+
+        /// <summary>
         /// IID_ID2D1HwndRenderTarget
         /// </summary>
         public static readonly IID IID_ID2D1HwndRenderTarget = "2cd90694-12e2-11dc-9fed-001143a055f9";
 
         /// <summary>
+        /// IID_ID2D1Image
+        /// </summary>
+        public static readonly IID IID_ID2D1Image = "65019f75-8da2-497c-b32c-dfa34e48ede6";
+
+        /// <summary>
+        /// IID_ID2D1Layer
+        /// </summary>
+        public static readonly IID IID_ID2D1Layer = "2cd9069b-12e2-11dc-9fed-001143a055f9";
+
+        /// <summary>
+        /// IID_ID2D1LinearGradientBrush
+        /// </summary>
+        public static readonly IID IID_ID2D1LinearGradientBrush = "2cd906ab-12e2-11dc-9fed-001143a055f9";
+
+        /// <summary>
+        /// IID_ID2D1Mesh
+        /// </summary>
+        public static readonly IID IID_ID2D1Mesh = "2cd906c2-12e2-11dc-9fed-001143a055f9";
+
+        /// <summary>
         /// IID_ID2D1PathGeometry
         /// </summary>
         public static readonly IID IID_ID2D1PathGeometry = "2cd906a5-12e2-11dc-9fed-001143a055f9";
+
+        /// <summary>
+        /// IID_ID2D1RadialGradientBrush
+        /// </summary>
+        public static readonly IID IID_ID2D1RadialGradientBrush = "2cd906ac-12e2-11dc-9fed-001143a055f9";
 
         /// <summary>
         /// IID_ID2D1RectangleGeometry
@@ -101,6 +151,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// IID_ID2D1RoundedRectangleGeometry
         /// </summary>
         public static readonly IID IID_ID2D1RoundedRectangleGeometry = "2cd906a3-12e2-11dc-9fed-001143a055f9";
+
+        /// <summary>
+        /// IID_ID2D1SolidColorBrush
+        /// </summary>
+        public static readonly IID IID_ID2D1SolidColorBrush = "2cd906a9-12e2-11dc-9fed-001143a055f9";
 
         /// <summary>
         /// IID_ID2D1StrokeStyle
@@ -303,9 +358,24 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly IID IID_IDispatch = "00020400-0000-0000-C000-000000000046";
 
         /// <summary>
+        /// IID_IDWriteFontFace
+        /// </summary>
+        public static readonly IID IID_IDWriteFontFace = "5f49804d-7024-4d43-bfa9-d25984f53849";
+
+        /// <summary>
         /// IID_IDWriteRenderingParams
         /// </summary>
         public static readonly IID IID_IDWriteRenderingParams = "06152247-6f50-465a-9245-118bfd3b6007";
+
+        /// <summary>
+        /// IID_IDWriteTextFormat
+        /// </summary>
+        public static readonly IID IID_IDWriteTextFormat = "9c906818-31d7-4fd3-a151-7c5e225db55a";
+
+        /// <summary>
+        /// IID_IDWriteTextLayout
+        /// </summary>
+        public static readonly IID IID_IDWriteTextLayout = "53737037-6d14-410b-9bfe-0b182bb70961";
 
         /// <summary>
         /// IID_IDirect3D11CaptureFrame

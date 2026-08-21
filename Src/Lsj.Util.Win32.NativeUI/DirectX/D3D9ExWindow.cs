@@ -4,7 +4,6 @@ using Lsj.Util.Win32.DirectX.ComInterfaces;
 using Lsj.Util.Win32.DirectX.Structs;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Extensions.COM;
-using Lsj.Util.Win32.Structs;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.DirectX.Constants;
 using static Lsj.Util.Win32.DirectX.D3d9;
@@ -70,7 +69,7 @@ namespace Lsj.Util.Win32.NativeUI.DirectX
                 PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE,
             };
 
-            var result = !iDirect3D9Ex.Value.CreateDeviceEx(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, Handle, D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_MULTITHREADED,
+            var result = iDirect3D9Ex.Value.CreateDeviceEx(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, Handle, D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_MULTITHREADED,
                 ref presentParameters, ref NullRef<D3DDISPLAYMODEEX>(), out var device);
             iDirect3D9Ex.AsIUnknown().Value.Release();
             if (!result)
@@ -91,7 +90,6 @@ namespace Lsj.Util.Win32.NativeUI.DirectX
 
             var swapChainEx = swapChain.AsIUnknown().ToInterface<IDirect3DSwapChain9Ex>(IIDs.IID_IDirect3DSwapChain9Ex, true, true);
             if (SwapChainEx != NULL)
-
             {
                 SwapChainEx.AsIUnknown().Value.Release();
             }
@@ -120,7 +118,7 @@ namespace Lsj.Util.Win32.NativeUI.DirectX
         }
 
         /// <summary>
-        /// On after init D3D9Ex
+        /// Called after D3D9Ex has been fully initialized. Override to create app-specific resources.
         /// </summary>
         /// <returns></returns>
         protected virtual bool OnAfterInitD3D9Ex(HWND hWnd)
@@ -165,7 +163,5 @@ namespace Lsj.Util.Win32.NativeUI.DirectX
             }
             return 0;
         }
-
-
     }
 }

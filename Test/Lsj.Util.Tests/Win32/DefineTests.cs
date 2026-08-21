@@ -28,9 +28,11 @@ namespace Lsj.Util.Tests.Win32
         private static readonly List<string> _missingWindowsVersionRequirementWhiteList = new List<string>
         {
             "CreateDirect3D11DeviceFromDXGIDevice",
+            "D2D1CreateFactory",
             "D3D11CreateDevice",
             "D3D11CreateDeviceAndSwapChain",
             "D3D12CreateDevice",
+            "D3D12SerializeRootSignature",
             "Direct3DCreate9",
             "Direct3DCreate9Ex",
             "Direct3DCreate9On12",

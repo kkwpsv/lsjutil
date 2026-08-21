@@ -159,5 +159,57 @@ namespace Lsj.Util.Win32.DirectX
             [In] P<IUnknown> pAdapter,
 #endif
             [In] D3D_FEATURE_LEVEL MinimumFeatureLevel, [In] in IID riid, [Out] out nint ppDevice);
+
+        /// <summary>
+        /// <para>
+        /// Serializes a root signature version 1.0 that can be passed to <see cref="ID3D12Device.CreateRootSignature"/>.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://learn.microsoft.com/en-us/windows/win32/api/d3d12/nf-d3d12-d3d12serializerootsignature"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pRootSignature">
+        /// The description of the root signature, as a pointer to a <see cref="D3D12_ROOT_SIGNATURE_DESC"/> structure.
+        /// </param>
+        /// <param name="Version">
+        /// A <see cref="D3D_ROOT_SIGNATURE_VERSION"/>-typed value that specifies the version of root signature.
+        /// </param>
+        /// <param name="ppBlob">
+        /// A pointer to a memory block that receives a pointer to the <see cref="ID3DBlob"/> interface
+        /// that you can use to access the serialized root signature.
+        /// </param>
+        /// <param name="ppErrorBlob">
+        /// A pointer to a memory block that receives a pointer to the <see cref="ID3DBlob"/> interface
+        /// that you can use to access serializer error messages, or <see cref="NullRef{T}"/> if there are no errors.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="S_OK"/> if successful; otherwise, returns one of the Direct3D 12 Return Codes.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// This function has been superceded by <see cref="D3D12SerializeVersionedRootSignature"/>
+        /// as of the Windows 10 Anniversary Update (14393).
+        /// </para>
+        /// <para>
+        /// If an application procedurally generates a <see cref="D3D12_ROOT_SIGNATURE_DESC"/> data structure,
+        /// it must pass a pointer to this <see cref="D3D12_ROOT_SIGNATURE_DESC"/>
+        /// in a call to <see cref="D3D12SerializeRootSignature"/> to make the serialized form.
+        /// The application then passes the serialized form
+        /// to which <paramref name="ppBlob"/> points into <see cref="ID3D12Device.CreateRootSignature"/>.
+        /// </para>
+        /// <para>
+        /// If a shader has been authored with a root signature in it,
+        /// the compiled shader will contain a serialized root signature in it already.
+        /// In this case, pass the compiled shader blob to <see cref="ID3D12Device.CreateRootSignature"/>
+        /// to obtain the runtime root signature object.
+        /// </para>
+        /// <para>
+        /// The function signature <c>PFN_D3D12_SERIALIZE_ROOT_SIGNATURE</c> is provided as a typedef,
+        /// so that you can use dynamic linking techniques (<see cref="GetProcAddress"/>) instead of statically linking.
+        /// </para>
+        /// </remarks>
+        [DllImport("D3D12.dll", CharSet = CharSet.Unicode, EntryPoint = "D3D12SerializeRootSignature", ExactSpelling = true)]
+        public static extern HRESULT D3D12SerializeRootSignature([In] in D3D12_ROOT_SIGNATURE_DESC pRootSignature,
+            [In] D3D_ROOT_SIGNATURE_VERSION Version, [Out] out P<ID3DBlob> ppBlob, [Out] out P<ID3DBlob> ppErrorBlob);
     }
 }

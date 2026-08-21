@@ -1,7 +1,8 @@
 ﻿using Lsj.Util.Win32.Attributes;
+using Lsj.Util.Win32.ComInterfaces;
 using System;
 
-namespace Lsj.Util.Win32.ComInterfaces
+namespace Lsj.Util.Win32.DirectX.ComInterfaces
 {
     /// <summary>
     /// <para>
@@ -20,6 +21,6 @@ namespace Lsj.Util.Win32.ComInterfaces
     [ComInterface(IID = "06152247-6f50-465a-9245-118bfd3b6007", BeginVTableSlotIndex = 3, EndVTableSlotIndex = 7, InheritedFromTypes = [typeof(IUnknown)])]
     public unsafe struct IDWriteRenderingParams
     {
-        IntPtr* _vTable;
+        nint* _vTable;
     }
 }

@@ -6,7 +6,6 @@ using Lsj.Util.Win32.DirectX.Structs;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Extensions.COM;
 using Lsj.Util.Win32.Extensions.DirectX.Direct3D11;
-using Lsj.Util.Win32.Structs;
 using System;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.DirectX.Enums.DXGI_FORMAT;
@@ -147,7 +146,7 @@ namespace Lsj.Util.Win32.NativeUI.DirectX
                 return false;
             }
 
-            if(SwapChain != NULL)
+            if (SwapChain != NULL)
             {
                 SwapChain.AsIUnknown().Value.Release();
             }
@@ -168,7 +167,7 @@ namespace Lsj.Util.Win32.NativeUI.DirectX
         }
 
         /// <summary>
-        /// On after init D3D11
+        /// Called after D3D11 has been fully initialized. Override to create app-specific resources.
         /// </summary>
         /// <returns></returns>
         protected virtual bool OnAfterInitD3D11(HWND hWnd)
